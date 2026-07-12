@@ -1,0 +1,14 @@
+node_modules/
+.git
+.github
+*.md
+.env
+.env.*
+backend/uploads
+backend/data
+frontend/dist
+pdf-to-markdown/.venv
+pdf-to-markdown/__pycache__
+.vscode
+.idea
+.DS_Store
