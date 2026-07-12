@@ -13,6 +13,7 @@ An AI-powered learning platform that converts PDF documents into interactive qui
 ### Setup
 
 1. **Backend**
+
    ```bash
    cd backend
    cp .env.sample .env  # Add .env values
@@ -21,6 +22,7 @@ An AI-powered learning platform that converts PDF documents into interactive qui
    ```
 
 2. **Frontend**
+
    ```bash
    cd frontend
    pnpm install
@@ -39,7 +41,32 @@ An AI-powered learning platform that converts PDF documents into interactive qui
 
 - **Backend**: Fastify API on port 3003 (SQLite + LangChain AI)
 - **Frontend**: React + Vite on port 5173
-- **PDF Processing**: Python script using docling library
+- **PDF Processing**: Two parsing backends available
+
+## PDF Parsing
+
+The system supports two PDF parsing backends, selectable via the `PDF_PARSER` environment variable:
+
+| Backend           | Library                                        | Description                                                                                  |
+| ----------------- | ---------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| `local` (default) | [Docling](https://github.com/DS4SD/docling)    | Python-based conversion using Docling's `DocumentConverter` with table structure recognition |
+| `llamacloud`      | [LlamaCloud API](https://cloud.llamaindex.ai/) | Cloud-based parsing using LlamaCloud's agentic tier with full markdown expansion             |
+
+### Configuration
+
+| Variable             | Default   | Description                             |
+| -------------------- | --------- | --------------------------------------- |
+| `PDF_PARSER`         | `local`   | Selects the parsing backend             |
+| `PYTHON_BIN`         | `python3` | Path to Python binary for local parsing |
+| `LLAMACLOUD_API_KEY` | -         | Required when `PDF_PARSER=llamacloud`   |
+
+### Docling Pipeline Options
+
+When using the local parser, the following Docling options are configured:
+
+- `do_ocr`: `False` (relies on embedded text, no OCR)
+- `do_table_structure`: `True` (structured table extraction)
+- `generate_picture_images`: `False` (text only, no image extraction)
 
 ## How It Works
 
