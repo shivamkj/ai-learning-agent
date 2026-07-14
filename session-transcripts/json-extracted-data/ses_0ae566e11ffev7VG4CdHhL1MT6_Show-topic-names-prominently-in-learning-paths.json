@@ -1,0 +1,1685 @@
+{
+  "session_id": "ses_0ae566e11ffev7VG4CdHhL1MT6",
+  "title": "Show topic names prominently in learning paths",
+  "time_created": 1783781495278,
+  "time_updated": 1783781618454,
+  "cost": 0.08845665999999999,
+  "tokens": {
+    "input": 27598,
+    "output": 1430,
+    "reasoning": 2225
+  },
+  "messages": [
+    {
+      "id": "msg_f51a99208001cfooiAVB33fm7i",
+      "time_created": 1783781495304,
+      "role": "user",
+      "metadata": {
+        "agent": "build",
+        "model": {
+          "providerID": "opencode-go",
+          "modelID": "kimi-k2.7-code"
+        },
+        "tokens": null,
+        "cost": null
+      },
+      "parts": [
+        {
+          "id": "prt_f51a9920a001cY5PDvAntPB7RJ",
+          "time_created": 1783781495311,
+          "type": "text",
+          "data": {
+            "type": "text",
+            "text": "in learning paths and objective show topic name prominently, not it's details as prominent."
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f51a99217001iC7qFSGIgSVDMM",
+      "time_created": 1783781495319,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "kimi-k2.7-code",
+        "tokens": {
+          "total": 6694,
+          "input": 6607,
+          "output": 36,
+          "reasoning": 51,
+          "cache": {
+            "write": 0,
+            "read": 0
+          }
+        },
+        "cost": 0.00662465
+      },
+      "parts": [
+        {
+          "id": "prt_f51a9a0b30019D1Q8MvPkuXTl6",
+          "time_created": 1783781499059,
+          "type": "step-start",
+          "data": {
+            "snapshot": "84d15e07094cccfb5836881de902bad08eef5932",
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f51a9a0b7001M61HU5hUhBv1sM",
+          "time_created": 1783781499063,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "We need understand user request. They likely have a codebase 'ai-learning-agent'. They want UI change: in learning paths and objective show topic name prominently, not its details as prominent. Need explore codebase. We must modify files. Let's first explore.",
+            "time": {
+              "start": 1783781499063,
+              "end": 1783781500638
+            }
+          }
+        },
+        {
+          "id": "prt_f51a9a6e2001x0oaXOdmVAA10F",
+          "time_created": 1783781500642,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "bash",
+            "callID": "bash_0",
+            "state": {
+              "status": "completed",
+              "input": {
+                "command": "ls -la",
+                "workdir": "/Users/shivam/qnify/ai-learning-agent"
+              },
+              "output": "total 24\ndrwxr-xr-x   8 shivam  staff   256 11 Jul 15:35 .\ndrwxr-xr-x  18 shivam  staff   576 11 Jul 11:08 ..\n-rw-r--r--@  1 shivam  staff  6148 11 Jul 11:17 .DS_Store\ndrwxr-xr-x@ 14 shivam  staff   448 11 Jul 20:19 .git\n-rw-r--r--@  1 shivam  staff    71 11 Jul 17:43 .gitignore\ndrwxr-xr-x@ 11 shivam  staff   352 11 Jul 20:10 backend\ndrwxr-xr-x@ 15 shivam  staff   480 11 Jul 18:28 frontend\ndrwxr-xr-x@  5 shivam  staff   160 11 Jul 11:17 pdf-to-markdown\n",
+              "metadata": {
+                "output": "total 24\ndrwxr-xr-x   8 shivam  staff   256 11 Jul 15:35 .\ndrwxr-xr-x  18 shivam  staff   576 11 Jul 11:08 ..\n-rw-r--r--@  1 shivam  staff  6148 11 Jul 11:17 .DS_Store\ndrwxr-xr-x@ 14 shivam  staff   448 11 Jul 20:19 .git\n-rw-r--r--@  1 shivam  staff    71 11 Jul 17:43 .gitignore\ndrwxr-xr-x@ 11 shivam  staff   352 11 Jul 20:10 backend\ndrwxr-xr-x@ 15 shivam  staff   480 11 Jul 18:28 frontend\ndrwxr-xr-x@  5 shivam  staff   160 11 Jul 11:17 pdf-to-markdown\n",
+                "exit": 0,
+                "truncated": false
+              },
+              "title": "ls -la",
+              "time": {
+                "start": 1783781501170,
+                "end": 1783781501173
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f51a9a924001tmNM10gZ2vMyYy",
+          "time_created": 1783781501220,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "snapshot": "84d15e07094cccfb5836881de902bad08eef5932",
+            "type": "step-finish",
+            "tokens": {
+              "total": 6694,
+              "input": 6607,
+              "output": 36,
+              "reasoning": 51,
+              "cache": {
+                "write": 0,
+                "read": 0
+              }
+            },
+            "cost": 0.00662465
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f51a9a947001YW3DjPR5K2pf1y",
+      "time_created": 1783781501255,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "kimi-k2.7-code",
+        "tokens": {
+          "total": 6995,
+          "input": 531,
+          "output": 63,
+          "reasoning": 1,
+          "cache": {
+            "write": 0,
+            "read": 6400
+          }
+        },
+        "cost": 0.00197645
+      },
+      "parts": [
+        {
+          "id": "prt_f51a9b0e600117Tl62ag4qp9D0",
+          "time_created": 1783781503207,
+          "type": "step-start",
+          "data": {
+            "snapshot": "84d15e07094cccfb5836881de902bad08eef5932",
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f51a9b0ea001S6Ewnac2VJ2FGv",
+          "time_created": 1783781503210,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "grep",
+            "callID": "grep_1",
+            "state": {
+              "status": "completed",
+              "input": {
+                "pattern": "learning path|Learning Path|objective|Objective",
+                "path": "/Users/shivam/qnify/ai-learning-agent/frontend",
+                "include": "*.{js,jsx,ts,tsx,vue,html,css}"
+              },
+              "output": "Found 52 matches\n/Users/shivam/qnify/ai-learning-agent/frontend/src/lib/types.ts:\n  Line 3: export interface Objective {\n\n  Line 42:   objectives: Objective[]\n\n  Line 51:   objectiveIndex: number\n\n  Line 53:   objectiveText: string\n\n  Line 72:     objectiveText: string\n\n\n/Users/shivam/qnify/ai-learning-agent/frontend/src/components/objective-tracker.tsx:\n  Line 3: import type { Objective } from '#lib/types'\n\n  Line 6: export type ObjectiveStatus = 'pending' | 'current' | 'correct' | 'skipped'\n\n  Line 9:   objectives: Objective[]\n\n  Line 10:   statuses: ObjectiveStatus[]\n\n  Line 15: export function ObjectiveTracker({ objectives, statuses, score, total }: Props) {\n\n  Line 37:         <p className=\"mb-3 text-xs font-medium uppercase tracking-wide text-muted-foreground\">Objectives</p>\n\n  Line 39:           {objectives.map((obj, i) => {\n\n\n/Users/shivam/qnify/ai-learning-agent/frontend/src/pages/library-page.tsx:\n  Line 53:             Upload a document, review the proposed learning path, then learn by answering quizzes with instant feedback,\n\n\n/Users/shivam/qnify/ai-learning-agent/frontend/src/components/plan-card.tsx:\n  Line 24:   'Make objectives more concrete and measurable'\n\n  Line 32:   const totalQuestions = plan.objectives.reduce((sum, o) => sum + o.question_count, 0)\n\n  Line 80:                 {plan.objectives.length} paths\n\n  Line 101:             {plan.objectives.map((obj, i) => (\n\n\n/Users/shivam/qnify/ai-learning-agent/frontend/src/pages/lesson-page.tsx:\n  Line 6: import { ObjectiveTracker, type ObjectiveStatus } from '#components/objective-tracker'\n\n  Line 11: import type { AttemptSummary, Objective, Plan, QuizDTO } from '#lib/types'\n\n  Line 25:   objectiveIndex: number\n\n  Line 27:   objective: Objective\n\n  Line 40: function slotKey(objectiveIndex: number, questionIndex: number): string {\n\n  Line 41:   return `${objectiveIndex}-${questionIndex}`\n\n  Line 59:     return plan.objectives.flatMap((objective, objectiveIndex) =>\n\n  Line 60:       Array.from({ length: objective.question_count }, (_, questionIndex) => ({\n\n  Line 61:         objectiveIndex,\n\n  Line 63:         objective\n\n  Line 115:           map[slotKey(q.objectiveIndex, q.questionIndex)] = q\n\n  Line 125:   const currentKey = currentSlot ? slotKey(currentSlot.objectiveIndex, currentSlot.questionIndex) : ''\n\n  Line 134:     generateQuiz(id, currentSlot.objectiveIndex, currentSlot.questionIndex)\n\n  Line 136:         setQuizzes((prev) => ({ ...prev, [slotKey(q.objectiveIndex, q.questionIndex)]: q }))\n\n  Line 311:   const answerList = slots.map((slot) => answers[slotKey(slot.objectiveIndex, slot.questionIndex)])\n\n  Line 316:   const statuses: ObjectiveStatus[] = plan.objectives.map((obj, objectiveIndex) => {\n\n  Line 320:       const a = answers[slotKey(objectiveIndex, q)]\n\n  Line 326:     if (currentSlot?.objectiveIndex === objectiveIndex) return 'current'\n\n  Line 357:               objectiveNumber={currentSlot.objectiveIndex + 1}\n\n  Line 358:               totalObjectives={plan.objectives.length}\n\n  Line 360:               totalQuestionsInObjective={currentSlot.objective.question_count}\n\n  Line 376:                       Generating question {currentSlot.questionIndex + 1} for path {currentSlot.objectiveIndex + 1}...\n\n  Line 394:           <ObjectiveTracker objectives={plan.objectives} statuses={statuses} score={score} total={total} />\n\n\n/Users/shivam/qnify/ai-learning-agent/frontend/src/lib/api.ts:\n  Line 91:   objectiveIndex: number,\n\n  Line 96:     body: JSON.stringify({ objectiveIndex, questionIndex })\n\n\n/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx:\n  Line 15:   objectiveNumber: number\n\n  Line 16:   totalObjectives: number\n\n  Line 18:   totalQuestionsInObjective: number\n\n  Line 30:   objectiveNumber,\n\n  Line 31:   totalObjectives,\n\n  Line 33:   totalQuestionsInObjective,\n\n  Line 51:   // Reset state when quiz changes (new objective)\n\n  Line 106:                 Path {objectiveNumber} of {totalObjectives} \u00b7 Question {questionNumber} of {totalQuestionsInObjective}\n\n  Line 108:               <p className=\"mt-0.5 truncate text-sm font-semibold\">{quiz.objectiveText}</p>\n\n  Line 262:                   {isLast ? 'Finish & see results' : 'Next objective'}\n",
+              "metadata": {
+                "matches": 52,
+                "truncated": false
+              },
+              "title": "learning path|Learning Path|objective|Objective",
+              "time": {
+                "start": 1783781504452,
+                "end": 1783781504475
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f51a9b604001T0gDweyaFih59U",
+          "time_created": 1783781504516,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "snapshot": "84d15e07094cccfb5836881de902bad08eef5932",
+            "type": "step-finish",
+            "tokens": {
+              "total": 6995,
+              "input": 531,
+              "output": 63,
+              "reasoning": 1,
+              "cache": {
+                "write": 0,
+                "read": 6400
+              }
+            },
+            "cost": 0.00197645
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f51a9b626001EIa71HKBl9Ho6B",
+      "time_created": 1783781504550,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "kimi-k2.7-code",
+        "tokens": {
+          "total": 8261,
+          "input": 1189,
+          "output": 98,
+          "reasoning": 62,
+          "cache": {
+            "write": 0,
+            "read": 6912
+          }
+        },
+        "cost": 0.00308283
+      },
+      "parts": [
+        {
+          "id": "prt_f51a9be26001J7lQC3qhx8w8oq",
+          "time_created": 1783781506598,
+          "type": "step-start",
+          "data": {
+            "snapshot": "84d15e07094cccfb5836881de902bad08eef5932",
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f51a9be2a0014JxlYcCztm3z66",
+          "time_created": 1783781506602,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "We need to understand UI. User says \"in learning paths and objective show topic name prominently, not it's details as prominent.\" Could refer to PlanCard showing objectives, maybe topic_name vs details. Need inspect types and components. Let's read plan-card.tsx, objective-tracker.tsx, lesson-page, types.",
+            "time": {
+              "start": 1783781506602,
+              "end": 1783781508698
+            }
+          }
+        },
+        {
+          "id": "prt_f51a9c660001h2PnZijl8HVniI",
+          "time_created": 1783781508704,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "read",
+            "callID": "read_2",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/frontend/src/lib/types.ts"
+              },
+              "output": "<path>/Users/shivam/qnify/ai-learning-agent/frontend/src/lib/types.ts</path>\n<type>file</type>\n<content>\n1: export type Difficulty = 'beginner' | 'intermediate' | 'advanced'\n2: \n3: export interface Objective {\n4:   text: string\n5:   topic: string\n6:   question_count: number\n7: }\n8: \n9: export interface DocumentSummary {\n10:   id: number\n11:   filename: string\n12:   title: string\n13:   markdown_chars: number\n14:   status: 'processing' | 'ready' | 'failed' | 'uploaded'\n15:   error: string | null\n16:   created_at: string\n17:   plan: {\n18:     id: number\n19:     difficulty: Difficulty\n20:     status: 'draft' | 'approved' | 'completed'\n21:   } | null\n22:   attemptCount: number\n23: }\n24: \n25: export interface DocumentDetail {\n26:   id: number\n27:   filename: string\n28:   title: string\n29:   status: 'processing' | 'ready' | 'failed' | 'uploaded'\n30:   markdown_chars: number\n31:   created_at: string\n32:   error: string | null\n33: }\n34: \n35: export interface Plan {\n36:   id: number\n37:   document_id: number\n38:   document_filename?: string\n39:   title: string\n40:   description: string\n41:   difficulty: Difficulty\n42:   objectives: Objective[]\n43:   status: 'draft' | 'approved' | 'completed'\n44:   revision_count: number\n45:   revision_feedback: string | null\n46:   created_at: string\n47: }\n48: \n49: export interface QuizDTO {\n50:   id: number\n51:   objectiveIndex: number\n52:   questionIndex: number\n53:   objectiveText: string\n54:   question: string\n55:   options: string[]\n56:   hint: string\n57: }\n58: \n59: export interface AttemptSummary {\n60:   score: number\n61:   total: number\n62:   summary: string\n63:   studyTips: string[]\n64:   weakTopics: string[]\n65:   strengths: string[]\n66:   answers: Array<{\n67:     question: string\n68:     options: string[]\n69:     correctIndex: number\n70:     learnerIndex: number | null\n71:     attempts: number\n72:     objectiveText: string\n73:   }>\n74: }\n75: \n76: export interface AttemptListItem {\n77:   id: number\n78:   lesson_plan_id: number\n79:   score: number\n80:   total: number\n81:   summary: string\n82:   study_tips: string[]\n83:   created_at: string\n84: }\n85: \n86: export interface ChatMessage {\n87:   role: 'user' | 'assistant'\n88:   content: string\n89: }\n\n(End of file - total 89 lines)\n</content>",
+              "metadata": {
+                "preview": "export type Difficulty = 'beginner' | 'intermediate' | 'advanced'\n\nexport interface Objective {\n  text: string\n  topic: string\n  question_count: number\n}\n\nexport interface DocumentSummary {\n  id: number\n  filename: string\n  title: string\n  markdown_chars: number\n  status: 'processing' | 'ready' | 'failed' | 'uploaded'\n  error: string | null\n  created_at: string\n  plan: {\n    id: number\n    difficulty: Difficulty\n    status: 'draft' | 'approved' | 'completed'",
+                "truncated": false,
+                "loaded": [],
+                "display": {
+                  "type": "file",
+                  "path": "/Users/shivam/qnify/ai-learning-agent/frontend/src/lib/types.ts",
+                  "text": "export type Difficulty = 'beginner' | 'intermediate' | 'advanced'\n\nexport interface Objective {\n  text: string\n  topic: string\n  question_count: number\n}\n\nexport interface DocumentSummary {\n  id: number\n  filename: string\n  title: string\n  markdown_chars: number\n  status: 'processing' | 'ready' | 'failed' | 'uploaded'\n  error: string | null\n  created_at: string\n  plan: {\n    id: number\n    difficulty: Difficulty\n    status: 'draft' | 'approved' | 'completed'\n  } | null\n  attemptCount: number\n}\n\nexport interface DocumentDetail {\n  id: number\n  filename: string\n  title: string\n  status: 'processing' | 'ready' | 'failed' | 'uploaded'\n  markdown_chars: number\n  created_at: string\n  error: string | null\n}\n\nexport interface Plan {\n  id: number\n  document_id: number\n  document_filename?: string\n  title: string\n  description: string\n  difficulty: Difficulty\n  objectives: Objective[]\n  status: 'draft' | 'approved' | 'completed'\n  revision_count: number\n  revision_feedback: string | null\n  created_at: string\n}\n\nexport interface QuizDTO {\n  id: number\n  objectiveIndex: number\n  questionIndex: number\n  objectiveText: string\n  question: string\n  options: string[]\n  hint: string\n}\n\nexport interface AttemptSummary {\n  score: number\n  total: number\n  summary: string\n  studyTips: string[]\n  weakTopics: string[]\n  strengths: string[]\n  answers: Array<{\n    question: string\n    options: string[]\n    correctIndex: number\n    learnerIndex: number | null\n    attempts: number\n    objectiveText: string\n  }>\n}\n\nexport interface AttemptListItem {\n  id: number\n  lesson_plan_id: number\n  score: number\n  total: number\n  summary: string\n  study_tips: string[]\n  created_at: string\n}\n\nexport interface ChatMessage {\n  role: 'user' | 'assistant'\n  content: string\n}",
+                  "lineStart": 1,
+                  "lineEnd": 89,
+                  "totalLines": 89,
+                  "truncated": false
+                }
+              },
+              "title": "frontend/src/lib/types.ts",
+              "time": {
+                "start": 1783781509490,
+                "end": 1783781509504
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f51a9c973001JppNhcqUEtIoFU",
+          "time_created": 1783781509492,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "read",
+            "callID": "read_3",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/plan-card.tsx"
+              },
+              "output": "<path>/Users/shivam/qnify/ai-learning-agent/frontend/src/components/plan-card.tsx</path>\n<type>file</type>\n<content>\n1: import { useState } from 'react'\n2: import { ArrowLeft, ArrowRight, CheckCircle2, FileText, ListChecks, Loader2, MessageSquarePlus, RefreshCw, Sparkles, Target } from 'lucide-react'\n3: import { cn } from '#lib/utils'\n4: import { Badge } from '#components/ui/badge'\n5: import { Button } from '#components/ui/button'\n6: import { Card, CardContent } from '#components/ui/card'\n7: import { Separator } from '#components/ui/separator'\n8: import { Textarea } from '#components/ui/textarea'\n9: import type { Plan } from '#lib/types'\n10: import { difficultyLabel } from '#lib/format'\n11: \n12: interface Props {\n13:   plan: Plan\n14:   onApprove: () => void\n15:   onRevise: (feedback: string) => Promise<void>\n16:   onBack: () => void\n17: }\n18: \n19: const SUGGESTIONS = [\n20:   'Split the material into more focused paths',\n21:   'Combine related topics into fewer paths',\n22:   'Increase the number of questions per path',\n23:   'Reduce the number of questions per path',\n24:   'Make objectives more concrete and measurable'\n25: ]\n26: \n27: export function PlanCard({ plan, onApprove, onRevise, onBack }: Props) {\n28:   const [approving, setApproving] = useState(false)\n29:   const [revising, setRevising] = useState(false)\n30:   const [feedback, setFeedback] = useState(plan.revision_feedback ?? '')\n31: \n32:   const totalQuestions = plan.objectives.reduce((sum, o) => sum + o.question_count, 0)\n33: \n34:   const handleApprove = async () => {\n35:     setApproving(true)\n36:     try {\n37:       await onApprove()\n38:     } finally {\n39:       setApproving(false)\n40:     }\n41:   }\n42: \n43:   const handleRevise = async () => {\n44:     const trimmed = feedback.trim()\n45:     if (!trimmed) return\n46:     setRevising(true)\n47:     try {\n48:       await onRevise(trimmed)\n49:     } finally {\n50:       setRevising(false)\n51:     }\n52:   }\n53: \n54:   const appendSuggestion = (text: string) => {\n55:     setFeedback((prev) => {\n56:       const separator = prev.trim().length > 0 ? '\\n\\n' : ''\n57:       return prev.trim() + separator + text\n58:     })\n59:   }\n60: \n61:   return (\n62:     <div className=\"mx-auto max-w-3xl space-y-6\">\n63:       <Card className=\"overflow-hidden\">\n64:         <div className=\"relative bg-gradient-to-br from-primary/10 via-accent/40 to-transparent p-6 sm:p-8\">\n65:           <div className=\"absolute inset-0 bg-grid-pattern opacity-40\" />\n66:           <div className=\"relative z-10\">\n67:             <span className=\"inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary\">\n68:               <Sparkles className=\"size-3.5\" />\n69:               Proposed lesson plan\n70:             </span>\n71:             <h1 className=\"mt-4 text-2xl font-bold tracking-tight sm:text-3xl\">{plan.title}</h1>\n72:             <p className=\"mt-2 max-w-2xl text-sm text-muted-foreground sm:text-base\">{plan.description}</p>\n73:             <div className=\"mt-4 flex flex-wrap items-center gap-2 text-xs\">\n74:               <Badge variant=\"secondary\">\n75:                 <Target className=\"size-3\" />\n76:                 {difficultyLabel(plan.difficulty)}\n77:               </Badge>\n78:               <Badge variant=\"outline\">\n79:                 <ListChecks className=\"size-3\" />\n80:                 {plan.objectives.length} paths\n81:               </Badge>\n82:               <Badge variant=\"outline\">{totalQuestions} questions</Badge>\n83:               {plan.document_filename && (\n84:                 <Badge variant=\"outline\">\n85:                   <FileText className=\"size-3\" />\n86:                   {plan.document_filename}\n87:                 </Badge>\n88:               )}\n89:             </div>\n90:           </div>\n91:         </div>\n92: \n93:         <Separator />\n94: \n95:         <CardContent className=\"p-6 sm:p-8\">\n96:           <div className=\"mb-4 flex items-center gap-2\">\n97:             <Target className=\"size-4 text-primary\" />\n98:             <h2 className=\"text-sm font-semibold uppercase tracking-wide text-muted-foreground\">Learning paths</h2>\n99:           </div>\n100:           <ol className=\"space-y-3\">\n101:             {plan.objectives.map((obj, i) => (\n102:               <li\n103:                 key={i}\n104:                 className=\"group flex items-start gap-3 rounded-xl border border-border bg-card p-4 transition-colors hover:border-primary/40\"\n105:               >\n106:                 <span className=\"flex size-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary\">\n107:                   {i + 1}\n108:                 </span>\n109:                 <div className=\"min-w-0 flex-1\">\n110:                   <p className=\"text-sm font-medium leading-relaxed\">{obj.text}</p>\n111:                   <p className=\"mt-1 text-xs text-muted-foreground\">\n112:                     Topic: <span className=\"font-medium\">{obj.topic}</span>\n113:                     <span className=\"mx-1.5\">\u00b7</span>\n114:                     <span className=\"font-medium\">{obj.question_count}</span> question\n115:                     {obj.question_count === 1 ? '' : 's'}\n116:                   </p>\n117:                 </div>\n118:               </li>\n119:             ))}\n120:           </ol>\n121: \n122:           <div className=\"mt-6 rounded-xl border border-primary/20 bg-primary/5 p-4 text-sm text-foreground\">\n123:             <div className=\"flex items-start gap-2\">\n124:               <CheckCircle2 className=\"size-4 shrink-0 translate-y-0.5 text-primary\" />\n125:               <div>\n126:                 <p className=\"font-medium\">Review & approve to begin</p>\n127:                 <p className=\"mt-0.5 text-xs text-muted-foreground\">\n128:                   The agent proposes paths and question counts based on the PDF. You can accept the plan, ask the agent\n129:                   to adjust it, or refine the breakdown below.\n130:                 </p>\n131:               </div>\n132:             </div>\n133:           </div>\n134: \n135:           <div className=\"mt-6 space-y-3\">\n136:             <div className=\"flex items-center gap-2\">\n137:               <MessageSquarePlus className=\"size-4 text-primary\" />\n138:               <h3 className=\"text-sm font-semibold text-foreground\">Request changes</h3>\n139:               {plan.revision_count > 0 && (\n140:                 <Badge variant=\"outline\" className=\"ml-auto text-xs\">\n141:                   {plan.revision_count} revision{plan.revision_count === 1 ? '' : 's'}\n142:                 </Badge>\n143:               )}\n144:             </div>\n145: \n146:             <div className=\"flex flex-wrap gap-2\">\n147:               {SUGGESTIONS.map((s) => (\n148:                 <button\n149:                   key={s}\n150:                   type=\"button\"\n151:                   onClick={() => appendSuggestion(s)}\n152:                   className=\"rounded-full border border-border bg-card px-3 py-1 text-xs text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground\"\n153:                 >\n154:                   {s}\n155:                 </button>\n156:               ))}\n157:             </div>\n158: \n159:             <Textarea\n160:               value={feedback}\n161:               onChange={(e) => setFeedback(e.target.value)}\n162:               placeholder=\"Tell the agent how to improve the plan: e.g. split topic X, combine Y and Z, add more questions, or reduce the total...\"\n163:               rows={3}\n164:               className=\"resize-none\"\n165:             />\n166:           </div>\n167: \n168:           <div className=\"mt-6 flex flex-col-reverse items-stretch gap-2 sm:flex-row sm:items-center sm:justify-end\">\n169:             <Button variant=\"ghost\" onClick={onBack} disabled={approving || revising}>\n170:               <ArrowLeft className=\"mr-1.5 size-4\" />\n171:               Cancel\n172:             </Button>\n173:             <Button\n174:               variant=\"outline\"\n175:               onClick={handleRevise}\n176:               disabled={!feedback.trim() || revising}\n177:               className=\"gap-1.5\"\n178:             >\n179:               {revising ? (\n180:                 <>\n181:                   <Loader2 className=\"size-4 animate-spin\" />\n182:                   Revising...\n183:                 </>\n184:               ) : (\n185:                 <>\n186:                   <RefreshCw className=\"size-4\" />\n187:                   Regenerate plan\n188:                 </>\n189:               )}\n190:             </Button>\n191:             <Button className={cn('gap-1.5')} onClick={handleApprove} disabled={approving || revising}>\n192:               {approving ? (\n193:                 <>\n194:                   <Loader2 className=\"size-4 animate-spin\" />\n195:                   Approving...\n196:                 </>\n197:               ) : (\n198:                 <>\n199:                   Approve & start learning\n200:                   <ArrowRight className=\"size-4\" />\n201:                 </>\n202:               )}\n203:             </Button>\n204:           </div>\n205:         </CardContent>\n206:       </Card>\n207:     </div>\n208:   )\n209: }\n\n(End of file - total 209 lines)\n</content>",
+              "metadata": {
+                "preview": "import { useState } from 'react'\nimport { ArrowLeft, ArrowRight, CheckCircle2, FileText, ListChecks, Loader2, MessageSquarePlus, RefreshCw, Sparkles, Target } from 'lucide-react'\nimport { cn } from '#lib/utils'\nimport { Badge } from '#components/ui/badge'\nimport { Button } from '#components/ui/button'\nimport { Card, CardContent } from '#components/ui/card'\nimport { Separator } from '#components/ui/separator'\nimport { Textarea } from '#components/ui/textarea'\nimport type { Plan } from '#lib/types'\nimport { difficultyLabel } from '#lib/format'\n\ninterface Props {\n  plan: Plan\n  onApprove: () => void\n  onRevise: (feedback: string) => Promise<void>\n  onBack: () => void\n}\n\nconst SUGGESTIONS = [\n  'Split the material into more focused paths',",
+                "truncated": false,
+                "loaded": [],
+                "display": {
+                  "type": "file",
+                  "path": "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/plan-card.tsx",
+                  "text": "import { useState } from 'react'\nimport { ArrowLeft, ArrowRight, CheckCircle2, FileText, ListChecks, Loader2, MessageSquarePlus, RefreshCw, Sparkles, Target } from 'lucide-react'\nimport { cn } from '#lib/utils'\nimport { Badge } from '#components/ui/badge'\nimport { Button } from '#components/ui/button'\nimport { Card, CardContent } from '#components/ui/card'\nimport { Separator } from '#components/ui/separator'\nimport { Textarea } from '#components/ui/textarea'\nimport type { Plan } from '#lib/types'\nimport { difficultyLabel } from '#lib/format'\n\ninterface Props {\n  plan: Plan\n  onApprove: () => void\n  onRevise: (feedback: string) => Promise<void>\n  onBack: () => void\n}\n\nconst SUGGESTIONS = [\n  'Split the material into more focused paths',\n  'Combine related topics into fewer paths',\n  'Increase the number of questions per path',\n  'Reduce the number of questions per path',\n  'Make objectives more concrete and measurable'\n]\n\nexport function PlanCard({ plan, onApprove, onRevise, onBack }: Props) {\n  const [approving, setApproving] = useState(false)\n  const [revising, setRevising] = useState(false)\n  const [feedback, setFeedback] = useState(plan.revision_feedback ?? '')\n\n  const totalQuestions = plan.objectives.reduce((sum, o) => sum + o.question_count, 0)\n\n  const handleApprove = async () => {\n    setApproving(true)\n    try {\n      await onApprove()\n    } finally {\n      setApproving(false)\n    }\n  }\n\n  const handleRevise = async () => {\n    const trimmed = feedback.trim()\n    if (!trimmed) return\n    setRevising(true)\n    try {\n      await onRevise(trimmed)\n    } finally {\n      setRevising(false)\n    }\n  }\n\n  const appendSuggestion = (text: string) => {\n    setFeedback((prev) => {\n      const separator = prev.trim().length > 0 ? '\\n\\n' : ''\n      return prev.trim() + separator + text\n    })\n  }\n\n  return (\n    <div className=\"mx-auto max-w-3xl space-y-6\">\n      <Card className=\"overflow-hidden\">\n        <div className=\"relative bg-gradient-to-br from-primary/10 via-accent/40 to-transparent p-6 sm:p-8\">\n          <div className=\"absolute inset-0 bg-grid-pattern opacity-40\" />\n          <div className=\"relative z-10\">\n            <span className=\"inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary\">\n              <Sparkles className=\"size-3.5\" />\n              Proposed lesson plan\n            </span>\n            <h1 className=\"mt-4 text-2xl font-bold tracking-tight sm:text-3xl\">{plan.title}</h1>\n            <p className=\"mt-2 max-w-2xl text-sm text-muted-foreground sm:text-base\">{plan.description}</p>\n            <div className=\"mt-4 flex flex-wrap items-center gap-2 text-xs\">\n              <Badge variant=\"secondary\">\n                <Target className=\"size-3\" />\n                {difficultyLabel(plan.difficulty)}\n              </Badge>\n              <Badge variant=\"outline\">\n                <ListChecks className=\"size-3\" />\n                {plan.objectives.length} paths\n              </Badge>\n              <Badge variant=\"outline\">{totalQuestions} questions</Badge>\n              {plan.document_filename && (\n                <Badge variant=\"outline\">\n                  <FileText className=\"size-3\" />\n                  {plan.document_filename}\n                </Badge>\n              )}\n            </div>\n          </div>\n        </div>\n\n        <Separator />\n\n        <CardContent className=\"p-6 sm:p-8\">\n          <div className=\"mb-4 flex items-center gap-2\">\n            <Target className=\"size-4 text-primary\" />\n            <h2 className=\"text-sm font-semibold uppercase tracking-wide text-muted-foreground\">Learning paths</h2>\n          </div>\n          <ol className=\"space-y-3\">\n            {plan.objectives.map((obj, i) => (\n              <li\n                key={i}\n                className=\"group flex items-start gap-3 rounded-xl border border-border bg-card p-4 transition-colors hover:border-primary/40\"\n              >\n                <span className=\"flex size-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary\">\n                  {i + 1}\n                </span>\n                <div className=\"min-w-0 flex-1\">\n                  <p className=\"text-sm font-medium leading-relaxed\">{obj.text}</p>\n                  <p className=\"mt-1 text-xs text-muted-foreground\">\n                    Topic: <span className=\"font-medium\">{obj.topic}</span>\n                    <span className=\"mx-1.5\">\u00b7</span>\n                    <span className=\"font-medium\">{obj.question_count}</span> question\n                    {obj.question_count === 1 ? '' : 's'}\n                  </p>\n                </div>\n              </li>\n            ))}\n          </ol>\n\n          <div className=\"mt-6 rounded-xl border border-primary/20 bg-primary/5 p-4 text-sm text-foreground\">\n            <div className=\"flex items-start gap-2\">\n              <CheckCircle2 className=\"size-4 shrink-0 translate-y-0.5 text-primary\" />\n              <div>\n                <p className=\"font-medium\">Review & approve to begin</p>\n                <p className=\"mt-0.5 text-xs text-muted-foreground\">\n                  The agent proposes paths and question counts based on the PDF. You can accept the plan, ask the agent\n                  to adjust it, or refine the breakdown below.\n                </p>\n              </div>\n            </div>\n          </div>\n\n          <div className=\"mt-6 space-y-3\">\n            <div className=\"flex items-center gap-2\">\n              <MessageSquarePlus className=\"size-4 text-primary\" />\n              <h3 className=\"text-sm font-semibold text-foreground\">Request changes</h3>\n              {plan.revision_count > 0 && (\n                <Badge variant=\"outline\" className=\"ml-auto text-xs\">\n                  {plan.revision_count} revision{plan.revision_count === 1 ? '' : 's'}\n                </Badge>\n              )}\n            </div>\n\n            <div className=\"flex flex-wrap gap-2\">\n              {SUGGESTIONS.map((s) => (\n                <button\n                  key={s}\n                  type=\"button\"\n                  onClick={() => appendSuggestion(s)}\n                  className=\"rounded-full border border-border bg-card px-3 py-1 text-xs text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground\"\n                >\n                  {s}\n                </button>\n              ))}\n            </div>\n\n            <Textarea\n              value={feedback}\n              onChange={(e) => setFeedback(e.target.value)}\n              placeholder=\"Tell the agent how to improve the plan: e.g. split topic X, combine Y and Z, add more questions, or reduce the total...\"\n              rows={3}\n              className=\"resize-none\"\n            />\n          </div>\n\n          <div className=\"mt-6 flex flex-col-reverse items-stretch gap-2 sm:flex-row sm:items-center sm:justify-end\">\n            <Button variant=\"ghost\" onClick={onBack} disabled={approving || revising}>\n              <ArrowLeft className=\"mr-1.5 size-4\" />\n              Cancel\n            </Button>\n            <Button\n              variant=\"outline\"\n              onClick={handleRevise}\n              disabled={!feedback.trim() || revising}\n              className=\"gap-1.5\"\n            >\n              {revising ? (\n                <>\n                  <Loader2 className=\"size-4 animate-spin\" />\n                  Revising...\n                </>\n              ) : (\n                <>\n                  <RefreshCw className=\"size-4\" />\n                  Regenerate plan\n                </>\n              )}\n            </Button>\n            <Button className={cn('gap-1.5')} onClick={handleApprove} disabled={approving || revising}>\n              {approving ? (\n                <>\n                  <Loader2 className=\"size-4 animate-spin\" />\n                  Approving...\n                </>\n              ) : (\n                <>\n                  Approve & start learning\n                  <ArrowRight className=\"size-4\" />\n                </>\n              )}\n            </Button>\n          </div>\n        </CardContent>\n      </Card>\n    </div>\n  )\n}",
+                  "lineStart": 1,
+                  "lineEnd": 209,
+                  "totalLines": 209,
+                  "truncated": false
+                }
+              },
+              "title": "frontend/src/components/plan-card.tsx",
+              "time": {
+                "start": 1783781510323,
+                "end": 1783781510334
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f51a9ccb6001jZVuuUhJdkagnz",
+          "time_created": 1783781510326,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "read",
+            "callID": "read_4",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/objective-tracker.tsx"
+              },
+              "output": "<path>/Users/shivam/qnify/ai-learning-agent/frontend/src/components/objective-tracker.tsx</path>\n<type>file</type>\n<content>\n1: import { Check, Circle, Loader2, X } from 'lucide-react'\n2: import { cn } from '#lib/utils'\n3: import type { Objective } from '#lib/types'\n4: import { Badge } from '#components/ui/badge'\n5: \n6: export type ObjectiveStatus = 'pending' | 'current' | 'correct' | 'skipped'\n7: \n8: interface Props {\n9:   objectives: Objective[]\n10:   statuses: ObjectiveStatus[]\n11:   score: number\n12:   total: number\n13: }\n14: \n15: export function ObjectiveTracker({ objectives, statuses, score, total }: Props) {\n16:   return (\n17:     <div className=\"space-y-4\">\n18:       <div className=\"rounded-2xl border border-border bg-card p-4\">\n19:         <div className=\"flex items-baseline justify-between\">\n20:           <p className=\"text-xs font-medium uppercase tracking-wide text-muted-foreground\">Score</p>\n21:           <p className=\"text-2xl font-bold tabular-nums\">\n22:             {score}\n23:             <span className=\"text-base text-muted-foreground\">/{total}</span>\n24:           </p>\n25:         </div>\n26:         <div className=\"mt-2 h-1.5 w-full overflow-hidden rounded-full bg-secondary\">\n27:           <div\n28:             className=\"h-full rounded-full bg-primary transition-all duration-500\"\n29:             style={{\n30:               width: total === 0 ? '0%' : `${(score / total) * 100}%`\n31:             }}\n32:           />\n33:         </div>\n34:       </div>\n35: \n36:       <div className=\"rounded-2xl border border-border bg-card p-4\">\n37:         <p className=\"mb-3 text-xs font-medium uppercase tracking-wide text-muted-foreground\">Objectives</p>\n38:         <ol className=\"space-y-1.5\">\n39:           {objectives.map((obj, i) => {\n40:             const status = statuses[i] ?? 'pending'\n41:             return (\n42:               <li\n43:                 key={i}\n44:                 className={cn(\n45:                   'flex items-start gap-2.5 rounded-lg px-2 py-1.5 text-sm transition-colors',\n46:                   status === 'current' && 'bg-accent/60'\n47:                 )}\n48:               >\n49:                 <span className=\"mt-0.5 shrink-0\">\n50:                   {status === 'correct' ? (\n51:                     <span className=\"flex size-5 items-center justify-center rounded-full bg-success/15 text-success\">\n52:                       <Check className=\"size-3.5\" />\n53:                     </span>\n54:                   ) : status === 'skipped' ? (\n55:                     <span className=\"flex size-5 items-center justify-center rounded-full bg-danger/15 text-danger\">\n56:                       <X className=\"size-3.5\" />\n57:                     </span>\n58:                   ) : status === 'current' ? (\n59:                     <span className=\"flex size-5 items-center justify-center rounded-full bg-primary/15 text-primary\">\n60:                       <Loader2 className=\"size-3.5 animate-spin\" />\n61:                     </span>\n62:                   ) : (\n63:                     <Circle className=\"size-5 text-muted-foreground/50\" />\n64:                   )}\n65:                 </span>\n66:                 <div className=\"min-w-0 flex-1\">\n67:                   <p\n68:                     className={cn(\n69:                       'leading-snug',\n70:                       status === 'pending' && 'text-muted-foreground',\n71:                       (status === 'correct' || status === 'skipped') &&\n72:                         'text-muted-foreground line-through decoration-muted-foreground/40'\n73:                     )}\n74:                   >\n75:                     {obj.text}\n76:                   </p>\n77:                   <div className=\"mt-1 flex flex-wrap items-center gap-1\">\n78:                     <Badge variant=\"outline\">{obj.topic}</Badge>\n79:                     <Badge variant=\"outline\" className=\"text-xs font-normal\">\n80:                       {obj.question_count} question{obj.question_count === 1 ? '' : 's'}\n81:                     </Badge>\n82:                   </div>\n83:                 </div>\n84:               </li>\n85:             )\n86:           })}\n87:         </ol>\n88:       </div>\n89:     </div>\n90:   )\n91: }\n\n(End of file - total 91 lines)\n</content>",
+              "metadata": {
+                "preview": "import { Check, Circle, Loader2, X } from 'lucide-react'\nimport { cn } from '#lib/utils'\nimport type { Objective } from '#lib/types'\nimport { Badge } from '#components/ui/badge'\n\nexport type ObjectiveStatus = 'pending' | 'current' | 'correct' | 'skipped'\n\ninterface Props {\n  objectives: Objective[]\n  statuses: ObjectiveStatus[]\n  score: number\n  total: number\n}\n\nexport function ObjectiveTracker({ objectives, statuses, score, total }: Props) {\n  return (\n    <div className=\"space-y-4\">\n      <div className=\"rounded-2xl border border-border bg-card p-4\">\n        <div className=\"flex items-baseline justify-between\">\n          <p className=\"text-xs font-medium uppercase tracking-wide text-muted-foreground\">Score</p>",
+                "truncated": false,
+                "loaded": [],
+                "display": {
+                  "type": "file",
+                  "path": "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/objective-tracker.tsx",
+                  "text": "import { Check, Circle, Loader2, X } from 'lucide-react'\nimport { cn } from '#lib/utils'\nimport type { Objective } from '#lib/types'\nimport { Badge } from '#components/ui/badge'\n\nexport type ObjectiveStatus = 'pending' | 'current' | 'correct' | 'skipped'\n\ninterface Props {\n  objectives: Objective[]\n  statuses: ObjectiveStatus[]\n  score: number\n  total: number\n}\n\nexport function ObjectiveTracker({ objectives, statuses, score, total }: Props) {\n  return (\n    <div className=\"space-y-4\">\n      <div className=\"rounded-2xl border border-border bg-card p-4\">\n        <div className=\"flex items-baseline justify-between\">\n          <p className=\"text-xs font-medium uppercase tracking-wide text-muted-foreground\">Score</p>\n          <p className=\"text-2xl font-bold tabular-nums\">\n            {score}\n            <span className=\"text-base text-muted-foreground\">/{total}</span>\n          </p>\n        </div>\n        <div className=\"mt-2 h-1.5 w-full overflow-hidden rounded-full bg-secondary\">\n          <div\n            className=\"h-full rounded-full bg-primary transition-all duration-500\"\n            style={{\n              width: total === 0 ? '0%' : `${(score / total) * 100}%`\n            }}\n          />\n        </div>\n      </div>\n\n      <div className=\"rounded-2xl border border-border bg-card p-4\">\n        <p className=\"mb-3 text-xs font-medium uppercase tracking-wide text-muted-foreground\">Objectives</p>\n        <ol className=\"space-y-1.5\">\n          {objectives.map((obj, i) => {\n            const status = statuses[i] ?? 'pending'\n            return (\n              <li\n                key={i}\n                className={cn(\n                  'flex items-start gap-2.5 rounded-lg px-2 py-1.5 text-sm transition-colors',\n                  status === 'current' && 'bg-accent/60'\n                )}\n              >\n                <span className=\"mt-0.5 shrink-0\">\n                  {status === 'correct' ? (\n                    <span className=\"flex size-5 items-center justify-center rounded-full bg-success/15 text-success\">\n                      <Check className=\"size-3.5\" />\n                    </span>\n                  ) : status === 'skipped' ? (\n                    <span className=\"flex size-5 items-center justify-center rounded-full bg-danger/15 text-danger\">\n                      <X className=\"size-3.5\" />\n                    </span>\n                  ) : status === 'current' ? (\n                    <span className=\"flex size-5 items-center justify-center rounded-full bg-primary/15 text-primary\">\n                      <Loader2 className=\"size-3.5 animate-spin\" />\n                    </span>\n                  ) : (\n                    <Circle className=\"size-5 text-muted-foreground/50\" />\n                  )}\n                </span>\n                <div className=\"min-w-0 flex-1\">\n                  <p\n                    className={cn(\n                      'leading-snug',\n                      status === 'pending' && 'text-muted-foreground',\n                      (status === 'correct' || status === 'skipped') &&\n                        'text-muted-foreground line-through decoration-muted-foreground/40'\n                    )}\n                  >\n                    {obj.text}\n                  </p>\n                  <div className=\"mt-1 flex flex-wrap items-center gap-1\">\n                    <Badge variant=\"outline\">{obj.topic}</Badge>\n                    <Badge variant=\"outline\" className=\"text-xs font-normal\">\n                      {obj.question_count} question{obj.question_count === 1 ? '' : 's'}\n                    </Badge>\n                  </div>\n                </div>\n              </li>\n            )\n          })}\n        </ol>\n      </div>\n    </div>\n  )\n}",
+                  "lineStart": 1,
+                  "lineEnd": 91,
+                  "totalLines": 91,
+                  "truncated": false
+                }
+              },
+              "title": "frontend/src/components/objective-tracker.tsx",
+              "time": {
+                "start": 1783781510374,
+                "end": 1783781510377
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f51a9cd410019Rzkdpz51QRQpC",
+          "time_created": 1783781510465,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "snapshot": "84d15e07094cccfb5836881de902bad08eef5932",
+            "type": "step-finish",
+            "tokens": {
+              "total": 8261,
+              "input": 1189,
+              "output": 98,
+              "reasoning": 62,
+              "cache": {
+                "write": 0,
+                "read": 6912
+              }
+            },
+            "cost": 0.00308283
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f51a9cd68001H22UT71845TSZS",
+      "time_created": 1783781510504,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "kimi-k2.7-code",
+        "tokens": {
+          "total": 12635,
+          "input": 4466,
+          "output": 41,
+          "reasoning": 192,
+          "cache": {
+            "write": 0,
+            "read": 7936
+          }
+        },
+        "cost": 0.00668254
+      },
+      "parts": [
+        {
+          "id": "prt_f51a9d75b001kR8VpKQlupNE6I",
+          "time_created": 1783781513051,
+          "type": "step-start",
+          "data": {
+            "snapshot": "84d15e07094cccfb5836881de902bad08eef5932",
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f51a9d75f001NkmbZqg1SB8SN5",
+          "time_created": 1783781513055,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "User says: \"in learning paths and objective show topic name prominently, not it's details as prominent.\" So in plan-card (Learning paths) and objective-tracker (Objectives) currently `obj.text` is prominent (font-medium leading-relaxed), and topic is secondary \"Topic: ...\". They want topic name prominent, not its details (text) as prominent. We should switch: display topic as main heading, objective text as secondary/description. Also maybe in mcq-widget shows objectiveText prominently; they mention learning paths and objective. The lesson page header uses quiz.objectiveText (which is `text` probably). Hmm. User specifically learning paths and objective; maybe plan-card (learning paths list) and objective-tracker (objectives list). We need make topic name prominent and details (objective text) less prominent. Let's design carefully.\n\nNeed verify how backend generates `topic` vs `text`. Search for Objective usage in backend.",
+            "time": {
+              "start": 1783781513055,
+              "end": 1783781517862
+            }
+          }
+        },
+        {
+          "id": "prt_f51a9ea2a001TBQc7HaPI1m5sW",
+          "time_created": 1783781517866,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "grep",
+            "callID": "grep_5",
+            "state": {
+              "status": "completed",
+              "input": {
+                "pattern": "topic|objective|text",
+                "path": "/Users/shivam/qnify/ai-learning-agent/backend",
+                "include": "*.py"
+              },
+              "output": "No files found",
+              "metadata": {
+                "matches": 0,
+                "truncated": false
+              },
+              "title": "topic|objective|text",
+              "time": {
+                "start": 1783781518313,
+                "end": 1783781518319
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f51a9ec3400110lSa1rJ6jI18l",
+          "time_created": 1783781518388,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "snapshot": "84d15e07094cccfb5836881de902bad08eef5932",
+            "type": "step-finish",
+            "tokens": {
+              "total": 12635,
+              "input": 4466,
+              "output": 41,
+              "reasoning": 192,
+              "cache": {
+                "write": 0,
+                "read": 7936
+              }
+            },
+            "cost": 0.00668254
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f51a9ec54001ahEvk5hj70QzKz",
+      "time_created": 1783781518420,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "kimi-k2.7-code",
+        "tokens": {
+          "total": 12711,
+          "input": 367,
+          "output": 44,
+          "reasoning": 12,
+          "cache": {
+            "write": 0,
+            "read": 12288
+          }
+        },
+        "cost": 0.00290737
+      },
+      "parts": [
+        {
+          "id": "prt_f51a9f74a001sTQpiPeSCBa7WA",
+          "time_created": 1783781521227,
+          "type": "step-start",
+          "data": {
+            "snapshot": "84d15e07094cccfb5836881de902bad08eef5932",
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f51a9f74e001NXU0czWa7wJS6E",
+          "time_created": 1783781521230,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Maybe backend has python files in folder. Let's list.",
+            "time": {
+              "start": 1783781521230,
+              "end": 1783781521589
+            }
+          }
+        },
+        {
+          "id": "prt_f51a9f8b7001izlXdY6lpcBAvs",
+          "time_created": 1783781521591,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "bash",
+            "callID": "bash_6",
+            "state": {
+              "status": "completed",
+              "input": {
+                "command": "find . -type f -name '*.py' | head -50",
+                "workdir": "/Users/shivam/qnify/ai-learning-agent"
+              },
+              "output": "./pdf-to-markdown/convert-docling.py\n./pdf-to-markdown/.venv/bin/vba_extract.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/mdurl/_decode.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/mdurl/_url.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/mdurl/__init__.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/mdurl/_format.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/mdurl/_parse.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/mdurl/_encode.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/packaging/tags.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/packaging/_musllinux.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/packaging/dependency_groups.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/packaging/metadata.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/packaging/version.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/packaging/direct_url.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/packaging/licenses/__init__.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/packaging/licenses/_spdx.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/packaging/pylock.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/packaging/__init__.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/packaging/_parser.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/packaging/utils.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/packaging/requirements.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/packaging/_structures.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/packaging/markers.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/packaging/errors.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/packaging/_manylinux.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/packaging/_tokenizer.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/packaging/specifiers.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/packaging/_elffile.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/persistence.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/fields.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/__metadata__.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/constants.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/field_meta.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/__init__.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/utils/predicates.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/utils/_internal.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/utils/deprecation.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/utils/__init__.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/utils/types.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/utils/normalize_type.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/utils/model_coverage.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/utils/helpers.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/value_generators/constrained_path.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/value_generators/constrained_uuid.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/value_generators/constrained_collections.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/value_generators/constrained_numbers.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/value_generators/primitives.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/value_generators/__init__.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/value_generators/constrained_strings.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/value_generators/constrained_dates.py\n",
+              "metadata": {
+                "output": "./pdf-to-markdown/convert-docling.py\n./pdf-to-markdown/.venv/bin/vba_extract.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/mdurl/_decode.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/mdurl/_url.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/mdurl/__init__.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/mdurl/_format.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/mdurl/_parse.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/mdurl/_encode.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/packaging/tags.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/packaging/_musllinux.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/packaging/dependency_groups.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/packaging/metadata.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/packaging/version.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/packaging/direct_url.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/packaging/licenses/__init__.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/packaging/licenses/_spdx.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/packaging/pylock.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/packaging/__init__.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/packaging/_parser.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/packaging/utils.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/packaging/requirements.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/packaging/_structures.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/packaging/markers.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/packaging/errors.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/packaging/_manylinux.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/packaging/_tokenizer.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/packaging/specifiers.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/packaging/_elffile.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/persistence.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/fields.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/__metadata__.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/constants.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/field_meta.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/__init__.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/utils/predicates.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/utils/_internal.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/utils/deprecation.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/utils/__init__.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/utils/types.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/utils/normalize_type.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/utils/model_coverage.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/utils/helpers.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/value_generators/constrained_path.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/value_generators/constrained_uuid.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/value_generators/constrained_collections.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/value_generators/constrained_numbers.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/value_generators/primitives.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/value_generators/__init__.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/value_generators/constrained_strings.py\n./pdf-to-markdown/.venv/lib/python3.14/site-packages/polyfactory/value_generators/constrained_dates.py\n",
+                "exit": 0,
+                "truncated": false
+              },
+              "title": "find . -type f -name '*.py' | head -50",
+              "time": {
+                "start": 1783781522297,
+                "end": 1783781522300
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f51a9fba4001p79Lwt6uYk8Xtp",
+          "time_created": 1783781522340,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "snapshot": "84d15e07094cccfb5836881de902bad08eef5932",
+            "type": "step-finish",
+            "tokens": {
+              "total": 12711,
+              "input": 367,
+              "output": 44,
+              "reasoning": 12,
+              "cache": {
+                "write": 0,
+                "read": 12288
+              }
+            },
+            "cost": 0.00290737
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f51a9fbc8001PCBkR1zjsJoT3L",
+      "time_created": 1783781522376,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "kimi-k2.7-code",
+        "tokens": {
+          "total": 13824,
+          "input": 1238,
+          "output": 31,
+          "reasoning": 11,
+          "cache": {
+            "write": 0,
+            "read": 12544
+          }
+        },
+        "cost": 0.00372746
+      },
+      "parts": [
+        {
+          "id": "prt_f51aa04f1001lE931xd9RhKtXr",
+          "time_created": 1783781524721,
+          "type": "step-start",
+          "data": {
+            "snapshot": "84d15e07094cccfb5836881de902bad08eef5932",
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f51aa04f5001E5takFzsvYMxDZ",
+          "time_created": 1783781524725,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Maybe backend is not python? Let's list backend.",
+            "time": {
+              "start": 1783781524725,
+              "end": 1783781525028
+            }
+          }
+        },
+        {
+          "id": "prt_f51aa0627001xwawiQOoVs9Ydd",
+          "time_created": 1783781525031,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "bash",
+            "callID": "bash_7",
+            "state": {
+              "status": "completed",
+              "input": {
+                "command": "ls -la /Users/shivam/qnify/ai-learning-agent/backend"
+              },
+              "output": "total 112\ndrwxr-xr-x@ 11 shivam  staff    352 11 Jul 20:10 .\ndrwxr-xr-x   8 shivam  staff    256 11 Jul 15:35 ..\n-rw-r--r--@  1 shivam  staff    143 11 Jul 14:31 .env\n-rw-r--r--@  1 shivam  staff     90 11 Jul 15:35 .env.sample\ndrwxr-xr-x@  5 shivam  staff    160 11 Jul 20:10 data\ndrwxr-xr-x@ 15 shivam  staff    480 11 Jul 13:22 node_modules\n-rw-r--r--@  1 shivam  staff    959 11 Jul 16:42 package.json\n-rw-r--r--@  1 shivam  staff  38903 11 Jul 16:42 pnpm-lock.yaml\ndrwxr-xr-x@ 10 shivam  staff    320 11 Jul 17:39 src\n-rw-r--r--@  1 shivam  staff    302 11 Jul 12:20 tsconfig.json\ndrwxr-xr-x@ 32 shivam  staff   1024 11 Jul 20:20 uploads\n",
+              "metadata": {
+                "output": "total 112\ndrwxr-xr-x@ 11 shivam  staff    352 11 Jul 20:10 .\ndrwxr-xr-x   8 shivam  staff    256 11 Jul 15:35 ..\n-rw-r--r--@  1 shivam  staff    143 11 Jul 14:31 .env\n-rw-r--r--@  1 shivam  staff     90 11 Jul 15:35 .env.sample\ndrwxr-xr-x@  5 shivam  staff    160 11 Jul 20:10 data\ndrwxr-xr-x@ 15 shivam  staff    480 11 Jul 13:22 node_modules\n-rw-r--r--@  1 shivam  staff    959 11 Jul 16:42 package.json\n-rw-r--r--@  1 shivam  staff  38903 11 Jul 16:42 pnpm-lock.yaml\ndrwxr-xr-x@ 10 shivam  staff    320 11 Jul 17:39 src\n-rw-r--r--@  1 shivam  staff    302 11 Jul 12:20 tsconfig.json\ndrwxr-xr-x@ 32 shivam  staff   1024 11 Jul 20:20 uploads\n",
+                "exit": 0,
+                "truncated": false
+              },
+              "title": "ls -la /Users/shivam/qnify/ai-learning-agent/backend",
+              "time": {
+                "start": 1783781525370,
+                "end": 1783781525371
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f51aa07b3001iWayo0txcpTlHy",
+          "time_created": 1783781525427,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "snapshot": "84d15e07094cccfb5836881de902bad08eef5932",
+            "type": "step-finish",
+            "tokens": {
+              "total": 13824,
+              "input": 1238,
+              "output": 31,
+              "reasoning": 11,
+              "cache": {
+                "write": 0,
+                "read": 12544
+              }
+            },
+            "cost": 0.00372746
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f51aa07d5001nCyvyIuser29tt",
+      "time_created": 1783781525461,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "kimi-k2.7-code",
+        "tokens": {
+          "total": 14201,
+          "input": 579,
+          "output": 42,
+          "reasoning": 12,
+          "cache": {
+            "write": 0,
+            "read": 13568
+          }
+        },
+        "cost": 0.00334397
+      },
+      "parts": [
+        {
+          "id": "prt_f51aa1024001RdzBWxiBss0MPN",
+          "time_created": 1783781527588,
+          "type": "step-start",
+          "data": {
+            "snapshot": "84d15e07094cccfb5836881de902bad08eef5932",
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f51aa1025001mWtguvScf2yU6w",
+          "time_created": 1783781527589,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Backend TypeScript. Let's find where objectives are generated.",
+            "time": {
+              "start": 1783781527589,
+              "end": 1783781528000
+            }
+          }
+        },
+        {
+          "id": "prt_f51aa11c4001gdPnB7Oa0JjrYs",
+          "time_created": 1783781528004,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "grep",
+            "callID": "grep_8",
+            "state": {
+              "status": "completed",
+              "input": {
+                "pattern": "topic|text|objective",
+                "path": "/Users/shivam/qnify/ai-learning-agent/backend/src",
+                "include": "*.ts"
+              },
+              "output": "Found 71 matches\n/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts:\n  Line 10:   objectiveIndex: number\n\n  Line 12:   objectiveText: string\n\n  Line 20:   objectiveIndex: number,\n\n  Line 25:   const objective = plan.objectives[objectiveIndex]\n\n  Line 26:   if (!objective) throw new NotFoundError(`Objective ${objectiveIndex} not found`)\n\n  Line 29:     .prepare(`SELECT * FROM quiz_questions WHERE lesson_plan_id = ? AND objective_index = ? AND question_index = ?`)\n\n  Line 30:     .get(planId, objectiveIndex, questionIndex) as QuizQuestionRow | undefined\n\n  Line 38:   const quiz = await generateQuiz(markdown, objective.text, objective.topic, questionIndex)\n\n  Line 42:       `INSERT INTO quiz_questions (lesson_plan_id, objective_index, question_index, objective_text, question, options, correct_index, explanation, hint)\n\n  Line 48:       objectiveIndex,\n\n  Line 50:       objective.text,\n\n  Line 60:     objectiveIndex,\n\n  Line 62:     objectiveText: objective.text,\n\n  Line 74:       `SELECT * FROM quiz_questions WHERE lesson_plan_id = ? ORDER BY objective_index ASC, question_index ASC`\n\n  Line 149:     objectiveIndex: row.objective_index,\n\n  Line 151:     objectiveText: row.objective_text,\n\n\n/Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts:\n  Line 24:   objectiveText: string\n\n  Line 52:       objectiveText: quiz.objective_text,\n\n  Line 61:   const objectives = plan.objectives.map((o) => ({ text: o.text, topic: o.topic }))\n\n  Line 62:   const summary = await generateSummary({ objectives, questions, markdown })\n\n  Line 71:     JSON.stringify(summary.weak_topics),\n\n  Line 76:       `INSERT INTO attempts (lesson_plan_id, score, total, answers, summary, study_tips, weak_topics, strengths)\n\n  Line 89:     weakTopics: summary.weak_topics,\n\n  Line 97:       objectiveText: q.objectiveText\n\n  Line 137:         objectiveText: quiz.objective_text\n\n  Line 146:     weakTopics: JSON.parse(row.weak_topics) as string[],\n\n\n/Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts:\n  Line 9:   text: string\n\n  Line 10:   topic: string\n\n  Line 22:   const objectivesJson = JSON.stringify(plan.objectives)\n\n  Line 25:       `INSERT INTO lesson_plans (document_id, title, description, objectives, difficulty, status)\n\n  Line 29:     .get(documentId, plan.title, plan.description, objectivesJson, plan.difficulty) as LessonPlanRow\n\n  Line 46:   const objectivesJson = JSON.stringify(plan.objectives)\n\n  Line 54:        SET title = ?, description = ?, objectives = ?, difficulty = ?, revision_count = revision_count + 1, revision_feedback = ?\n\n  Line 58:     .get(plan.title, plan.description, objectivesJson, plan.difficulty, feedback, planId) as LessonPlanRow\n\n  Line 96:     objectives: JSON.parse(row.objectives) as Objective[],\n\n\n/Users/shivam/qnify/ai-learning-agent/backend/src/db.ts:\n  Line 33:         objective_index INTEGER NOT NULL,\n\n  Line 35:         objective_text  TEXT NOT NULL,\n\n  Line 43:         UNIQUE (lesson_plan_id, objective_index, question_index)\n\n  Line 46:         (id, lesson_plan_id, objective_index, question_index, objective_text, question, options, correct_index, explanation, hint, created_at)\n\n  Line 47:       SELECT id, lesson_plan_id, objective_index, 0, objective_text, question, options, correct_index, explanation, hint, created_at\n\n  Line 74:   objectives: string\n\n  Line 85:   objective_index: number\n\n  Line 87:   objective_text: string\n\n  Line 104:   weak_topics: string\n\n\n/Users/shivam/qnify/ai-learning-agent/backend/src/ai/plan.ts:\n  Line 8: - Read the material carefully and decide how to divide it into 3-10 coherent learning paths/objectives.\n\n  Line 10: - Each objective must be concrete and measurable (e.g. \"Explain X\", \"Identify Y\", \"Compare A vs B\").\n\n  Line 14: - If the user provides revision feedback, incorporate it directly: adjust the number of paths, rebalance topics, or increase/reduce question counts as requested.`\n\n\n/Users/shivam/qnify/ai-learning-agent/backend/src/ai/quiz.ts:\n  Line 5: const SYSTEM = `You are a meticulous quiz author. Build a single multiple-choice question that rigorously tests ONE learning objective using ONLY information present in the provided PDF markdown.\n\n  Line 13: - When a question_index is provided, create a distinct question from any other index for the same objective. Vary the angle (e.g. definition, application, comparison, implication) so multiple questions on the same objective are not repetitive.`\n\n  Line 23:   objectiveText: string,\n\n  Line 24:   objectiveTopic: string,\n\n  Line 28: Objective to assess: ${objectiveText}\n\n  Line 29: Topic: ${objectiveTopic}\n\n  Line 30: Question number for this objective: ${questionIndex + 1}\n\n\n/Users/shivam/qnify/ai-learning-agent/backend/src/ai/feedback.ts:\n  Line 11: const LEARN_SYSTEM = `You are a knowledgeable tutor expanding on a topic so a learner can master the related multiple-choice question.\n\n\n/Users/shivam/qnify/ai-learning-agent/backend/src/ai/summary.ts:\n  Line 7: Inputs include the original learning objectives, the questions asked, the learner's final answers, and which were correct.\n\n  Line 23:   objectives: Array<{ text: string; topic: string }>\n\n  Line 25:     objectiveText: string\n\n  Line 41:       return `Objective ${i + 1}: ${q.objectiveText}\n\n  Line 51:   const objectives = input.objectives.map((o, i) => `${i + 1}. ${o.text} [${o.topic}]`).join('\\n')\n\n  Line 54: Learning objectives:\\n${objectives}\n\n\n/Users/shivam/qnify/ai-learning-agent/backend/src/ai/schemas.ts:\n  Line 3: export const objectiveSchema = z.object({\n\n  Line 4:   text: z.string().describe('A concise, learner-facing learning objective.'),\n\n  Line 5:   topic: z.string().describe('Short topic label, 2-4 words.'),\n\n  Line 18:   objectives: z\n\n  Line 19:     .array(objectiveSchema)\n\n  Line 23:       'Ordered list of 3-10 learning paths/objectives. Decide how many paths best divide the material, and for each path decide how many questions (1-5) are needed to assess mastery.'\n\n  Line 42:   weak_topics: z.array(z.string()).describe('Topics the learner struggled with, if any.'),\n\n\n/Users/shivam/qnify/ai-learning-agent/backend/src/routes.ts:\n  Line 82:   const CreateQuizBody = z.object({ objectiveIndex: z.number(), questionIndex: z.number() })\n\n  Line 86:     const { objectiveIndex, questionIndex } = validate(CreateQuizBody, req.body)\n\n  Line 87:     return quiz.getOrCreateQuiz(id, objectiveIndex, questionIndex)\n",
+              "metadata": {
+                "matches": 71,
+                "truncated": false
+              },
+              "title": "topic|text|objective",
+              "time": {
+                "start": 1783781528489,
+                "end": 1783781528502
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f51aa13f2001VYxCi1lqS2h0dP",
+          "time_created": 1783781528562,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "snapshot": "84d15e07094cccfb5836881de902bad08eef5932",
+            "type": "step-finish",
+            "tokens": {
+              "total": 14201,
+              "input": 579,
+              "output": 42,
+              "reasoning": 12,
+              "cache": {
+                "write": 0,
+                "read": 13568
+              }
+            },
+            "cost": 0.00334397
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f51aa1418001YCbYBm3uwXGWO1",
+      "time_created": 1783781528600,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "kimi-k2.7-code",
+        "tokens": {
+          "total": 16033,
+          "input": 1785,
+          "output": 34,
+          "reasoning": 134,
+          "cache": {
+            "write": 0,
+            "read": 14080
+          }
+        },
+        "cost": 0.00504295
+      },
+      "parts": [
+        {
+          "id": "prt_f51aa1d6e0010ErtJ9W5cA1OZb",
+          "time_created": 1783781530990,
+          "type": "step-start",
+          "data": {
+            "snapshot": "84d15e07094cccfb5836881de902bad08eef5932",
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f51aa1d72001tgZYznM0ihOTCg",
+          "time_created": 1783781530994,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "So objective.text is learner-facing learning objective, topic is short label. Currently plan-card shows objective text (longer) as main and topic as small \"Topic:\". User wants topic name prominent, details (text) less prominent. Should we switch in plan-card and objective-tracker. Also perhaps in mcq-widget? User says \"learning paths and objective\". The objective-tracker is labeled Objectives. The mcq widget during lesson also displays objectiveText (text) prominently. But phrase maybe \"in learning paths and objective\" means components named learning paths and objective tracker. Let's also look at lesson-page/mcq-widget to see if it should show topic.",
+            "time": {
+              "start": 1783781530994,
+              "end": 1783781534285
+            }
+          }
+        },
+        {
+          "id": "prt_f51aa2a52001uGPsdXoWwD9si1",
+          "time_created": 1783781534290,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "read",
+            "callID": "read_9",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx"
+              },
+              "output": "<path>/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx</path>\n<type>file</type>\n<content>\n1: import { useEffect, useState } from 'react'\n2: import Markdown from 'react-markdown'\n3: import { Check, CircleAlert, HelpCircle, Lightbulb, Loader2, MessageSquareText, Send, X } from 'lucide-react'\n4: import { cn } from '#lib/utils'\n5: import { Badge } from '#components/ui/badge'\n6: import { Button } from '#components/ui/button'\n7: import { Card, CardContent } from '#components/ui/card'\n8: import { RadioGroup, RadioGroupItem } from '#components/ui/radio-group'\n9: import { Textarea } from '#components/ui/textarea'\n10: import { checkAnswer, getExplanation, getHint, learnMore } from '#lib/api'\n11: import type { ChatMessage, QuizDTO } from '#lib/types'\n12: \n13: interface Props {\n14:   quiz: QuizDTO\n15:   objectiveNumber: number\n16:   totalObjectives: number\n17:   questionNumber: number\n18:   totalQuestionsInObjective: number\n19:   onCorrect: (learnerIndex: number) => void\n20:   onIncorrect: (learnerIndex: number) => void\n21:   onSkip: () => void\n22:   onNext: () => void\n23:   isLast: boolean\n24: }\n25: \n26: type Status = 'idle' | 'submitted' | 'correct' | 'incorrect'\n27: \n28: export function MCQWidget({\n29:   quiz,\n30:   objectiveNumber,\n31:   totalObjectives,\n32:   questionNumber,\n33:   totalQuestionsInObjective,\n34:   onCorrect,\n35:   onIncorrect,\n36:   onSkip,\n37:   onNext,\n38:   isLast\n39: }: Props) {\n40:   const [selected, setSelected] = useState<number | null>(null)\n41:   const [status, setStatus] = useState<Status>('idle')\n42:   const [submitting, setSubmitting] = useState(false)\n43:   const [hint, setHint] = useState<string | null>(null)\n44:   const [hintLoading, setHintLoading] = useState(false)\n45:   const [explanation, setExplanation] = useState<string | null>(null)\n46:   const [showExplanation, setShowExplanation] = useState(false)\n47:   const [explanationLoading, setExplanationLoading] = useState(false)\n48:   const [tries, setTries] = useState(0)\n49:   const [chatOpen, setChatOpen] = useState(false)\n50: \n51:   // Reset state when quiz changes (new objective)\n52:   useEffect(() => {\n53:     setSelected(null)\n54:     setStatus('idle')\n55:     setHint(null)\n56:     setExplanation(null)\n57:     setShowExplanation(false)\n58:     setTries(0)\n59:     setChatOpen(false)\n60:   }, [quiz.id])\n61: \n62:   const submit = async () => {\n63:     if (selected === null || submitting) return\n64:     setHint(null)\n65:     setSubmitting(true)\n66:     try {\n67:       const res = await checkAnswer(quiz.id, selected)\n68:       if (res.correct) {\n69:         setStatus('correct')\n70:         onCorrect(selected)\n71:       } else {\n72:         setStatus('incorrect')\n73:         onIncorrect(selected)\n74:         setTries((t) => t + 1)\n75:       }\n76:     } finally {\n77:       setSubmitting(false)\n78:     }\n79:   }\n80: \n81:   const retry = () => {\n82:     setStatus('idle')\n83:     setSelected(null)\n84:     setHint(null)\n85:   }\n86: \n87:   const requestHint = async () => {\n88:     setHintLoading(true)\n89:     try {\n90:       const res = await getHint(quiz.id, status === 'incorrect' ? selected : null)\n91:       setHint(res.hint)\n92:     } finally {\n93:       setHintLoading(false)\n94:     }\n95:   }\n96: \n97:   const locked = status === 'correct'\n98: \n99:   return (\n100:     <Card className=\"overflow-hidden\">\n101:       <CardContent className=\"p-0\">\n102:         <div className=\"border-b border-border bg-accent/40 px-5 py-3 sm:px-6\">\n103:           <div className=\"flex items-center justify-between gap-3\">\n104:             <div className=\"min-w-0\">\n105:               <p className=\"text-xs font-medium uppercase tracking-wide text-muted-foreground\">\n106:                 Path {objectiveNumber} of {totalObjectives} \u00b7 Question {questionNumber} of {totalQuestionsInObjective}\n107:               </p>\n108:               <p className=\"mt-0.5 truncate text-sm font-semibold\">{quiz.objectiveText}</p>\n109:             </div>\n110:             {tries > 0 && status !== 'correct' && (\n111:               <Badge variant=\"destructive\">\n112:                 {tries} {tries === 1 ? 'miss' : 'misses'}\n113:               </Badge>\n114:             )}\n115:             {status === 'correct' && (\n116:               <Badge variant=\"default\">\n117:                 <Check className=\"size-3\" />\n118:                 Correct\n119:               </Badge>\n120:             )}\n121:           </div>\n122:         </div>\n123: \n124:         <div className=\"space-y-5 p-5 sm:p-6\">\n125:           <p className=\"text-base font-medium leading-relaxed\">{quiz.question}</p>\n126: \n127:           <RadioGroup\n128:             value={selected !== null ? String(selected) : undefined}\n129:             onValueChange={(v) => {\n130:               if (locked) return\n131:               const next = Number(v)\n132:               setSelected(next)\n133:               if (status === 'incorrect') {\n134:                 setStatus('idle')\n135:                 setHint(null)\n136:               }\n137:             }}\n138:             className=\"gap-2.5\"\n139:           >\n140:             {quiz.options.map((opt, i) => {\n141:               const isSelected = selected === i\n142:               const showAsCorrect = locked && isSelected\n143:               const showAsWrong = status === 'incorrect' && isSelected\n144:               return (\n145:                 <label\n146:                   key={i}\n147:                   className={cn(\n148:                     'flex items-center gap-3 rounded-xl border p-3.5 text-sm transition-all',\n149:                     locked ? 'cursor-default' : 'cursor-pointer',\n150:                     !locked && 'hover:border-primary/50 hover:bg-accent/50',\n151:                     isSelected && !locked ? 'border-primary bg-primary/5' : 'border-border bg-card',\n152:                     showAsCorrect && 'border-success/60 bg-success/10 text-success',\n153:                     showAsWrong && 'border-danger/60 bg-danger/10 text-danger'\n154:                   )}\n155:                 >\n156:                   <RadioGroupItem\n157:                     value={String(i)}\n158:                     disabled={locked}\n159:                     className={cn(\n160:                       showAsCorrect &&\n161:                         'border-success text-success data-[checked]:bg-success data-[checked]:border-success',\n162:                       showAsWrong && 'border-danger text-danger data-[checked]:bg-danger data-[checked]:border-danger'\n163:                     )}\n164:                   />\n165:                   <span className=\"flex-1 leading-relaxed\">{opt}</span>\n166:                   {showAsCorrect && <Check className=\"size-4 shrink-0\" />}\n167:                   {showAsWrong && <X className=\"size-4 shrink-0\" />}\n168:                 </label>\n169:               )\n170:             })}\n171:           </RadioGroup>\n172: \n173:           {status === 'incorrect' && (\n174:             <div className=\"flex items-start gap-2.5 rounded-xl border border-danger/40 bg-danger/10 p-3.5 text-sm\">\n175:               <CircleAlert className=\"size-4 shrink-0 translate-y-0.5 text-danger\" />\n176:               <div>\n177:                 <p className=\"font-medium text-danger\">Not quite.</p>\n178:                 <p className=\"mt-0.5 text-muted-foreground\">\n179:                   Try again \u2014 you can request a hint or ask for a deeper explanation. No penalty for retries.\n180:                 </p>\n181:               </div>\n182:             </div>\n183:           )}\n184: \n185:           {hint && (\n186:             <div className=\"flex items-start gap-2.5 rounded-xl border border-primary/30 bg-primary/5 p-3.5 text-sm\">\n187:               <Lightbulb className=\"size-4 shrink-0 translate-y-0.5 text-primary\" />\n188:               <div>\n189:                 <p className=\"font-medium text-primary\">Hint</p>\n190:                 <p className=\"mt-0.5 text-foreground\">{hint}</p>\n191:               </div>\n192:             </div>\n193:           )}\n194: \n195:           {status === 'correct' && showExplanation && explanation && (\n196:             <div className=\"flex items-start gap-2.5 rounded-xl border border-success/40 bg-success/10 p-3.5 text-sm\">\n197:               <Check className=\"size-4 shrink-0 translate-y-0.5 text-success\" />\n198:               <div>\n199:                 <p className=\"font-medium text-success\">Explanation</p>\n200:                 <p className=\"mt-0.5 text-foreground\">{explanation}</p>\n201:               </div>\n202:             </div>\n203:           )}\n204: \n205:           <div className=\"flex flex-wrap items-center gap-2 pt-1\">\n206:             {!locked && (\n207:               <>\n208:                 <Button onClick={submit} disabled={selected === null || submitting} className=\"gap-1.5\">\n209:                   {submitting ? <Loader2 className=\"size-4 animate-spin\" /> : <Send className=\"size-4\" />}\n210:                   {status === 'incorrect' ? 'Re-submit' : 'Submit answer'}\n211:                 </Button>\n212:                 <Button variant=\"outline\" onClick={requestHint} disabled={hintLoading} className=\"gap-1.5\">\n213:                   {hintLoading ? <Loader2 className=\"size-4 animate-spin\" /> : <HelpCircle className=\"size-4\" />}\n214:                   {hint ? 'New hint' : 'Get a hint'}\n215:                 </Button>\n216:                 <Button variant=\"ghost\" onClick={() => setChatOpen(true)} className=\"gap-1.5\">\n217:                   <MessageSquareText className=\"size-4\" />\n218:                   AI Help\n219:                 </Button>\n220:                 {status === 'incorrect' && (\n221:                   <Button variant=\"ghost\" onClick={retry} className=\"ml-auto\">\n222:                     Reset selection\n223:                   </Button>\n224:                 )}\n225:                 {status === 'incorrect' && tries >= 1 && (\n226:                   <Button variant=\"ghost\" onClick={onSkip} className=\"text-muted-foreground\">\n227:                     Skip \u2192\n228:                   </Button>\n229:                 )}\n230:               </>\n231:             )}\n232:             {locked && (\n233:               <>\n234:                 <Button\n235:                   variant=\"outline\"\n236:                   onClick={async () => {\n237:                     if (showExplanation) {\n238:                       setShowExplanation(false)\n239:                       return\n240:                     }\n241:                     setExplanationLoading(true)\n242:                     try {\n243:                       const res = await getExplanation(quiz.id)\n244:                       setExplanation(res.explanation)\n245:                       setShowExplanation(true)\n246:                     } finally {\n247:                       setExplanationLoading(false)\n248:                     }\n249:                   }}\n250:                   disabled={explanationLoading}\n251:                   className=\"gap-1.5\"\n252:                 >\n253:                   {explanationLoading ? (\n254:                     <Loader2 className=\"size-4 animate-spin\" />\n255:                   ) : showExplanation ? (\n256:                     'Hide explanation'\n257:                   ) : (\n258:                     'Show explanation'\n259:                   )}\n260:                 </Button>\n261:                 <Button onClick={onNext} className=\"ml-auto gap-1.5\">\n262:                   {isLast ? 'Finish & see results' : 'Next objective'}\n263:                 </Button>\n264:               </>\n265:             )}\n266:           </div>\n267:         </div>\n268:       </CardContent>\n269: \n270:       {chatOpen && <LearnMorePanel quiz={quiz} onClose={() => setChatOpen(false)} />}\n271:     </Card>\n272:   )\n273: }\n274: \n275: interface LearnMoreProps {\n276:   quiz: QuizDTO\n277:   onClose: () => void\n278: }\n279: \n280: function LearnMorePanel({ quiz, onClose }: LearnMoreProps) {\n281:   const [messages, setMessages] = useState<ChatMessage[]>([\n282:     {\n283:       role: 'assistant',\n284:       content:\n285:         'I can dig deeper into the topic behind this question \u2014 without revealing the answer. Ask me anything about the concepts.'\n286:     }\n287:   ])\n288:   const [input, setInput] = useState('')\n289:   const [loading, setLoading] = useState(false)\n290: \n291:   const send = async () => {\n292:     const q = input.trim()\n293:     if (!q || loading) return\n294:     const nextHistory: ChatMessage[] = [...messages, { role: 'user', content: q }]\n295:     setMessages(nextHistory)\n296:     setInput('')\n297:     setLoading(true)\n298:     try {\n299:       const res = await learnMore(\n300:         quiz.id,\n301:         q,\n302:         nextHistory.filter((m) => m.role !== 'assistant' || m.content !== messages[0]?.content)\n303:       )\n304:       setMessages((cur) => [...cur, { role: 'assistant', content: res.message }])\n305:     } catch (err) {\n306:       setMessages((cur) => [\n307:         ...cur,\n308:         {\n309:           role: 'assistant',\n310:           content: `Sorry, I couldn't fetch an answer right now: ${(err as Error).message}`\n311:         }\n312:       ])\n313:     } finally {\n314:       setLoading(false)\n315:     }\n316:   }\n317: \n318:   return (\n319:     <div className=\"fixed inset-0 z-50 flex items-end justify-end sm:items-center sm:justify-end\">\n320:       <div className=\"absolute inset-0 bg-background/60 backdrop-blur-sm\" onClick={onClose} />\n321:       <div className=\"relative flex h-[70vh] w-full max-w-md flex-col rounded-t-2xl border border-border bg-card shadow-2xl sm:rounded-2xl\">\n322:         <div className=\"flex items-center justify-between border-b border-border bg-accent/40 px-4 py-3\">\n323:           <div className=\"flex items-center gap-2\">\n324:             <span className=\"flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground\">\n325:               <MessageSquareText className=\"size-4\" />\n326:             </span>\n327:             <div>\n328:               <p className=\"text-sm font-semibold\">Ask the tutor</p>\n329:               <p className=\"text-xs text-muted-foreground\">Answers stay grounded in your PDF</p>\n330:             </div>\n331:           </div>\n332:           <Button variant=\"ghost\" size=\"icon-sm\" onClick={onClose}>\n333:             <X className=\"size-4\" />\n334:           </Button>\n335:         </div>\n336:         <div className=\"flex-1 space-y-3 overflow-y-auto p-4\">\n337:           {messages.map((m, i) => (\n338:             <div key={i} className={cn('flex', m.role === 'user' ? 'justify-end' : 'justify-start')}>\n339:                 <div\n340:                 className={cn(\n341:                   'max-w-[85%] rounded-2xl px-3.5 py-2 text-sm leading-relaxed',\n342:                   m.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-accent text-accent-foreground'\n343:                 )}\n344:               >\n345:                 {m.role === 'user' ? (\n346:                   <span className=\"whitespace-pre-wrap\">{m.content}</span>\n347:                 ) : (\n348:                   <Markdown>{m.content}</Markdown>\n349:                 )}\n350:               </div>\n351:             </div>\n352:           ))}\n353:           {loading && (\n354:             <div className=\"flex items-center gap-2 text-xs text-muted-foreground\">\n355:               <Loader2 className=\"size-3 animate-spin\" />\n356:               Thinking...\n357:             </div>\n358:           )}\n359:         </div>\n360:         <div className=\"border-t border-border p-3\">\n361:           <div className=\"flex items-end gap-2\">\n362:             <Textarea\n363:               value={input}\n364:               onChange={(e) => setInput(e.target.value)}\n365:               placeholder=\"Ask about the concept...\"\n366:               className=\"min-h-[44px] flex-1 resize-none\"\n367:               rows={1}\n368:               onKeyDown={(e) => {\n369:                 if (e.key === 'Enter' && !e.shiftKey) {\n370:                   e.preventDefault()\n371:                   void send()\n372:                 }\n373:               }}\n374:             />\n375:             <Button onClick={send} disabled={loading || !input.trim()} size=\"icon\">\n376:               <Send className=\"size-4\" />\n377:             </Button>\n378:           </div>\n379:         </div>\n380:       </div>\n381:     </div>\n382:   )\n383: }\n\n(End of file - total 383 lines)\n</content>",
+              "metadata": {
+                "preview": "import { useEffect, useState } from 'react'\nimport Markdown from 'react-markdown'\nimport { Check, CircleAlert, HelpCircle, Lightbulb, Loader2, MessageSquareText, Send, X } from 'lucide-react'\nimport { cn } from '#lib/utils'\nimport { Badge } from '#components/ui/badge'\nimport { Button } from '#components/ui/button'\nimport { Card, CardContent } from '#components/ui/card'\nimport { RadioGroup, RadioGroupItem } from '#components/ui/radio-group'\nimport { Textarea } from '#components/ui/textarea'\nimport { checkAnswer, getExplanation, getHint, learnMore } from '#lib/api'\nimport type { ChatMessage, QuizDTO } from '#lib/types'\n\ninterface Props {\n  quiz: QuizDTO\n  objectiveNumber: number\n  totalObjectives: number\n  questionNumber: number\n  totalQuestionsInObjective: number\n  onCorrect: (learnerIndex: number) => void\n  onIncorrect: (learnerIndex: number) => void",
+                "truncated": false,
+                "loaded": [],
+                "display": {
+                  "type": "file",
+                  "path": "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx",
+                  "text": "import { useEffect, useState } from 'react'\nimport Markdown from 'react-markdown'\nimport { Check, CircleAlert, HelpCircle, Lightbulb, Loader2, MessageSquareText, Send, X } from 'lucide-react'\nimport { cn } from '#lib/utils'\nimport { Badge } from '#components/ui/badge'\nimport { Button } from '#components/ui/button'\nimport { Card, CardContent } from '#components/ui/card'\nimport { RadioGroup, RadioGroupItem } from '#components/ui/radio-group'\nimport { Textarea } from '#components/ui/textarea'\nimport { checkAnswer, getExplanation, getHint, learnMore } from '#lib/api'\nimport type { ChatMessage, QuizDTO } from '#lib/types'\n\ninterface Props {\n  quiz: QuizDTO\n  objectiveNumber: number\n  totalObjectives: number\n  questionNumber: number\n  totalQuestionsInObjective: number\n  onCorrect: (learnerIndex: number) => void\n  onIncorrect: (learnerIndex: number) => void\n  onSkip: () => void\n  onNext: () => void\n  isLast: boolean\n}\n\ntype Status = 'idle' | 'submitted' | 'correct' | 'incorrect'\n\nexport function MCQWidget({\n  quiz,\n  objectiveNumber,\n  totalObjectives,\n  questionNumber,\n  totalQuestionsInObjective,\n  onCorrect,\n  onIncorrect,\n  onSkip,\n  onNext,\n  isLast\n}: Props) {\n  const [selected, setSelected] = useState<number | null>(null)\n  const [status, setStatus] = useState<Status>('idle')\n  const [submitting, setSubmitting] = useState(false)\n  const [hint, setHint] = useState<string | null>(null)\n  const [hintLoading, setHintLoading] = useState(false)\n  const [explanation, setExplanation] = useState<string | null>(null)\n  const [showExplanation, setShowExplanation] = useState(false)\n  const [explanationLoading, setExplanationLoading] = useState(false)\n  const [tries, setTries] = useState(0)\n  const [chatOpen, setChatOpen] = useState(false)\n\n  // Reset state when quiz changes (new objective)\n  useEffect(() => {\n    setSelected(null)\n    setStatus('idle')\n    setHint(null)\n    setExplanation(null)\n    setShowExplanation(false)\n    setTries(0)\n    setChatOpen(false)\n  }, [quiz.id])\n\n  const submit = async () => {\n    if (selected === null || submitting) return\n    setHint(null)\n    setSubmitting(true)\n    try {\n      const res = await checkAnswer(quiz.id, selected)\n      if (res.correct) {\n        setStatus('correct')\n        onCorrect(selected)\n      } else {\n        setStatus('incorrect')\n        onIncorrect(selected)\n        setTries((t) => t + 1)\n      }\n    } finally {\n      setSubmitting(false)\n    }\n  }\n\n  const retry = () => {\n    setStatus('idle')\n    setSelected(null)\n    setHint(null)\n  }\n\n  const requestHint = async () => {\n    setHintLoading(true)\n    try {\n      const res = await getHint(quiz.id, status === 'incorrect' ? selected : null)\n      setHint(res.hint)\n    } finally {\n      setHintLoading(false)\n    }\n  }\n\n  const locked = status === 'correct'\n\n  return (\n    <Card className=\"overflow-hidden\">\n      <CardContent className=\"p-0\">\n        <div className=\"border-b border-border bg-accent/40 px-5 py-3 sm:px-6\">\n          <div className=\"flex items-center justify-between gap-3\">\n            <div className=\"min-w-0\">\n              <p className=\"text-xs font-medium uppercase tracking-wide text-muted-foreground\">\n                Path {objectiveNumber} of {totalObjectives} \u00b7 Question {questionNumber} of {totalQuestionsInObjective}\n              </p>\n              <p className=\"mt-0.5 truncate text-sm font-semibold\">{quiz.objectiveText}</p>\n            </div>\n            {tries > 0 && status !== 'correct' && (\n              <Badge variant=\"destructive\">\n                {tries} {tries === 1 ? 'miss' : 'misses'}\n              </Badge>\n            )}\n            {status === 'correct' && (\n              <Badge variant=\"default\">\n                <Check className=\"size-3\" />\n                Correct\n              </Badge>\n            )}\n          </div>\n        </div>\n\n        <div className=\"space-y-5 p-5 sm:p-6\">\n          <p className=\"text-base font-medium leading-relaxed\">{quiz.question}</p>\n\n          <RadioGroup\n            value={selected !== null ? String(selected) : undefined}\n            onValueChange={(v) => {\n              if (locked) return\n              const next = Number(v)\n              setSelected(next)\n              if (status === 'incorrect') {\n                setStatus('idle')\n                setHint(null)\n              }\n            }}\n            className=\"gap-2.5\"\n          >\n            {quiz.options.map((opt, i) => {\n              const isSelected = selected === i\n              const showAsCorrect = locked && isSelected\n              const showAsWrong = status === 'incorrect' && isSelected\n              return (\n                <label\n                  key={i}\n                  className={cn(\n                    'flex items-center gap-3 rounded-xl border p-3.5 text-sm transition-all',\n                    locked ? 'cursor-default' : 'cursor-pointer',\n                    !locked && 'hover:border-primary/50 hover:bg-accent/50',\n                    isSelected && !locked ? 'border-primary bg-primary/5' : 'border-border bg-card',\n                    showAsCorrect && 'border-success/60 bg-success/10 text-success',\n                    showAsWrong && 'border-danger/60 bg-danger/10 text-danger'\n                  )}\n                >\n                  <RadioGroupItem\n                    value={String(i)}\n                    disabled={locked}\n                    className={cn(\n                      showAsCorrect &&\n                        'border-success text-success data-[checked]:bg-success data-[checked]:border-success',\n                      showAsWrong && 'border-danger text-danger data-[checked]:bg-danger data-[checked]:border-danger'\n                    )}\n                  />\n                  <span className=\"flex-1 leading-relaxed\">{opt}</span>\n                  {showAsCorrect && <Check className=\"size-4 shrink-0\" />}\n                  {showAsWrong && <X className=\"size-4 shrink-0\" />}\n                </label>\n              )\n            })}\n          </RadioGroup>\n\n          {status === 'incorrect' && (\n            <div className=\"flex items-start gap-2.5 rounded-xl border border-danger/40 bg-danger/10 p-3.5 text-sm\">\n              <CircleAlert className=\"size-4 shrink-0 translate-y-0.5 text-danger\" />\n              <div>\n                <p className=\"font-medium text-danger\">Not quite.</p>\n                <p className=\"mt-0.5 text-muted-foreground\">\n                  Try again \u2014 you can request a hint or ask for a deeper explanation. No penalty for retries.\n                </p>\n              </div>\n            </div>\n          )}\n\n          {hint && (\n            <div className=\"flex items-start gap-2.5 rounded-xl border border-primary/30 bg-primary/5 p-3.5 text-sm\">\n              <Lightbulb className=\"size-4 shrink-0 translate-y-0.5 text-primary\" />\n              <div>\n                <p className=\"font-medium text-primary\">Hint</p>\n                <p className=\"mt-0.5 text-foreground\">{hint}</p>\n              </div>\n            </div>\n          )}\n\n          {status === 'correct' && showExplanation && explanation && (\n            <div className=\"flex items-start gap-2.5 rounded-xl border border-success/40 bg-success/10 p-3.5 text-sm\">\n              <Check className=\"size-4 shrink-0 translate-y-0.5 text-success\" />\n              <div>\n                <p className=\"font-medium text-success\">Explanation</p>\n                <p className=\"mt-0.5 text-foreground\">{explanation}</p>\n              </div>\n            </div>\n          )}\n\n          <div className=\"flex flex-wrap items-center gap-2 pt-1\">\n            {!locked && (\n              <>\n                <Button onClick={submit} disabled={selected === null || submitting} className=\"gap-1.5\">\n                  {submitting ? <Loader2 className=\"size-4 animate-spin\" /> : <Send className=\"size-4\" />}\n                  {status === 'incorrect' ? 'Re-submit' : 'Submit answer'}\n                </Button>\n                <Button variant=\"outline\" onClick={requestHint} disabled={hintLoading} className=\"gap-1.5\">\n                  {hintLoading ? <Loader2 className=\"size-4 animate-spin\" /> : <HelpCircle className=\"size-4\" />}\n                  {hint ? 'New hint' : 'Get a hint'}\n                </Button>\n                <Button variant=\"ghost\" onClick={() => setChatOpen(true)} className=\"gap-1.5\">\n                  <MessageSquareText className=\"size-4\" />\n                  AI Help\n                </Button>\n                {status === 'incorrect' && (\n                  <Button variant=\"ghost\" onClick={retry} className=\"ml-auto\">\n                    Reset selection\n                  </Button>\n                )}\n                {status === 'incorrect' && tries >= 1 && (\n                  <Button variant=\"ghost\" onClick={onSkip} className=\"text-muted-foreground\">\n                    Skip \u2192\n                  </Button>\n                )}\n              </>\n            )}\n            {locked && (\n              <>\n                <Button\n                  variant=\"outline\"\n                  onClick={async () => {\n                    if (showExplanation) {\n                      setShowExplanation(false)\n                      return\n                    }\n                    setExplanationLoading(true)\n                    try {\n                      const res = await getExplanation(quiz.id)\n                      setExplanation(res.explanation)\n                      setShowExplanation(true)\n                    } finally {\n                      setExplanationLoading(false)\n                    }\n                  }}\n                  disabled={explanationLoading}\n                  className=\"gap-1.5\"\n                >\n                  {explanationLoading ? (\n                    <Loader2 className=\"size-4 animate-spin\" />\n                  ) : showExplanation ? (\n                    'Hide explanation'\n                  ) : (\n                    'Show explanation'\n                  )}\n                </Button>\n                <Button onClick={onNext} className=\"ml-auto gap-1.5\">\n                  {isLast ? 'Finish & see results' : 'Next objective'}\n                </Button>\n              </>\n            )}\n          </div>\n        </div>\n      </CardContent>\n\n      {chatOpen && <LearnMorePanel quiz={quiz} onClose={() => setChatOpen(false)} />}\n    </Card>\n  )\n}\n\ninterface LearnMoreProps {\n  quiz: QuizDTO\n  onClose: () => void\n}\n\nfunction LearnMorePanel({ quiz, onClose }: LearnMoreProps) {\n  const [messages, setMessages] = useState<ChatMessage[]>([\n    {\n      role: 'assistant',\n      content:\n        'I can dig deeper into the topic behind this question \u2014 without revealing the answer. Ask me anything about the concepts.'\n    }\n  ])\n  const [input, setInput] = useState('')\n  const [loading, setLoading] = useState(false)\n\n  const send = async () => {\n    const q = input.trim()\n    if (!q || loading) return\n    const nextHistory: ChatMessage[] = [...messages, { role: 'user', content: q }]\n    setMessages(nextHistory)\n    setInput('')\n    setLoading(true)\n    try {\n      const res = await learnMore(\n        quiz.id,\n        q,\n        nextHistory.filter((m) => m.role !== 'assistant' || m.content !== messages[0]?.content)\n      )\n      setMessages((cur) => [...cur, { role: 'assistant', content: res.message }])\n    } catch (err) {\n      setMessages((cur) => [\n        ...cur,\n        {\n          role: 'assistant',\n          content: `Sorry, I couldn't fetch an answer right now: ${(err as Error).message}`\n        }\n      ])\n    } finally {\n      setLoading(false)\n    }\n  }\n\n  return (\n    <div className=\"fixed inset-0 z-50 flex items-end justify-end sm:items-center sm:justify-end\">\n      <div className=\"absolute inset-0 bg-background/60 backdrop-blur-sm\" onClick={onClose} />\n      <div className=\"relative flex h-[70vh] w-full max-w-md flex-col rounded-t-2xl border border-border bg-card shadow-2xl sm:rounded-2xl\">\n        <div className=\"flex items-center justify-between border-b border-border bg-accent/40 px-4 py-3\">\n          <div className=\"flex items-center gap-2\">\n            <span className=\"flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground\">\n              <MessageSquareText className=\"size-4\" />\n            </span>\n            <div>\n              <p className=\"text-sm font-semibold\">Ask the tutor</p>\n              <p className=\"text-xs text-muted-foreground\">Answers stay grounded in your PDF</p>\n            </div>\n          </div>\n          <Button variant=\"ghost\" size=\"icon-sm\" onClick={onClose}>\n            <X className=\"size-4\" />\n          </Button>\n        </div>\n        <div className=\"flex-1 space-y-3 overflow-y-auto p-4\">\n          {messages.map((m, i) => (\n            <div key={i} className={cn('flex', m.role === 'user' ? 'justify-end' : 'justify-start')}>\n                <div\n                className={cn(\n                  'max-w-[85%] rounded-2xl px-3.5 py-2 text-sm leading-relaxed',\n                  m.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-accent text-accent-foreground'\n                )}\n              >\n                {m.role === 'user' ? (\n                  <span className=\"whitespace-pre-wrap\">{m.content}</span>\n                ) : (\n                  <Markdown>{m.content}</Markdown>\n                )}\n              </div>\n            </div>\n          ))}\n          {loading && (\n            <div className=\"flex items-center gap-2 text-xs text-muted-foreground\">\n              <Loader2 className=\"size-3 animate-spin\" />\n              Thinking...\n            </div>\n          )}\n        </div>\n        <div className=\"border-t border-border p-3\">\n          <div className=\"flex items-end gap-2\">\n            <Textarea\n              value={input}\n              onChange={(e) => setInput(e.target.value)}\n              placeholder=\"Ask about the concept...\"\n              className=\"min-h-[44px] flex-1 resize-none\"\n              rows={1}\n              onKeyDown={(e) => {\n                if (e.key === 'Enter' && !e.shiftKey) {\n                  e.preventDefault()\n                  void send()\n                }\n              }}\n            />\n            <Button onClick={send} disabled={loading || !input.trim()} size=\"icon\">\n              <Send className=\"size-4\" />\n            </Button>\n          </div>\n        </div>\n      </div>\n    </div>\n  )\n}",
+                  "lineStart": 1,
+                  "lineEnd": 383,
+                  "totalLines": 383,
+                  "truncated": false
+                }
+              },
+              "title": "frontend/src/components/mcq-widget.tsx",
+              "time": {
+                "start": 1783781534331,
+                "end": 1783781534336
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f51aa2acc001Os1f5qK1LdQzz6",
+          "time_created": 1783781534412,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "snapshot": "84d15e07094cccfb5836881de902bad08eef5932",
+            "type": "step-finish",
+            "tokens": {
+              "total": 16033,
+              "input": 1785,
+              "output": 34,
+              "reasoning": 134,
+              "cache": {
+                "write": 0,
+                "read": 14080
+              }
+            },
+            "cost": 0.00504295
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f51aa2af2001xbX6xGq74ZqDSW",
+      "time_created": 1783781534450,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "kimi-k2.7-code",
+        "tokens": {
+          "total": 20236,
+          "input": 4577,
+          "output": 42,
+          "reasoning": 1,
+          "cache": {
+            "write": 0,
+            "read": 15616
+          }
+        },
+        "cost": 0.00748719
+      },
+      "parts": [
+        {
+          "id": "prt_f51aa382b001CSG3831ABqUdib",
+          "time_created": 1783781537835,
+          "type": "step-start",
+          "data": {
+            "snapshot": "84d15e07094cccfb5836881de902bad08eef5932",
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f51aa382f001rZuzyJ5RNIAWy5",
+          "time_created": 1783781537839,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "read",
+            "callID": "read_10",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/frontend/src/pages/lesson-page.tsx",
+                "offset": 1,
+                "limit": 120
+              },
+              "output": "<path>/Users/shivam/qnify/ai-learning-agent/frontend/src/pages/lesson-page.tsx</path>\n<type>file</type>\n<content>\n1: import { useCallback, useEffect, useMemo, useState } from 'react'\n2: import { useNavigate, useParams } from 'react-router-dom'\n3: import { Loader2 } from 'lucide-react'\n4: import { PlanCard } from '#components/plan-card'\n5: import { MCQWidget } from '#components/mcq-widget'\n6: import { ObjectiveTracker, type ObjectiveStatus } from '#components/objective-tracker'\n7: import { SummaryView } from '#components/summary-view'\n8: import { Card, CardContent } from '#components/ui/card'\n9: import { Progress } from '#components/ui/progress'\n10: import { approvePlan, completeAttempt, generateQuiz, getAttempt, getPlan, listAttempts, listQuizzes, revisePlan } from '#lib/api'\n11: import type { AttemptSummary, Objective, Plan, QuizDTO } from '#lib/types'\n12: import { difficultyLabel } from '#lib/format'\n13: \n14: type Phase = 'loading' | 'review' | 'quiz' | 'summary' | 'error'\n15: \n16: interface AnswerState {\n17:   quizId: number\n18:   learnerIndex: number | null\n19:   attempts: number\n20:   correct: boolean\n21:   finalized: boolean\n22: }\n23: \n24: interface QuestionSlot {\n25:   objectiveIndex: number\n26:   questionIndex: number\n27:   objective: Objective\n28: }\n29: \n30: function blankAnswer(quizId: number): AnswerState {\n31:   return {\n32:     quizId,\n33:     learnerIndex: null,\n34:     attempts: 0,\n35:     correct: false,\n36:     finalized: false\n37:   }\n38: }\n39: \n40: function slotKey(objectiveIndex: number, questionIndex: number): string {\n41:   return `${objectiveIndex}-${questionIndex}`\n42: }\n43: \n44: export function LessonPage() {\n45:   const { planId } = useParams<{ planId: string }>()\n46:   const navigate = useNavigate()\n47:   const [phase, setPhase] = useState<Phase>('loading')\n48:   const [plan, setPlan] = useState<Plan | null>(null)\n49:   const [error, setError] = useState<string | null>(null)\n50:   const [quizzes, setQuizzes] = useState<Record<string, QuizDTO>>({})\n51:   const [answers, setAnswers] = useState<Record<string, AnswerState>>({})\n52:   const [currentIdx, setCurrentIdx] = useState(0)\n53:   const [loadingQuiz, setLoadingQuiz] = useState(false)\n54:   const [summary, setSummary] = useState<AttemptSummary | null>(null)\n55:   const [finishing, setFinishing] = useState(false)\n56: \n57:   const slots = useMemo<QuestionSlot[]>(() => {\n58:     if (!plan) return []\n59:     return plan.objectives.flatMap((objective, objectiveIndex) =>\n60:       Array.from({ length: objective.question_count }, (_, questionIndex) => ({\n61:         objectiveIndex,\n62:         questionIndex,\n63:         objective\n64:       }))\n65:     )\n66:   }, [plan])\n67: \n68:   useEffect(() => {\n69:     if (!planId) return\n70:     const id = Number(planId)\n71: \n72:     async function loadPlan() {\n73:       const p = await getPlan(id)\n74:       setPlan(p)\n75: \n76:       if (p.status === 'draft') {\n77:         setPhase('review')\n78:         return\n79:       }\n80: \n81:       if (p.status !== 'completed') {\n82:         setPhase('quiz')\n83:         return\n84:       }\n85: \n86:       try {\n87:         const attempts = await listAttempts(id)\n88:         if (attempts.length === 0) {\n89:           setPhase('quiz')\n90:           return\n91:         }\n92:         const latest = await getAttempt(attempts[0].id)\n93:         setSummary(latest)\n94:         setPhase('summary')\n95:       } catch {\n96:         setPhase('quiz')\n97:       }\n98:     }\n99: \n100:     loadPlan().catch((err: unknown) => {\n101:       setError((err as Error).message)\n102:       setPhase('error')\n103:     })\n104:   }, [planId])\n105: \n106:   // Preload cached quizzes when entering the quiz phase (retest path)\n107:   useEffect(() => {\n108:     if (phase !== 'quiz' || !planId || !plan) return\n109:     const id = Number(planId)\n110:     listQuizzes(id)\n111:       .then((existing) => {\n112:         if (existing.length === 0) return\n113:         const map: Record<string, QuizDTO> = {}\n114:         for (const q of existing) {\n115:           map[slotKey(q.objectiveIndex, q.questionIndex)] = q\n116:         }\n117:         setQuizzes(map)\n118:       })\n119:       .catch(() => {\n120:         // ignore \u2014 we'll lazy-generate\n\n(Showing lines 1-120 of 399. Use offset=121 to continue.)\n</content>",
+              "metadata": {
+                "preview": "import { useCallback, useEffect, useMemo, useState } from 'react'\nimport { useNavigate, useParams } from 'react-router-dom'\nimport { Loader2 } from 'lucide-react'\nimport { PlanCard } from '#components/plan-card'\nimport { MCQWidget } from '#components/mcq-widget'\nimport { ObjectiveTracker, type ObjectiveStatus } from '#components/objective-tracker'\nimport { SummaryView } from '#components/summary-view'\nimport { Card, CardContent } from '#components/ui/card'\nimport { Progress } from '#components/ui/progress'\nimport { approvePlan, completeAttempt, generateQuiz, getAttempt, getPlan, listAttempts, listQuizzes, revisePlan } from '#lib/api'\nimport type { AttemptSummary, Objective, Plan, QuizDTO } from '#lib/types'\nimport { difficultyLabel } from '#lib/format'\n\ntype Phase = 'loading' | 'review' | 'quiz' | 'summary' | 'error'\n\ninterface AnswerState {\n  quizId: number\n  learnerIndex: number | null\n  attempts: number\n  correct: boolean",
+                "truncated": true,
+                "loaded": [],
+                "display": {
+                  "type": "file",
+                  "path": "/Users/shivam/qnify/ai-learning-agent/frontend/src/pages/lesson-page.tsx",
+                  "text": "import { useCallback, useEffect, useMemo, useState } from 'react'\nimport { useNavigate, useParams } from 'react-router-dom'\nimport { Loader2 } from 'lucide-react'\nimport { PlanCard } from '#components/plan-card'\nimport { MCQWidget } from '#components/mcq-widget'\nimport { ObjectiveTracker, type ObjectiveStatus } from '#components/objective-tracker'\nimport { SummaryView } from '#components/summary-view'\nimport { Card, CardContent } from '#components/ui/card'\nimport { Progress } from '#components/ui/progress'\nimport { approvePlan, completeAttempt, generateQuiz, getAttempt, getPlan, listAttempts, listQuizzes, revisePlan } from '#lib/api'\nimport type { AttemptSummary, Objective, Plan, QuizDTO } from '#lib/types'\nimport { difficultyLabel } from '#lib/format'\n\ntype Phase = 'loading' | 'review' | 'quiz' | 'summary' | 'error'\n\ninterface AnswerState {\n  quizId: number\n  learnerIndex: number | null\n  attempts: number\n  correct: boolean\n  finalized: boolean\n}\n\ninterface QuestionSlot {\n  objectiveIndex: number\n  questionIndex: number\n  objective: Objective\n}\n\nfunction blankAnswer(quizId: number): AnswerState {\n  return {\n    quizId,\n    learnerIndex: null,\n    attempts: 0,\n    correct: false,\n    finalized: false\n  }\n}\n\nfunction slotKey(objectiveIndex: number, questionIndex: number): string {\n  return `${objectiveIndex}-${questionIndex}`\n}\n\nexport function LessonPage() {\n  const { planId } = useParams<{ planId: string }>()\n  const navigate = useNavigate()\n  const [phase, setPhase] = useState<Phase>('loading')\n  const [plan, setPlan] = useState<Plan | null>(null)\n  const [error, setError] = useState<string | null>(null)\n  const [quizzes, setQuizzes] = useState<Record<string, QuizDTO>>({})\n  const [answers, setAnswers] = useState<Record<string, AnswerState>>({})\n  const [currentIdx, setCurrentIdx] = useState(0)\n  const [loadingQuiz, setLoadingQuiz] = useState(false)\n  const [summary, setSummary] = useState<AttemptSummary | null>(null)\n  const [finishing, setFinishing] = useState(false)\n\n  const slots = useMemo<QuestionSlot[]>(() => {\n    if (!plan) return []\n    return plan.objectives.flatMap((objective, objectiveIndex) =>\n      Array.from({ length: objective.question_count }, (_, questionIndex) => ({\n        objectiveIndex,\n        questionIndex,\n        objective\n      }))\n    )\n  }, [plan])\n\n  useEffect(() => {\n    if (!planId) return\n    const id = Number(planId)\n\n    async function loadPlan() {\n      const p = await getPlan(id)\n      setPlan(p)\n\n      if (p.status === 'draft') {\n        setPhase('review')\n        return\n      }\n\n      if (p.status !== 'completed') {\n        setPhase('quiz')\n        return\n      }\n\n      try {\n        const attempts = await listAttempts(id)\n        if (attempts.length === 0) {\n          setPhase('quiz')\n          return\n        }\n        const latest = await getAttempt(attempts[0].id)\n        setSummary(latest)\n        setPhase('summary')\n      } catch {\n        setPhase('quiz')\n      }\n    }\n\n    loadPlan().catch((err: unknown) => {\n      setError((err as Error).message)\n      setPhase('error')\n    })\n  }, [planId])\n\n  // Preload cached quizzes when entering the quiz phase (retest path)\n  useEffect(() => {\n    if (phase !== 'quiz' || !planId || !plan) return\n    const id = Number(planId)\n    listQuizzes(id)\n      .then((existing) => {\n        if (existing.length === 0) return\n        const map: Record<string, QuizDTO> = {}\n        for (const q of existing) {\n          map[slotKey(q.objectiveIndex, q.questionIndex)] = q\n        }\n        setQuizzes(map)\n      })\n      .catch(() => {\n        // ignore \u2014 we'll lazy-generate",
+                  "lineStart": 1,
+                  "lineEnd": 120,
+                  "totalLines": 399,
+                  "truncated": true
+                }
+              },
+              "title": "frontend/src/pages/lesson-page.tsx",
+              "time": {
+                "start": 1783781538146,
+                "end": 1783781538152
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f51aa399a0011sqsqM6KnzAnDF",
+          "time_created": 1783781538202,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "snapshot": "84d15e07094cccfb5836881de902bad08eef5932",
+            "type": "step-finish",
+            "tokens": {
+              "total": 20236,
+              "input": 4577,
+              "output": 42,
+              "reasoning": 1,
+              "cache": {
+                "write": 0,
+                "read": 15616
+              }
+            },
+            "cost": 0.00748719
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f51aa39c0001y8zRK3o86wwGdf",
+      "time_created": 1783781538240,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "kimi-k2.7-code",
+        "tokens": {
+          "total": 22116,
+          "input": 1511,
+          "output": 65,
+          "reasoning": 572,
+          "cache": {
+            "write": 0,
+            "read": 19968
+          }
+        },
+        "cost": 0.00777737
+      },
+      "parts": [
+        {
+          "id": "prt_f51aa44250013GOc3363F4R2lb",
+          "time_created": 1783781540901,
+          "type": "step-start",
+          "data": {
+            "snapshot": "84d15e07094cccfb5836881de902bad08eef5932",
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f51aa4429001AmQml4GArOyCbx",
+          "time_created": 1783781540905,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "We need to identify the exact modifications. The user asks: \"in learning paths and objective show topic name prominently, not it's details as prominent.\" So in plan-card (Learning paths) and objective-tracker (Objectives) maybe. Currently obj.text is prominent. Need to make obj.topic prominent. Let's adjust:\n\nPlan-card: Each li currently:\n- number badge\n- div: p text-sm font-medium leading-relaxed {obj.text}\n- p mt-1 text-xs text-muted-foreground: Topic: {obj.topic} \u00b7 count.\n\nChange to:\n- p text-sm font-semibold (or font-bold) leading-relaxed {obj.topic}\n- p text-xs text-muted-foreground {obj.text}\n- count perhaps inline.\n\nMaybe keep count. Let's design:\n```\n<div className=\"min-w-0 flex-1\">\n  <p className=\"text-sm font-semibold leading-relaxed\">{obj.topic}</p>\n  <p className=\"mt-1 text-xs text-muted-foreground\">{obj.text}</p>\n  <p className=\"mt-1 text-xs text-muted-foreground\">\n    <span className=\"font-medium\">{obj.question_count}</span> question{s}\n  </p>\n</div>\n```\nBut user wants topic prominent, details less. Could put topic first, then text muted. Could combine count in same line. Maybe show question count after text. Let's make it clean.\n\nObjective-tracker: li currently:\n- status icon\n- div: p leading-snug (text medium) {obj.text}\n- badges: topic badge, question count.\n\nChange to:\n- p text-sm font-semibold leading-snug {obj.topic}\n- p text-xs text-muted-foreground {obj.text}\n- badge count only maybe topic no longer needed since displayed; but if we display topic as name, no need badge. However maybe keep question count badge. Let's replace topic badge with text and objective text as muted description.\n\nShould we also update mcq-widget? The user phrase \"learning paths and objective\" likely includes the active quiz objective header (objectiveText). But the path label in mcq widget currently shows objectiveText. Since topic is the prominent label, we should probably show topic there too. The QuizDTO doesn't include topic; only objectiveText. To show topic in mcq-widget, we'd need pass objective from parent or add topic to QuizDTO. The parent passes objectiveNumber/totalObjectives and objectiveText. It has currentSlot.objective. Could pass objectiveTopic. But user specifically says \"in learning paths and objective\" maybe only the two list components. However the ObjectiveTracker is \"objective\" list; PlanCard is \"learning paths\". The active question \"Path x of y\" is also a path display. Hmm.\n\nLet's examine summary-view maybe?",
+            "time": {
+              "start": 1783781540905,
+              "end": 1783781554112
+            }
+          }
+        },
+        {
+          "id": "prt_f51aa77c4001Kw8qxuxrgkvjYE",
+          "time_created": 1783781554116,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "grep",
+            "callID": "grep_11",
+            "state": {
+              "status": "completed",
+              "input": {
+                "pattern": "objectiveText|obj\\.text|obj\\.topic|\\.topic|objective\\.text|objective\\.topic",
+                "path": "/Users/shivam/qnify/ai-learning-agent/frontend/src",
+                "include": "*.{ts,tsx}"
+              },
+              "output": "Found 7 matches\n/Users/shivam/qnify/ai-learning-agent/frontend/src/lib/types.ts:\n  Line 53:   objectiveText: string\n\n  Line 72:     objectiveText: string\n\n\n/Users/shivam/qnify/ai-learning-agent/frontend/src/components/plan-card.tsx:\n  Line 110:                   <p className=\"text-sm font-medium leading-relaxed\">{obj.text}</p>\n\n  Line 112:                     Topic: <span className=\"font-medium\">{obj.topic}</span>\n\n\n/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx:\n  Line 108:               <p className=\"mt-0.5 truncate text-sm font-semibold\">{quiz.objectiveText}</p>\n\n\n/Users/shivam/qnify/ai-learning-agent/frontend/src/components/objective-tracker.tsx:\n  Line 75:                     {obj.text}\n\n  Line 78:                     <Badge variant=\"outline\">{obj.topic}</Badge>\n",
+              "metadata": {
+                "matches": 7,
+                "truncated": false
+              },
+              "title": "objectiveText|obj\\.text|obj\\.topic|\\.topic|objective\\.text|objective\\.topic",
+              "time": {
+                "start": 1783781554999,
+                "end": 1783781555018
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f51aa7b7d001AkqhvrpX8iZOcV",
+          "time_created": 1783781555069,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "snapshot": "84d15e07094cccfb5836881de902bad08eef5932",
+            "type": "step-finish",
+            "tokens": {
+              "total": 22116,
+              "input": 1511,
+              "output": 65,
+              "reasoning": 572,
+              "cache": {
+                "write": 0,
+                "read": 19968
+              }
+            },
+            "cost": 0.00777737
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f51aa7ba3001d2wivo6oae6ZeS",
+      "time_created": 1783781555107,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "kimi-k2.7-code",
+        "tokens": {
+          "total": 23299,
+          "input": 1093,
+          "output": 35,
+          "reasoning": 923,
+          "cache": {
+            "write": 0,
+            "read": 21248
+          }
+        },
+        "cost": 0.00890747
+      },
+      "parts": [
+        {
+          "id": "prt_f51aa8423001QHVZtGFBHnNVLi",
+          "time_created": 1783781557283,
+          "type": "step-start",
+          "data": {
+            "snapshot": "84d15e07094cccfb5836881de902bad08eef5932",
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f51aa8426001kSTwAbAWNNDWUj",
+          "time_created": 1783781557286,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "The user wants \"in learning paths and objective show topic name prominently, not it's details as prominent.\" That's precisely plan-card (learning paths) and objective-tracker (objective list). We can also possibly update mcq widget if it falls under objective. But due to data limitation, let's consider adding topic to QuizDTO or passing via prop.\n\nMaybe the user says \"learning paths and objective\" meaning two contexts: the learning path list (plan-card) and the objective tracker. The MCQ widget header is not a list; but it says \"Path x of y\" with objectiveText. It could benefit. But since QuizDTO only has objectiveText, if we want to display topic prominently there too, we'd need to add `objectiveTopic` to the DTO (backend includes objective.topic). That's more changes. Is it necessary? The user's phrasing doesn't mention quiz widget. However \"objective\" could be the objective tracker and the active objective heading. Let's first implement the two list components; maybe also update MCQ widget and DTO to show topic prominently, because it's related. But minimal changes are important. The user asked for \"learning paths and objective\" not active quiz. We'll do plan-card and objective-tracker.\n\nNeed ensure topic exists. If topic could be empty? Schema requires string. Fine.\n\nLet's edit plan-card.tsx lines 109-117 and objective-tracker.tsx lines 66-82.\n\nPlan-card: Replace inner div with topic prominent. Keep number badge. Also maybe change \"Topic: \" label removed.\n\nCurrent:\n```\n<div className=\"min-w-0 flex-1\">\n  <p className=\"text-sm font-medium leading-relaxed\">{obj.text}</p>\n  <p className=\"mt-1 text-xs text-muted-foreground\">\n    Topic: <span className=\"font-medium\">{obj.topic}</span>\n    <span className=\"mx-1.5\">\u00b7</span>\n    <span className=\"font-medium\">{obj.question_count}</span> question{s}\n  </p>\n</div>\n```\n\nNew:\n```\n<div className=\"min-w-0 flex-1\">\n  <p className=\"text-sm font-semibold leading-relaxed\">{obj.topic}</p>\n  <p className=\"mt-1 text-xs text-muted-foreground\">{obj.text}</p>\n  <p className=\"mt-1 text-xs text-muted-foreground\">\n    <span className=\"font-medium\">{obj.question_count}</span> question{s}\n  </p>\n</div>\n```\n\nMaybe use text-foreground for topic and muted for text. This is clear.\n\nObjective-tracker: Current inner div:\n```\n<div className=\"min-w-0 flex-1\">\n  <p className={cn('leading-snug', status === 'pending' && 'text-muted-foreground', ...)}>\n    {obj.text}\n  </p>\n  <div className=\"mt-1 flex flex-wrap items-center gap-1\">\n    <Badge variant=\"outline\">{obj.topic}</Badge>\n    <Badge variant=\"outline\" className=\"text-xs font-normal\">\n      {obj.question_count} question{s}\n    </Badge>\n  </div>\n</div>\n```\n\nNew:\n```\n<div className=\"min-w-0 flex-1\">\n  <p className={cn('text-sm font-semibold leading-snug', status === 'pending' && 'text-muted-foreground', ...)}>\n    {obj.topic}\n  </p>\n  <p className={cn('mt-0.5 text-xs text-muted-foreground', (status === 'correct' || status === 'skipped') && 'line-through decoration-muted-foreground/40')}>\n    {obj.text}\n  </p>\n  <div className=\"mt-1 flex flex-wrap items-center gap-1\">\n    <Badge variant=\"outline\" className=\"text-xs font-normal\">\n      {obj.question_count} question{s}\n    </Badge>\n  </div>\n</div>\n```\n\nBut for completed/skipped, should we strike through topic too? The original line-through on obj.text only. User wants topic prominent; if done maybe topic still normal but description struck. We can apply line-through to description only. For pending status text-muted maybe applies to topic; but description already muted. The pending state could keep topic muted too maybe okay. For current status, topic highlighted with bg-accent on li. Good.\n\nWe also need to ensure no lint issues. Let's check if there is a formatter or test.",
+            "time": {
+              "start": 1783781557286,
+              "end": 1783781577971
+            }
+          }
+        },
+        {
+          "id": "prt_f51aad4f7001XQ6cndgailzyFf",
+          "time_created": 1783781577975,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "bash",
+            "callID": "bash_12",
+            "state": {
+              "status": "completed",
+              "input": {
+                "command": "cat package.json",
+                "workdir": "/Users/shivam/qnify/ai-learning-agent/frontend"
+              },
+              "output": "{\n  \"name\": \"frontend\",\n  \"private\": true,\n  \"version\": \"0.0.0\",\n  \"type\": \"module\",\n  \"scripts\": {\n    \"dev\": \"vite\",\n    \"build\": \"tsc -b && vite build\",\n    \"lint\": \"oxlint\",\n    \"preview\": \"vite preview\",\n    \"format\": \"prettier . --write --list-different\"\n  },\n  \"dependencies\": {\n    \"@base-ui/react\": \"^1.6.0\",\n    \"@fontsource-variable/inter\": \"^5.2.8\",\n    \"@tailwindcss/vite\": \"^4.3.2\",\n    \"class-variance-authority\": \"^0.7.1\",\n    \"clsx\": \"^2.1.1\",\n    \"lucide-react\": \"^1.24.0\",\n    \"nanoid\": \"^5.1.16\",\n    \"react\": \"^19.2.7\",\n    \"react-dom\": \"^19.2.7\",\n    \"react-markdown\": \"^10.1.0\",\n    \"react-router-dom\": \"^7.18.1\",\n    \"shadcn\": \"^4.13.0\",\n    \"tailwind-merge\": \"^3.6.0\",\n    \"tailwindcss\": \"^4.3.2\",\n    \"tw-animate-css\": \"^1.4.0\"\n  },\n  \"devDependencies\": {\n    \"@types/node\": \"^24.13.2\",\n    \"@types/react\": \"^19.2.17\",\n    \"@types/react-dom\": \"^19.2.3\",\n    \"@vitejs/plugin-react\": \"^6.0.3\",\n    \"oxlint\": \"^1.71.0\",\n    \"prettier\": \"^3.9.5\",\n    \"typescript\": \"~6.0.2\",\n    \"vite\": \"^8.1.1\"\n  },\n  \"imports\": {\n    \"#components/*\": \"./src/components/*.tsx\",\n    \"#lib/*\": \"./src/lib/*.ts\",\n    \"#hooks/*\": \"./src/hooks/*.ts\",\n    \"#pages/*\": \"./src/pages/*.tsx\"\n  },\n  \"prettier\": {\n    \"$schema\": \"http://json.schemastore.org/prettierrc\",\n    \"trailingComma\": \"none\",\n    \"tabWidth\": 2,\n    \"printWidth\": 120,\n    \"semi\": false,\n    \"singleQuote\": true\n  }\n}\n",
+              "metadata": {
+                "output": "{\n  \"name\": \"frontend\",\n  \"private\": true,\n  \"version\": \"0.0.0\",\n  \"type\": \"module\",\n  \"scripts\": {\n    \"dev\": \"vite\",\n    \"build\": \"tsc -b && vite build\",\n    \"lint\": \"oxlint\",\n    \"preview\": \"vite preview\",\n    \"format\": \"prettier . --write --list-different\"\n  },\n  \"dependencies\": {\n    \"@base-ui/react\": \"^1.6.0\",\n    \"@fontsource-variable/inter\": \"^5.2.8\",\n    \"@tailwindcss/vite\": \"^4.3.2\",\n    \"class-variance-authority\": \"^0.7.1\",\n    \"clsx\": \"^2.1.1\",\n    \"lucide-react\": \"^1.24.0\",\n    \"nanoid\": \"^5.1.16\",\n    \"react\": \"^19.2.7\",\n    \"react-dom\": \"^19.2.7\",\n    \"react-markdown\": \"^10.1.0\",\n    \"react-router-dom\": \"^7.18.1\",\n    \"shadcn\": \"^4.13.0\",\n    \"tailwind-merge\": \"^3.6.0\",\n    \"tailwindcss\": \"^4.3.2\",\n    \"tw-animate-css\": \"^1.4.0\"\n  },\n  \"devDependencies\": {\n    \"@types/node\": \"^24.13.2\",\n    \"@types/react\": \"^19.2.17\",\n    \"@types/react-dom\": \"^19.2.3\",\n    \"@vitejs/plugin-react\": \"^6.0.3\",\n    \"oxlint\": \"^1.71.0\",\n    \"prettier\": \"^3.9.5\",\n    \"typescript\": \"~6.0.2\",\n    \"vite\": \"^8.1.1\"\n  },\n  \"imports\": {\n    \"#components/*\": \"./src/components/*.tsx\",\n    \"#lib/*\": \"./src/lib/*.ts\",\n    \"#hooks/*\": \"./src/hooks/*.ts\",\n    \"#pages/*\": \"./src/pages/*.tsx\"\n  },\n  \"prettier\": {\n    \"$schema\": \"http://json.schemastore.org/prettierrc\",\n    \"trailingComma\": \"none\",\n    \"tabWidth\": 2,\n    \"printWidth\": 120,\n    \"semi\": false,\n    \"singleQuote\": true\n  }\n}\n",
+                "exit": 0,
+                "truncated": false
+              },
+              "title": "cat package.json",
+              "time": {
+                "start": 1783781578429,
+                "end": 1783781578431
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f51aad6fa0016xCdRm5KWqEe50",
+          "time_created": 1783781578490,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "snapshot": "84d15e07094cccfb5836881de902bad08eef5932",
+            "type": "step-finish",
+            "tokens": {
+              "total": 23299,
+              "input": 1093,
+              "output": 35,
+              "reasoning": 923,
+              "cache": {
+                "write": 0,
+                "read": 21248
+              }
+            },
+            "cost": 0.00890747
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f51aad71f001QrSVkvG9uzaz7u",
+      "time_created": 1783781578527,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "kimi-k2.7-code",
+        "tokens": {
+          "total": 24137,
+          "input": 1556,
+          "output": 295,
+          "reasoning": 14,
+          "cache": {
+            "write": 0,
+            "read": 22272
+          }
+        },
+        "cost": 0.00694588
+      },
+      "parts": [
+        {
+          "id": "prt_f51aae0b1001Pro9UfSLFXQr3U",
+          "time_created": 1783781580977,
+          "type": "step-start",
+          "data": {
+            "snapshot": "84d15e07094cccfb5836881de902bad08eef5932",
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f51aae0b4001MGVX4J2SMmHJi7",
+          "time_created": 1783781580980,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Let's edit. Need read files already done, so edit allowed.",
+            "time": {
+              "start": 1783781580980,
+              "end": 1783781581350
+            }
+          }
+        },
+        {
+          "id": "prt_f51aae229001a46pe7qDmMF9TP",
+          "time_created": 1783781581353,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "edit",
+            "callID": "edit_13",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/plan-card.tsx",
+                "oldString": "                <div className=\"min-w-0 flex-1\">\n                  <p className=\"text-sm font-medium leading-relaxed\">{obj.text}</p>\n                  <p className=\"mt-1 text-xs text-muted-foreground\">\n                    Topic: <span className=\"font-medium\">{obj.topic}</span>\n                    <span className=\"mx-1.5\">\u00b7</span>\n                    <span className=\"font-medium\">{obj.question_count}</span> question\n                    {obj.question_count === 1 ? '' : 's'}\n                  </p>\n                </div>",
+                "newString": "                <div className=\"min-w-0 flex-1\">\n                  <p className=\"text-sm font-semibold leading-relaxed\">{obj.topic}</p>\n                  <p className=\"mt-1 text-xs text-muted-foreground\">{obj.text}</p>\n                  <p className=\"mt-1 text-xs text-muted-foreground\">\n                    <span className=\"font-medium\">{obj.question_count}</span> question\n                    {obj.question_count === 1 ? '' : 's'}\n                  </p>\n                </div>"
+              },
+              "output": "Edit applied successfully.",
+              "metadata": {
+                "diagnostics": {},
+                "diff": "Index: /Users/shivam/qnify/ai-learning-agent/frontend/src/components/plan-card.tsx\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/frontend/src/components/plan-card.tsx\n+++ /Users/shivam/qnify/ai-learning-agent/frontend/src/components/plan-card.tsx\n@@ -106,12 +106,11 @@\n <span className=\"flex size-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary\">\n   {i + 1}\n </span>\n <div className=\"min-w-0 flex-1\">\n-  <p className=\"text-sm font-medium leading-relaxed\">{obj.text}</p>\n+  <p className=\"text-sm font-semibold leading-relaxed\">{obj.topic}</p>\n+  <p className=\"mt-1 text-xs text-muted-foreground\">{obj.text}</p>\n   <p className=\"mt-1 text-xs text-muted-foreground\">\n-    Topic: <span className=\"font-medium\">{obj.topic}</span>\n-    <span className=\"mx-1.5\">\u00b7</span>\n     <span className=\"font-medium\">{obj.question_count}</span> question\n     {obj.question_count === 1 ? '' : 's'}\n   </p>\n </div>\n",
+                "filediff": {
+                  "file": "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/plan-card.tsx",
+                  "patch": "Index: /Users/shivam/qnify/ai-learning-agent/frontend/src/components/plan-card.tsx\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/frontend/src/components/plan-card.tsx\n+++ /Users/shivam/qnify/ai-learning-agent/frontend/src/components/plan-card.tsx\n@@ -106,12 +106,11 @@\n <span className=\"flex size-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary\">\n   {i + 1}\n </span>\n <div className=\"min-w-0 flex-1\">\n-  <p className=\"text-sm font-medium leading-relaxed\">{obj.text}</p>\n+  <p className=\"text-sm font-semibold leading-relaxed\">{obj.topic}</p>\n+  <p className=\"mt-1 text-xs text-muted-foreground\">{obj.text}</p>\n   <p className=\"mt-1 text-xs text-muted-foreground\">\n-    Topic: <span className=\"font-medium\">{obj.topic}</span>\n-    <span className=\"mx-1.5\">\u00b7</span>\n     <span className=\"font-medium\">{obj.question_count}</span> question\n     {obj.question_count === 1 ? '' : 's'}\n   </p>\n </div>\n",
+                  "additions": 2,
+                  "deletions": 3
+                },
+                "truncated": false
+              },
+              "title": "frontend/src/components/plan-card.tsx",
+              "time": {
+                "start": 1783781587175,
+                "end": 1783781587177
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f51aaf95d001mPG3zyO3nrrNiT",
+          "time_created": 1783781587293,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "snapshot": "86056502baba118fdcaabd40bdfa80155738e9cf",
+            "type": "step-finish",
+            "tokens": {
+              "total": 24137,
+              "input": 1556,
+              "output": 295,
+              "reasoning": 14,
+              "cache": {
+                "write": 0,
+                "read": 22272
+              }
+            },
+            "cost": 0.00694588
+          }
+        },
+        {
+          "id": "prt_f51aaf98a001ReKxa4csgtL6S7",
+          "time_created": 1783781587338,
+          "type": "patch",
+          "data": {
+            "type": "patch",
+            "hash": "84d15e07094cccfb5836881de902bad08eef5932",
+            "files": [
+              "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/plan-card.tsx"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f51aaf98e0016SVXEpFCGTO0yT",
+      "time_created": 1783781587342,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "kimi-k2.7-code",
+        "tokens": {
+          "total": 24628,
+          "input": 344,
+          "output": 475,
+          "reasoning": 1,
+          "cache": {
+            "write": 0,
+            "read": 23808
+          }
+        },
+        "cost": 0.00675432
+      },
+      "parts": [
+        {
+          "id": "prt_f51ab035b001gIAJxqeEgxgVWP",
+          "time_created": 1783781589851,
+          "type": "step-start",
+          "data": {
+            "snapshot": "86056502baba118fdcaabd40bdfa80155738e9cf",
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f51ab035e001sP5Zf3MmvUsTC1",
+          "time_created": 1783781589854,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "edit",
+            "callID": "edit_14",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/objective-tracker.tsx",
+                "oldString": "                <div className=\"min-w-0 flex-1\">\n                  <p\n                    className={cn(\n                      'leading-snug',\n                      status === 'pending' && 'text-muted-foreground',\n                      (status === 'correct' || status === 'skipped') &&\n                        'text-muted-foreground line-through decoration-muted-foreground/40'\n                    )}\n                  >\n                    {obj.text}\n                  </p>\n                  <div className=\"mt-1 flex flex-wrap items-center gap-1\">\n                    <Badge variant=\"outline\">{obj.topic}</Badge>\n                    <Badge variant=\"outline\" className=\"text-xs font-normal\">\n                      {obj.question_count} question{obj.question_count === 1 ? '' : 's'}\n                    </Badge>\n                  </div>\n                </div>",
+                "newString": "                <div className=\"min-w-0 flex-1\">\n                  <p\n                    className={cn(\n                      'text-sm font-semibold leading-snug',\n                      status === 'pending' && 'text-muted-foreground',\n                      (status === 'correct' || status === 'skipped') &&\n                        'text-muted-foreground line-through decoration-muted-foreground/40'\n                    )}\n                  >\n                    {obj.topic}\n                  </p>\n                  <p\n                    className={cn(\n                      'mt-0.5 text-xs text-muted-foreground',\n                      (status === 'correct' || status === 'skipped') &&\n                        'line-through decoration-muted-foreground/40'\n                    )}\n                  >\n                    {obj.text}\n                  </p>\n                  <div className=\"mt-1 flex flex-wrap items-center gap-1\">\n                    <Badge variant=\"outline\" className=\"text-xs font-normal\">\n                      {obj.question_count} question{obj.question_count === 1 ? '' : 's'}\n                    </Badge>\n                  </div>\n                </div>"
+              },
+              "output": "Edit applied successfully.",
+              "metadata": {
+                "diagnostics": {},
+                "diff": "Index: /Users/shivam/qnify/ai-learning-agent/frontend/src/components/objective-tracker.tsx\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/frontend/src/components/objective-tracker.tsx\n+++ /Users/shivam/qnify/ai-learning-agent/frontend/src/components/objective-tracker.tsx\n@@ -65,18 +65,26 @@\n </span>\n <div className=\"min-w-0 flex-1\">\n   <p\n     className={cn(\n-      'leading-snug',\n+      'text-sm font-semibold leading-snug',\n       status === 'pending' && 'text-muted-foreground',\n       (status === 'correct' || status === 'skipped') &&\n         'text-muted-foreground line-through decoration-muted-foreground/40'\n     )}\n   >\n+    {obj.topic}\n+  </p>\n+  <p\n+    className={cn(\n+      'mt-0.5 text-xs text-muted-foreground',\n+      (status === 'correct' || status === 'skipped') &&\n+        'line-through decoration-muted-foreground/40'\n+    )}\n+  >\n     {obj.text}\n   </p>\n   <div className=\"mt-1 flex flex-wrap items-center gap-1\">\n-    <Badge variant=\"outline\">{obj.topic}</Badge>\n     <Badge variant=\"outline\" className=\"text-xs font-normal\">\n       {obj.question_count} question{obj.question_count === 1 ? '' : 's'}\n     </Badge>\n   </div>\n",
+                "filediff": {
+                  "file": "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/objective-tracker.tsx",
+                  "patch": "Index: /Users/shivam/qnify/ai-learning-agent/frontend/src/components/objective-tracker.tsx\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/frontend/src/components/objective-tracker.tsx\n+++ /Users/shivam/qnify/ai-learning-agent/frontend/src/components/objective-tracker.tsx\n@@ -65,18 +65,26 @@\n </span>\n <div className=\"min-w-0 flex-1\">\n   <p\n     className={cn(\n-      'leading-snug',\n+      'text-sm font-semibold leading-snug',\n       status === 'pending' && 'text-muted-foreground',\n       (status === 'correct' || status === 'skipped') &&\n         'text-muted-foreground line-through decoration-muted-foreground/40'\n     )}\n   >\n+    {obj.topic}\n+  </p>\n+  <p\n+    className={cn(\n+      'mt-0.5 text-xs text-muted-foreground',\n+      (status === 'correct' || status === 'skipped') &&\n+        'line-through decoration-muted-foreground/40'\n+    )}\n+  >\n     {obj.text}\n   </p>\n   <div className=\"mt-1 flex flex-wrap items-center gap-1\">\n-    <Badge variant=\"outline\">{obj.topic}</Badge>\n     <Badge variant=\"outline\" className=\"text-xs font-normal\">\n       {obj.question_count} question{obj.question_count === 1 ? '' : 's'}\n     </Badge>\n   </div>\n",
+                  "additions": 10,
+                  "deletions": 2
+                },
+                "truncated": false
+              },
+              "title": "frontend/src/components/objective-tracker.tsx",
+              "time": {
+                "start": 1783781599081,
+                "end": 1783781599084
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f51ab27be001pfqPFTo8C68WfV",
+          "time_created": 1783781599166,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "snapshot": "0e229d4045feced7ee62c18cd05f8ba516a895a8",
+            "type": "step-finish",
+            "tokens": {
+              "total": 24628,
+              "input": 344,
+              "output": 475,
+              "reasoning": 1,
+              "cache": {
+                "write": 0,
+                "read": 23808
+              }
+            },
+            "cost": 0.00675432
+          }
+        },
+        {
+          "id": "prt_f51ab27ef001VGhvepgbSGOjza",
+          "time_created": 1783781599215,
+          "type": "patch",
+          "data": {
+            "type": "patch",
+            "hash": "86056502baba118fdcaabd40bdfa80155738e9cf",
+            "files": [
+              "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/objective-tracker.tsx"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f51ab27f2001coq0DPlbByklfs",
+      "time_created": 1783781599218,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "kimi-k2.7-code",
+        "tokens": {
+          "total": 24712,
+          "input": 579,
+          "output": 47,
+          "reasoning": 22,
+          "cache": {
+            "write": 0,
+            "read": 24064
+          }
+        },
+        "cost": 0.00539821
+      },
+      "parts": [
+        {
+          "id": "prt_f51ab3026001UvQ5DxrV0ims80",
+          "time_created": 1783781601318,
+          "type": "step-start",
+          "data": {
+            "snapshot": "0e229d4045feced7ee62c18cd05f8ba516a895a8",
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f51ab302a0014HSBukXAVBy7hz",
+          "time_created": 1783781601322,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now run lint and build or at least tsc to verify. Also format. Use npm/pnpm.",
+            "time": {
+              "start": 1783781601322,
+              "end": 1783781602033
+            }
+          }
+        },
+        {
+          "id": "prt_f51ab32f2001ygTLlJgl75j0cq",
+          "time_created": 1783781602034,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "bash",
+            "callID": "bash_15",
+            "state": {
+              "status": "completed",
+              "input": {
+                "command": "pnpm lint && pnpm format && pnpm build",
+                "workdir": "/Users/shivam/qnify/ai-learning-agent/frontend",
+                "timeout": 120000
+              },
+              "output": "\n> frontend@0.0.0 lint /Users/shivam/qnify/ai-learning-agent/frontend\n> oxlint\n\n\n  ! react(only-export-components): Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components.\n    ,-[src/components/ui/button.tsx:41:18]\n 40 | \n 41 | export { Button, buttonVariants }\n    :                  ^^^^^^^^^^^^^^\n    `----\n\n  ! react(only-export-components): Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components.\n    ,-[src/components/ui/badge.tsx:37:17]\n 36 | \n 37 | export { Badge, badgeVariants }\n    :                 ^^^^^^^^^^^^^\n    `----\n\nFound 2 warnings and 0 errors.\nFinished in 21ms on 24 files with 103 rules using 10 threads.\n\n> frontend@0.0.0 format /Users/shivam/qnify/ai-learning-agent/frontend\n> prettier . --write --list-different\n\npnpm-lock.yaml\nsrc/components/document-card.tsx\nsrc/components/mcq-widget.tsx\nsrc/components/objective-tracker.tsx\nsrc/components/plan-card.tsx\nsrc/lib/api.ts\nsrc/pages/lesson-page.tsx\n\n> frontend@0.0.0 build /Users/shivam/qnify/ai-learning-agent/frontend\n> tsc -b && vite build\n\nvite v8.1.4 building client environment for production...\n\u001b[2K\rtransforming...\u2713 2068 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                                              0.46 kB \u2502 gzip:   0.30 kB\ndist/assets/inter-vietnamese-wght-normal-CBcvBZtf.woff2     10.25 kB\ndist/assets/inter-greek-ext-wght-normal-DlzME5K_.woff2      11.23 kB\ndist/assets/inter-cyrillic-wght-normal-DqGufNeO.woff2       18.74 kB\ndist/assets/inter-greek-wght-normal-CkhJZR-_.woff2          18.99 kB\ndist/assets/inter-cyrillic-ext-wght-normal-BOeWTOD4.woff2   25.96 kB\ndist/assets/inter-latin-wght-normal-Dx4kXJAl.woff2          48.25 kB\ndist/assets/inter-latin-ext-wght-normal-DO1Apj_S.woff2      85.06 kB\ndist/assets/index-Cy827gX9.css                              56.92 kB \u2502 gzip:   9.86 kB\ndist/assets/index-udethrCA.js                              512.19 kB \u2502 gzip: 159.70 kB\n\n\u2713 built in 224ms\n[plugin builtin:vite-reporter] \n(!) Some chunks are larger than 500 kB after minification. Consider:\n- Using dynamic import() to code-split the application\n- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting\n- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.\n",
+              "metadata": {
+                "output": "\n> frontend@0.0.0 lint /Users/shivam/qnify/ai-learning-agent/frontend\n> oxlint\n\n\n  ! react(only-export-components): Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components.\n    ,-[src/components/ui/button.tsx:41:18]\n 40 | \n 41 | export { Button, buttonVariants }\n    :                  ^^^^^^^^^^^^^^\n    `----\n\n  ! react(only-export-components): Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components.\n    ,-[src/components/ui/badge.tsx:37:17]\n 36 | \n 37 | export { Badge, badgeVariants }\n    :                 ^^^^^^^^^^^^^\n    `----\n\nFound 2 warnings and 0 errors.\nFinished in 21ms on 24 files with 103 rules using 10 threads.\n\n> frontend@0.0.0 format /Users/shivam/qnify/ai-learning-agent/frontend\n> prettier . --write --list-different\n\npnpm-lock.yaml\nsrc/components/document-card.tsx\nsrc/components/mcq-widget.tsx\nsrc/components/objective-tracker.tsx\nsrc/components/plan-card.tsx\nsrc/lib/api.ts\nsrc/pages/lesson-page.tsx\n\n> frontend@0.0.0 build /Users/shivam/qnify/ai-learning-agent/frontend\n> tsc -b && vite build\n\nvite v8.1.4 building client environment for production...\n\u001b[2K\rtransforming...\u2713 2068 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                                              0.46 kB \u2502 gzip:   0.30 kB\ndist/assets/inter-vietnamese-wght-normal-CBcvBZtf.woff2     10.25 kB\ndist/assets/inter-greek-ext-wght-normal-DlzME5K_.woff2      11.23 kB\ndist/assets/inter-cyrillic-wght-normal-DqGufNeO.woff2       18.74 kB\ndist/assets/inter-greek-wght-normal-CkhJZR-_.woff2          18.99 kB\ndist/assets/inter-cyrillic-ext-wght-normal-BOeWTOD4.woff2   25.96 kB\ndist/assets/inter-latin-wght-normal-Dx4kXJAl.woff2          48.25 kB\ndist/assets/inter-latin-ext-wght-normal-DO1Apj_S.woff2      85.06 kB\ndist/assets/index-Cy827gX9.css                              56.92 kB \u2502 gzip:   9.86 kB\ndist/assets/index-udethrCA.js                              512.19 kB \u2502 gzip: 159.70 kB\n\n\u2713 built in 224ms\n[plugin builtin:vite-reporter] \n(!) Some chunks are larger than 500 kB after minification. Consider:\n- Using dynamic import() to code-split the application\n- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting\n- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.\n",
+                "exit": 0,
+                "truncated": false
+              },
+              "title": "pnpm lint && pnpm format && pnpm build",
+              "time": {
+                "start": 1783781605785,
+                "end": 1783781605797
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f51ab41ee001Z4nsBlCSN8ZAHN",
+          "time_created": 1783781605870,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "snapshot": "ded5f15930efa75229cf21d32cfbc0d0f72a7e73",
+            "type": "step-finish",
+            "tokens": {
+              "total": 24712,
+              "input": 579,
+              "output": 47,
+              "reasoning": 22,
+              "cache": {
+                "write": 0,
+                "read": 24064
+              }
+            },
+            "cost": 0.00539821
+          }
+        },
+        {
+          "id": "prt_f51ab4217001AouKj0aDelce2z",
+          "time_created": 1783781605911,
+          "type": "patch",
+          "data": {
+            "type": "patch",
+            "hash": "0e229d4045feced7ee62c18cd05f8ba516a895a8",
+            "files": [
+              "/Users/shivam/qnify/ai-learning-agent/frontend/pnpm-lock.yaml",
+              "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/document-card.tsx",
+              "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx",
+              "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/objective-tracker.tsx",
+              "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/plan-card.tsx",
+              "/Users/shivam/qnify/ai-learning-agent/frontend/src/lib/api.ts",
+              "/Users/shivam/qnify/ai-learning-agent/frontend/src/pages/lesson-page.tsx"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f51ab421b001NCjd7DGZsdDg84",
+      "time_created": 1783781605915,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "kimi-k2.7-code",
+        "tokens": {
+          "total": 25530,
+          "input": 831,
+          "output": 34,
+          "reasoning": 89,
+          "cache": {
+            "write": 0,
+            "read": 24576
+          }
+        },
+        "cost": 0.00595089
+      },
+      "parts": [
+        {
+          "id": "prt_f51ab5053001mn14ZxViBah0kA",
+          "time_created": 1783781609555,
+          "type": "step-start",
+          "data": {
+            "snapshot": "ded5f15930efa75229cf21d32cfbc0d0f72a7e73",
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f51ab5056001sfatkWH610bWEb",
+          "time_created": 1783781609558,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Build passed. Format changed additional files (document-card, mcq-widget, lesson-page, api) likely due to pre-existing formatting differences, not our changes. It wrote all listed files. Since our modifications only in plan-card and objective-tracker. But format changed pnpm-lock, etc. We may want to avoid committing unrelated formatting changes. We can restore those unrelated files if they were modified by prettier. Check git status/diff.",
+            "time": {
+              "start": 1783781609558,
+              "end": 1783781611455
+            }
+          }
+        },
+        {
+          "id": "prt_f51ab57c2001O18bD0t4Qiijau",
+          "time_created": 1783781611458,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "bash",
+            "callID": "bash_16",
+            "state": {
+              "status": "completed",
+              "input": {
+                "command": "git status --short",
+                "workdir": "/Users/shivam/qnify/ai-learning-agent"
+              },
+              "output": " M backend/src/ai/plan.ts\n M backend/src/ai/quiz.ts\n M backend/src/ai/schemas.ts\n M backend/src/db.ts\n M backend/src/index.ts\n M backend/src/routes.ts\n M backend/src/schema.sql\n M backend/src/services/plans.ts\n M backend/src/services/quizzes.ts\n M frontend/pnpm-lock.yaml\n M frontend/src/components/document-card.tsx\n M frontend/src/components/mcq-widget.tsx\n M frontend/src/components/objective-tracker.tsx\n M frontend/src/components/plan-card.tsx\n M frontend/src/components/summary-view.tsx\n M frontend/src/lib/api.ts\n M frontend/src/lib/types.ts\n M frontend/src/pages/lesson-page.tsx\n",
+              "metadata": {
+                "output": " M backend/src/ai/plan.ts\n M backend/src/ai/quiz.ts\n M backend/src/ai/schemas.ts\n M backend/src/db.ts\n M backend/src/index.ts\n M backend/src/routes.ts\n M backend/src/schema.sql\n M backend/src/services/plans.ts\n M backend/src/services/quizzes.ts\n M frontend/pnpm-lock.yaml\n M frontend/src/components/document-card.tsx\n M frontend/src/components/mcq-widget.tsx\n M frontend/src/components/objective-tracker.tsx\n M frontend/src/components/plan-card.tsx\n M frontend/src/components/summary-view.tsx\n M frontend/src/lib/api.ts\n M frontend/src/lib/types.ts\n M frontend/src/pages/lesson-page.tsx\n",
+                "exit": 0,
+                "truncated": false
+              },
+              "title": "git status --short",
+              "time": {
+                "start": 1783781611892,
+                "end": 1783781611893
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f51ab5997001h7dTub8MEokobl",
+          "time_created": 1783781611927,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "snapshot": "ded5f15930efa75229cf21d32cfbc0d0f72a7e73",
+            "type": "step-finish",
+            "tokens": {
+              "total": 25530,
+              "input": 831,
+              "output": 34,
+              "reasoning": 89,
+              "cache": {
+                "write": 0,
+                "read": 24576
+              }
+            },
+            "cost": 0.00595089
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f51ab59bc001jqjLul5xqoCh6k",
+      "time_created": 1783781611964,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "kimi-k2.7-code",
+        "tokens": {
+          "total": 25865,
+          "input": 345,
+          "output": 48,
+          "reasoning": 128,
+          "cache": {
+            "write": 0,
+            "read": 25344
+          }
+        },
+        "cost": 0.00584711
+      },
+      "parts": [
+        {
+          "id": "prt_f51ab648d001pjBvT3K57GymZN",
+          "time_created": 1783781614733,
+          "type": "step-start",
+          "data": {
+            "snapshot": "ded5f15930efa75229cf21d32cfbc0d0f72a7e73",
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f51ab648e001xGh5c5Eqec2qd8",
+          "time_created": 1783781614734,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "There are many pre-existing modifications? The repo already had modified files maybe from previous work. We should not alter unrelated files. Our edit and prettier touched many. Need to revert unrelated formatting changes, keep our intended changes. But we need be careful: maybe these files had unstaged changes before we started. We don't know. We can check git diff for our two files and see if other files have only formatting changes. We should restore files that are unrelated to our task. But if they had pre-existing uncommitted changes, reverting would discard user changes. Better to inspect diff. Let's see git diff for each of our files.",
+            "time": {
+              "start": 1783781614734,
+              "end": 1783781617600
+            }
+          }
+        },
+        {
+          "id": "prt_f51ab6fc20018ExwiCDvIeRRZs",
+          "time_created": 1783781617602,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "bash",
+            "callID": "bash_17",
+            "state": {
+              "status": "completed",
+              "input": {
+                "command": "git diff -- frontend/src/components/plan-card.tsx frontend/src/components/objective-tracker.tsx",
+                "workdir": "/Users/shivam/qnify/ai-learning-agent"
+              },
+              "output": "diff --git a/frontend/src/components/objective-tracker.tsx b/frontend/src/components/objective-tracker.tsx\nindex bec04d6..89b0309 100644\n--- a/frontend/src/components/objective-tracker.tsx\n+++ b/frontend/src/components/objective-tracker.tsx\n@@ -66,17 +66,27 @@ export function ObjectiveTracker({ objectives, statuses, score, total }: Props)\n                 <div className=\"min-w-0 flex-1\">\n                   <p\n                     className={cn(\n-                      'leading-snug',\n+                      'text-sm font-semibold leading-snug',\n                       status === 'pending' && 'text-muted-foreground',\n                       (status === 'correct' || status === 'skipped') &&\n                         'text-muted-foreground line-through decoration-muted-foreground/40'\n                     )}\n+                  >\n+                    {obj.topic}\n+                  </p>\n+                  <p\n+                    className={cn(\n+                      'mt-0.5 text-xs text-muted-foreground',\n+                      (status === 'correct' || status === 'skipped') && 'line-through decoration-muted-foreground/40'\n+                    )}\n                   >\n                     {obj.text}\n                   </p>\n-                  <Badge variant=\"outline\" className=\"mt-1\">\n-                    {obj.topic}\n-                  </Badge>\n+                  <div className=\"mt-1 flex flex-wrap items-center gap-1\">\n+                    <Badge variant=\"outline\" className=\"text-xs font-normal\">\n+                      {obj.question_count} question{obj.question_count === 1 ? '' : 's'}\n+                    </Badge>\n+                  </div>\n                 </div>\n               </li>\n             )\ndiff --git a/frontend/src/components/plan-card.tsx b/frontend/src/components/plan-card.tsx\nindex 9593091..7164c0e 100644\n--- a/frontend/src/components/plan-card.tsx\n+++ b/frontend/src/components/plan-card.tsx\n@@ -1,31 +1,74 @@\n import { useState } from 'react'\n-import { ArrowLeft, ArrowRight, CheckCircle2, FileText, ListChecks, Loader2, Sparkles, Target } from 'lucide-react'\n+import {\n+  ArrowLeft,\n+  ArrowRight,\n+  CheckCircle2,\n+  FileText,\n+  ListChecks,\n+  Loader2,\n+  MessageSquarePlus,\n+  RefreshCw,\n+  Sparkles,\n+  Target\n+} from 'lucide-react'\n import { cn } from '#lib/utils'\n import { Badge } from '#components/ui/badge'\n import { Button } from '#components/ui/button'\n import { Card, CardContent } from '#components/ui/card'\n import { Separator } from '#components/ui/separator'\n+import { Textarea } from '#components/ui/textarea'\n import type { Plan } from '#lib/types'\n import { difficultyLabel } from '#lib/format'\n \n interface Props {\n   plan: Plan\n   onApprove: () => void\n+  onRevise: (feedback: string) => Promise<void>\n   onBack: () => void\n }\n \n-export function PlanCard({ plan, onApprove, onBack }: Props) {\n+const SUGGESTIONS = [\n+  'Split the material into more focused paths',\n+  'Combine related topics into fewer paths',\n+  'Increase the number of questions per path',\n+  'Reduce the number of questions per path',\n+  'Make objectives more concrete and measurable'\n+]\n+\n+export function PlanCard({ plan, onApprove, onRevise, onBack }: Props) {\n   const [approving, setApproving] = useState(false)\n+  const [revising, setRevising] = useState(false)\n+  const [feedback, setFeedback] = useState(plan.revision_feedback ?? '')\n+\n+  const totalQuestions = plan.objectives.reduce((sum, o) => sum + o.question_count, 0)\n \n   const handleApprove = async () => {\n     setApproving(true)\n     try {\n-      onApprove()\n+      await onApprove()\n     } finally {\n       setApproving(false)\n     }\n   }\n \n+  const handleRevise = async () => {\n+    const trimmed = feedback.trim()\n+    if (!trimmed) return\n+    setRevising(true)\n+    try {\n+      await onRevise(trimmed)\n+    } finally {\n+      setRevising(false)\n+    }\n+  }\n+\n+  const appendSuggestion = (text: string) => {\n+    setFeedback((prev) => {\n+      const separator = prev.trim().length > 0 ? '\\n\\n' : ''\n+      return prev.trim() + separator + text\n+    })\n+  }\n+\n   return (\n     <div className=\"mx-auto max-w-3xl space-y-6\">\n       <Card className=\"overflow-hidden\">\n@@ -45,8 +88,9 @@ export function PlanCard({ plan, onApprove, onBack }: Props) {\n               </Badge>\n               <Badge variant=\"outline\">\n                 <ListChecks className=\"size-3\" />\n-                {plan.objectives.length} objectives\n+                {plan.objectives.length} paths\n               </Badge>\n+              <Badge variant=\"outline\">{totalQuestions} questions</Badge>\n               {plan.document_filename && (\n                 <Badge variant=\"outline\">\n                   <FileText className=\"size-3\" />\n@@ -62,7 +106,7 @@ export function PlanCard({ plan, onApprove, onBack }: Props) {\n         <CardContent className=\"p-6 sm:p-8\">\n           <div className=\"mb-4 flex items-center gap-2\">\n             <Target className=\"size-4 text-primary\" />\n-            <h2 className=\"text-sm font-semibold uppercase tracking-wide text-muted-foreground\">Learning objectives</h2>\n+            <h2 className=\"text-sm font-semibold uppercase tracking-wide text-muted-foreground\">Learning paths</h2>\n           </div>\n           <ol className=\"space-y-3\">\n             {plan.objectives.map((obj, i) => (\n@@ -74,9 +118,11 @@ export function PlanCard({ plan, onApprove, onBack }: Props) {\n                   {i + 1}\n                 </span>\n                 <div className=\"min-w-0 flex-1\">\n-                  <p className=\"text-sm font-medium leading-relaxed\">{obj.text}</p>\n+                  <p className=\"text-sm font-semibold leading-relaxed\">{obj.topic}</p>\n+                  <p className=\"mt-1 text-xs text-muted-foreground\">{obj.text}</p>\n                   <p className=\"mt-1 text-xs text-muted-foreground\">\n-                    Topic: <span className=\"font-medium\">{obj.topic}</span>\n+                    <span className=\"font-medium\">{obj.question_count}</span> question\n+                    {obj.question_count === 1 ? '' : 's'}\n                   </p>\n                 </div>\n               </li>\n@@ -89,18 +135,70 @@ export function PlanCard({ plan, onApprove, onBack }: Props) {\n               <div>\n                 <p className=\"font-medium\">Review & approve to begin</p>\n                 <p className=\"mt-0.5 text-xs text-muted-foreground\">\n-                  The agent will generate one MCQ per objective. You'll get hints and explanations, and can ask\n-                  follow-up questions at any time.\n+                  The agent proposes paths and question counts based on the PDF. You can accept the plan, ask the agent\n+                  to adjust it, or refine the breakdown below.\n                 </p>\n               </div>\n             </div>\n           </div>\n \n-          <div className=\"mt-6 flex items-center justify-end gap-2\">\n-            <Button variant=\"ghost\" onClick={onBack}>\n+          <div className=\"mt-6 space-y-3\">\n+            <div className=\"flex items-center gap-2\">\n+              <MessageSquarePlus className=\"size-4 text-primary\" />\n+              <h3 className=\"text-sm font-semibold text-foreground\">Request changes</h3>\n+              {plan.revision_count > 0 && (\n+                <Badge variant=\"outline\" className=\"ml-auto text-xs\">\n+                  {plan.revision_count} revision{plan.revision_count === 1 ? '' : 's'}\n+                </Badge>\n+              )}\n+            </div>\n+\n+            <div className=\"flex flex-wrap gap-2\">\n+              {SUGGESTIONS.map((s) => (\n+                <button\n+                  key={s}\n+                  type=\"button\"\n+                  onClick={() => appendSuggestion(s)}\n+                  className=\"rounded-full border border-border bg-card px-3 py-1 text-xs text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground\"\n+                >\n+                  {s}\n+                </button>\n+              ))}\n+            </div>\n+\n+            <Textarea\n+              value={feedback}\n+              onChange={(e) => setFeedback(e.target.value)}\n+              placeholder=\"Tell the agent how to improve the plan: e.g. split topic X, combine Y and Z, add more questions, or reduce the total...\"\n+              rows={3}\n+              className=\"resize-none\"\n+            />\n+          </div>\n+\n+          <div className=\"mt-6 flex flex-col-reverse items-stretch gap-2 sm:flex-row sm:items-center sm:justify-end\">\n+            <Button variant=\"ghost\" onClick={onBack} disabled={approving || revising}>\n+              <ArrowLeft className=\"mr-1.5 size-4\" />\n               Cancel\n             </Button>\n-            <Button className={cn('gap-1.5')} onClick={handleApprove} disabled={approving}>\n+            <Button\n+              variant=\"outline\"\n+              onClick={handleRevise}\n+              disabled={!feedback.trim() || revising}\n+              className=\"gap-1.5\"\n+            >\n+              {revising ? (\n+                <>\n+                  <Loader2 className=\"size-4 animate-spin\" />\n+                  Revising...\n+                </>\n+              ) : (\n+                <>\n+                  <RefreshCw className=\"size-4\" />\n+                  Regenerate plan\n+                </>\n+              )}\n+            </Button>\n+            <Button className={cn('gap-1.5')} onClick={handleApprove} disabled={approving || revising}>\n               {approving ? (\n                 <>\n                   <Loader2 className=\"size-4 animate-spin\" />\n",
+              "metadata": {
+                "output": "diff --git a/frontend/src/components/objective-tracker.tsx b/frontend/src/components/objective-tracker.tsx\nindex bec04d6..89b0309 100644\n--- a/frontend/src/components/objective-tracker.tsx\n+++ b/frontend/src/components/objective-tracker.tsx\n@@ -66,17 +66,27 @@ export function ObjectiveTracker({ objectives, statuses, score, total }: Props)\n                 <div className=\"min-w-0 flex-1\">\n                   <p\n                     className={cn(\n-                      'leading-snug',\n+                      'text-sm font-semibold leading-snug',\n                       status === 'pending' && 'text-muted-foreground',\n                       (status === 'correct' || status === 'skipped') &&\n                         'text-muted-foreground line-through decoration-muted-foreground/40'\n                     )}\n+                  >\n+                    {obj.topic}\n+                  </p>\n+                  <p\n+                    className={cn(\n+                      'mt-0.5 text-xs text-muted-foreground',\n+                      (status === 'correct' || status === 'skipped') && 'line-through decoration-muted-foreground/40'\n+                    )}\n                   >\n                     {obj.text}\n                   </p>\n-                  <Badge variant=\"outline\" className=\"mt-1\">\n-                    {obj.topic}\n-                  </Badge>\n+                  <div className=\"mt-1 flex flex-wrap items-center gap-1\">\n+                    <Badge variant=\"outline\" className=\"text-xs font-normal\">\n+                      {obj.question_count} question{obj.question_count === 1 ? '' : 's'}\n+                    </Badge>\n+                  </div>\n                 </div>\n               </li>\n             )\ndiff --git a/frontend/src/components/plan-card.tsx b/frontend/src/components/plan-card.tsx\nindex 9593091..7164c0e 100644\n--- a/frontend/src/components/plan-card.tsx\n+++ b/frontend/src/components/plan-card.tsx\n@@ -1,31 +1,74 @@\n import { useState } from 'react'\n-import { ArrowLeft, ArrowRight, CheckCircle2, FileText, ListChecks, Loader2, Sparkles, Target } from 'lucide-react'\n+import {\n+  ArrowLeft,\n+  ArrowRight,\n+  CheckCircle2,\n+  FileText,\n+  ListChecks,\n+  Loader2,\n+  MessageSquarePlus,\n+  RefreshCw,\n+  Sparkles,\n+  Target\n+} from 'lucide-react'\n import { cn } from '#lib/utils'\n import { Badge } from '#components/ui/badge'\n import { Button } from '#components/ui/button'\n import { Card, CardContent } from '#components/ui/card'\n import { Separator } from '#components/ui/separator'\n+import { Textarea } from '#components/ui/textarea'\n import type { Plan } from '#lib/types'\n import { difficultyLabel } from '#lib/format'\n \n interface Props {\n   plan: Plan\n   onApprove: () => void\n+  onRevise: (feedback: string) => Promise<void>\n   onBack: () => void\n }\n \n-export function PlanCard({ plan, onApprove, onBack }: Props) {\n+const SUGGESTIONS = [\n+  'Split the material into more focused paths',\n+  'Combine related topics into fewer paths',\n+  'Increase the number of questions per path',\n+  'Reduce the number of questions per path',\n+  'Make objectives more concrete and measurable'\n+]\n+\n+export function PlanCard({ plan, onApprove, onRevise, onBack }: Props) {\n   const [approving, setApproving] = useState(false)\n+  const [revising, setRevising] = useState(false)\n+  const [feedback, setFeedback] = useState(plan.revision_feedback ?? '')\n+\n+  const totalQuestions = plan.objectives.reduce((sum, o) => sum + o.question_count, 0)\n \n   const handleApprove = async () => {\n     setApproving(true)\n     try {\n-      onApprove()\n+      await onApprove()\n     } finally {\n       setApproving(false)\n     }\n   }\n \n+  const handleRevise = async () => {\n+    const trimmed = feedback.trim()\n+    if (!trimmed) return\n+    setRevising(true)\n+    try {\n+      await onRevise(trimmed)\n+    } finally {\n+      setRevising(false)\n+    }\n+  }\n+\n+  const appendSuggestion = (text: string) => {\n+    setFeedback((prev) => {\n+      const separator = prev.trim().length > 0 ? '\\n\\n' : ''\n+      return prev.trim() + separator + text\n+    })\n+  }\n+\n   return (\n     <div className=\"mx-auto max-w-3xl space-y-6\">\n       <Card className=\"overflow-hidden\">\n@@ -45,8 +88,9 @@ export function PlanCard({ plan, onApprove, onBack }: Props) {\n               </Badge>\n               <Badge variant=\"outline\">\n                 <ListChecks className=\"size-3\" />\n-                {plan.objectives.length} objectives\n+                {plan.objectives.length} paths\n               </Badge>\n+              <Badge variant=\"outline\">{totalQuestions} questions</Badge>\n               {plan.document_filename && (\n                 <Badge variant=\"outline\">\n                   <FileText className=\"size-3\" />\n@@ -62,7 +106,7 @@ export function PlanCard({ plan, onApprove, onBack }: Props) {\n         <CardContent className=\"p-6 sm:p-8\">\n           <div className=\"mb-4 flex items-center gap-2\">\n             <Target className=\"size-4 text-primary\" />\n-            <h2 className=\"text-sm font-semibold uppercase tracking-wide text-muted-foreground\">Learning objectives</h2>\n+            <h2 className=\"text-sm font-semibold uppercase tracking-wide text-muted-foreground\">Learning paths</h2>\n           </div>\n           <ol className=\"space-y-3\">\n             {plan.objectives.map((obj, i) => (\n@@ -74,9 +118,11 @@ export function PlanCard({ plan, onApprove, onBack }: Props) {\n                   {i + 1}\n                 </span>\n                 <div className=\"min-w-0 flex-1\">\n-                  <p className=\"text-sm font-medium leading-relaxed\">{obj.text}</p>\n+                  <p className=\"text-sm font-semibold leading-relaxed\">{obj.topic}</p>\n+                  <p className=\"mt-1 text-xs text-muted-foreground\">{obj.text}</p>\n                   <p className=\"mt-1 text-xs text-muted-foreground\">\n-                    Topic: <span className=\"font-medium\">{obj.topic}</span>\n+                    <span className=\"font-medium\">{obj.question_count}</span> question\n+                    {obj.question_count === 1 ? '' : 's'}\n                   </p>\n                 </div>\n               </li>\n@@ -89,18 +135,70 @@ export function PlanCard({ plan, onApprove, onBack }: Props) {\n               <div>\n                 <p className=\"font-medium\">Review & approve to begin</p>\n                 <p className=\"mt-0.5 text-xs text-muted-foreground\">\n-                  The agent will generate one MCQ per objective. You'll get hints and explanations, and can ask\n-                  follow-up questions at any time.\n+                  The agent proposes paths and question counts based on the PDF. You can accept the plan, ask the agent\n+                  to adjust it, or refine the breakdown below.\n                 </p>\n               </div>\n             </div>\n           </div>\n \n-          <div className=\"mt-6 flex items-center justify-end gap-2\">\n-            <Button variant=\"ghost\" onClick={onBack}>\n+          <div className=\"mt-6 space-y-3\">\n+            <div className=\"flex items-center gap-2\">\n+              <MessageSquarePlus className=\"size-4 text-primary\" />\n+              <h3 className=\"text-sm font-semibold text-foreground\">Request changes</h3>\n+              {plan.revision_count > 0 && (\n+                <Badge variant=\"outline\" className=\"ml-auto text-xs\">\n+                  {plan.revision_count} revision{plan.revision_count === 1 ? '' : 's'}\n+                </Badge>\n+              )}\n+            </div>\n+\n+            <div className=\"flex flex-wrap gap-2\">\n+              {SUGGESTIONS.map((s) => (\n+                <button\n+                  key={s}\n+                  type=\"button\"\n+                  onClick={() => appendSuggestion(s)}\n+                  className=\"rounded-full border border-border bg-card px-3 py-1 text-xs text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground\"\n+                >\n+                  {s}\n+                </button>\n+              ))}\n+            </div>\n+\n+            <Textarea\n+              value={feedback}\n+              onChange={(e) => setFeedback(e.target.value)}\n+              placeholder=\"Tell the agent how to improve the plan: e.g. split topic X, combine Y and Z, add more questions, or reduce the total...\"\n+              rows={3}\n+              className=\"resize-none\"\n+            />\n+          </div>\n+\n+          <div className=\"mt-6 flex flex-col-reverse items-stretch gap-2 sm:flex-row sm:items-center sm:justify-end\">\n+            <Button variant=\"ghost\" onClick={onBack} disabled={approving || revising}>\n+              <ArrowLeft className=\"mr-1.5 size-4\" />\n               Cancel\n             </Button>\n-            <Button className={cn('gap-1.5')} onClick={handleApprove} disabled={approving}>\n+            <Button\n+              variant=\"outline\"\n+              onClick={handleRevise}\n+              disabled={!feedback.trim() || revising}\n+              className=\"gap-1.5\"\n+            >\n+              {revising ? (\n+                <>\n+                  <Loader2 className=\"size-4 animate-spin\" />\n+                  Revising...\n+                </>\n+              ) : (\n+                <>\n+                  <RefreshCw className=\"size-4\" />\n+                  Regenerate plan\n+                </>\n+              )}\n+            </Button>\n+            <Button className={cn('gap-1.5')} onClick={handleApprove} disabled={approving || revising}>\n               {approving ? (\n                 <>\n                   <Loader2 className=\"size-4 animate-spin\" />\n",
+                "exit": 0,
+                "truncated": false
+              },
+              "title": "git diff -- frontend/src/components/plan-card.tsx frontend/src/components/objective-tracker.tsx",
+              "time": {
+                "start": 1783781618375,
+                "end": 1783781618377
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f51ab72f2001k7dhtM0FRi5std",
+          "time_created": 1783781618418,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "snapshot": "ded5f15930efa75229cf21d32cfbc0d0f72a7e73",
+            "type": "step-finish",
+            "tokens": {
+              "total": 25865,
+              "input": 345,
+              "output": 48,
+              "reasoning": 128,
+              "cache": {
+                "write": 0,
+                "read": 25344
+              }
+            },
+            "cost": 0.00584711
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f51ab7315001RmMAq0V3RhUQBg",
+      "time_created": 1783781618453,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "kimi-k2.7-code",
+        "tokens": {
+          "input": 0,
+          "output": 0,
+          "reasoning": 0,
+          "cache": {
+            "read": 0,
+            "write": 0
+          }
+        },
+        "cost": 0
+      },
+      "parts": [
+        {
+          "id": "prt_f51ab80310013peY0Gqr3N2jsb",
+          "time_created": 1783781621810,
+          "type": "step-start",
+          "data": {
+            "snapshot": "ded5f15930efa75229cf21d32cfbc0d0f72a7e73",
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f51ab8033001FjmXTE4KcBTrcy",
+          "time_created": 1783781621811,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Interesting: the diff includes changes that were not",
+            "time": {
+              "start": 1783781621811,
+              "end": 1783781622058
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

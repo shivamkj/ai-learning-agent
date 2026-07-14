@@ -1,0 +1,448 @@
+{
+  "session_id": "ses_0ae951ddaffenJgt29GyFUGikm",
+  "title": "State reset bug after wrong answer",
+  "time_created": 1783777387045,
+  "time_updated": 1783781389156,
+  "cost": 0.0017957464,
+  "tokens": {
+    "input": 9615,
+    "output": 479,
+    "reasoning": 732
+  },
+  "messages": [
+    {
+      "id": "msg_f516ae238001W8ZOGTKqBMQr9v",
+      "time_created": 1783777387064,
+      "role": "user",
+      "metadata": {
+        "agent": "build",
+        "model": {
+          "providerID": "opencode-go",
+          "modelID": "mimo-v2.5",
+          "variant": "high"
+        },
+        "tokens": null,
+        "cost": null
+      },
+      "parts": [
+        {
+          "id": "prt_f516ae239001BLsOHH2O0yscWU",
+          "time_created": 1783777387067,
+          "type": "text",
+          "data": {
+            "type": "text",
+            "text": "Once I get a question wrong, then every option I select appear as wrong. Looks state for options option is not reset. It should reset and the bottom message for error should also hide once I select another option after answering wrong question. "
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f516ae2420017wBhmPa12JWsv4",
+      "time_created": 1783777387074,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 8161,
+          "input": 1779,
+          "output": 149,
+          "reasoning": 89,
+          "cache": {
+            "write": 0,
+            "read": 6144
+          }
+        },
+        "cost": 0.0003329032
+      },
+      "parts": [
+        {
+          "id": "prt_f516aec01001WUgHKHJ21uwdGw",
+          "time_created": 1783777389569,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f516aec03001s6FbRizupzrnIL",
+          "time_created": 1783777389571,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "The user is reporting a bug in their application where:\n1. When they get a question wrong, every subsequent option they select appears as wrong\n2. The state for options is not being reset\n3. The error message at the bottom should hide when selecting another option after answering a wrong question\n\nI need to explore the codebase to understand the structure and find where this bug is occurring. Let me start by looking at the project structure.",
+            "time": {
+              "start": 1783777389571,
+              "end": 1783777390293
+            }
+          }
+        },
+        {
+          "id": "prt_f516aeed6001YCzYRb1770ssTB",
+          "time_created": 1783777390294,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "task",
+            "callID": "call_b7d24cbdaa954277b7e83b85",
+            "state": {
+              "status": "completed",
+              "input": {
+                "description": "Explore codebase structure",
+                "prompt": "Explore the codebase structure at /Users/shivam/qnify/ai-learning-agent. I need to understand:\n1. What kind of project this is (React, Vue, etc.)\n2. The directory structure\n3. Find files related to quiz/question/option handling - look for components, state management, or logic related to answering questions, showing correct/wrong states, and error messages.\n\nReturn:\n- The project type and framework\n- Key files related to quiz/question functionality\n- The directory structure overview",
+                "subagent_type": "explore"
+              },
+              "output": "<task id=\"ses_0ae950b98ffeLNnQZxWF4TLTXN\" state=\"completed\">\n<task_result>\nHere is a comprehensive report of the codebase.\n\n---\n\n## 1. Project Type and Framework\n\nThis is an **AI-powered learning/quiz application** called **\"qnify\" (ai-learning-agent)**. It is a full-stack monorepo with three top-level directories:\n\n| Layer | Framework | Key Libraries |\n|---|---|---|\n| **Frontend** | **React 19** (TypeScript) | Vite 8, React Router 7, Tailwind CSS 4, shadcn/ui (base-ui), Lucide icons, react-markdown |\n| **Backend** | **Fastify 5** (Node.js, TypeScript) | LangChain + OpenAI (AI quiz generation), Better-SQLite3, Zod validation |\n| **PDF tooling** | `pdf-to-markdown/` | Separate utility directory |\n\nThe app lets users upload a PDF, which is converted to markdown. An AI agent then generates a learning plan (3-6 objectives), and for each objective it creates a multiple-choice quiz question. Learners answer questions, receive hints/explanations, and get a performance summary.\n\n---\n\n## 2. Directory Structure Overview\n\n```\n/Users/shivam/qnify/ai-learning-agent/\n\u251c\u2500\u2500 .git/\n\u251c\u2500\u2500 .gitignore\n\u251c\u2500\u2500 backend/\n\u2502   \u251c\u2500\u2500 package.json\n\u2502   \u2514\u2500\u2500 src/\n\u2502       \u251c\u2500\u2500 index.ts              # Fastify server entry point\n\u2502       \u251c\u2500\u2500 routes.ts             # All API route definitions\n\u2502       \u251c\u2500\u2500 config.ts             # App configuration\n\u2502       \u251c\u2500\u2500 db.ts                 # SQLite setup + row type interfaces\n\u2502       \u251c\u2500\u2500 errors.ts             # Custom error classes (NotFound, BadRequest)\n\u2502       \u251c\u2500\u2500 ai/\n\u2502       \u2502   \u251c\u2500\u2500 model.ts          # LLM model configuration\n\u2502       \u2502   \u251c\u2500\u2500 schemas.ts        # Zod schemas (Quiz, Plan, Summary, Objective)\n\u2502       \u2502   \u251c\u2500\u2500 quiz.ts           # AI quiz generation agent\n\u2502       \u2502   \u251c\u2500\u2500 plan.ts           # AI lesson plan generation\n\u2502       \u2502   \u251c\u2500\u2500 feedback.ts       # AI hint/explain/learn-more responses\n\u2502       \u2502   \u2514\u2500\u2500 summary.ts        # AI performance summary generation\n\u2502       \u2514\u2500\u2500 services/\n\u2502           \u251c\u2500\u2500 documents.ts      # Document upload/storage service\n\u2502           \u251c\u2500\u2500 plans.ts          # Lesson plan CRUD service\n\u2502           \u251c\u2500\u2500 quizzes.ts        # Quiz CRUD, answer checking, hints\n\u2502           \u251c\u2500\u2500 attempts.ts       # Attempt completion + summary storage\n\u2502           \u2514\u2500\u2500 pdf-to-markdown.ts\n\u251c\u2500\u2500 frontend/\n\u2502   \u251c\u2500\u2500 package.json\n\u2502   \u251c\u2500\u2500 vite.config.ts\n\u2502   \u2514\u2500\u2500 src/\n\u2502       \u251c\u2500\u2500 main.tsx              # App entry point\n\u2502       \u251c\u2500\u2500 lib/\n\u2502       \u2502   \u251c\u2500\u2500 api.ts            # All HTTP client functions\n\u2502       \u2502   \u251c\u2500\u2500 types.ts          # TypeScript interfaces (QuizDTO, Plan, AttemptSummary, etc.)\n\u2502       \u2502   \u251c\u2500\u2500 utils.ts          # Utility (cn helper)\n\u2502       \u2502   \u2514\u2500\u2500 format.ts         # Formatting helpers\n\u2502       \u251c\u2500\u2500 pages/\n\u2502       \u2502   \u251c\u2500\u2500 library-page.tsx  # Document library view\n\u2502       \u2502   \u2514\u2500\u2500 lesson-page.tsx   # Main quiz orchestrator page\n\u2502       \u2514\u2500\u2500 components/\n\u2502           \u251c\u2500\u2500 mcq-widget.tsx     # **Core quiz UI component**\n\u2502           \u251c\u2500\u2500 objective-tracker.tsx  # Sidebar showing objective progress\n\u2502           \u251c\u2500\u2500 summary-view.tsx   # Post-quiz results summary\n\u2502           \u251c\u2500\u2500 plan-card.tsx      # Lesson plan review/approval\n\u2502           \u251c\u2500\u2500 document-card.tsx  # Document list item\n\u2502           \u251c\u2500\u2500 sidebar.tsx        # App sidebar\n\u2502           \u251c\u2500\u2500 app-shell.tsx      # App layout shell\n\u2502           \u251c\u2500\u2500 upload-dropzone.tsx # PDF upload widget\n\u2502           \u2514\u2500\u2500 ui/               # shadcn primitives (button, card, badge, radio-group, etc.)\n\u2514\u2500\u2500 pdf-to-markdown/              # Standalone PDF conversion utility\n```\n\n---\n\n## 3. Key Files Related to Quiz/Question/Option Handling\n\n### Frontend - Quiz UI Components\n\n| File (absolute path) | Role |\n|---|---|\n| `/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx` | **Primary quiz widget.** Renders the MCQ question, radio-group options, submit/retry/hint/skip buttons. Manages local state: `selected` option, `status` (idle/submitted/correct/incorrect), `hint`, `explanation`, `tries`, and a `chatOpen` Learn More panel. Shows correct (green check) and wrong (red X) states on options. Displays \"Not quite\" error message on incorrect answers. |\n| `/Users/shivam/qnify/ai-learning-agent/frontend/src/pages/lesson-page.tsx` | **Quiz orchestrator.** Manages the overall lesson flow through phases: `loading -> review -> quiz -> summary -> error`. Tracks `AnswerState` per objective (quizId, learnerIndex, attempts, correct, finalized). Lazy-generates quizzes per objective. Handles callbacks: `handleCorrect`, `handleIncorrect`, `handleSkip`, `advance`, `finish`. |\n| `/Users/shivam/qnify/ai-learning-agent/frontend/src/components/objective-tracker.tsx` | Sidebar tracker showing per-objective status (pending/current/correct/skipped) with visual indicators. |\n| `/Users/shivam/qnify/ai-learning-agent/frontend/src/components/summary-view.tsx` | Post-quiz results view. Shows score, performance summary, strengths, weak topics, study tips, and per-question review with correct/incorrect/skipped badges and option highlighting. |\n\n### Frontend - API and Types\n\n| File (absolute path) | Role |\n|---|---|\n| `/Users/shivam/qnify/ai-learning-agent/frontend/src/lib/api.ts` | HTTP client. Key quiz functions: `generateQuiz()`, `checkAnswer()`, `getHint()`, `getExplanation()`, `learnMore()`, `completeAttempt()`, `listQuizzes()`. Also defines `ApiError` class for error handling. |\n| `/Users/shivam/qnify/ai-learning-agent/frontend/src/lib/types.ts` | TypeScript interfaces: `QuizDTO` (id, objectiveIndex, objectiveText, question, options[], hint), `AttemptSummary`, `AttemptListItem`, `ChatMessage`, `Plan`, `Objective`. |\n\n### Backend - AI Quiz Generation\n\n| File (absolute path) | Role |\n|---|---|\n| `/Users/shivam/qnify/ai-learning-agent/backend/src/ai/quiz.ts` | Creates a LangChain agent with a system prompt that generates a single MCQ (4 options, correct index, explanation, hint) grounded in the PDF markdown for a given learning objective. |\n| `/Users/shivam/qnify/ai-learning-agent/backend/src/ai/feedback.ts` | Three AI functions: `generateRetryHint()` (conceptual hint without revealing answer), `explainCorrect()` (explains why correct answer is right), `learnMore()` (chat-based tutor that answers learner questions about the topic without revealing the MCQ answer). |\n| `/Users/shivam/qnify/ai-learning-agent/backend/src/ai/schemas.ts` | Zod validation schemas. `quizSchema`: `{ question, options (exactly 4), correct_index (0-3), explanation, hint }`. Also `planSchema`, `summarySchema`. |\n\n### Backend - Quiz Services and Routes\n\n| File (absolute path) | Role |\n|---|---|\n| `/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts` | Core quiz business logic. `getOrCreateQuiz()` (lazy-generates or returns cached quiz), `checkAnswer()` (compares learner index to correct index, returns explanation on correct), `getHint()`, `getExplanation()`, `learnMoreAboutQuiz()`, `getAllQuizzes()`. Defines `QuizDTO` and `AnswerOutput` interfaces. |\n| `/Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts` | Handles lesson completion. `completeAttempt()` tallies score, generates AI summary, persists attempt. `getAttempt()` retrieves full attempt with answer details. `listAttempts()` lists past attempts. |\n| `/Users/shivam/qnify/ai-learning-agent/backend/src/routes.ts` | API route definitions. Quiz-specific routes: `POST /api/lesson-plans/:id/quizzes` (create/get quiz), `POST /api/quizzes/:id/check` (check answer), `POST /api/quizzes/:id/hint`, `POST /api/quizzes/:id/explain`, `POST /api/quizzes/:id/learn-more`, `POST /api/lesson-plans/:id/complete`. |\n| `/Users/shivam/qnify/ai-learning-agent/backend/src/db.ts` | Database schema types. `QuizQuestionRow`: `{ id, lesson_plan_id, objective_index, objective_text, question, options (JSON string), correct_index, explanation, hint }`. `AttemptRow`: `{ id, lesson_plan_id, score, total, answers (JSON), summary, study_tips, weak_topics, strengths }`. |\n| `/Users/shivam/qnify/ai-learning-agent/backend/src/errors.ts` | Custom error classes: `NotFoundError` (404), `BadRequestError` (400), `AppError` (base). Used throughout quiz services for missing quizzes/plans/documents. |\n\n### How Answer/Correct/Wrong/Error Flow Works\n\n1. **User selects an option** in `mcq-widget.tsx` via `RadioGroup`. State tracked as `selected` (option index).\n2. **Submit** calls `checkAnswer(quizId, selected)` via `api.ts` -> `POST /api/quizzes/:id/check`.\n3. Backend `quizzes.ts:checkAnswer()` compares `learnerIndex` to `quiz.correct_index`. If correct, it also calls `getExplanation()` to get an AI-generated explanation.\n4. Frontend receives `{ correct: boolean, explanation?: string }`:\n   - **Correct**: Sets `status='correct'`, locks the widget, shows green \"Correct\" badge, shows explanation panel, enables \"Next objective\" button.\n   - **Incorrect**: Sets `status='incorrect'`, shows red \"Not quite\" error message, increments `tries`, enables \"Re-submit\", \"Get a hint\", \"Learn more\", and after 1+ misses, a \"Skip\" button.\n5. **Hints**: `getHint(quizId, previousGuessIndex)` -> backend generates a conceptual hint via `generateRetryHint()` without revealing the answer.\n6. **Learn More**: Opens a chat panel (`LearnMorePanel`) where the learner can ask questions about the concept. Calls `learnMore()` -> backend tutor responds grounded in PDF content without revealing the MCQ answer.\n7. **Skip**: After 1+ incorrect attempts, user can skip. Sets `learnerIndex: null, finalized: true` and advances to the next objective.\n8. **Finish**: After all objectives, `completeAttempt()` tallies score, generates AI summary with study tips/weak topics/strengths, and shows `summary-view.tsx`.\n</task_result>\n</task>",
+              "metadata": {
+                "parentSessionId": "ses_0ae951ddaffenJgt29GyFUGikm",
+                "sessionId": "ses_0ae950b98ffeLNnQZxWF4TLTXN",
+                "model": {
+                  "modelID": "mimo-v2.5",
+                  "providerID": "opencode-go"
+                },
+                "truncated": false
+              },
+              "title": "Explore codebase structure",
+              "time": {
+                "start": 1783777391722,
+                "end": 1783777430479
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f516b8bd0001lcAYLDh4g2pXYa",
+          "time_created": 1783777430480,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 8161,
+              "input": 1779,
+              "output": 149,
+              "reasoning": 89,
+              "cache": {
+                "write": 0,
+                "read": 6144
+              }
+            },
+            "cost": 0.0003329032
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f516b5a9b001mOoKFJgLPVx49Y",
+      "time_created": 1783777417883,
+      "role": "user",
+      "metadata": {
+        "agent": "build",
+        "model": {
+          "providerID": "opencode-go",
+          "modelID": "mimo-v2.5",
+          "variant": "high"
+        },
+        "tokens": null,
+        "cost": null
+      },
+      "parts": [
+        {
+          "id": "prt_f516b5a9b002DzH4MNd3O9CC9s",
+          "time_created": 1783777417884,
+          "type": "text",
+          "data": {
+            "type": "text",
+            "text": "reset selection works fine"
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f516b8bd30014ihVZQjs2Or5UT",
+      "time_created": 1783777430483,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 10708,
+          "input": 2708,
+          "output": 40,
+          "reasoning": 88,
+          "cache": {
+            "write": 0,
+            "read": 7872
+          }
+        },
+        "cost": 0.0004370016
+      },
+      "parts": [
+        {
+          "id": "prt_f516b9798001oBcC4VPiJCem9B",
+          "time_created": 1783777433497,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f516b97ad001cS8IgOcXRyj68Q",
+          "time_created": 1783777433517,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "The user is saying that the reset selection works fine. Let me read the mcq-widget.tsx file to understand the bug better. The issue is:\n1. Once a question is answered wrong, every option selected appears as wrong\n2. The state for options is not reset\n3. The error message should hide when selecting another option after answering wrong\n\nLet me read the mcq-widget.tsx file to understand the current implementation.",
+            "time": {
+              "start": 1783777433517,
+              "end": 1783777434446
+            }
+          }
+        },
+        {
+          "id": "prt_f516b9b50001WQIpF0vPByXaDy",
+          "time_created": 1783777434449,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "read",
+            "callID": "call_62d0a761bd164550bb7b23a1",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx"
+              },
+              "output": "<path>/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx</path>\n<type>file</type>\n<content>\n1: import { useEffect, useState } from 'react'\n2: import { Check, CircleAlert, HelpCircle, Lightbulb, Loader2, MessageSquareText, Send, X } from 'lucide-react'\n3: import { cn } from '#lib/utils'\n4: import { Badge } from '#components/ui/badge'\n5: import { Button } from '#components/ui/button'\n6: import { Card, CardContent } from '#components/ui/card'\n7: import { RadioGroup, RadioGroupItem } from '#components/ui/radio-group'\n8: import { Textarea } from '#components/ui/textarea'\n9: import { checkAnswer, getHint, learnMore } from '#lib/api'\n10: import type { ChatMessage, QuizDTO } from '#lib/types'\n11: \n12: interface Props {\n13:   quiz: QuizDTO\n14:   objectiveNumber: number\n15:   totalObjectives: number\n16:   onCorrect: (learnerIndex: number, explanation: string) => void\n17:   onIncorrect: (learnerIndex: number) => void\n18:   onSkip: () => void\n19:   onNext: () => void\n20:   isLast: boolean\n21: }\n22: \n23: type Status = 'idle' | 'submitted' | 'correct' | 'incorrect'\n24: \n25: export function MCQWidget({\n26:   quiz,\n27:   objectiveNumber,\n28:   totalObjectives,\n29:   onCorrect,\n30:   onIncorrect,\n31:   onSkip,\n32:   onNext,\n33:   isLast\n34: }: Props) {\n35:   const [selected, setSelected] = useState<number | null>(null)\n36:   const [status, setStatus] = useState<Status>('idle')\n37:   const [submitting, setSubmitting] = useState(false)\n38:   const [hint, setHint] = useState<string | null>(null)\n39:   const [hintLoading, setHintLoading] = useState(false)\n40:   const [explanation, setExplanation] = useState<string | null>(null)\n41:   const [tries, setTries] = useState(0)\n42:   const [chatOpen, setChatOpen] = useState(false)\n43: \n44:   // Reset state when quiz changes (new objective)\n45:   useEffect(() => {\n46:     setSelected(null)\n47:     setStatus('idle')\n48:     setHint(null)\n49:     setExplanation(null)\n50:     setTries(0)\n51:     setChatOpen(false)\n52:   }, [quiz.id])\n53: \n54:   const submit = async () => {\n55:     if (selected === null || submitting) return\n56:     setHint(null)\n57:     setSubmitting(true)\n58:     try {\n59:       const res = await checkAnswer(quiz.id, selected)\n60:       if (res.correct) {\n61:         if (res.explanation) setExplanation(res.explanation)\n62:         setStatus('correct')\n63:         onCorrect(selected, res.explanation ?? '')\n64:       } else {\n65:         setStatus('incorrect')\n66:         onIncorrect(selected)\n67:         setTries((t) => t + 1)\n68:       }\n69:     } finally {\n70:       setSubmitting(false)\n71:     }\n72:   }\n73: \n74:   const retry = () => {\n75:     setStatus('idle')\n76:     setSelected(null)\n77:     setHint(null)\n78:   }\n79: \n80:   const requestHint = async () => {\n81:     setHintLoading(true)\n82:     try {\n83:       const res = await getHint(quiz.id, status === 'incorrect' ? selected : null)\n84:       setHint(res.hint)\n85:     } finally {\n86:       setHintLoading(false)\n87:     }\n88:   }\n89: \n90:   const locked = status === 'correct'\n91: \n92:   return (\n93:     <Card className=\"overflow-hidden\">\n94:       <CardContent className=\"p-0\">\n95:         <div className=\"border-b border-border bg-accent/40 px-5 py-3 sm:px-6\">\n96:           <div className=\"flex items-center justify-between gap-3\">\n97:             <div className=\"min-w-0\">\n98:               <p className=\"text-xs font-medium uppercase tracking-wide text-muted-foreground\">\n99:                 Objective {objectiveNumber} of {totalObjectives}\n100:               </p>\n101:               <p className=\"mt-0.5 truncate text-sm font-semibold\">{quiz.objectiveText}</p>\n102:             </div>\n103:             {tries > 0 && status !== 'correct' && (\n104:               <Badge variant=\"destructive\">\n105:                 {tries} {tries === 1 ? 'miss' : 'misses'}\n106:               </Badge>\n107:             )}\n108:             {status === 'correct' && (\n109:               <Badge variant=\"default\">\n110:                 <Check className=\"size-3\" />\n111:                 Correct\n112:               </Badge>\n113:             )}\n114:           </div>\n115:         </div>\n116: \n117:         <div className=\"space-y-5 p-5 sm:p-6\">\n118:           <p className=\"text-base font-medium leading-relaxed\">{quiz.question}</p>\n119: \n120:           <RadioGroup\n121:             value={selected !== null ? String(selected) : undefined}\n122:             onValueChange={(v) => {\n123:               if (locked) return\n124:               setSelected(Number(v))\n125:             }}\n126:             className=\"gap-2.5\"\n127:           >\n128:             {quiz.options.map((opt, i) => {\n129:               const isSelected = selected === i\n130:               const showAsCorrect = locked && isSelected\n131:               const showAsWrong = status === 'incorrect' && isSelected\n132:               return (\n133:                 <label\n134:                   key={i}\n135:                   className={cn(\n136:                     'flex items-center gap-3 rounded-xl border p-3.5 text-sm transition-all',\n137:                     locked ? 'cursor-default' : 'cursor-pointer',\n138:                     !locked && 'hover:border-primary/50 hover:bg-accent/50',\n139:                     isSelected && !locked ? 'border-primary bg-primary/5' : 'border-border bg-card',\n140:                     showAsCorrect && 'border-success/60 bg-success/10 text-success',\n141:                     showAsWrong && 'border-danger/60 bg-danger/10 text-danger'\n142:                   )}\n143:                 >\n144:                   <RadioGroupItem\n145:                     value={String(i)}\n146:                     disabled={locked}\n147:                     className={cn(\n148:                       showAsCorrect &&\n149:                         'border-success text-success data-[checked]:bg-success data-[checked]:border-success',\n150:                       showAsWrong && 'border-danger text-danger data-[checked]:bg-danger data-[checked]:border-danger'\n151:                     )}\n152:                   />\n153:                   <span className=\"flex-1 leading-relaxed\">{opt}</span>\n154:                   {showAsCorrect && <Check className=\"size-4 shrink-0\" />}\n155:                   {showAsWrong && <X className=\"size-4 shrink-0\" />}\n156:                 </label>\n157:               )\n158:             })}\n159:           </RadioGroup>\n160: \n161:           {status === 'incorrect' && (\n162:             <div className=\"flex items-start gap-2.5 rounded-xl border border-danger/40 bg-danger/10 p-3.5 text-sm\">\n163:               <CircleAlert className=\"size-4 shrink-0 translate-y-0.5 text-danger\" />\n164:               <div>\n165:                 <p className=\"font-medium text-danger\">Not quite.</p>\n166:                 <p className=\"mt-0.5 text-muted-foreground\">\n167:                   Try again \u2014 you can request a hint or ask for a deeper explanation. No penalty for retries.\n168:                 </p>\n169:               </div>\n170:             </div>\n171:           )}\n172: \n173:           {hint && (\n174:             <div className=\"flex items-start gap-2.5 rounded-xl border border-primary/30 bg-primary/5 p-3.5 text-sm\">\n175:               <Lightbulb className=\"size-4 shrink-0 translate-y-0.5 text-primary\" />\n176:               <div>\n177:                 <p className=\"font-medium text-primary\">Hint</p>\n178:                 <p className=\"mt-0.5 text-foreground\">{hint}</p>\n179:               </div>\n180:             </div>\n181:           )}\n182: \n183:           {explanation && status === 'correct' && (\n184:             <div className=\"flex items-start gap-2.5 rounded-xl border border-success/40 bg-success/10 p-3.5 text-sm\">\n185:               <Check className=\"size-4 shrink-0 translate-y-0.5 text-success\" />\n186:               <div>\n187:                 <p className=\"font-medium text-success\">Explanation</p>\n188:                 <p className=\"mt-0.5 text-foreground\">{explanation}</p>\n189:               </div>\n190:             </div>\n191:           )}\n192: \n193:           <div className=\"flex flex-wrap items-center gap-2 pt-1\">\n194:             {!locked && (\n195:               <>\n196:                 <Button onClick={submit} disabled={selected === null || submitting} className=\"gap-1.5\">\n197:                   {submitting ? <Loader2 className=\"size-4 animate-spin\" /> : <Send className=\"size-4\" />}\n198:                   {status === 'incorrect' ? 'Re-submit' : 'Submit answer'}\n199:                 </Button>\n200:                 <Button variant=\"outline\" onClick={requestHint} disabled={hintLoading} className=\"gap-1.5\">\n201:                   {hintLoading ? <Loader2 className=\"size-4 animate-spin\" /> : <HelpCircle className=\"size-4\" />}\n202:                   {hint ? 'New hint' : 'Get a hint'}\n203:                 </Button>\n204:                 <Button variant=\"ghost\" onClick={() => setChatOpen(true)} className=\"gap-1.5\">\n205:                   <MessageSquareText className=\"size-4\" />\n206:                   Learn more\n207:                 </Button>\n208:                 {status === 'incorrect' && (\n209:                   <Button variant=\"ghost\" onClick={retry} className=\"ml-auto\">\n210:                     Reset selection\n211:                   </Button>\n212:                 )}\n213:                 {status === 'incorrect' && tries >= 1 && (\n214:                   <Button variant=\"ghost\" onClick={onSkip} className=\"text-muted-foreground\">\n215:                     Skip \u2192\n216:                   </Button>\n217:                 )}\n218:               </>\n219:             )}\n220:             {locked && (\n221:               <Button onClick={onNext} className=\"ml-auto gap-1.5\">\n222:                 {isLast ? 'Finish & see results' : 'Next objective'}\n223:               </Button>\n224:             )}\n225:           </div>\n226:         </div>\n227:       </CardContent>\n228: \n229:       {chatOpen && <LearnMorePanel quiz={quiz} onClose={() => setChatOpen(false)} />}\n230:     </Card>\n231:   )\n232: }\n233: \n234: interface LearnMoreProps {\n235:   quiz: QuizDTO\n236:   onClose: () => void\n237: }\n238: \n239: function LearnMorePanel({ quiz, onClose }: LearnMoreProps) {\n240:   const [messages, setMessages] = useState<ChatMessage[]>([\n241:     {\n242:       role: 'assistant',\n243:       content:\n244:         'I can dig deeper into the topic behind this question \u2014 without revealing the answer. Ask me anything about the concepts.'\n245:     }\n246:   ])\n247:   const [input, setInput] = useState('')\n248:   const [loading, setLoading] = useState(false)\n249: \n250:   const send = async () => {\n251:     const q = input.trim()\n252:     if (!q || loading) return\n253:     const nextHistory: ChatMessage[] = [...messages, { role: 'user', content: q }]\n254:     setMessages(nextHistory)\n255:     setInput('')\n256:     setLoading(true)\n257:     try {\n258:       const res = await learnMore(\n259:         quiz.id,\n260:         q,\n261:         nextHistory.filter((m) => m.role !== 'assistant' || m.content !== messages[0]?.content)\n262:       )\n263:       setMessages((cur) => [...cur, { role: 'assistant', content: res.message }])\n264:     } catch (err) {\n265:       setMessages((cur) => [\n266:         ...cur,\n267:         {\n268:           role: 'assistant',\n269:           content: `Sorry, I couldn't fetch an answer right now: ${(err as Error).message}`\n270:         }\n271:       ])\n272:     } finally {\n273:       setLoading(false)\n274:     }\n275:   }\n276: \n277:   return (\n278:     <div className=\"fixed inset-0 z-50 flex items-end justify-end sm:items-center sm:justify-end\">\n279:       <div className=\"absolute inset-0 bg-background/60 backdrop-blur-sm\" onClick={onClose} />\n280:       <div className=\"relative flex h-[70vh] w-full max-w-md flex-col rounded-t-2xl border border-border bg-card shadow-2xl sm:rounded-2xl\">\n281:         <div className=\"flex items-center justify-between border-b border-border bg-accent/40 px-4 py-3\">\n282:           <div className=\"flex items-center gap-2\">\n283:             <span className=\"flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground\">\n284:               <MessageSquareText className=\"size-4\" />\n285:             </span>\n286:             <div>\n287:               <p className=\"text-sm font-semibold\">Ask the tutor</p>\n288:               <p className=\"text-xs text-muted-foreground\">Answers stay grounded in your PDF</p>\n289:             </div>\n290:           </div>\n291:           <Button variant=\"ghost\" size=\"icon-sm\" onClick={onClose}>\n292:             <X className=\"size-4\" />\n293:           </Button>\n294:         </div>\n295:         <div className=\"flex-1 space-y-3 overflow-y-auto p-4\">\n296:           {messages.map((m, i) => (\n297:             <div key={i} className={cn('flex', m.role === 'user' ? 'justify-end' : 'justify-start')}>\n298:               <div\n299:                 className={cn(\n300:                   'max-w-[85%] whitespace-pre-wrap rounded-2xl px-3.5 py-2 text-sm leading-relaxed',\n301:                   m.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-accent text-accent-foreground'\n302:                 )}\n303:               >\n304:                 {m.content}\n305:               </div>\n306:             </div>\n307:           ))}\n308:           {loading && (\n309:             <div className=\"flex items-center gap-2 text-xs text-muted-foreground\">\n310:               <Loader2 className=\"size-3 animate-spin\" />\n311:               Thinking...\n312:             </div>\n313:           )}\n314:         </div>\n315:         <div className=\"border-t border-border p-3\">\n316:           <div className=\"flex items-end gap-2\">\n317:             <Textarea\n318:               value={input}\n319:               onChange={(e) => setInput(e.target.value)}\n320:               placeholder=\"Ask about the concept...\"\n321:               className=\"min-h-[44px] flex-1 resize-none\"\n322:               rows={1}\n323:               onKeyDown={(e) => {\n324:                 if (e.key === 'Enter' && !e.shiftKey) {\n325:                   e.preventDefault()\n326:                   void send()\n327:                 }\n328:               }}\n329:             />\n330:             <Button onClick={send} disabled={loading || !input.trim()} size=\"icon\">\n331:               <Send className=\"size-4\" />\n332:             </Button>\n333:           </div>\n334:         </div>\n335:       </div>\n336:     </div>\n337:   )\n338: }\n\n(End of file - total 338 lines)\n</content>",
+              "metadata": {
+                "preview": "import { useEffect, useState } from 'react'\nimport { Check, CircleAlert, HelpCircle, Lightbulb, Loader2, MessageSquareText, Send, X } from 'lucide-react'\nimport { cn } from '#lib/utils'\nimport { Badge } from '#components/ui/badge'\nimport { Button } from '#components/ui/button'\nimport { Card, CardContent } from '#components/ui/card'\nimport { RadioGroup, RadioGroupItem } from '#components/ui/radio-group'\nimport { Textarea } from '#components/ui/textarea'\nimport { checkAnswer, getHint, learnMore } from '#lib/api'\nimport type { ChatMessage, QuizDTO } from '#lib/types'\n\ninterface Props {\n  quiz: QuizDTO\n  objectiveNumber: number\n  totalObjectives: number\n  onCorrect: (learnerIndex: number, explanation: string) => void\n  onIncorrect: (learnerIndex: number) => void\n  onSkip: () => void\n  onNext: () => void\n  isLast: boolean",
+                "truncated": false,
+                "loaded": [],
+                "display": {
+                  "type": "file",
+                  "path": "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx",
+                  "text": "import { useEffect, useState } from 'react'\nimport { Check, CircleAlert, HelpCircle, Lightbulb, Loader2, MessageSquareText, Send, X } from 'lucide-react'\nimport { cn } from '#lib/utils'\nimport { Badge } from '#components/ui/badge'\nimport { Button } from '#components/ui/button'\nimport { Card, CardContent } from '#components/ui/card'\nimport { RadioGroup, RadioGroupItem } from '#components/ui/radio-group'\nimport { Textarea } from '#components/ui/textarea'\nimport { checkAnswer, getHint, learnMore } from '#lib/api'\nimport type { ChatMessage, QuizDTO } from '#lib/types'\n\ninterface Props {\n  quiz: QuizDTO\n  objectiveNumber: number\n  totalObjectives: number\n  onCorrect: (learnerIndex: number, explanation: string) => void\n  onIncorrect: (learnerIndex: number) => void\n  onSkip: () => void\n  onNext: () => void\n  isLast: boolean\n}\n\ntype Status = 'idle' | 'submitted' | 'correct' | 'incorrect'\n\nexport function MCQWidget({\n  quiz,\n  objectiveNumber,\n  totalObjectives,\n  onCorrect,\n  onIncorrect,\n  onSkip,\n  onNext,\n  isLast\n}: Props) {\n  const [selected, setSelected] = useState<number | null>(null)\n  const [status, setStatus] = useState<Status>('idle')\n  const [submitting, setSubmitting] = useState(false)\n  const [hint, setHint] = useState<string | null>(null)\n  const [hintLoading, setHintLoading] = useState(false)\n  const [explanation, setExplanation] = useState<string | null>(null)\n  const [tries, setTries] = useState(0)\n  const [chatOpen, setChatOpen] = useState(false)\n\n  // Reset state when quiz changes (new objective)\n  useEffect(() => {\n    setSelected(null)\n    setStatus('idle')\n    setHint(null)\n    setExplanation(null)\n    setTries(0)\n    setChatOpen(false)\n  }, [quiz.id])\n\n  const submit = async () => {\n    if (selected === null || submitting) return\n    setHint(null)\n    setSubmitting(true)\n    try {\n      const res = await checkAnswer(quiz.id, selected)\n      if (res.correct) {\n        if (res.explanation) setExplanation(res.explanation)\n        setStatus('correct')\n        onCorrect(selected, res.explanation ?? '')\n      } else {\n        setStatus('incorrect')\n        onIncorrect(selected)\n        setTries((t) => t + 1)\n      }\n    } finally {\n      setSubmitting(false)\n    }\n  }\n\n  const retry = () => {\n    setStatus('idle')\n    setSelected(null)\n    setHint(null)\n  }\n\n  const requestHint = async () => {\n    setHintLoading(true)\n    try {\n      const res = await getHint(quiz.id, status === 'incorrect' ? selected : null)\n      setHint(res.hint)\n    } finally {\n      setHintLoading(false)\n    }\n  }\n\n  const locked = status === 'correct'\n\n  return (\n    <Card className=\"overflow-hidden\">\n      <CardContent className=\"p-0\">\n        <div className=\"border-b border-border bg-accent/40 px-5 py-3 sm:px-6\">\n          <div className=\"flex items-center justify-between gap-3\">\n            <div className=\"min-w-0\">\n              <p className=\"text-xs font-medium uppercase tracking-wide text-muted-foreground\">\n                Objective {objectiveNumber} of {totalObjectives}\n              </p>\n              <p className=\"mt-0.5 truncate text-sm font-semibold\">{quiz.objectiveText}</p>\n            </div>\n            {tries > 0 && status !== 'correct' && (\n              <Badge variant=\"destructive\">\n                {tries} {tries === 1 ? 'miss' : 'misses'}\n              </Badge>\n            )}\n            {status === 'correct' && (\n              <Badge variant=\"default\">\n                <Check className=\"size-3\" />\n                Correct\n              </Badge>\n            )}\n          </div>\n        </div>\n\n        <div className=\"space-y-5 p-5 sm:p-6\">\n          <p className=\"text-base font-medium leading-relaxed\">{quiz.question}</p>\n\n          <RadioGroup\n            value={selected !== null ? String(selected) : undefined}\n            onValueChange={(v) => {\n              if (locked) return\n              setSelected(Number(v))\n            }}\n            className=\"gap-2.5\"\n          >\n            {quiz.options.map((opt, i) => {\n              const isSelected = selected === i\n              const showAsCorrect = locked && isSelected\n              const showAsWrong = status === 'incorrect' && isSelected\n              return (\n                <label\n                  key={i}\n                  className={cn(\n                    'flex items-center gap-3 rounded-xl border p-3.5 text-sm transition-all',\n                    locked ? 'cursor-default' : 'cursor-pointer',\n                    !locked && 'hover:border-primary/50 hover:bg-accent/50',\n                    isSelected && !locked ? 'border-primary bg-primary/5' : 'border-border bg-card',\n                    showAsCorrect && 'border-success/60 bg-success/10 text-success',\n                    showAsWrong && 'border-danger/60 bg-danger/10 text-danger'\n                  )}\n                >\n                  <RadioGroupItem\n                    value={String(i)}\n                    disabled={locked}\n                    className={cn(\n                      showAsCorrect &&\n                        'border-success text-success data-[checked]:bg-success data-[checked]:border-success',\n                      showAsWrong && 'border-danger text-danger data-[checked]:bg-danger data-[checked]:border-danger'\n                    )}\n                  />\n                  <span className=\"flex-1 leading-relaxed\">{opt}</span>\n                  {showAsCorrect && <Check className=\"size-4 shrink-0\" />}\n                  {showAsWrong && <X className=\"size-4 shrink-0\" />}\n                </label>\n              )\n            })}\n          </RadioGroup>\n\n          {status === 'incorrect' && (\n            <div className=\"flex items-start gap-2.5 rounded-xl border border-danger/40 bg-danger/10 p-3.5 text-sm\">\n              <CircleAlert className=\"size-4 shrink-0 translate-y-0.5 text-danger\" />\n              <div>\n                <p className=\"font-medium text-danger\">Not quite.</p>\n                <p className=\"mt-0.5 text-muted-foreground\">\n                  Try again \u2014 you can request a hint or ask for a deeper explanation. No penalty for retries.\n                </p>\n              </div>\n            </div>\n          )}\n\n          {hint && (\n            <div className=\"flex items-start gap-2.5 rounded-xl border border-primary/30 bg-primary/5 p-3.5 text-sm\">\n              <Lightbulb className=\"size-4 shrink-0 translate-y-0.5 text-primary\" />\n              <div>\n                <p className=\"font-medium text-primary\">Hint</p>\n                <p className=\"mt-0.5 text-foreground\">{hint}</p>\n              </div>\n            </div>\n          )}\n\n          {explanation && status === 'correct' && (\n            <div className=\"flex items-start gap-2.5 rounded-xl border border-success/40 bg-success/10 p-3.5 text-sm\">\n              <Check className=\"size-4 shrink-0 translate-y-0.5 text-success\" />\n              <div>\n                <p className=\"font-medium text-success\">Explanation</p>\n                <p className=\"mt-0.5 text-foreground\">{explanation}</p>\n              </div>\n            </div>\n          )}\n\n          <div className=\"flex flex-wrap items-center gap-2 pt-1\">\n            {!locked && (\n              <>\n                <Button onClick={submit} disabled={selected === null || submitting} className=\"gap-1.5\">\n                  {submitting ? <Loader2 className=\"size-4 animate-spin\" /> : <Send className=\"size-4\" />}\n                  {status === 'incorrect' ? 'Re-submit' : 'Submit answer'}\n                </Button>\n                <Button variant=\"outline\" onClick={requestHint} disabled={hintLoading} className=\"gap-1.5\">\n                  {hintLoading ? <Loader2 className=\"size-4 animate-spin\" /> : <HelpCircle className=\"size-4\" />}\n                  {hint ? 'New hint' : 'Get a hint'}\n                </Button>\n                <Button variant=\"ghost\" onClick={() => setChatOpen(true)} className=\"gap-1.5\">\n                  <MessageSquareText className=\"size-4\" />\n                  Learn more\n                </Button>\n                {status === 'incorrect' && (\n                  <Button variant=\"ghost\" onClick={retry} className=\"ml-auto\">\n                    Reset selection\n                  </Button>\n                )}\n                {status === 'incorrect' && tries >= 1 && (\n                  <Button variant=\"ghost\" onClick={onSkip} className=\"text-muted-foreground\">\n                    Skip \u2192\n                  </Button>\n                )}\n              </>\n            )}\n            {locked && (\n              <Button onClick={onNext} className=\"ml-auto gap-1.5\">\n                {isLast ? 'Finish & see results' : 'Next objective'}\n              </Button>\n            )}\n          </div>\n        </div>\n      </CardContent>\n\n      {chatOpen && <LearnMorePanel quiz={quiz} onClose={() => setChatOpen(false)} />}\n    </Card>\n  )\n}\n\ninterface LearnMoreProps {\n  quiz: QuizDTO\n  onClose: () => void\n}\n\nfunction LearnMorePanel({ quiz, onClose }: LearnMoreProps) {\n  const [messages, setMessages] = useState<ChatMessage[]>([\n    {\n      role: 'assistant',\n      content:\n        'I can dig deeper into the topic behind this question \u2014 without revealing the answer. Ask me anything about the concepts.'\n    }\n  ])\n  const [input, setInput] = useState('')\n  const [loading, setLoading] = useState(false)\n\n  const send = async () => {\n    const q = input.trim()\n    if (!q || loading) return\n    const nextHistory: ChatMessage[] = [...messages, { role: 'user', content: q }]\n    setMessages(nextHistory)\n    setInput('')\n    setLoading(true)\n    try {\n      const res = await learnMore(\n        quiz.id,\n        q,\n        nextHistory.filter((m) => m.role !== 'assistant' || m.content !== messages[0]?.content)\n      )\n      setMessages((cur) => [...cur, { role: 'assistant', content: res.message }])\n    } catch (err) {\n      setMessages((cur) => [\n        ...cur,\n        {\n          role: 'assistant',\n          content: `Sorry, I couldn't fetch an answer right now: ${(err as Error).message}`\n        }\n      ])\n    } finally {\n      setLoading(false)\n    }\n  }\n\n  return (\n    <div className=\"fixed inset-0 z-50 flex items-end justify-end sm:items-center sm:justify-end\">\n      <div className=\"absolute inset-0 bg-background/60 backdrop-blur-sm\" onClick={onClose} />\n      <div className=\"relative flex h-[70vh] w-full max-w-md flex-col rounded-t-2xl border border-border bg-card shadow-2xl sm:rounded-2xl\">\n        <div className=\"flex items-center justify-between border-b border-border bg-accent/40 px-4 py-3\">\n          <div className=\"flex items-center gap-2\">\n            <span className=\"flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground\">\n              <MessageSquareText className=\"size-4\" />\n            </span>\n            <div>\n              <p className=\"text-sm font-semibold\">Ask the tutor</p>\n              <p className=\"text-xs text-muted-foreground\">Answers stay grounded in your PDF</p>\n            </div>\n          </div>\n          <Button variant=\"ghost\" size=\"icon-sm\" onClick={onClose}>\n            <X className=\"size-4\" />\n          </Button>\n        </div>\n        <div className=\"flex-1 space-y-3 overflow-y-auto p-4\">\n          {messages.map((m, i) => (\n            <div key={i} className={cn('flex', m.role === 'user' ? 'justify-end' : 'justify-start')}>\n              <div\n                className={cn(\n                  'max-w-[85%] whitespace-pre-wrap rounded-2xl px-3.5 py-2 text-sm leading-relaxed',\n                  m.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-accent text-accent-foreground'\n                )}\n              >\n                {m.content}\n              </div>\n            </div>\n          ))}\n          {loading && (\n            <div className=\"flex items-center gap-2 text-xs text-muted-foreground\">\n              <Loader2 className=\"size-3 animate-spin\" />\n              Thinking...\n            </div>\n          )}\n        </div>\n        <div className=\"border-t border-border p-3\">\n          <div className=\"flex items-end gap-2\">\n            <Textarea\n              value={input}\n              onChange={(e) => setInput(e.target.value)}\n              placeholder=\"Ask about the concept...\"\n              className=\"min-h-[44px] flex-1 resize-none\"\n              rows={1}\n              onKeyDown={(e) => {\n                if (e.key === 'Enter' && !e.shiftKey) {\n                  e.preventDefault()\n                  void send()\n                }\n              }}\n            />\n            <Button onClick={send} disabled={loading || !input.trim()} size=\"icon\">\n              <Send className=\"size-4\" />\n            </Button>\n          </div>\n        </div>\n      </div>\n    </div>\n  )\n}",
+                  "lineStart": 1,
+                  "lineEnd": 338,
+                  "totalLines": 338,
+                  "truncated": false
+                }
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx",
+              "time": {
+                "start": 1783777434656,
+                "end": 1783777434661
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f516b9c66001hsUkentKM56lbq",
+          "time_created": 1783777434726,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 10708,
+              "input": 2708,
+              "output": 40,
+              "reasoning": 88,
+              "cache": {
+                "write": 0,
+                "read": 7872
+              }
+            },
+            "cost": 0.0004370016
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f516b9c6a001vTvmNTeuxZoafu",
+      "time_created": 1783777434730,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 15628,
+          "input": 4397,
+          "output": 219,
+          "reasoning": 452,
+          "cache": {
+            "write": 0,
+            "read": 10560
+          }
+        },
+        "cost": 0.000833028
+      },
+      "parts": [
+        {
+          "id": "prt_f516bab36001QSjGc058NB60f2",
+          "time_created": 1783777438518,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f516bab38001GGt92WHd3gnLz6",
+          "time_created": 1783777438520,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now I understand the bug. Looking at the code:\n\n1. When the user submits a wrong answer, `status` is set to `'incorrect'`\n2. The `showAsWrong` variable is: `status === 'incorrect' && isSelected`\n3. When the user selects a new option (after getting one wrong), `selected` changes but `status` remains `'incorrect'`\n4. So the newly selected option also shows as wrong because `showAsWrong` is true for the new selection\n\nThe fix needs to:\n1. Reset the visual wrong state when the user selects a different option\n2. Hide the error message when the user selects a different option\n\nThe issue is that `status` stays as `'incorrect'` even when the user changes their selection. The `retry` function does reset things, but the user has to click \"Reset selection\" explicitly.\n\nThe user wants:\n- When they select a different option after answering wrong, the wrong styling should disappear and the error message should hide\n- The `status` should effectively go back to something like `'idle'` or we need a separate state for tracking the visual display\n\nLet me think about the best approach:\n\nOption 1: Reset `status` to `'idle'` when the user changes their selection after an incorrect answer. But we still need to track that they had an incorrect attempt (for the tries counter).\n\nOption 2: Add a separate state for the visual display of the error message and wrong option styling.\n\nOption 3: Change the logic so that `showAsWrong` and the error message only show when `selected` hasn't changed since the incorrect submission.\n\nI think the cleanest approach is:\n- When the user changes their selection after an incorrect answer, reset `status` back to `'idle'` (but keep `tries` as is)\n- Also clear the hint when selecting a new option\n\nWait, but if we reset status to 'idle', then the \"Not quite\" message disappears and the wrong styling disappears. That's exactly what the user wants. And the tries counter stays.\n\n\nI should implement this by clearing the status when the user selects a new option after an incorrect answer, while preserving the attempt count.",
+            "time": {
+              "start": 1783777438520,
+              "end": 1783777443377
+            }
+          }
+        },
+        {
+          "id": "prt_f516bbe32001QNmpMLsZVnI70i",
+          "time_created": 1783777443378,
+          "type": "text",
+          "data": {
+            "type": "text",
+            "text": "I see the bug. When the status is `'incorrect'`, the wrong styling and error message persist even when the user selects a different option. The `showAsWrong` condition (`status === 'incorrect' && isSelected`) stays true because `status` never resets when changing selection.\n\nThe fix: reset `status` back to `'idle'` when the user selects a new option after an incorrect answer, while keeping the `tries` count.",
+            "time": {
+              "start": 1783777443378,
+              "end": 1783777445256
+            }
+          }
+        },
+        {
+          "id": "prt_f516bc1aa0015hWS3Hs7p6k9px",
+          "time_created": 1783777444266,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "edit",
+            "callID": "call_d92d181be35e451c83b85c5d",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx",
+                "oldString": "            onValueChange={(v) => {\n              if (locked) return\n              setSelected(Number(v))\n            }}",
+                "newString": "            onValueChange={(v) => {\n              if (locked) return\n              const next = Number(v)\n              setSelected(next)\n              if (status === 'incorrect') {\n                setStatus('idle')\n                setHint(null)\n              }\n            }}"
+              },
+              "output": "Edit applied successfully.",
+              "metadata": {
+                "diagnostics": {},
+                "diff": "Index: /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n+++ /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n@@ -120,9 +120,14 @@\n <RadioGroup\n   value={selected !== null ? String(selected) : undefined}\n   onValueChange={(v) => {\n     if (locked) return\n-    setSelected(Number(v))\n+    const next = Number(v)\n+    setSelected(next)\n+    if (status === 'incorrect') {\n+      setStatus('idle')\n+      setHint(null)\n+    }\n   }}\n   className=\"gap-2.5\"\n >\n   {quiz.options.map((opt, i) => {\n",
+                "filediff": {
+                  "file": "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx",
+                  "patch": "Index: /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n+++ /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n@@ -120,9 +120,14 @@\n <RadioGroup\n   value={selected !== null ? String(selected) : undefined}\n   onValueChange={(v) => {\n     if (locked) return\n-    setSelected(Number(v))\n+    const next = Number(v)\n+    setSelected(next)\n+    if (status === 'incorrect') {\n+      setStatus('idle')\n+      setHint(null)\n+    }\n   }}\n   className=\"gap-2.5\"\n >\n   {quiz.options.map((opt, i) => {\n",
+                  "additions": 6,
+                  "deletions": 1
+                },
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx",
+              "time": {
+                "start": 1783777445221,
+                "end": 1783777445223
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f516bc589001d0qpM2l5LDNyfY",
+          "time_created": 1783777445257,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 15628,
+              "input": 4397,
+              "output": 219,
+              "reasoning": 452,
+              "cache": {
+                "write": 0,
+                "read": 10560
+              }
+            },
+            "cost": 0.000833028
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f516bc58c001HCZSL18FJTqyLs",
+      "time_created": 1783777445260,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 15817,
+          "input": 731,
+          "output": 71,
+          "reasoning": 103,
+          "cache": {
+            "write": 0,
+            "read": 14912
+          }
+        },
+        "cost": 0.0001928136
+      },
+      "parts": [
+        {
+          "id": "prt_f516bcf32001BXGA3MfM1yhxCB",
+          "time_created": 1783777447730,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f516bcf44001lWvHxclhv6YDCk",
+          "time_created": 1783777447748,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "The edit was applied. Now when the user selects a new option after an incorrect answer:\n1. `status` resets to `'idle'` - which hides the \"Not quite\" error message and removes wrong styling from the previously wrong option\n2. `hint` is cleared - so any hint shown is also removed\n3. `tries` is preserved - so the miss counter still shows\n\nThis matches the user's request: the wrong state and error message should hide when selecting another option after answering incorrectly.",
+            "time": {
+              "start": 1783777447748,
+              "end": 1783777449063
+            }
+          }
+        },
+        {
+          "id": "prt_f516bd469001GtYFNfV0y1CDjD",
+          "time_created": 1783777449065,
+          "type": "text",
+          "data": {
+            "type": "text",
+            "text": "Now when you select a different option after answering wrong:\n- `status` resets to `'idle'` \u2014 removes the red wrong styling and hides the \"Not quite\" error message\n- `hint` is cleared \u2014 fresh start for the next attempt\n- `tries` is preserved \u2014 miss counter still shows how many attempts you've had",
+            "time": {
+              "start": 1783777449065,
+              "end": 1783777451314
+            }
+          }
+        },
+        {
+          "id": "prt_f516bdd36001m6kKrfmWDbeuMw",
+          "time_created": 1783777451318,
+          "type": "step-finish",
+          "data": {
+            "reason": "stop",
+            "type": "step-finish",
+            "tokens": {
+              "total": 15817,
+              "input": 731,
+              "output": 71,
+              "reasoning": 103,
+              "cache": {
+                "write": 0,
+                "read": 14912
+              }
+            },
+            "cost": 0.0001928136
+          }
+        }
+      ]
+    }
+  ]
+}

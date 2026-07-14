@@ -1,0 +1,2478 @@
+{
+  "session_id": "ses_0aeed0b52ffeLLa5r51AyjBiYm",
+  "title": "Replace try-catch with Fastify in learning.ts",
+  "time_created": 1783771624621,
+  "time_updated": 1783781389156,
+  "cost": 0.005030127200000001,
+  "tokens": {
+    "input": 15319,
+    "output": 5019,
+    "reasoning": 1340
+  },
+  "messages": [
+    {
+      "id": "msg_f5112f4c5001qgFMhQhASUtE9G",
+      "time_created": 1783771624645,
+      "role": "user",
+      "metadata": {
+        "agent": "build",
+        "model": {
+          "providerID": "opencode-go",
+          "modelID": "mimo-v2.5",
+          "variant": "high"
+        },
+        "tokens": null,
+        "cost": null
+      },
+      "parts": [
+        {
+          "id": "prt_f5112f4c50020HW2D5X8vuuqMR",
+          "time_created": 1783771624664,
+          "type": "text",
+          "data": {
+            "type": "text",
+            "text": "In backend/src/routes/learning.ts, instead of using try catch manually and just returning 500 error instead, use fastify built in error handler and remove this try catch use try catch only when you want to catch some specific error or return some specific message else let error handler handle do it. "
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f5112f4e1001Moso0JNIbRQZ2p",
+      "time_created": 1783771624673,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 7994,
+          "input": 65,
+          "output": 38,
+          "reasoning": 19,
+          "cache": {
+            "write": 0,
+            "read": 7872
+          }
+        },
+        "cost": 4.71016e-05
+      },
+      "parts": [
+        {
+          "id": "prt_f5112fd10001HtO1eS0Pf4LHTJ",
+          "time_created": 1783771626768,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f5112fd13001cgkDjlPaLUW7Wj",
+          "time_created": 1783771626771,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Let me first read the learning.ts file to understand the current structure and then plan the changes.",
+            "time": {
+              "start": 1783771626771,
+              "end": 1783771626905
+            }
+          }
+        },
+        {
+          "id": "prt_f5112fd9a001iQxCoFAkYSIClb",
+          "time_created": 1783771626906,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "read",
+            "callID": "call_520381fb6d504cf98a071273",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/routes/learning.ts"
+              },
+              "output": "<path>/Users/shivam/qnify/ai-learning-agent/backend/src/routes/learning.ts</path>\n<type>file</type>\n<content>\n1: import type { FastifyInstance } from 'fastify'\n2: import { z } from 'zod'\n3: import type { ZodType } from 'zod'\n4: import { getDocument, listDocuments } from '../services/documents.ts'\n5: import { approvePlan, createPlan, getPlan, getPlansForDocument } from '../services/plans.ts'\n6: import * as quiz from '../services/quizzes.ts'\n7: import { completeAttempt, getAttempt, listAttempts } from '../services/attempts.ts'\n8: \n9: function validate<T>(schema: ZodType<T>, data: unknown): T {\n10:   return schema.parse(data)\n11: }\n12: const IdParam = z.object({ id: z.coerce.number() })\n13: \n14: export async function routes(app: FastifyInstance) {\n15:   app.get('/api/documents', () => listDocuments())\n16: \n17:   app.get('/api/documents/:id', async (req, reply) => {\n18:     const { id } = validate(IdParam, req.params)\n19:     const doc = await getDocument(id)\n20:     if (!doc) return reply.code(404).send({ error: 'Document not found' })\n21:     return doc\n22:   })\n23: \n24:   app.get('/api/documents/:id/plans', async (req) => {\n25:     const { id } = validate(IdParam, req.params)\n26:     return getPlansForDocument(id)\n27:   })\n28: \n29:   app.post('/api/documents/:id/plans', async (req, reply) => {\n30:     const { id } = validate(IdParam, req.params)\n31:     try {\n32:       const plan = await createPlan(id)\n33:       return reply.code(201).send(plan)\n34:     } catch (err) {\n35:       console.error(err)\n36:       return reply.code(400).send({ error: (err as Error).message })\n37:     }\n38:   })\n39: \n40:   app.get('/api/lesson-plans/:id', async (req, reply) => {\n41:     const { id } = validate(IdParam, req.params)\n42:     const plan = await getPlan(id)\n43:     if (!plan) return reply.code(404).send({ error: 'Plan not found' })\n44:     return plan\n45:   })\n46: \n47:   app.post('/api/lesson-plans/:id/approve', async (req, reply) => {\n48:     const { id } = validate(IdParam, req.params)\n49:     try {\n50:       const plan = await approvePlan(id)\n51:       return plan\n52:     } catch (err) {\n53:       return reply.code(404).send({ error: (err as Error).message })\n54:     }\n55:   })\n56: \n57:   app.get('/api/lesson-plans/:id/quizzes', async (req, reply) => {\n58:     const { id } = validate(IdParam, req.params)\n59:     try {\n60:       const quizzes = await quiz.getAllQuizzes(id)\n61:       return quizzes\n62:     } catch (err) {\n63:       return reply.code(400).send({ error: (err as Error).message })\n64:     }\n65:   })\n66: \n67:   const CreateQuizBody = z.object({ objectiveIndex: z.number() })\n68: \n69:   app.post('/api/lesson-plans/:id/quizzes', async (req, reply) => {\n70:     const { id } = validate(IdParam, req.params)\n71:     const { objectiveIndex } = validate(CreateQuizBody, req.body)\n72:     try {\n73:       return await quiz.getOrCreateQuiz(id, objectiveIndex)\n74:     } catch (err) {\n75:       return reply.code(400).send({ error: (err as Error).message })\n76:     }\n77:   })\n78: \n79:   app.post('/api/quizzes/:id/explain', async (req, reply) => {\n80:     const { id } = validate(IdParam, req.params)\n81:     try {\n82:       return await quiz.getExplanation(id)\n83:     } catch (err) {\n84:       return reply.code(400).send({ error: (err as Error).message })\n85:     }\n86:   })\n87: \n88:   const CheckAnswerBody = z.object({ learnerIndex: z.number() })\n89: \n90:   app.post('/api/quizzes/:id/check', async (req, reply) => {\n91:     const { id } = validate(IdParam, req.params)\n92:     const { learnerIndex } = validate(CheckAnswerBody, req.body)\n93:     try {\n94:       return await quiz.checkAnswer(id, learnerIndex)\n95:     } catch (err) {\n96:       return reply.code(400).send({ error: (err as Error).message })\n97:     }\n98:   })\n99: \n100:   const HintBody = z.object({ previousGuessIndex: z.number().nullable().optional() })\n101: \n102:   app.post('/api/quizzes/:id/hint', async (req, reply) => {\n103:     const { id } = validate(IdParam, req.params)\n104:     const { previousGuessIndex } = validate(HintBody, req.body)\n105:     try {\n106:       const hint = await quiz.getHint(id, previousGuessIndex ?? null)\n107:       return { hint }\n108:     } catch (err) {\n109:       return reply.code(400).send({ error: (err as Error).message })\n110:     }\n111:   })\n112: \n113:   const LearnMoreBody = z.object({\n114:     learnerQuestion: z.string(),\n115:     history: z.array(z.object({ role: z.enum(['user', 'assistant']), content: z.string() })).optional()\n116:   })\n117: \n118:   app.post('/api/quizzes/:id/learn-more', async (req, reply) => {\n119:     const { id } = validate(IdParam, req.params)\n120:     const { learnerQuestion, history } = validate(LearnMoreBody, req.body)\n121:     try {\n122:       const message = await quiz.learnMoreAboutQuiz(id, learnerQuestion, history ?? [])\n123:       return { message }\n124:     } catch (err) {\n125:       return reply.code(400).send({ error: (err as Error).message })\n126:     }\n127:   })\n128: \n129:   const CompleteBody = z.object({\n130:     answers: z.array(z.object({ quizId: z.number(), learnerIndex: z.number().nullable(), attempts: z.number() }))\n131:   })\n132: \n133:   app.post('/api/lesson-plans/:id/complete', async (req, reply) => {\n134:     const { id } = validate(IdParam, req.params)\n135:     const { answers } = validate(CompleteBody, req.body)\n136:     try {\n137:       return await completeAttempt(id, { answers })\n138:     } catch (err) {\n139:       return reply.code(400).send({ error: (err as Error).message })\n140:     }\n141:   })\n142: \n143:   app.get('/api/lesson-plans/:id/attempts', async (req) => {\n144:     const { id } = validate(IdParam, req.params)\n145:     return listAttempts(id)\n146:   })\n147: \n148:   app.get('/api/attempts/:id', async (req, reply) => {\n149:     const { id } = validate(IdParam, req.params)\n150:     const attempt = await getAttempt(id)\n151:     if (!attempt) return reply.code(404).send({ error: 'Attempt not found' })\n152:     return attempt\n153:   })\n154: }\n\n(End of file - total 154 lines)\n</content>",
+              "metadata": {
+                "preview": "import type { FastifyInstance } from 'fastify'\nimport { z } from 'zod'\nimport type { ZodType } from 'zod'\nimport { getDocument, listDocuments } from '../services/documents.ts'\nimport { approvePlan, createPlan, getPlan, getPlansForDocument } from '../services/plans.ts'\nimport * as quiz from '../services/quizzes.ts'\nimport { completeAttempt, getAttempt, listAttempts } from '../services/attempts.ts'\n\nfunction validate<T>(schema: ZodType<T>, data: unknown): T {\n  return schema.parse(data)\n}\nconst IdParam = z.object({ id: z.coerce.number() })\n\nexport async function routes(app: FastifyInstance) {\n  app.get('/api/documents', () => listDocuments())\n\n  app.get('/api/documents/:id', async (req, reply) => {\n    const { id } = validate(IdParam, req.params)\n    const doc = await getDocument(id)\n    if (!doc) return reply.code(404).send({ error: 'Document not found' })",
+                "truncated": false,
+                "loaded": [],
+                "display": {
+                  "type": "file",
+                  "path": "/Users/shivam/qnify/ai-learning-agent/backend/src/routes/learning.ts",
+                  "text": "import type { FastifyInstance } from 'fastify'\nimport { z } from 'zod'\nimport type { ZodType } from 'zod'\nimport { getDocument, listDocuments } from '../services/documents.ts'\nimport { approvePlan, createPlan, getPlan, getPlansForDocument } from '../services/plans.ts'\nimport * as quiz from '../services/quizzes.ts'\nimport { completeAttempt, getAttempt, listAttempts } from '../services/attempts.ts'\n\nfunction validate<T>(schema: ZodType<T>, data: unknown): T {\n  return schema.parse(data)\n}\nconst IdParam = z.object({ id: z.coerce.number() })\n\nexport async function routes(app: FastifyInstance) {\n  app.get('/api/documents', () => listDocuments())\n\n  app.get('/api/documents/:id', async (req, reply) => {\n    const { id } = validate(IdParam, req.params)\n    const doc = await getDocument(id)\n    if (!doc) return reply.code(404).send({ error: 'Document not found' })\n    return doc\n  })\n\n  app.get('/api/documents/:id/plans', async (req) => {\n    const { id } = validate(IdParam, req.params)\n    return getPlansForDocument(id)\n  })\n\n  app.post('/api/documents/:id/plans', async (req, reply) => {\n    const { id } = validate(IdParam, req.params)\n    try {\n      const plan = await createPlan(id)\n      return reply.code(201).send(plan)\n    } catch (err) {\n      console.error(err)\n      return reply.code(400).send({ error: (err as Error).message })\n    }\n  })\n\n  app.get('/api/lesson-plans/:id', async (req, reply) => {\n    const { id } = validate(IdParam, req.params)\n    const plan = await getPlan(id)\n    if (!plan) return reply.code(404).send({ error: 'Plan not found' })\n    return plan\n  })\n\n  app.post('/api/lesson-plans/:id/approve', async (req, reply) => {\n    const { id } = validate(IdParam, req.params)\n    try {\n      const plan = await approvePlan(id)\n      return plan\n    } catch (err) {\n      return reply.code(404).send({ error: (err as Error).message })\n    }\n  })\n\n  app.get('/api/lesson-plans/:id/quizzes', async (req, reply) => {\n    const { id } = validate(IdParam, req.params)\n    try {\n      const quizzes = await quiz.getAllQuizzes(id)\n      return quizzes\n    } catch (err) {\n      return reply.code(400).send({ error: (err as Error).message })\n    }\n  })\n\n  const CreateQuizBody = z.object({ objectiveIndex: z.number() })\n\n  app.post('/api/lesson-plans/:id/quizzes', async (req, reply) => {\n    const { id } = validate(IdParam, req.params)\n    const { objectiveIndex } = validate(CreateQuizBody, req.body)\n    try {\n      return await quiz.getOrCreateQuiz(id, objectiveIndex)\n    } catch (err) {\n      return reply.code(400).send({ error: (err as Error).message })\n    }\n  })\n\n  app.post('/api/quizzes/:id/explain', async (req, reply) => {\n    const { id } = validate(IdParam, req.params)\n    try {\n      return await quiz.getExplanation(id)\n    } catch (err) {\n      return reply.code(400).send({ error: (err as Error).message })\n    }\n  })\n\n  const CheckAnswerBody = z.object({ learnerIndex: z.number() })\n\n  app.post('/api/quizzes/:id/check', async (req, reply) => {\n    const { id } = validate(IdParam, req.params)\n    const { learnerIndex } = validate(CheckAnswerBody, req.body)\n    try {\n      return await quiz.checkAnswer(id, learnerIndex)\n    } catch (err) {\n      return reply.code(400).send({ error: (err as Error).message })\n    }\n  })\n\n  const HintBody = z.object({ previousGuessIndex: z.number().nullable().optional() })\n\n  app.post('/api/quizzes/:id/hint', async (req, reply) => {\n    const { id } = validate(IdParam, req.params)\n    const { previousGuessIndex } = validate(HintBody, req.body)\n    try {\n      const hint = await quiz.getHint(id, previousGuessIndex ?? null)\n      return { hint }\n    } catch (err) {\n      return reply.code(400).send({ error: (err as Error).message })\n    }\n  })\n\n  const LearnMoreBody = z.object({\n    learnerQuestion: z.string(),\n    history: z.array(z.object({ role: z.enum(['user', 'assistant']), content: z.string() })).optional()\n  })\n\n  app.post('/api/quizzes/:id/learn-more', async (req, reply) => {\n    const { id } = validate(IdParam, req.params)\n    const { learnerQuestion, history } = validate(LearnMoreBody, req.body)\n    try {\n      const message = await quiz.learnMoreAboutQuiz(id, learnerQuestion, history ?? [])\n      return { message }\n    } catch (err) {\n      return reply.code(400).send({ error: (err as Error).message })\n    }\n  })\n\n  const CompleteBody = z.object({\n    answers: z.array(z.object({ quizId: z.number(), learnerIndex: z.number().nullable(), attempts: z.number() }))\n  })\n\n  app.post('/api/lesson-plans/:id/complete', async (req, reply) => {\n    const { id } = validate(IdParam, req.params)\n    const { answers } = validate(CompleteBody, req.body)\n    try {\n      return await completeAttempt(id, { answers })\n    } catch (err) {\n      return reply.code(400).send({ error: (err as Error).message })\n    }\n  })\n\n  app.get('/api/lesson-plans/:id/attempts', async (req) => {\n    const { id } = validate(IdParam, req.params)\n    return listAttempts(id)\n  })\n\n  app.get('/api/attempts/:id', async (req, reply) => {\n    const { id } = validate(IdParam, req.params)\n    const attempt = await getAttempt(id)\n    if (!attempt) return reply.code(404).send({ error: 'Attempt not found' })\n    return attempt\n  })\n}",
+                  "lineStart": 1,
+                  "lineEnd": 154,
+                  "totalLines": 154,
+                  "truncated": false
+                }
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/routes/learning.ts",
+              "time": {
+                "start": 1783771627048,
+                "end": 1783771627054
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f5112ff1d001syYhGBHldesCi9",
+          "time_created": 1783771627293,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 7994,
+              "input": 65,
+              "output": 38,
+              "reasoning": 19,
+              "cache": {
+                "write": 0,
+                "read": 7872
+              }
+            },
+            "cost": 4.71016e-05
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f5112ff21001zfWquBDKmamCE4",
+      "time_created": 1783771627297,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 10413,
+          "input": 2122,
+          "output": 109,
+          "reasoning": 310,
+          "cache": {
+            "write": 0,
+            "read": 7872
+          }
+        },
+        "cost": 0.0004364416
+      },
+      "parts": [
+        {
+          "id": "prt_f5113061600196N1HyHg1ElhKy",
+          "time_created": 1783771629078,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f51130617001h6P9YilK913Ctb",
+          "time_created": 1783771629079,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Let me analyze the try-catch blocks in this file:\n\n1. Lines 31-37: `createPlan` - catches any error and returns 400\n2. Lines 49-54: `approvePlan` - catches any error and returns 404\n3. Lines 59-64: `quiz.getAllQuizzes` - catches any error and returns 400\n4. Lines 72-76: `quiz.getOrCreateQuiz` - catches any error and returns 400\n5. Lines 81-85: `quiz.getExplanation` - catches any error and returns 400\n6. Lines 93-97: `quiz.checkAnswer` - catches any error and returns 400\n7. Lines 105-110: `quiz.getHint` - catches any error and returns 400\n8. Lines 121-126: `quiz.learnMoreAboutQuiz` - catches any error and returns 400\n9. Lines 136-140: `completeAttempt` - catches any error and returns 400\n\nNow I need to check the services to understand what errors they throw, and then decide which ones need try-catch and which ones can be left to the Fastify error handler.\n\nLet me check the services to understand what errors they might throw and if they have any specific error handling.",
+            "time": {
+              "start": 1783771629079,
+              "end": 1783771632292
+            }
+          }
+        },
+        {
+          "id": "prt_f511312a600138YqEI32E6ZtoH",
+          "time_created": 1783771632294,
+          "type": "text",
+          "data": {
+            "type": "text",
+            "text": "Now let me check the services to understand what errors they throw and if there's a custom error handler set up in Fastify.",
+            "time": {
+              "start": 1783771632294,
+              "end": 1783771633244
+            }
+          }
+        },
+        {
+          "id": "prt_f511313c3001Hrdsf6CXo91LK1",
+          "time_created": 1783771632580,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "glob",
+            "callID": "call_ed6c71e95f574ac7b24ffc41",
+            "state": {
+              "status": "completed",
+              "input": {
+                "pattern": "backend/src/**/*.ts"
+              },
+              "output": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n/Users/shivam/qnify/ai-learning-agent/backend/src/services/documents.ts\n/Users/shivam/qnify/ai-learning-agent/backend/src/services/types.ts\n/Users/shivam/qnify/ai-learning-agent/backend/src/services/pdf-to-markdown.ts\n/Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts\n/Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n/Users/shivam/qnify/ai-learning-agent/backend/src/routes/learning.ts\n/Users/shivam/qnify/ai-learning-agent/backend/src/db.ts\n/Users/shivam/qnify/ai-learning-agent/backend/src/config.ts\n/Users/shivam/qnify/ai-learning-agent/backend/src/index.ts\n/Users/shivam/qnify/ai-learning-agent/backend/src/ai/plan.ts\n/Users/shivam/qnify/ai-learning-agent/backend/src/ai/quiz.ts\n/Users/shivam/qnify/ai-learning-agent/backend/src/ai/feedback.ts\n/Users/shivam/qnify/ai-learning-agent/backend/src/ai/model.ts\n/Users/shivam/qnify/ai-learning-agent/backend/src/ai/summary.ts\n/Users/shivam/qnify/ai-learning-agent/backend/src/ai/schemas.ts",
+              "metadata": {
+                "count": 16,
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent",
+              "time": {
+                "start": 1783771632696,
+                "end": 1783771632717
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f51131477001U13edPUFJYeewB",
+          "time_created": 1783771632759,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "grep",
+            "callID": "call_25eedc66ac944c16a92da55f",
+            "state": {
+              "status": "completed",
+              "input": {
+                "pattern": "setErrorHandler|onError|setNotFoundHandler",
+                "include": "*.ts",
+                "path": "/Users/shivam/qnify/ai-learning-agent/backend"
+              },
+              "output": "Found 1 matches\n/Users/shivam/qnify/ai-learning-agent/backend/src/index.ts:\n  Line 14: app.setErrorHandler((err, _req, reply) => {\n",
+              "metadata": {
+                "matches": 1,
+                "truncated": false
+              },
+              "title": "setErrorHandler|onError|setNotFoundHandler",
+              "time": {
+                "start": 1783771633184,
+                "end": 1783771633200
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f5113165e001ZO00L0JBe6hIG4",
+          "time_created": 1783771633246,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 10413,
+              "input": 2122,
+              "output": 109,
+              "reasoning": 310,
+              "cache": {
+                "write": 0,
+                "read": 7872
+              }
+            },
+            "cost": 0.0004364416
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f51131661001cCOrBAu33RQHKw",
+      "time_created": 1783771633249,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 10916,
+          "input": 771,
+          "output": 141,
+          "reasoning": 20,
+          "cache": {
+            "write": 0,
+            "read": 9984
+          }
+        },
+        "cost": 0.0001809752
+      },
+      "parts": [
+        {
+          "id": "prt_f51131e820013bKCjHqJKCTVdx",
+          "time_created": 1783771635330,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f51131e83001OY0uanHlAHiiaE",
+          "time_created": 1783771635331,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Let me check the existing error handler in index.ts and the services to understand what errors they throw.",
+            "time": {
+              "start": 1783771635331,
+              "end": 1783771635960
+            }
+          }
+        },
+        {
+          "id": "prt_f511320f8001O80mq1xtQD992F",
+          "time_created": 1783771635960,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "read",
+            "callID": "call_7d3de33df91d4967bcfe742c",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/index.ts"
+              },
+              "output": "<path>/Users/shivam/qnify/ai-learning-agent/backend/src/index.ts</path>\n<type>file</type>\n<content>\n1: import Fastify from 'fastify'\n2: import cors from '@fastify/cors'\n3: import multipart from '@fastify/multipart'\n4: import { ZodError } from 'zod'\n5: import { DB_PATH, HOST, PORT, UPLOADS_DIR } from './config.ts'\n6: import { routes } from './routes/learning.ts'\n7: import { db, SCHEMA_SQL } from './db.ts'\n8: import { mkdirSync } from 'node:fs'\n9: import { dirname } from 'node:path'\n10: import { uploadAndConvert } from './services/documents.ts'\n11: \n12: const app = Fastify({ logger: true })\n13: \n14: app.setErrorHandler((err, _req, reply) => {\n15:   if (err instanceof ZodError) {\n16:     return reply.code(400).send({\n17:       error: 'Validation failed',\n18:       details: err.issues.map((i) => ({ path: i.path.join('.'), message: i.message }))\n19:     })\n20:   }\n21:   throw err\n22: })\n23: \n24: await app.register(cors, {\n25:   origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],\n26:   credentials: true\n27: })\n28: \n29: await app.register(multipart, {\n30:   limits: { fileSize: 1024 * 1024 * 10 } // Max 10 MB.\n31: })\n32: \n33: app.get('/api/health', async () => ({ ok: true }))\n34: \n35: app.post('/api/documents/upload', async (req, reply) => {\n36:   const part = await req.file()\n37:   if (!part) {\n38:     return reply.code(400).send({ error: 'No file provided' })\n39:   }\n40:   const allowed = ['.pdf']\n41:   const lower = part.filename.toLowerCase()\n42:   if (!allowed.some((ext) => lower.endsWith(ext))) {\n43:     return reply.code(400).send({ error: 'Only PDF files are supported' })\n44:   }\n45:   const buffer = await part.toBuffer()\n46:   const doc = await uploadAndConvert(part.filename, buffer)\n47:   return reply.code(201).send(doc)\n48: })\n49: \n50: await app.register(routes)\n51: \n52: function init(): void {\n53:   mkdirSync(dirname(DB_PATH), { recursive: true })\n54:   mkdirSync(UPLOADS_DIR, { recursive: true })\n55:   db.exec(SCHEMA_SQL)\n56: }\n57: \n58: init()\n59: \n60: app.listen({ port: PORT, host: HOST }, (err, address) => {\n61:   if (err) {\n62:     app.log.error(err)\n63:     process.exit(1)\n64:   }\n65:   app.log.info(`Server listening on ${address}`)\n66: })\n\n(End of file - total 66 lines)\n</content>",
+              "metadata": {
+                "preview": "import Fastify from 'fastify'\nimport cors from '@fastify/cors'\nimport multipart from '@fastify/multipart'\nimport { ZodError } from 'zod'\nimport { DB_PATH, HOST, PORT, UPLOADS_DIR } from './config.ts'\nimport { routes } from './routes/learning.ts'\nimport { db, SCHEMA_SQL } from './db.ts'\nimport { mkdirSync } from 'node:fs'\nimport { dirname } from 'node:path'\nimport { uploadAndConvert } from './services/documents.ts'\n\nconst app = Fastify({ logger: true })\n\napp.setErrorHandler((err, _req, reply) => {\n  if (err instanceof ZodError) {\n    return reply.code(400).send({\n      error: 'Validation failed',\n      details: err.issues.map((i) => ({ path: i.path.join('.'), message: i.message }))\n    })\n  }",
+                "truncated": false,
+                "loaded": [],
+                "display": {
+                  "type": "file",
+                  "path": "/Users/shivam/qnify/ai-learning-agent/backend/src/index.ts",
+                  "text": "import Fastify from 'fastify'\nimport cors from '@fastify/cors'\nimport multipart from '@fastify/multipart'\nimport { ZodError } from 'zod'\nimport { DB_PATH, HOST, PORT, UPLOADS_DIR } from './config.ts'\nimport { routes } from './routes/learning.ts'\nimport { db, SCHEMA_SQL } from './db.ts'\nimport { mkdirSync } from 'node:fs'\nimport { dirname } from 'node:path'\nimport { uploadAndConvert } from './services/documents.ts'\n\nconst app = Fastify({ logger: true })\n\napp.setErrorHandler((err, _req, reply) => {\n  if (err instanceof ZodError) {\n    return reply.code(400).send({\n      error: 'Validation failed',\n      details: err.issues.map((i) => ({ path: i.path.join('.'), message: i.message }))\n    })\n  }\n  throw err\n})\n\nawait app.register(cors, {\n  origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],\n  credentials: true\n})\n\nawait app.register(multipart, {\n  limits: { fileSize: 1024 * 1024 * 10 } // Max 10 MB.\n})\n\napp.get('/api/health', async () => ({ ok: true }))\n\napp.post('/api/documents/upload', async (req, reply) => {\n  const part = await req.file()\n  if (!part) {\n    return reply.code(400).send({ error: 'No file provided' })\n  }\n  const allowed = ['.pdf']\n  const lower = part.filename.toLowerCase()\n  if (!allowed.some((ext) => lower.endsWith(ext))) {\n    return reply.code(400).send({ error: 'Only PDF files are supported' })\n  }\n  const buffer = await part.toBuffer()\n  const doc = await uploadAndConvert(part.filename, buffer)\n  return reply.code(201).send(doc)\n})\n\nawait app.register(routes)\n\nfunction init(): void {\n  mkdirSync(dirname(DB_PATH), { recursive: true })\n  mkdirSync(UPLOADS_DIR, { recursive: true })\n  db.exec(SCHEMA_SQL)\n}\n\ninit()\n\napp.listen({ port: PORT, host: HOST }, (err, address) => {\n  if (err) {\n    app.log.error(err)\n    process.exit(1)\n  }\n  app.log.info(`Server listening on ${address}`)\n})",
+                  "lineStart": 1,
+                  "lineEnd": 66,
+                  "totalLines": 66,
+                  "truncated": false
+                }
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/index.ts",
+              "time": {
+                "start": 1783771635985,
+                "end": 1783771635989
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f51132114001Y74Wlme0j0GcmZ",
+          "time_created": 1783771635988,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "read",
+            "callID": "call_82d31fe2078d411382804da3",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts"
+              },
+              "output": "<path>/Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts</path>\n<type>file</type>\n<content>\n1: import { db, type DocumentRow, type LessonPlanRow } from '../db.ts'\n2: import { generatePlan } from '../ai/plan.ts'\n3: import type { Objective } from './types.ts'\n4: \n5: export async function createPlan(documentId: number) {\n6:   const doc = db.prepare(`SELECT * FROM documents WHERE id = ?`).get(documentId) as DocumentRow | undefined\n7:   if (!doc) throw new Error('Document not found')\n8:   if (doc.status !== 'ready' || !doc.markdown) {\n9:     throw new Error(`Document is not ready for plan generation (status: ${doc.status})`)\n10:   }\n11: \n12:   const plan = await generatePlan(doc.markdown, doc.filename)\n13:   const objectivesJson = JSON.stringify(plan.objectives)\n14:   const res = db\n15:     .prepare(\n16:       `INSERT INTO lesson_plans (document_id, title, description, objectives, difficulty, status)\n17:        VALUES (?, ?, ?, ?, ?, 'draft')\n18:        RETURNING *`\n19:     )\n20:     .get(documentId, plan.title, plan.description, objectivesJson, plan.difficulty) as LessonPlanRow\n21: \n22:   return {\n23:     id: res.id,\n24:     document_id: documentId,\n25:     title: res.title,\n26:     description: res.description,\n27:     difficulty: res.difficulty as 'beginner' | 'intermediate' | 'advanced',\n28:     objectives: plan.objectives,\n29:     status: res.status as 'draft' | 'approved' | 'completed',\n30:     created_at: res.created_at\n31:   }\n32: }\n33: \n34: export async function getPlan(planId: number) {\n35:   const row = db.prepare(`SELECT * FROM lesson_plans WHERE id = ?`).get(planId) as LessonPlanRow | undefined\n36:   if (!row) return null\n37:   const doc = db.prepare(`SELECT filename FROM documents WHERE id = ?`).get(row.document_id) as { filename: string }\n38:   return {\n39:     id: row.id,\n40:     document_id: row.document_id,\n41:     document_filename: doc.filename,\n42:     title: row.title,\n43:     description: row.description,\n44:     difficulty: row.difficulty as 'beginner' | 'intermediate' | 'advanced',\n45:     objectives: JSON.parse(row.objectives) as Objective[],\n46:     status: row.status as 'draft' | 'approved' | 'completed',\n47:     created_at: row.created_at\n48:   }\n49: }\n50: \n51: export async function getPlansForDocument(documentId: number) {\n52:   const rows = db\n53:     .prepare(`SELECT * FROM lesson_plans WHERE document_id = ? ORDER BY datetime(created_at) DESC`)\n54:     .all(documentId) as LessonPlanRow[]\n55:   return rows.map((row) => ({\n56:     id: row.id,\n57:     document_id: row.document_id,\n58:     title: row.title,\n59:     description: row.description,\n60:     difficulty: row.difficulty as 'beginner' | 'intermediate' | 'advanced',\n61:     objectives: JSON.parse(row.objectives) as Objective[],\n62:     status: row.status as 'draft' | 'approved' | 'completed',\n63:     created_at: row.created_at\n64:   }))\n65: }\n66: \n67: export async function approvePlan(planId: number) {\n68:   const row = db.prepare(`SELECT * FROM lesson_plans WHERE id = ?`).get(planId) as LessonPlanRow | undefined\n69:   if (!row) throw new Error('Plan not found')\n70:   if (row.status === 'draft') {\n71:     db.prepare(`UPDATE lesson_plans SET status = 'approved' WHERE id = ?`).run(planId)\n72:   }\n73:   return getPlan(planId)\n74: }\n\n(End of file - total 74 lines)\n</content>",
+              "metadata": {
+                "preview": "import { db, type DocumentRow, type LessonPlanRow } from '../db.ts'\nimport { generatePlan } from '../ai/plan.ts'\nimport type { Objective } from './types.ts'\n\nexport async function createPlan(documentId: number) {\n  const doc = db.prepare(`SELECT * FROM documents WHERE id = ?`).get(documentId) as DocumentRow | undefined\n  if (!doc) throw new Error('Document not found')\n  if (doc.status !== 'ready' || !doc.markdown) {\n    throw new Error(`Document is not ready for plan generation (status: ${doc.status})`)\n  }\n\n  const plan = await generatePlan(doc.markdown, doc.filename)\n  const objectivesJson = JSON.stringify(plan.objectives)\n  const res = db\n    .prepare(\n      `INSERT INTO lesson_plans (document_id, title, description, objectives, difficulty, status)\n       VALUES (?, ?, ?, ?, ?, 'draft')\n       RETURNING *`\n    )\n    .get(documentId, plan.title, plan.description, objectivesJson, plan.difficulty) as LessonPlanRow",
+                "truncated": false,
+                "loaded": [],
+                "display": {
+                  "type": "file",
+                  "path": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts",
+                  "text": "import { db, type DocumentRow, type LessonPlanRow } from '../db.ts'\nimport { generatePlan } from '../ai/plan.ts'\nimport type { Objective } from './types.ts'\n\nexport async function createPlan(documentId: number) {\n  const doc = db.prepare(`SELECT * FROM documents WHERE id = ?`).get(documentId) as DocumentRow | undefined\n  if (!doc) throw new Error('Document not found')\n  if (doc.status !== 'ready' || !doc.markdown) {\n    throw new Error(`Document is not ready for plan generation (status: ${doc.status})`)\n  }\n\n  const plan = await generatePlan(doc.markdown, doc.filename)\n  const objectivesJson = JSON.stringify(plan.objectives)\n  const res = db\n    .prepare(\n      `INSERT INTO lesson_plans (document_id, title, description, objectives, difficulty, status)\n       VALUES (?, ?, ?, ?, ?, 'draft')\n       RETURNING *`\n    )\n    .get(documentId, plan.title, plan.description, objectivesJson, plan.difficulty) as LessonPlanRow\n\n  return {\n    id: res.id,\n    document_id: documentId,\n    title: res.title,\n    description: res.description,\n    difficulty: res.difficulty as 'beginner' | 'intermediate' | 'advanced',\n    objectives: plan.objectives,\n    status: res.status as 'draft' | 'approved' | 'completed',\n    created_at: res.created_at\n  }\n}\n\nexport async function getPlan(planId: number) {\n  const row = db.prepare(`SELECT * FROM lesson_plans WHERE id = ?`).get(planId) as LessonPlanRow | undefined\n  if (!row) return null\n  const doc = db.prepare(`SELECT filename FROM documents WHERE id = ?`).get(row.document_id) as { filename: string }\n  return {\n    id: row.id,\n    document_id: row.document_id,\n    document_filename: doc.filename,\n    title: row.title,\n    description: row.description,\n    difficulty: row.difficulty as 'beginner' | 'intermediate' | 'advanced',\n    objectives: JSON.parse(row.objectives) as Objective[],\n    status: row.status as 'draft' | 'approved' | 'completed',\n    created_at: row.created_at\n  }\n}\n\nexport async function getPlansForDocument(documentId: number) {\n  const rows = db\n    .prepare(`SELECT * FROM lesson_plans WHERE document_id = ? ORDER BY datetime(created_at) DESC`)\n    .all(documentId) as LessonPlanRow[]\n  return rows.map((row) => ({\n    id: row.id,\n    document_id: row.document_id,\n    title: row.title,\n    description: row.description,\n    difficulty: row.difficulty as 'beginner' | 'intermediate' | 'advanced',\n    objectives: JSON.parse(row.objectives) as Objective[],\n    status: row.status as 'draft' | 'approved' | 'completed',\n    created_at: row.created_at\n  }))\n}\n\nexport async function approvePlan(planId: number) {\n  const row = db.prepare(`SELECT * FROM lesson_plans WHERE id = ?`).get(planId) as LessonPlanRow | undefined\n  if (!row) throw new Error('Plan not found')\n  if (row.status === 'draft') {\n    db.prepare(`UPDATE lesson_plans SET status = 'approved' WHERE id = ?`).run(planId)\n  }\n  return getPlan(planId)\n}",
+                  "lineStart": 1,
+                  "lineEnd": 74,
+                  "totalLines": 74,
+                  "truncated": false
+                }
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts",
+              "time": {
+                "start": 1783771636032,
+                "end": 1783771636034
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f5113218c001YthSFRz9pVajCu",
+          "time_created": 1783771636108,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "read",
+            "callID": "call_4a8972a1a0514d4d8d8d20e3",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts"
+              },
+              "output": "<path>/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts</path>\n<type>file</type>\n<content>\n1: import { db, type QuizQuestionRow } from '../db.ts'\n2: import { generateQuiz } from '../ai/quiz.ts'\n3: import { generateRetryHint, explainCorrect, learnMore } from '../ai/feedback.ts'\n4: import { getPlan } from './plans.ts'\n5: import { getDocumentMarkdown } from './documents.ts'\n6: import type { QuizDTO } from './types.ts'\n7: \n8: export async function getOrCreateQuiz(planId: number, objectiveIndex: number): Promise<QuizDTO> {\n9:   const plan = await getPlan(planId)\n10:   if (!plan) throw new Error('Plan not found')\n11:   const objective = plan.objectives[objectiveIndex]\n12:   if (!objective) throw new Error(`Objective ${objectiveIndex} not found`)\n13: \n14:   const existing = db\n15:     .prepare(`SELECT * FROM quiz_questions WHERE lesson_plan_id = ? AND objective_index = ?`)\n16:     .get(planId, objectiveIndex) as QuizQuestionRow | undefined\n17: \n18:   if (existing) {\n19:     return {\n20:       id: existing.id,\n21:       objectiveIndex: existing.objective_index,\n22:       objectiveText: existing.objective_text,\n23:       question: existing.question,\n24:       options: JSON.parse(existing.options),\n25:       hint: existing.hint\n26:     }\n27:   }\n28: \n29:   const markdown = await getDocumentMarkdown(plan.document_id)\n30:   if (!markdown) throw new Error('Source document has no markdown content')\n31:   const quiz = await generateQuiz(markdown, objective.text, objective.topic)\n32: \n33:   const res = db\n34:     .prepare(\n35:       `INSERT INTO quiz_questions (lesson_plan_id, objective_index, objective_text, question, options, correct_index, explanation, hint)\n36:        VALUES (?, ?, ?, ?, ?, ?, ?, ?)\n37:        RETURNING id`\n38:     )\n39:     .get(\n40:       planId,\n41:       objectiveIndex,\n42:       objective.text,\n43:       quiz.question,\n44:       JSON.stringify(quiz.options),\n45:       quiz.correct_index,\n46:       quiz.explanation,\n47:       quiz.hint\n48:     ) as { id: number }\n49: \n50:   return {\n51:     id: res.id,\n52:     objectiveIndex,\n53:     objectiveText: objective.text,\n54:     question: quiz.question,\n55:     options: quiz.options,\n56:     hint: quiz.hint\n57:   }\n58: }\n59: \n60: export async function getAllQuizzes(planId: number): Promise<QuizDTO[]> {\n61:   const plan = await getPlan(planId)\n62:   if (!plan) return []\n63:   const rows = db\n64:     .prepare(`SELECT * FROM quiz_questions WHERE lesson_plan_id = ? ORDER BY objective_index ASC`)\n65:     .all(planId) as QuizQuestionRow[]\n66:   return rows.map((r) => ({\n67:     id: r.id,\n68:     objectiveIndex: r.objective_index,\n69:     objectiveText: r.objective_text,\n70:     question: r.question,\n71:     options: JSON.parse(r.options),\n72:     hint: r.hint\n73:   }))\n74: }\n75: \n76: export async function getQuizInternal(quizId: number): Promise<QuizQuestionRow | null> {\n77:   return (db.prepare(`SELECT * FROM quiz_questions WHERE id = ?`).get(quizId) as QuizQuestionRow | undefined) ?? null\n78: }\n79: \n80: export async function getHint(quizId: number, previousGuessIndex: number | null): Promise<string> {\n81:   const quiz = await getQuizInternal(quizId)\n82:   if (!quiz) throw new Error('Quiz not found')\n83:   const plan = await getPlan(quiz.lesson_plan_id)\n84:   if (!plan) throw new Error('Plan not found')\n85:   const markdown = await getDocumentMarkdown(plan.document_id)\n86:   if (!markdown) throw new Error('Source document has no markdown content')\n87:   const options = JSON.parse(quiz.options) as string[]\n88:   return generateRetryHint(\n89:     markdown,\n90:     quiz.question,\n91:     options,\n92:     previousGuessIndex !== null ? options[previousGuessIndex] : null\n93:   )\n94: }\n95: \n96: interface ExplanationResult {\n97:   explanation: string\n98:   correctIndex: number\n99: }\n100: \n101: export async function getExplanation(quizId: number): Promise<ExplanationResult> {\n102:   const quiz = await getQuizInternal(quizId)\n103:   if (!quiz) throw new Error('Quiz not found')\n104:   const plan = await getPlan(quiz.lesson_plan_id)\n105:   if (!plan) throw new Error('Plan not found')\n106:   const markdown = await getDocumentMarkdown(plan.document_id)\n107:   if (!markdown) throw new Error('Source document has no markdown content')\n108:   const options = JSON.parse(quiz.options) as string[]\n109:   const correct = options[quiz.correct_index]\n110:   const explanation = await explainCorrect(markdown, quiz.question, options, correct, quiz.correct_index)\n111:   return { explanation, correctIndex: quiz.correct_index }\n112: }\n113: \n114: interface AnswerOutput {\n115:   correct: boolean\n116:   explanation?: string\n117: }\n118: \n119: export async function checkAnswer(quizId: number, learnerIndex: number): Promise<AnswerOutput> {\n120:   const quiz = await getQuizInternal(quizId)\n121:   if (!quiz) throw new Error('Quiz not found')\n122:   const correct = learnerIndex === quiz.correct_index\n123:   if (!correct) return { correct: false }\n124:   const { explanation } = await getExplanation(quizId)\n125:   return { correct: true, explanation }\n126: }\n127: \n128: interface AI_Message {\n129:   role: 'user' | 'assistant'\n130:   content: string\n131: }\n132: export type MessageHistory = Array<AI_Message>\n133: \n134: export async function learnMoreAboutQuiz(id: number, question: string, history: MessageHistory): Promise<string> {\n135:   const quiz = await getQuizInternal(id)\n136:   if (!quiz) throw new Error('Quiz not found')\n137:   const plan = await getPlan(quiz.lesson_plan_id)\n138:   if (!plan) throw new Error('Plan not found')\n139:   const markdown = await getDocumentMarkdown(plan.document_id)\n140:   if (!markdown) throw new Error('Source document has no markdown content')\n141:   const options = JSON.parse(quiz.options) as string[]\n142:   return learnMore(markdown, quiz.question, options, question, history)\n143: }\n\n(End of file - total 143 lines)\n</content>",
+              "metadata": {
+                "preview": "import { db, type QuizQuestionRow } from '../db.ts'\nimport { generateQuiz } from '../ai/quiz.ts'\nimport { generateRetryHint, explainCorrect, learnMore } from '../ai/feedback.ts'\nimport { getPlan } from './plans.ts'\nimport { getDocumentMarkdown } from './documents.ts'\nimport type { QuizDTO } from './types.ts'\n\nexport async function getOrCreateQuiz(planId: number, objectiveIndex: number): Promise<QuizDTO> {\n  const plan = await getPlan(planId)\n  if (!plan) throw new Error('Plan not found')\n  const objective = plan.objectives[objectiveIndex]\n  if (!objective) throw new Error(`Objective ${objectiveIndex} not found`)\n\n  const existing = db\n    .prepare(`SELECT * FROM quiz_questions WHERE lesson_plan_id = ? AND objective_index = ?`)\n    .get(planId, objectiveIndex) as QuizQuestionRow | undefined\n\n  if (existing) {\n    return {\n      id: existing.id,",
+                "truncated": false,
+                "loaded": [],
+                "display": {
+                  "type": "file",
+                  "path": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts",
+                  "text": "import { db, type QuizQuestionRow } from '../db.ts'\nimport { generateQuiz } from '../ai/quiz.ts'\nimport { generateRetryHint, explainCorrect, learnMore } from '../ai/feedback.ts'\nimport { getPlan } from './plans.ts'\nimport { getDocumentMarkdown } from './documents.ts'\nimport type { QuizDTO } from './types.ts'\n\nexport async function getOrCreateQuiz(planId: number, objectiveIndex: number): Promise<QuizDTO> {\n  const plan = await getPlan(planId)\n  if (!plan) throw new Error('Plan not found')\n  const objective = plan.objectives[objectiveIndex]\n  if (!objective) throw new Error(`Objective ${objectiveIndex} not found`)\n\n  const existing = db\n    .prepare(`SELECT * FROM quiz_questions WHERE lesson_plan_id = ? AND objective_index = ?`)\n    .get(planId, objectiveIndex) as QuizQuestionRow | undefined\n\n  if (existing) {\n    return {\n      id: existing.id,\n      objectiveIndex: existing.objective_index,\n      objectiveText: existing.objective_text,\n      question: existing.question,\n      options: JSON.parse(existing.options),\n      hint: existing.hint\n    }\n  }\n\n  const markdown = await getDocumentMarkdown(plan.document_id)\n  if (!markdown) throw new Error('Source document has no markdown content')\n  const quiz = await generateQuiz(markdown, objective.text, objective.topic)\n\n  const res = db\n    .prepare(\n      `INSERT INTO quiz_questions (lesson_plan_id, objective_index, objective_text, question, options, correct_index, explanation, hint)\n       VALUES (?, ?, ?, ?, ?, ?, ?, ?)\n       RETURNING id`\n    )\n    .get(\n      planId,\n      objectiveIndex,\n      objective.text,\n      quiz.question,\n      JSON.stringify(quiz.options),\n      quiz.correct_index,\n      quiz.explanation,\n      quiz.hint\n    ) as { id: number }\n\n  return {\n    id: res.id,\n    objectiveIndex,\n    objectiveText: objective.text,\n    question: quiz.question,\n    options: quiz.options,\n    hint: quiz.hint\n  }\n}\n\nexport async function getAllQuizzes(planId: number): Promise<QuizDTO[]> {\n  const plan = await getPlan(planId)\n  if (!plan) return []\n  const rows = db\n    .prepare(`SELECT * FROM quiz_questions WHERE lesson_plan_id = ? ORDER BY objective_index ASC`)\n    .all(planId) as QuizQuestionRow[]\n  return rows.map((r) => ({\n    id: r.id,\n    objectiveIndex: r.objective_index,\n    objectiveText: r.objective_text,\n    question: r.question,\n    options: JSON.parse(r.options),\n    hint: r.hint\n  }))\n}\n\nexport async function getQuizInternal(quizId: number): Promise<QuizQuestionRow | null> {\n  return (db.prepare(`SELECT * FROM quiz_questions WHERE id = ?`).get(quizId) as QuizQuestionRow | undefined) ?? null\n}\n\nexport async function getHint(quizId: number, previousGuessIndex: number | null): Promise<string> {\n  const quiz = await getQuizInternal(quizId)\n  if (!quiz) throw new Error('Quiz not found')\n  const plan = await getPlan(quiz.lesson_plan_id)\n  if (!plan) throw new Error('Plan not found')\n  const markdown = await getDocumentMarkdown(plan.document_id)\n  if (!markdown) throw new Error('Source document has no markdown content')\n  const options = JSON.parse(quiz.options) as string[]\n  return generateRetryHint(\n    markdown,\n    quiz.question,\n    options,\n    previousGuessIndex !== null ? options[previousGuessIndex] : null\n  )\n}\n\ninterface ExplanationResult {\n  explanation: string\n  correctIndex: number\n}\n\nexport async function getExplanation(quizId: number): Promise<ExplanationResult> {\n  const quiz = await getQuizInternal(quizId)\n  if (!quiz) throw new Error('Quiz not found')\n  const plan = await getPlan(quiz.lesson_plan_id)\n  if (!plan) throw new Error('Plan not found')\n  const markdown = await getDocumentMarkdown(plan.document_id)\n  if (!markdown) throw new Error('Source document has no markdown content')\n  const options = JSON.parse(quiz.options) as string[]\n  const correct = options[quiz.correct_index]\n  const explanation = await explainCorrect(markdown, quiz.question, options, correct, quiz.correct_index)\n  return { explanation, correctIndex: quiz.correct_index }\n}\n\ninterface AnswerOutput {\n  correct: boolean\n  explanation?: string\n}\n\nexport async function checkAnswer(quizId: number, learnerIndex: number): Promise<AnswerOutput> {\n  const quiz = await getQuizInternal(quizId)\n  if (!quiz) throw new Error('Quiz not found')\n  const correct = learnerIndex === quiz.correct_index\n  if (!correct) return { correct: false }\n  const { explanation } = await getExplanation(quizId)\n  return { correct: true, explanation }\n}\n\ninterface AI_Message {\n  role: 'user' | 'assistant'\n  content: string\n}\nexport type MessageHistory = Array<AI_Message>\n\nexport async function learnMoreAboutQuiz(id: number, question: string, history: MessageHistory): Promise<string> {\n  const quiz = await getQuizInternal(id)\n  if (!quiz) throw new Error('Quiz not found')\n  const plan = await getPlan(quiz.lesson_plan_id)\n  if (!plan) throw new Error('Plan not found')\n  const markdown = await getDocumentMarkdown(plan.document_id)\n  if (!markdown) throw new Error('Source document has no markdown content')\n  const options = JSON.parse(quiz.options) as string[]\n  return learnMore(markdown, quiz.question, options, question, history)\n}",
+                  "lineStart": 1,
+                  "lineEnd": 143,
+                  "totalLines": 143,
+                  "truncated": false
+                }
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts",
+              "time": {
+                "start": 1783771637711,
+                "end": 1783771637715
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f5113280700114ngwZbAxQBIM3",
+          "time_created": 1783771637767,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "read",
+            "callID": "call_65b34072957a41e4aed472c6",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts"
+              },
+              "output": "<path>/Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts</path>\n<type>file</type>\n<content>\n1: import { db, type AttemptRow } from '../db.ts'\n2: import { generateSummary, type AttemptInput } from '../ai/summary.ts'\n3: import { getPlan } from './plans.ts'\n4: import { getQuizInternal } from './quizzes.ts'\n5: import { getDocumentMarkdown } from './documents.ts'\n6: import type { AttemptSummaryDTO } from './types.ts'\n7: \n8: export async function completeAttempt(\n9:   planId: number,\n10:   payload: {\n11:     answers: Array<{\n12:       quizId: number\n13:       learnerIndex: number | null\n14:       attempts: number\n15:     }>\n16:   }\n17: ): Promise<AttemptSummaryDTO> {\n18:   const plan = await getPlan(planId)\n19:   if (!plan) throw new Error('Plan not found')\n20: \n21:   const markdown = await getDocumentMarkdown(plan.document_id)\n22:   if (!markdown) throw new Error('Source document has no markdown content')\n23: \n24:   const questions: AttemptInput['questions'] = []\n25:   let score = 0\n26:   for (const ans of payload.answers) {\n27:     const quiz = await getQuizInternal(ans.quizId)\n28:     if (!quiz || quiz.lesson_plan_id !== planId) continue\n29:     const options = JSON.parse(quiz.options) as string[]\n30:     const correct = ans.learnerIndex === quiz.correct_index\n31:     if (correct) score += 1\n32:     questions.push({\n33:       objectiveText: quiz.objective_text,\n34:       question: quiz.question,\n35:       options,\n36:       correctIndex: quiz.correct_index,\n37:       learnerIndex: ans.learnerIndex,\n38:       attempts: ans.attempts\n39:     })\n40:   }\n41: \n42:   const summary = await generateSummary({\n43:     objectives: plan.objectives.map((o) => ({\n44:       text: o.text,\n45:       topic: o.topic\n46:     })),\n47:     questions,\n48:     markdown\n49:   })\n50: \n51:   db\n52:     .prepare(\n53:       `INSERT INTO attempts (lesson_plan_id, score, total, answers, summary, study_tips)\n54:      VALUES (?, ?, ?, ?, ?, ?)\n55:      RETURNING id`\n56:     )\n57:     .get(\n58:       planId,\n59:       score,\n60:       questions.length,\n61:       JSON.stringify(payload.answers),\n62:       summary.summary,\n63:       JSON.stringify(summary.study_tips)\n64:     ) as { id: number }\n65: \n66:   db.prepare(`UPDATE lesson_plans SET status = 'completed' WHERE id = ?`).run(planId)\n67: \n68:   return {\n69:     score,\n70:     total: questions.length,\n71:     summary: summary.summary,\n72:     studyTips: summary.study_tips,\n73:     weakTopics: summary.weak_topics,\n74:     strengths: summary.strengths,\n75:     answers: questions.map((q) => ({\n76:       question: q.question,\n77:       options: q.options,\n78:       correctIndex: q.correctIndex,\n79:       learnerIndex: q.learnerIndex,\n80:       attempts: q.attempts,\n81:       objectiveText: q.objectiveText\n82:     }))\n83:   }\n84: }\n85: \n86: export async function listAttempts(planId: number) {\n87:   const rows = db\n88:     .prepare(`SELECT * FROM attempts WHERE lesson_plan_id = ? ORDER BY datetime(created_at) DESC`)\n89:     .all(planId) as AttemptRow[]\n90:   return rows.map((r) => ({\n91:     id: r.id,\n92:     lesson_plan_id: r.lesson_plan_id,\n93:     score: r.score,\n94:     total: r.total,\n95:     summary: r.summary,\n96:     study_tips: JSON.parse(r.study_tips) as string[],\n97:     created_at: r.created_at\n98:   }))\n99: }\n100: \n101: export async function getAttempt(attemptId: number) {\n102:   const row = db.prepare(`SELECT * FROM attempts WHERE id = ?`).get(attemptId) as AttemptRow | undefined\n103:   if (!row) return null\n104:   return {\n105:     id: row.id,\n106:     lesson_plan_id: row.lesson_plan_id,\n107:     score: row.score,\n108:     total: row.total,\n109:     summary: row.summary,\n110:     study_tips: JSON.parse(row.study_tips) as string[],\n111:     created_at: row.created_at\n112:   }\n113: }\n\n(End of file - total 113 lines)\n</content>",
+              "metadata": {
+                "preview": "import { db, type AttemptRow } from '../db.ts'\nimport { generateSummary, type AttemptInput } from '../ai/summary.ts'\nimport { getPlan } from './plans.ts'\nimport { getQuizInternal } from './quizzes.ts'\nimport { getDocumentMarkdown } from './documents.ts'\nimport type { AttemptSummaryDTO } from './types.ts'\n\nexport async function completeAttempt(\n  planId: number,\n  payload: {\n    answers: Array<{\n      quizId: number\n      learnerIndex: number | null\n      attempts: number\n    }>\n  }\n): Promise<AttemptSummaryDTO> {\n  const plan = await getPlan(planId)\n  if (!plan) throw new Error('Plan not found')\n",
+                "truncated": false,
+                "loaded": [],
+                "display": {
+                  "type": "file",
+                  "path": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts",
+                  "text": "import { db, type AttemptRow } from '../db.ts'\nimport { generateSummary, type AttemptInput } from '../ai/summary.ts'\nimport { getPlan } from './plans.ts'\nimport { getQuizInternal } from './quizzes.ts'\nimport { getDocumentMarkdown } from './documents.ts'\nimport type { AttemptSummaryDTO } from './types.ts'\n\nexport async function completeAttempt(\n  planId: number,\n  payload: {\n    answers: Array<{\n      quizId: number\n      learnerIndex: number | null\n      attempts: number\n    }>\n  }\n): Promise<AttemptSummaryDTO> {\n  const plan = await getPlan(planId)\n  if (!plan) throw new Error('Plan not found')\n\n  const markdown = await getDocumentMarkdown(plan.document_id)\n  if (!markdown) throw new Error('Source document has no markdown content')\n\n  const questions: AttemptInput['questions'] = []\n  let score = 0\n  for (const ans of payload.answers) {\n    const quiz = await getQuizInternal(ans.quizId)\n    if (!quiz || quiz.lesson_plan_id !== planId) continue\n    const options = JSON.parse(quiz.options) as string[]\n    const correct = ans.learnerIndex === quiz.correct_index\n    if (correct) score += 1\n    questions.push({\n      objectiveText: quiz.objective_text,\n      question: quiz.question,\n      options,\n      correctIndex: quiz.correct_index,\n      learnerIndex: ans.learnerIndex,\n      attempts: ans.attempts\n    })\n  }\n\n  const summary = await generateSummary({\n    objectives: plan.objectives.map((o) => ({\n      text: o.text,\n      topic: o.topic\n    })),\n    questions,\n    markdown\n  })\n\n  db\n    .prepare(\n      `INSERT INTO attempts (lesson_plan_id, score, total, answers, summary, study_tips)\n     VALUES (?, ?, ?, ?, ?, ?)\n     RETURNING id`\n    )\n    .get(\n      planId,\n      score,\n      questions.length,\n      JSON.stringify(payload.answers),\n      summary.summary,\n      JSON.stringify(summary.study_tips)\n    ) as { id: number }\n\n  db.prepare(`UPDATE lesson_plans SET status = 'completed' WHERE id = ?`).run(planId)\n\n  return {\n    score,\n    total: questions.length,\n    summary: summary.summary,\n    studyTips: summary.study_tips,\n    weakTopics: summary.weak_topics,\n    strengths: summary.strengths,\n    answers: questions.map((q) => ({\n      question: q.question,\n      options: q.options,\n      correctIndex: q.correctIndex,\n      learnerIndex: q.learnerIndex,\n      attempts: q.attempts,\n      objectiveText: q.objectiveText\n    }))\n  }\n}\n\nexport async function listAttempts(planId: number) {\n  const rows = db\n    .prepare(`SELECT * FROM attempts WHERE lesson_plan_id = ? ORDER BY datetime(created_at) DESC`)\n    .all(planId) as AttemptRow[]\n  return rows.map((r) => ({\n    id: r.id,\n    lesson_plan_id: r.lesson_plan_id,\n    score: r.score,\n    total: r.total,\n    summary: r.summary,\n    study_tips: JSON.parse(r.study_tips) as string[],\n    created_at: r.created_at\n  }))\n}\n\nexport async function getAttempt(attemptId: number) {\n  const row = db.prepare(`SELECT * FROM attempts WHERE id = ?`).get(attemptId) as AttemptRow | undefined\n  if (!row) return null\n  return {\n    id: row.id,\n    lesson_plan_id: row.lesson_plan_id,\n    score: row.score,\n    total: row.total,\n    summary: row.summary,\n    study_tips: JSON.parse(row.study_tips) as string[],\n    created_at: row.created_at\n  }\n}",
+                  "lineStart": 1,
+                  "lineEnd": 113,
+                  "totalLines": 113,
+                  "truncated": false
+                }
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts",
+              "time": {
+                "start": 1783771637972,
+                "end": 1783771637981
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f5113292e001rG3uUquqn7LLCI",
+          "time_created": 1783771638062,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 10916,
+              "input": 771,
+              "output": 141,
+              "reasoning": 20,
+              "cache": {
+                "write": 0,
+                "read": 9984
+              }
+            },
+            "cost": 0.0001809752
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f51132932001Xv1P1cWAh9UWZj",
+      "time_created": 1783771638066,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 16526,
+          "input": 4879,
+          "output": 316,
+          "reasoning": 579,
+          "cache": {
+            "write": 0,
+            "read": 10752
+          }
+        },
+        "cost": 0.0009637656
+      },
+      "parts": [
+        {
+          "id": "prt_f51133b14001O6AZeZkZ71xSO2",
+          "time_created": 1783771642644,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f51133b15001plxP9xxXFD26e4",
+          "time_created": 1783771642645,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now I understand the codebase. Let me analyze what needs to change:\n\n1. The error handler in `index.ts` only handles `ZodError` and re-throws everything else. When an error is thrown (not caught by a try-catch), Fastify will send a 500 response by default.\n\n2. The services throw plain `Error` objects for cases like \"not found\", \"not ready\", etc.\n\n3. The route handlers currently catch errors and convert them to 400 or 404 responses.\n\nTo use Fastify's error handling properly, I need to:\n\n1. Enhance the error handler in `index.ts` to handle plain `Error` objects and return appropriate status codes, OR2. Use Fastify's `httpErrors` to throw proper HTTP errors that the default handler knows how to handle.\n\nThe better approach is to:\n1. Update the error handler in `index.ts` to handle generic errors with a sensible default (500)\n2. Remove try-catch blocks from routes that just catch and return 400 - let those propagate3. Keep try-catch only where we need specific error handling or custom responses\n\nActually, looking at this more carefully, the services throw errors like:\n- \"Document not found\" - should be 404\n- \"Plan not found\" - should be 404\n- \"Quiz not found\" - should be 404\n- \"Objective not found\" - should be 404\n- \"Document is not ready\" - should be 400 or 409\n- \"Source document has no markdown content\" - should be 500 or 500\n\nThe current approach catches ALL errors and returns 400, which isn't great. The \"not found\" errors should be 404.\n\nThe user wants:\n- Remove try-catch that just returns 500 (but looking at the code, none return 500, they return 400 or 404)\n- Use Fastify's error handler\n- Only use try-catch for specific error handlingI think the best approach is to:\n1. Create a custom error class or use Fastify's httpErrors to throw proper errors from services\n2. Update the error handler to handle these\n3. Remove try-catch blocks from routes\n\nBut actually, looking more carefully at the request - they want to remove try-catch blocks and let Fastify handle errors. Currently the error handler only handles ZodError and re-throws other errors.\n\nThe simplest approach would be to:\n1. Enhance the error handler to handle generic Error objects\n2. Remove try-catch blocks from routes\n\nLet me update the error handler and routes.",
+            "time": {
+              "start": 1783771642645,
+              "end": 1783771648662
+            }
+          }
+        },
+        {
+          "id": "prt_f511352990010ZLVGewWmeLc2i",
+          "time_created": 1783771648665,
+          "type": "text",
+          "data": {
+            "type": "text",
+            "text": "Now I have a clear picture. The current error handler in `index.ts` only handles `ZodError` and re-throws everything else (resulting in 500). I need to:\n\n1. Enhance the error handler to handle generic errors\n2. Remove unnecessary try-catch blocks from routes\n\nLet me implement this:",
+            "time": {
+              "start": 1783771648665,
+              "end": 1783771651238
+            }
+          }
+        },
+        {
+          "id": "prt_f5113553a001qbsPLWjGHGKcUl",
+          "time_created": 1783771649338,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "edit",
+            "callID": "call_88f60c58096643e0b602be3a",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/index.ts",
+                "oldString": "app.setErrorHandler((err, _req, reply) => {\n  if (err instanceof ZodError) {\n    return reply.code(400).send({\n      error: 'Validation failed',\n      details: err.issues.map((i) => ({ path: i.path.join('.'), message: i.message }))\n    })\n  }\n  throw err\n})",
+                "newString": "app.setErrorHandler((err, _req, reply) => {\n  if (err instanceof ZodError) {\n    return reply.code(400).send({\n      error: 'Validation failed',\n      details: err.issues.map((i) => ({ path: i.path.join('.'), message: i.message }))\n    })\n  }\n  if (err.statusCode) {\n    return reply.code(err.statusCode).send({ error: err.message })\n  }\n  app.log.error(err)\n  return reply.code(500).send({ error: 'Internal server error' })\n})"
+              },
+              "output": "Edit applied successfully.",
+              "metadata": {
+                "diagnostics": {},
+                "diff": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/index.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/index.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/index.ts\n@@ -17,9 +17,13 @@\n       error: 'Validation failed',\n       details: err.issues.map((i) => ({ path: i.path.join('.'), message: i.message }))\n     })\n   }\n-  throw err\n+  if (err.statusCode) {\n+    return reply.code(err.statusCode).send({ error: err.message })\n+  }\n+  app.log.error(err)\n+  return reply.code(500).send({ error: 'Internal server error' })\n })\n \n await app.register(cors, {\n   origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],\n",
+                "filediff": {
+                  "file": "/Users/shivam/qnify/ai-learning-agent/backend/src/index.ts",
+                  "patch": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/index.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/index.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/index.ts\n@@ -17,9 +17,13 @@\n       error: 'Validation failed',\n       details: err.issues.map((i) => ({ path: i.path.join('.'), message: i.message }))\n     })\n   }\n-  throw err\n+  if (err.statusCode) {\n+    return reply.code(err.statusCode).send({ error: err.message })\n+  }\n+  app.log.error(err)\n+  return reply.code(500).send({ error: 'Internal server error' })\n })\n \n await app.register(cors, {\n   origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],\n",
+                  "additions": 5,
+                  "deletions": 1
+                },
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/index.ts",
+              "time": {
+                "start": 1783771651209,
+                "end": 1783771651211
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f51135ca8001Vf774XDboO0Op2",
+          "time_created": 1783771651240,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 16526,
+              "input": 4879,
+              "output": 316,
+              "reasoning": 579,
+              "cache": {
+                "write": 0,
+                "read": 10752
+              }
+            },
+            "cost": 0.0009637656
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f51135cad001q1B291kqWsoLTw",
+      "time_created": 1783771651245,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 16704,
+          "input": 922,
+          "output": 53,
+          "reasoning": 113,
+          "cache": {
+            "write": 0,
+            "read": 15616
+          }
+        },
+        "cost": 0.0002192848
+      },
+      "parts": [
+        {
+          "id": "prt_f511362b3001SrOqzwAmBrl5sc",
+          "time_created": 1783771652787,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f511362b4001mw6xeMSZvioyAJ",
+          "time_created": 1783771652788,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now I need to update the routes to remove try-catch blocks. But I also need to update the services to throw appropriate HTTP errors. Let me check if there's a Fastify httpErrors package available.\n\nActually, looking at the code more carefully, I should make the services throw proper errors with status codes. The simplest way is to create a custom error class or use Fastify's `createError` from `@fastify/sensible`.\n\nLet me check if `@fastify/sensible` is installed or if I should create a custom error class.",
+            "time": {
+              "start": 1783771652788,
+              "end": 1783771654007
+            }
+          }
+        },
+        {
+          "id": "prt_f51136778001aIMtVaF005fueZ",
+          "time_created": 1783771654008,
+          "type": "text",
+          "data": {
+            "type": "text",
+            "text": "Now let me check if `@fastify/sensible` is available for HTTP errors:",
+            "time": {
+              "start": 1783771654008,
+              "end": 1783771655249
+            }
+          }
+        },
+        {
+          "id": "prt_f51136b750010wTx6i1yMkcMqU",
+          "time_created": 1783771655029,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "read",
+            "callID": "call_780f847209ee4257a4a8aa6b",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/package.json"
+              },
+              "output": "<path>/Users/shivam/qnify/ai-learning-agent/backend/package.json</path>\n<type>file</type>\n<content>\n1: {\n2:   \"name\": \"backend\",\n3:   \"version\": \"0.0.0\",\n4:   \"private\": true,\n5:   \"type\": \"module\",\n6:   \"scripts\": {\n7:     \"dev\": \"node --watch --env-file=.env src/index.ts\",\n8:     \"test\": \"echo \\\"Error: no test specified\\\" && exit 1\"\n9:   },\n10:   \"dependencies\": {\n11:     \"@fastify/cors\": \"^11.3.0\",\n12:     \"@fastify/multipart\": \"^10.1.0\",\n13:     \"@langchain/core\": \"^1.2.2\",\n14:     \"@langchain/openai\": \"^1.5.5\",\n15:     \"better-sqlite3\": \"^12.11.1\",\n16:     \"fastify\": \"^5.10.0\",\n17:     \"langchain\": \"^1.5.3\",\n18:     \"nanoid\": \"^5.1.16\",\n19:     \"zod\": \"^4.4.3\"\n20:   },\n21:   \"devDependencies\": {\n22:     \"@types/better-sqlite3\": \"^7.6.13\",\n23:     \"@types/node\": \"^26.1.1\",\n24:     \"typescript\": \"^7.0.2\"\n25:   },\n26:   \"prettier\": {\n27:     \"$schema\": \"http://json.schemastore.org/prettierrc\",\n28:     \"trailingComma\": \"none\",\n29:     \"tabWidth\": 2,\n30:     \"printWidth\": 120,\n31:     \"semi\": false,\n32:     \"singleQuote\": true\n33:   },\n34:   \"packageManager\": \"pnpm@10.32.1\",\n35:   \"pnpm\": {\n36:     \"onlyBuiltDependencies\": [\n37:       \"better-sqlite3\",\n38:       \"esbuild\"\n39:     ]\n40:   }\n41: }\n\n(End of file - total 41 lines)\n</content>",
+              "metadata": {
+                "preview": "{\n  \"name\": \"backend\",\n  \"version\": \"0.0.0\",\n  \"private\": true,\n  \"type\": \"module\",\n  \"scripts\": {\n    \"dev\": \"node --watch --env-file=.env src/index.ts\",\n    \"test\": \"echo \\\"Error: no test specified\\\" && exit 1\"\n  },\n  \"dependencies\": {\n    \"@fastify/cors\": \"^11.3.0\",\n    \"@fastify/multipart\": \"^10.1.0\",\n    \"@langchain/core\": \"^1.2.2\",\n    \"@langchain/openai\": \"^1.5.5\",\n    \"better-sqlite3\": \"^12.11.1\",\n    \"fastify\": \"^5.10.0\",\n    \"langchain\": \"^1.5.3\",\n    \"nanoid\": \"^5.1.16\",\n    \"zod\": \"^4.4.3\"\n  },",
+                "truncated": false,
+                "loaded": [],
+                "display": {
+                  "type": "file",
+                  "path": "/Users/shivam/qnify/ai-learning-agent/backend/package.json",
+                  "text": "{\n  \"name\": \"backend\",\n  \"version\": \"0.0.0\",\n  \"private\": true,\n  \"type\": \"module\",\n  \"scripts\": {\n    \"dev\": \"node --watch --env-file=.env src/index.ts\",\n    \"test\": \"echo \\\"Error: no test specified\\\" && exit 1\"\n  },\n  \"dependencies\": {\n    \"@fastify/cors\": \"^11.3.0\",\n    \"@fastify/multipart\": \"^10.1.0\",\n    \"@langchain/core\": \"^1.2.2\",\n    \"@langchain/openai\": \"^1.5.5\",\n    \"better-sqlite3\": \"^12.11.1\",\n    \"fastify\": \"^5.10.0\",\n    \"langchain\": \"^1.5.3\",\n    \"nanoid\": \"^5.1.16\",\n    \"zod\": \"^4.4.3\"\n  },\n  \"devDependencies\": {\n    \"@types/better-sqlite3\": \"^7.6.13\",\n    \"@types/node\": \"^26.1.1\",\n    \"typescript\": \"^7.0.2\"\n  },\n  \"prettier\": {\n    \"$schema\": \"http://json.schemastore.org/prettierrc\",\n    \"trailingComma\": \"none\",\n    \"tabWidth\": 2,\n    \"printWidth\": 120,\n    \"semi\": false,\n    \"singleQuote\": true\n  },\n  \"packageManager\": \"pnpm@10.32.1\",\n  \"pnpm\": {\n    \"onlyBuiltDependencies\": [\n      \"better-sqlite3\",\n      \"esbuild\"\n    ]\n  }\n}",
+                  "lineStart": 1,
+                  "lineEnd": 41,
+                  "totalLines": 41,
+                  "truncated": false
+                }
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/package.json",
+              "time": {
+                "start": 1783771655177,
+                "end": 1783771655181
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f51136c52001Npf3nKFkdgAUl6",
+          "time_created": 1783771655250,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 16704,
+              "input": 922,
+              "output": 53,
+              "reasoning": 113,
+              "cache": {
+                "write": 0,
+                "read": 15616
+              }
+            },
+            "cost": 0.0002192848
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f51136c56001IfNJxXuRzlPyxQ",
+      "time_created": 1783771655254,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 17476,
+          "input": 731,
+          "output": 162,
+          "reasoning": 71,
+          "cache": {
+            "write": 0,
+            "read": 16512
+          }
+        },
+        "cost": 0.0002138136
+      },
+      "parts": [
+        {
+          "id": "prt_f511374a9001QOyrqHQxQD9qb6",
+          "time_created": 1783771657385,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f511374aa001JwbhtmwR3jiUyZ",
+          "time_created": 1783771657387,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "No `@fastify/sensible` is installed. I'll create a simple custom error class with a statusCode property so the error handler can use it. This is cleaner than adding a new dependency.\n\nLet me create an errors.ts file with custom error classes, then update the services to use them, and finally remove the try-catch blocks from routes.",
+            "time": {
+              "start": 1783771657386,
+              "end": 1783771658102
+            }
+          }
+        },
+        {
+          "id": "prt_f51137778001wjE7hsxvYBPmaa",
+          "time_created": 1783771658104,
+          "type": "text",
+          "data": {
+            "type": "text",
+            "text": "No `@fastify/sensible`. I'll create a simple custom error class. Let me create the errors file and update everything:",
+            "time": {
+              "start": 1783771658104,
+              "end": 1783771659331
+            }
+          }
+        },
+        {
+          "id": "prt_f5113777f001wA9s6nzetxL6CQ",
+          "time_created": 1783771658111,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "write",
+            "callID": "call_1789e5fb940c49acaa2de7c9",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/errors.ts",
+                "content": "export class AppError extends Error {\n  statusCode: number\n\n  constructor(message: string, statusCode: number) {\n    super(message)\n    this.statusCode = statusCode\n  }\n}\n\nexport class NotFoundError extends AppError {\n  constructor(message: string) {\n    super(message, 404)\n  }\n}\n\nexport class BadRequestError extends AppError {\n  constructor(message: string) {\n    super(message, 400)\n  }\n}\n"
+              },
+              "output": "Wrote file successfully.",
+              "metadata": {
+                "diagnostics": {},
+                "filepath": "/Users/shivam/qnify/ai-learning-agent/backend/src/errors.ts",
+                "exists": false,
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/errors.ts",
+              "time": {
+                "start": 1783771659298,
+                "end": 1783771659301
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f51137c49001pqX62jWX4koRcJ",
+          "time_created": 1783771659337,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 17476,
+              "input": 731,
+              "output": 162,
+              "reasoning": 71,
+              "cache": {
+                "write": 0,
+                "read": 16512
+              }
+            },
+            "cost": 0.0002138136
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f51137c4e001dlWh1O0VTZQURO",
+      "time_created": 1783771659342,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 17675,
+          "input": 276,
+          "output": 157,
+          "reasoning": 26,
+          "cache": {
+            "write": 0,
+            "read": 17216
+          }
+        },
+        "cost": 0.0001380848
+      },
+      "parts": [
+        {
+          "id": "prt_f51138ffa001H2xb0GZ59cm7Kq",
+          "time_created": 1783771664378,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f51138ffc001mstqgpgHV8BDKH",
+          "time_created": 1783771664381,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now let me update the services to use these custom errors. I need to update plans.ts, quizzes.ts, and attempts.ts.",
+            "time": {
+              "start": 1783771664380,
+              "end": 1783771664694
+            }
+          }
+        },
+        {
+          "id": "prt_f51139137001a5IFP1H3HcX3BQ",
+          "time_created": 1783771664695,
+          "type": "text",
+          "data": {
+            "type": "text",
+            "text": "Now update the services to use proper HTTP errors:",
+            "time": {
+              "start": 1783771664695,
+              "end": 1783771665882
+            }
+          }
+        },
+        {
+          "id": "prt_f5113916b001nDBFbbujNacsU1",
+          "time_created": 1783771664747,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "edit",
+            "callID": "call_60dc8687ddd245cea9d697d5",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts",
+                "oldString": "import { db, type DocumentRow, type LessonPlanRow } from '../db.ts'\nimport { generatePlan } from '../ai/plan.ts'\nimport type { Objective } from './types.ts'",
+                "newString": "import { db, type DocumentRow, type LessonPlanRow } from '../db.ts'\nimport { generatePlan } from '../ai/plan.ts'\nimport type { Objective } from './types.ts'\nimport { NotFoundError, BadRequestError } from '../errors.ts'"
+              },
+              "output": "Edit applied successfully.",
+              "metadata": {
+                "diagnostics": {},
+                "diff": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n@@ -1,7 +1,8 @@\n import { db, type DocumentRow, type LessonPlanRow } from '../db.ts'\n import { generatePlan } from '../ai/plan.ts'\n import type { Objective } from './types.ts'\n+import { NotFoundError, BadRequestError } from '../errors.ts'\n \n export async function createPlan(documentId: number) {\n   const doc = db.prepare(`SELECT * FROM documents WHERE id = ?`).get(documentId) as DocumentRow | undefined\n   if (!doc) throw new Error('Document not found')\n",
+                "filediff": {
+                  "file": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts",
+                  "patch": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n@@ -1,7 +1,8 @@\n import { db, type DocumentRow, type LessonPlanRow } from '../db.ts'\n import { generatePlan } from '../ai/plan.ts'\n import type { Objective } from './types.ts'\n+import { NotFoundError, BadRequestError } from '../errors.ts'\n \n export async function createPlan(documentId: number) {\n   const doc = db.prepare(`SELECT * FROM documents WHERE id = ?`).get(documentId) as DocumentRow | undefined\n   if (!doc) throw new Error('Document not found')\n",
+                  "additions": 1,
+                  "deletions": 0
+                },
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts",
+              "time": {
+                "start": 1783771665831,
+                "end": 1783771665833
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f511395dc001HnO5sQGr6oF21b",
+          "time_created": 1783771665884,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 17675,
+              "input": 276,
+              "output": 157,
+              "reasoning": 26,
+              "cache": {
+                "write": 0,
+                "read": 17216
+              }
+            },
+            "cost": 0.0001380848
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f511395df0010UnMBRXinOsHuy",
+      "time_created": 1783771665887,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 17939,
+          "input": 218,
+          "output": 232,
+          "reasoning": 17,
+          "cache": {
+            "write": 0,
+            "read": 17472
+          }
+        },
+        "cost": 0.0001491616
+      },
+      "parts": [
+        {
+          "id": "prt_f51139ec1001X066ZOOcnnoV7C",
+          "time_created": 1783771668161,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f51139ec2001a5xt8Wh7NzwPd2",
+          "time_created": 1783771668162,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now I need to update the throw statements in plans.ts to use the custom errors.",
+            "time": {
+              "start": 1783771668162,
+              "end": 1783771668399
+            }
+          }
+        },
+        {
+          "id": "prt_f51139fb1001gtyzDMFwvBha32",
+          "time_created": 1783771668401,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "edit",
+            "callID": "call_65d053e28ce84a8ea00703a8",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts",
+                "oldString": "export async function createPlan(documentId: number) {\n  const doc = db.prepare(`SELECT * FROM documents WHERE id = ?`).get(documentId) as DocumentRow | undefined\n  if (!doc) throw new Error('Document not found')\n  if (doc.status !== 'ready' || !doc.markdown) {\n    throw new Error(`Document is not ready for plan generation (status: ${doc.status})`)\n  }",
+                "newString": "export async function createPlan(documentId: number) {\n  const doc = db.prepare(`SELECT * FROM documents WHERE id = ?`).get(documentId) as DocumentRow | undefined\n  if (!doc) throw new NotFoundError('Document not found')\n  if (doc.status !== 'ready' || !doc.markdown) {\n    throw new BadRequestError(`Document is not ready for plan generation (status: ${doc.status})`)\n  }"
+              },
+              "output": "Edit applied successfully.",
+              "metadata": {
+                "diagnostics": {},
+                "diff": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n@@ -4,11 +4,11 @@\n import { NotFoundError, BadRequestError } from '../errors.ts'\n \n export async function createPlan(documentId: number) {\n   const doc = db.prepare(`SELECT * FROM documents WHERE id = ?`).get(documentId) as DocumentRow | undefined\n-  if (!doc) throw new Error('Document not found')\n+  if (!doc) throw new NotFoundError('Document not found')\n   if (doc.status !== 'ready' || !doc.markdown) {\n-    throw new Error(`Document is not ready for plan generation (status: ${doc.status})`)\n+    throw new BadRequestError(`Document is not ready for plan generation (status: ${doc.status})`)\n   }\n \n   const plan = await generatePlan(doc.markdown, doc.filename)\n   const objectivesJson = JSON.stringify(plan.objectives)\n",
+                "filediff": {
+                  "file": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts",
+                  "patch": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n@@ -4,11 +4,11 @@\n import { NotFoundError, BadRequestError } from '../errors.ts'\n \n export async function createPlan(documentId: number) {\n   const doc = db.prepare(`SELECT * FROM documents WHERE id = ?`).get(documentId) as DocumentRow | undefined\n-  if (!doc) throw new Error('Document not found')\n+  if (!doc) throw new NotFoundError('Document not found')\n   if (doc.status !== 'ready' || !doc.markdown) {\n-    throw new Error(`Document is not ready for plan generation (status: ${doc.status})`)\n+    throw new BadRequestError(`Document is not ready for plan generation (status: ${doc.status})`)\n   }\n \n   const plan = await generatePlan(doc.markdown, doc.filename)\n   const objectivesJson = JSON.stringify(plan.objectives)\n",
+                  "additions": 2,
+                  "deletions": 2
+                },
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts",
+              "time": {
+                "start": 1783771669928,
+                "end": 1783771669930
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f5113a5ce001lgpwmlZ0w45tjk",
+          "time_created": 1783771669966,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 17939,
+              "input": 218,
+              "output": 232,
+              "reasoning": 17,
+              "cache": {
+                "write": 0,
+                "read": 17472
+              }
+            },
+            "cost": 0.0001491616
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f5113a5d2001sIssy5vmzna3N0",
+      "time_created": 1783771669970,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 18123,
+          "input": 290,
+          "output": 161,
+          "reasoning": 8,
+          "cache": {
+            "write": 0,
+            "read": 17664
+          }
+        },
+        "cost": 0.0001373792
+      },
+      "parts": [
+        {
+          "id": "prt_f5113aea8001v24mkUTAVk0Cgk",
+          "time_created": 1783771672232,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f5113aeaa001xgw7GgBbl7BCIq",
+          "time_created": 1783771672234,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now update approvePlan in plans.ts.",
+            "time": {
+              "start": 1783771672234,
+              "end": 1783771672235
+            }
+          }
+        },
+        {
+          "id": "prt_f5113aeac001TroUo55iUul8LA",
+          "time_created": 1783771672236,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "edit",
+            "callID": "call_7026faa8857c4a5381d5024f",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts",
+                "oldString": "export async function approvePlan(planId: number) {\n  const row = db.prepare(`SELECT * FROM lesson_plans WHERE id = ?`).get(planId) as LessonPlanRow | undefined\n  if (!row) throw new Error('Plan not found')",
+                "newString": "export async function approvePlan(planId: number) {\n  const row = db.prepare(`SELECT * FROM lesson_plans WHERE id = ?`).get(planId) as LessonPlanRow | undefined\n  if (!row) throw new NotFoundError('Plan not found')"
+              },
+              "output": "Edit applied successfully.",
+              "metadata": {
+                "diagnostics": {},
+                "diff": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n@@ -66,9 +66,9 @@\n }\n \n export async function approvePlan(planId: number) {\n   const row = db.prepare(`SELECT * FROM lesson_plans WHERE id = ?`).get(planId) as LessonPlanRow | undefined\n-  if (!row) throw new Error('Plan not found')\n+  if (!row) throw new NotFoundError('Plan not found')\n   if (row.status === 'draft') {\n     db.prepare(`UPDATE lesson_plans SET status = 'approved' WHERE id = ?`).run(planId)\n   }\n   return getPlan(planId)\n",
+                "filediff": {
+                  "file": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts",
+                  "patch": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n@@ -66,9 +66,9 @@\n }\n \n export async function approvePlan(planId: number) {\n   const row = db.prepare(`SELECT * FROM lesson_plans WHERE id = ?`).get(planId) as LessonPlanRow | undefined\n-  if (!row) throw new Error('Plan not found')\n+  if (!row) throw new NotFoundError('Plan not found')\n   if (row.status === 'draft') {\n     db.prepare(`UPDATE lesson_plans SET status = 'approved' WHERE id = ?`).run(planId)\n   }\n   return getPlan(planId)\n",
+                  "additions": 1,
+                  "deletions": 1
+                },
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts",
+              "time": {
+                "start": 1783771673466,
+                "end": 1783771673468
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f5113b3a0001pHzY6QnY3FWcdU",
+          "time_created": 1783771673504,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 18123,
+              "input": 290,
+              "output": 161,
+              "reasoning": 8,
+              "cache": {
+                "write": 0,
+                "read": 17664
+              }
+            },
+            "cost": 0.0001373792
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f5113b3a3001MtX6E8VDb8GWrP",
+      "time_created": 1783771673507,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 18364,
+          "input": 218,
+          "output": 221,
+          "reasoning": 5,
+          "cache": {
+            "write": 0,
+            "read": 17920
+          }
+        },
+        "cost": 0.000143976
+      },
+      "parts": [
+        {
+          "id": "prt_f5113bf41001RgUsvisXaOJvD8",
+          "time_created": 1783771676481,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f5113bf42001Tw3sgrlJegbJht",
+          "time_created": 1783771676482,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now update quizzes.ts.",
+            "time": {
+              "start": 1783771676482,
+              "end": 1783771676484
+            }
+          }
+        },
+        {
+          "id": "prt_f5113bf440013wAiZ8MPciP4mo",
+          "time_created": 1783771676484,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "edit",
+            "callID": "call_0d3fe419272145e0b1a6f41e",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts",
+                "oldString": "import { db, type QuizQuestionRow } from '../db.ts'\nimport { generateQuiz } from '../ai/quiz.ts'\nimport { generateRetryHint, explainCorrect, learnMore } from '../ai/feedback.ts'\nimport { getPlan } from './plans.ts'\nimport { getDocumentMarkdown } from './documents.ts'\nimport type { QuizDTO } from './types.ts'",
+                "newString": "import { db, type QuizQuestionRow } from '../db.ts'\nimport { generateQuiz } from '../ai/quiz.ts'\nimport { generateRetryHint, explainCorrect, learnMore } from '../ai/feedback.ts'\nimport { getPlan } from './plans.ts'\nimport { getDocumentMarkdown } from './documents.ts'\nimport type { QuizDTO } from './types.ts'\nimport { NotFoundError, BadRequestError } from '../errors.ts'"
+              },
+              "output": "Edit applied successfully.",
+              "metadata": {
+                "diagnostics": {},
+                "diff": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n@@ -3,8 +3,9 @@\n import { generateRetryHint, explainCorrect, learnMore } from '../ai/feedback.ts'\n import { getPlan } from './plans.ts'\n import { getDocumentMarkdown } from './documents.ts'\n import type { QuizDTO } from './types.ts'\n+import { NotFoundError, BadRequestError } from '../errors.ts'\n \n export async function getOrCreateQuiz(planId: number, objectiveIndex: number): Promise<QuizDTO> {\n   const plan = await getPlan(planId)\n   if (!plan) throw new Error('Plan not found')\n",
+                "filediff": {
+                  "file": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts",
+                  "patch": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n@@ -3,8 +3,9 @@\n import { generateRetryHint, explainCorrect, learnMore } from '../ai/feedback.ts'\n import { getPlan } from './plans.ts'\n import { getDocumentMarkdown } from './documents.ts'\n import type { QuizDTO } from './types.ts'\n+import { NotFoundError, BadRequestError } from '../errors.ts'\n \n export async function getOrCreateQuiz(planId: number, objectiveIndex: number): Promise<QuizDTO> {\n   const plan = await getPlan(planId)\n   if (!plan) throw new Error('Plan not found')\n",
+                  "additions": 1,
+                  "deletions": 0
+                },
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts",
+              "time": {
+                "start": 1783771678798,
+                "end": 1783771678802
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f5113c853001CpmVgYB0Y6T935",
+          "time_created": 1783771678803,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 18364,
+              "input": 218,
+              "output": 221,
+              "reasoning": 5,
+              "cache": {
+                "write": 0,
+                "read": 17920
+              }
+            },
+            "cost": 0.000143976
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f5113c857001gklBxfEjvxiOCx",
+      "time_created": 1783771678807,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 18592,
+          "input": 459,
+          "output": 204,
+          "reasoning": 9,
+          "cache": {
+            "write": 0,
+            "read": 17920
+          }
+        },
+        "cost": 0.000174076
+      },
+      "parts": [
+        {
+          "id": "prt_f5113ceb30013FiPQexR2dqNRr",
+          "time_created": 1783771680435,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f5113ceb6001R23XU9UyxoKIBD",
+          "time_created": 1783771680438,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now update the error throws in quizzes.ts.",
+            "time": {
+              "start": 1783771680438,
+              "end": 1783771680567
+            }
+          }
+        },
+        {
+          "id": "prt_f5113cf39001dJLLfkvMOOy4PW",
+          "time_created": 1783771680569,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "edit",
+            "callID": "call_97de3511a07a414392739a07",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts",
+                "oldString": "export async function getOrCreateQuiz(planId: number, objectiveIndex: number): Promise<QuizDTO> {\n  const plan = await getPlan(planId)\n  if (!plan) throw new Error('Plan not found')\n  const objective = plan.objectives[objectiveIndex]\n  if (!objective) throw new Error(`Objective ${objectiveIndex} not found`)",
+                "newString": "export async function getOrCreateQuiz(planId: number, objectiveIndex: number): Promise<QuizDTO> {\n  const plan = await getPlan(planId)\n  if (!plan) throw new NotFoundError('Plan not found')\n  const objective = plan.objectives[objectiveIndex]\n  if (!objective) throw new NotFoundError(`Objective ${objectiveIndex} not found`)"
+              },
+              "output": "Edit applied successfully.",
+              "metadata": {
+                "diagnostics": {},
+                "diff": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n@@ -7,11 +7,11 @@\n import { NotFoundError, BadRequestError } from '../errors.ts'\n \n export async function getOrCreateQuiz(planId: number, objectiveIndex: number): Promise<QuizDTO> {\n   const plan = await getPlan(planId)\n-  if (!plan) throw new Error('Plan not found')\n+  if (!plan) throw new NotFoundError('Plan not found')\n   const objective = plan.objectives[objectiveIndex]\n-  if (!objective) throw new Error(`Objective ${objectiveIndex} not found`)\n+  if (!objective) throw new NotFoundError(`Objective ${objectiveIndex} not found`)\n \n   const existing = db\n     .prepare(`SELECT * FROM quiz_questions WHERE lesson_plan_id = ? AND objective_index = ?`)\n     .get(planId, objectiveIndex) as QuizQuestionRow | undefined\n",
+                "filediff": {
+                  "file": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts",
+                  "patch": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n@@ -7,11 +7,11 @@\n import { NotFoundError, BadRequestError } from '../errors.ts'\n \n export async function getOrCreateQuiz(planId: number, objectiveIndex: number): Promise<QuizDTO> {\n   const plan = await getPlan(planId)\n-  if (!plan) throw new Error('Plan not found')\n+  if (!plan) throw new NotFoundError('Plan not found')\n   const objective = plan.objectives[objectiveIndex]\n-  if (!objective) throw new Error(`Objective ${objectiveIndex} not found`)\n+  if (!objective) throw new NotFoundError(`Objective ${objectiveIndex} not found`)\n \n   const existing = db\n     .prepare(`SELECT * FROM quiz_questions WHERE lesson_plan_id = ? AND objective_index = ?`)\n     .get(planId, objectiveIndex) as QuizQuestionRow | undefined\n",
+                  "additions": 2,
+                  "deletions": 2
+                },
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts",
+              "time": {
+                "start": 1783771681939,
+                "end": 1783771681940
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f5113d4d0001e4BZTUMfZW0W1N",
+          "time_created": 1783771682000,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 18592,
+              "input": 459,
+              "output": 204,
+              "reasoning": 9,
+              "cache": {
+                "write": 0,
+                "read": 17920
+              }
+            },
+            "cost": 0.000174076
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f5113d4d4001xtWP3cvNFqahbg",
+      "time_created": 1783771682004,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 18762,
+          "input": 239,
+          "output": 143,
+          "reasoning": 12,
+          "cache": {
+            "write": 0,
+            "read": 18368
+          }
+        },
+        "cost": 0.0001282904
+      },
+      "parts": [
+        {
+          "id": "prt_f5113dbdb0010kB4E6AKlIAty6",
+          "time_created": 1783771683803,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f5113dbdc0014mWG2lJUhlRigi",
+          "time_created": 1783771683804,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Continue with the rest of the error throws in quizzes.ts.",
+            "time": {
+              "start": 1783771683804,
+              "end": 1783771683978
+            }
+          }
+        },
+        {
+          "id": "prt_f5113dc8b001IroUGf4cFHNT0c",
+          "time_created": 1783771683979,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "edit",
+            "callID": "call_c8e40b2a48fa49ad9bbcdf55",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts",
+                "oldString": "  const markdown = await getDocumentMarkdown(plan.document_id)\n  if (!markdown) throw new Error('Source document has no markdown content')\n  const quiz = await generateQuiz(markdown, objective.text, objective.topic)",
+                "newString": "  const markdown = await getDocumentMarkdown(plan.document_id)\n  if (!markdown) throw new BadRequestError('Source document has no markdown content')\n  const quiz = await generateQuiz(markdown, objective.text, objective.topic)"
+              },
+              "output": "Edit applied successfully.",
+              "metadata": {
+                "diagnostics": {},
+                "diff": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n@@ -27,9 +27,9 @@\n   }\n }\n \n const markdown = await getDocumentMarkdown(plan.document_id)\n-if (!markdown) throw new Error('Source document has no markdown content')\n+if (!markdown) throw new BadRequestError('Source document has no markdown content')\n const quiz = await generateQuiz(markdown, objective.text, objective.topic)\n \n const res = db\n   .prepare(\n",
+                "filediff": {
+                  "file": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts",
+                  "patch": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n@@ -27,9 +27,9 @@\n   }\n }\n \n const markdown = await getDocumentMarkdown(plan.document_id)\n-if (!markdown) throw new Error('Source document has no markdown content')\n+if (!markdown) throw new BadRequestError('Source document has no markdown content')\n const quiz = await generateQuiz(markdown, objective.text, objective.topic)\n \n const res = db\n   .prepare(\n",
+                  "additions": 1,
+                  "deletions": 1
+                },
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts",
+              "time": {
+                "start": 1783771685046,
+                "end": 1783771685047
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f5113e0f2001VrZyFo04FdEA5H",
+          "time_created": 1783771685106,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 18762,
+              "input": 239,
+              "output": 143,
+              "reasoning": 12,
+              "cache": {
+                "write": 0,
+                "read": 18368
+              }
+            },
+            "cost": 0.0001282904
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f5113e0f5001zAIy7cWL8os1GJ",
+      "time_created": 1783771685109,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 19048,
+          "input": 217,
+          "output": 261,
+          "reasoning": 10,
+          "cache": {
+            "write": 0,
+            "read": 18560
+          }
+        },
+        "cost": 0.000158228
+      },
+      "parts": [
+        {
+          "id": "prt_f5113e975001NXlr2Bd7OKnHo5",
+          "time_created": 1783771687285,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f5113e9770015HgaSzvMhfKKKL",
+          "time_created": 1783771687287,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now update the getHint function in quizzes.ts.",
+            "time": {
+              "start": 1783771687287,
+              "end": 1783771687289
+            }
+          }
+        },
+        {
+          "id": "prt_f5113e97a001FL9yJ4o4bU4tpi",
+          "time_created": 1783771687290,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "edit",
+            "callID": "call_344037e419cb404c970cb599",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts",
+                "oldString": "export async function getHint(quizId: number, previousGuessIndex: number | null): Promise<string> {\n  const quiz = await getQuizInternal(quizId)\n  if (!quiz) throw new Error('Quiz not found')\n  const plan = await getPlan(quiz.lesson_plan_id)\n  if (!plan) throw new Error('Plan not found')\n  const markdown = await getDocumentMarkdown(plan.document_id)\n  if (!markdown) throw new Error('Source document has no markdown content')",
+                "newString": "export async function getHint(quizId: number, previousGuessIndex: number | null): Promise<string> {\n  const quiz = await getQuizInternal(quizId)\n  if (!quiz) throw new NotFoundError('Quiz not found')\n  const plan = await getPlan(quiz.lesson_plan_id)\n  if (!plan) throw new NotFoundError('Plan not found')\n  const markdown = await getDocumentMarkdown(plan.document_id)\n  if (!markdown) throw new BadRequestError('Source document has no markdown content')"
+              },
+              "output": "Edit applied successfully.",
+              "metadata": {
+                "diagnostics": {},
+                "diff": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n@@ -79,13 +79,13 @@\n }\n \n export async function getHint(quizId: number, previousGuessIndex: number | null): Promise<string> {\n   const quiz = await getQuizInternal(quizId)\n-  if (!quiz) throw new Error('Quiz not found')\n+  if (!quiz) throw new NotFoundError('Quiz not found')\n   const plan = await getPlan(quiz.lesson_plan_id)\n-  if (!plan) throw new Error('Plan not found')\n+  if (!plan) throw new NotFoundError('Plan not found')\n   const markdown = await getDocumentMarkdown(plan.document_id)\n-  if (!markdown) throw new Error('Source document has no markdown content')\n+  if (!markdown) throw new BadRequestError('Source document has no markdown content')\n   const options = JSON.parse(quiz.options) as string[]\n   return generateRetryHint(\n     markdown,\n     quiz.question,\n",
+                "filediff": {
+                  "file": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts",
+                  "patch": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n@@ -79,13 +79,13 @@\n }\n \n export async function getHint(quizId: number, previousGuessIndex: number | null): Promise<string> {\n   const quiz = await getQuizInternal(quizId)\n-  if (!quiz) throw new Error('Quiz not found')\n+  if (!quiz) throw new NotFoundError('Quiz not found')\n   const plan = await getPlan(quiz.lesson_plan_id)\n-  if (!plan) throw new Error('Plan not found')\n+  if (!plan) throw new NotFoundError('Plan not found')\n   const markdown = await getDocumentMarkdown(plan.document_id)\n-  if (!markdown) throw new Error('Source document has no markdown content')\n+  if (!markdown) throw new BadRequestError('Source document has no markdown content')\n   const options = JSON.parse(quiz.options) as string[]\n   return generateRetryHint(\n     markdown,\n     quiz.question,\n",
+                  "additions": 3,
+                  "deletions": 3
+                },
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts",
+              "time": {
+                "start": 1783771688866,
+                "end": 1783771688867
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f5113efdf001N4bEfu0VqONXf0",
+          "time_created": 1783771688927,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 19048,
+              "input": 217,
+              "output": 261,
+              "reasoning": 10,
+              "cache": {
+                "write": 0,
+                "read": 18560
+              }
+            },
+            "cost": 0.000158228
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f5113efe3001102GDmoCrFwj7B",
+      "time_created": 1783771688931,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 19320,
+          "input": 311,
+          "output": 249,
+          "reasoning": 8,
+          "cache": {
+            "write": 0,
+            "read": 18752
+          }
+        },
+        "cost": 0.0001680056
+      },
+      "parts": [
+        {
+          "id": "prt_f5113f72b0016fSJpkVPZMbD8M",
+          "time_created": 1783771690795,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f5113f73a0010nInGMDVRDloPR",
+          "time_created": 1783771690810,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now update getExplanation in quizzes.ts.",
+            "time": {
+              "start": 1783771690810,
+              "end": 1783771690833
+            }
+          }
+        },
+        {
+          "id": "prt_f5113f752001xnNUDsQoinoIGC",
+          "time_created": 1783771690834,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "edit",
+            "callID": "call_e8a8bf10998b4bed8976ecd7",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts",
+                "oldString": "export async function getExplanation(quizId: number): Promise<ExplanationResult> {\n  const quiz = await getQuizInternal(quizId)\n  if (!quiz) throw new Error('Quiz not found')\n  const plan = await getPlan(quiz.lesson_plan_id)\n  if (!plan) throw new Error('Plan not found')\n  const markdown = await getDocumentMarkdown(plan.document_id)\n  if (!markdown) throw new Error('Source document has no markdown content')",
+                "newString": "export async function getExplanation(quizId: number): Promise<ExplanationResult> {\n  const quiz = await getQuizInternal(quizId)\n  if (!quiz) throw new NotFoundError('Quiz not found')\n  const plan = await getPlan(quiz.lesson_plan_id)\n  if (!plan) throw new NotFoundError('Plan not found')\n  const markdown = await getDocumentMarkdown(plan.document_id)\n  if (!markdown) throw new BadRequestError('Source document has no markdown content')"
+              },
+              "output": "Edit applied successfully.",
+              "metadata": {
+                "diagnostics": {},
+                "diff": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n@@ -100,13 +100,13 @@\n }\n \n export async function getExplanation(quizId: number): Promise<ExplanationResult> {\n   const quiz = await getQuizInternal(quizId)\n-  if (!quiz) throw new Error('Quiz not found')\n+  if (!quiz) throw new NotFoundError('Quiz not found')\n   const plan = await getPlan(quiz.lesson_plan_id)\n-  if (!plan) throw new Error('Plan not found')\n+  if (!plan) throw new NotFoundError('Plan not found')\n   const markdown = await getDocumentMarkdown(plan.document_id)\n-  if (!markdown) throw new Error('Source document has no markdown content')\n+  if (!markdown) throw new BadRequestError('Source document has no markdown content')\n   const options = JSON.parse(quiz.options) as string[]\n   const correct = options[quiz.correct_index]\n   const explanation = await explainCorrect(markdown, quiz.question, options, correct, quiz.correct_index)\n   return { explanation, correctIndex: quiz.correct_index }\n",
+                "filediff": {
+                  "file": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts",
+                  "patch": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n@@ -100,13 +100,13 @@\n }\n \n export async function getExplanation(quizId: number): Promise<ExplanationResult> {\n   const quiz = await getQuizInternal(quizId)\n-  if (!quiz) throw new Error('Quiz not found')\n+  if (!quiz) throw new NotFoundError('Quiz not found')\n   const plan = await getPlan(quiz.lesson_plan_id)\n-  if (!plan) throw new Error('Plan not found')\n+  if (!plan) throw new NotFoundError('Plan not found')\n   const markdown = await getDocumentMarkdown(plan.document_id)\n-  if (!markdown) throw new Error('Source document has no markdown content')\n+  if (!markdown) throw new BadRequestError('Source document has no markdown content')\n   const options = JSON.parse(quiz.options) as string[]\n   const correct = options[quiz.correct_index]\n   const explanation = await explainCorrect(markdown, quiz.question, options, correct, quiz.correct_index)\n   return { explanation, correctIndex: quiz.correct_index }\n",
+                  "additions": 3,
+                  "deletions": 3
+                },
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts",
+              "time": {
+                "start": 1783771692528,
+                "end": 1783771692529
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f5113fe3a0015FTRIGmAGnCufh",
+          "time_created": 1783771692602,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 19320,
+              "input": 311,
+              "output": 249,
+              "reasoning": 8,
+              "cache": {
+                "write": 0,
+                "read": 18752
+              }
+            },
+            "cost": 0.0001680056
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f5113fe3f001XomnDp1aDPfNvo",
+      "time_created": 1783771692607,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 19492,
+          "input": 327,
+          "output": 149,
+          "reasoning": 8,
+          "cache": {
+            "write": 0,
+            "read": 19008
+          }
+        },
+        "cost": 0.0001429624
+      },
+      "parts": [
+        {
+          "id": "prt_f51140575001jQajnlvqlwmtW0",
+          "time_created": 1783771694453,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f51140576001dRF6ffO09oeLuT",
+          "time_created": 1783771694454,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now update checkAnswer in quizzes.ts.",
+            "time": {
+              "start": 1783771694454,
+              "end": 1783771694455
+            }
+          }
+        },
+        {
+          "id": "prt_f51140578001dHxY0r33QpGYbD",
+          "time_created": 1783771694456,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "edit",
+            "callID": "call_017960c5552c4bfe94e9b667",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts",
+                "oldString": "export async function checkAnswer(quizId: number, learnerIndex: number): Promise<AnswerOutput> {\n  const quiz = await getQuizInternal(quizId)\n  if (!quiz) throw new Error('Quiz not found')",
+                "newString": "export async function checkAnswer(quizId: number, learnerIndex: number): Promise<AnswerOutput> {\n  const quiz = await getQuizInternal(quizId)\n  if (!quiz) throw new NotFoundError('Quiz not found')"
+              },
+              "output": "Edit applied successfully.",
+              "metadata": {
+                "diagnostics": {},
+                "diff": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n@@ -118,9 +118,9 @@\n }\n \n export async function checkAnswer(quizId: number, learnerIndex: number): Promise<AnswerOutput> {\n   const quiz = await getQuizInternal(quizId)\n-  if (!quiz) throw new Error('Quiz not found')\n+  if (!quiz) throw new NotFoundError('Quiz not found')\n   const correct = learnerIndex === quiz.correct_index\n   if (!correct) return { correct: false }\n   const { explanation } = await getExplanation(quizId)\n   return { correct: true, explanation }\n",
+                "filediff": {
+                  "file": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts",
+                  "patch": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n@@ -118,9 +118,9 @@\n }\n \n export async function checkAnswer(quizId: number, learnerIndex: number): Promise<AnswerOutput> {\n   const quiz = await getQuizInternal(quizId)\n-  if (!quiz) throw new Error('Quiz not found')\n+  if (!quiz) throw new NotFoundError('Quiz not found')\n   const correct = learnerIndex === quiz.correct_index\n   if (!correct) return { correct: false }\n   const { explanation } = await getExplanation(quizId)\n   return { correct: true, explanation }\n",
+                  "additions": 1,
+                  "deletions": 1
+                },
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts",
+              "time": {
+                "start": 1783771695342,
+                "end": 1783771695343
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f51140919001jKpfHMvKFDqIWh",
+          "time_created": 1783771695385,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 19492,
+              "input": 327,
+              "output": 149,
+              "reasoning": 8,
+              "cache": {
+                "write": 0,
+                "read": 19008
+              }
+            },
+            "cost": 0.0001429624
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f5114091d001rhFWMTGHtyBaHT",
+      "time_created": 1783771695389,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 19776,
+          "input": 179,
+          "output": 259,
+          "reasoning": 10,
+          "cache": {
+            "write": 0,
+            "read": 19328
+          }
+        },
+        "cost": 0.0001544984
+      },
+      "parts": [
+        {
+          "id": "prt_f5114136b001O8zQeGb5WEBRWy",
+          "time_created": 1783771698027,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f5114136d0014W0fh0kZYXmHfI",
+          "time_created": 1783771698029,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now update learnMoreAboutQuiz in quizzes.ts.",
+            "time": {
+              "start": 1783771698029,
+              "end": 1783771698124
+            }
+          }
+        },
+        {
+          "id": "prt_f511413cd001jWaketXle4hN1Q",
+          "time_created": 1783771698125,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "edit",
+            "callID": "call_64710706fa4940eca6967d92",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts",
+                "oldString": "export async function learnMoreAboutQuiz(id: number, question: string, history: MessageHistory): Promise<string> {\n  const quiz = await getQuizInternal(id)\n  if (!quiz) throw new Error('Quiz not found')\n  const plan = await getPlan(quiz.lesson_plan_id)\n  if (!plan) throw new Error('Plan not found')\n  const markdown = await getDocumentMarkdown(plan.document_id)\n  if (!markdown) throw new Error('Source document has no markdown content')",
+                "newString": "export async function learnMoreAboutQuiz(id: number, question: string, history: MessageHistory): Promise<string> {\n  const quiz = await getQuizInternal(id)\n  if (!quiz) throw new NotFoundError('Quiz not found')\n  const plan = await getPlan(quiz.lesson_plan_id)\n  if (!plan) throw new NotFoundError('Plan not found')\n  const markdown = await getDocumentMarkdown(plan.document_id)\n  if (!markdown) throw new BadRequestError('Source document has no markdown content')"
+              },
+              "output": "Edit applied successfully.",
+              "metadata": {
+                "diagnostics": {},
+                "diff": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n@@ -133,12 +133,12 @@\n export type MessageHistory = Array<AI_Message>\n \n export async function learnMoreAboutQuiz(id: number, question: string, history: MessageHistory): Promise<string> {\n   const quiz = await getQuizInternal(id)\n-  if (!quiz) throw new Error('Quiz not found')\n+  if (!quiz) throw new NotFoundError('Quiz not found')\n   const plan = await getPlan(quiz.lesson_plan_id)\n-  if (!plan) throw new Error('Plan not found')\n+  if (!plan) throw new NotFoundError('Plan not found')\n   const markdown = await getDocumentMarkdown(plan.document_id)\n-  if (!markdown) throw new Error('Source document has no markdown content')\n+  if (!markdown) throw new BadRequestError('Source document has no markdown content')\n   const options = JSON.parse(quiz.options) as string[]\n   return learnMore(markdown, quiz.question, options, question, history)\n }\n",
+                "filediff": {
+                  "file": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts",
+                  "patch": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n@@ -133,12 +133,12 @@\n export type MessageHistory = Array<AI_Message>\n \n export async function learnMoreAboutQuiz(id: number, question: string, history: MessageHistory): Promise<string> {\n   const quiz = await getQuizInternal(id)\n-  if (!quiz) throw new Error('Quiz not found')\n+  if (!quiz) throw new NotFoundError('Quiz not found')\n   const plan = await getPlan(quiz.lesson_plan_id)\n-  if (!plan) throw new Error('Plan not found')\n+  if (!plan) throw new NotFoundError('Plan not found')\n   const markdown = await getDocumentMarkdown(plan.document_id)\n-  if (!markdown) throw new Error('Source document has no markdown content')\n+  if (!markdown) throw new BadRequestError('Source document has no markdown content')\n   const options = JSON.parse(quiz.options) as string[]\n   return learnMore(markdown, quiz.question, options, question, history)\n }\n",
+                  "additions": 3,
+                  "deletions": 3
+                },
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts",
+              "time": {
+                "start": 1783771699862,
+                "end": 1783771699863
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f51141ad500106SBF073O6ktsM",
+          "time_created": 1783771699925,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 19776,
+              "input": 179,
+              "output": 259,
+              "reasoning": 10,
+              "cache": {
+                "write": 0,
+                "read": 19328
+              }
+            },
+            "cost": 0.0001544984
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f51141ad9001uyPKaD6TxhJUi6",
+      "time_created": 1783771699929,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 20011,
+          "input": 335,
+          "output": 215,
+          "reasoning": 5,
+          "cache": {
+            "write": 0,
+            "read": 19456
+          }
+        },
+        "cost": 0.0001629768
+      },
+      "parts": [
+        {
+          "id": "prt_f51142242001VJDcIdyyCI45r5",
+          "time_created": 1783771701826,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f51142243001VHQGiCGLtbzKO2",
+          "time_created": 1783771701827,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now update attempts.ts.",
+            "time": {
+              "start": 1783771701827,
+              "end": 1783771701868
+            }
+          }
+        },
+        {
+          "id": "prt_f5114226d001j5uH1lfGNaRQrI",
+          "time_created": 1783771701869,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "edit",
+            "callID": "call_9a202052d54549bfbb2ad05e",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts",
+                "oldString": "import { db, type AttemptRow } from '../db.ts'\nimport { generateSummary, type AttemptInput } from '../ai/summary.ts'\nimport { getPlan } from './plans.ts'\nimport { getQuizInternal } from './quizzes.ts'\nimport { getDocumentMarkdown } from './documents.ts'\nimport type { AttemptSummaryDTO } from './types.ts'",
+                "newString": "import { db, type AttemptRow } from '../db.ts'\nimport { generateSummary, type AttemptInput } from '../ai/summary.ts'\nimport { getPlan } from './plans.ts'\nimport { getQuizInternal } from './quizzes.ts'\nimport { getDocumentMarkdown } from './documents.ts'\nimport type { AttemptSummaryDTO } from './types.ts'\nimport { NotFoundError, BadRequestError } from '../errors.ts'"
+              },
+              "output": "Edit applied successfully.",
+              "metadata": {
+                "diagnostics": {},
+                "diff": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts\n@@ -3,8 +3,9 @@\n import { getPlan } from './plans.ts'\n import { getQuizInternal } from './quizzes.ts'\n import { getDocumentMarkdown } from './documents.ts'\n import type { AttemptSummaryDTO } from './types.ts'\n+import { NotFoundError, BadRequestError } from '../errors.ts'\n \n export async function completeAttempt(\n   planId: number,\n   payload: {\n",
+                "filediff": {
+                  "file": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts",
+                  "patch": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts\n@@ -3,8 +3,9 @@\n import { getPlan } from './plans.ts'\n import { getQuizInternal } from './quizzes.ts'\n import { getDocumentMarkdown } from './documents.ts'\n import type { AttemptSummaryDTO } from './types.ts'\n+import { NotFoundError, BadRequestError } from '../errors.ts'\n \n export async function completeAttempt(\n   planId: number,\n   payload: {\n",
+                  "additions": 1,
+                  "deletions": 0
+                },
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts",
+              "time": {
+                "start": 1783771703347,
+                "end": 1783771703348
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f51142859001ZHwKvW5hc7OHM2",
+          "time_created": 1783771703385,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 20011,
+              "input": 335,
+              "output": 215,
+              "reasoning": 5,
+              "cache": {
+                "write": 0,
+                "read": 19456
+              }
+            },
+            "cost": 0.0001629768
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f5114285c0014qmxWKujJqZa9j",
+      "time_created": 1783771703388,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 20193,
+          "input": 250,
+          "output": 158,
+          "reasoning": 9,
+          "cache": {
+            "write": 0,
+            "read": 19776
+          }
+        },
+        "cost": 0.0001371328
+      },
+      "parts": [
+        {
+          "id": "prt_f51142fe9001GmUU9ebnWM4Y59",
+          "time_created": 1783771705321,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f51142feb001McEga7T6hjNGnr",
+          "time_created": 1783771705323,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now update the error throws in attempts.ts.",
+            "time": {
+              "start": 1783771705323,
+              "end": 1783771705437
+            }
+          }
+        },
+        {
+          "id": "prt_f5114305e001MCagoysp1MjiXK",
+          "time_created": 1783771705438,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "edit",
+            "callID": "call_47ec7c532c4641c7b4901888",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts",
+                "oldString": "  const plan = await getPlan(planId)\n  if (!plan) throw new Error('Plan not found')\n\n  const markdown = await getDocumentMarkdown(plan.document_id)\n  if (!markdown) throw new Error('Source document has no markdown content')",
+                "newString": "  const plan = await getPlan(planId)\n  if (!plan) throw new NotFoundError('Plan not found')\n\n  const markdown = await getDocumentMarkdown(plan.document_id)\n  if (!markdown) throw new BadRequestError('Source document has no markdown content')"
+              },
+              "output": "Edit applied successfully.",
+              "metadata": {
+                "diagnostics": {},
+                "diff": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts\n@@ -16,12 +16,12 @@\n     }>\n   }\n ): Promise<AttemptSummaryDTO> {\n   const plan = await getPlan(planId)\n-  if (!plan) throw new Error('Plan not found')\n+  if (!plan) throw new NotFoundError('Plan not found')\n \n   const markdown = await getDocumentMarkdown(plan.document_id)\n-  if (!markdown) throw new Error('Source document has no markdown content')\n+  if (!markdown) throw new BadRequestError('Source document has no markdown content')\n \n   const questions: AttemptInput['questions'] = []\n   let score = 0\n   for (const ans of payload.answers) {\n",
+                "filediff": {
+                  "file": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts",
+                  "patch": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts\n@@ -16,12 +16,12 @@\n     }>\n   }\n ): Promise<AttemptSummaryDTO> {\n   const plan = await getPlan(planId)\n-  if (!plan) throw new Error('Plan not found')\n+  if (!plan) throw new NotFoundError('Plan not found')\n \n   const markdown = await getDocumentMarkdown(plan.document_id)\n-  if (!markdown) throw new Error('Source document has no markdown content')\n+  if (!markdown) throw new BadRequestError('Source document has no markdown content')\n \n   const questions: AttemptInput['questions'] = []\n   let score = 0\n   for (const ans of payload.answers) {\n",
+                  "additions": 2,
+                  "deletions": 2
+                },
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts",
+              "time": {
+                "start": 1783771706606,
+                "end": 1783771706608
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f5114352c001Gub6WFiMNIPiH6",
+          "time_created": 1783771706668,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 20193,
+              "input": 250,
+              "output": 158,
+              "reasoning": 9,
+              "cache": {
+                "write": 0,
+                "read": 19776
+              }
+            },
+            "cost": 0.0001371328
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f511435310012jhPL7cLE4kggF",
+      "time_created": 1783771706673,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 21376,
+          "input": 432,
+          "output": 1145,
+          "reasoning": 23,
+          "cache": {
+            "write": 0,
+            "read": 19776
+          }
+        },
+        "cost": 0.0004428928
+      },
+      "parts": [
+        {
+          "id": "prt_f51144940001OHz7R8wg4lzv1G",
+          "time_created": 1783771711808,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f51144942001hoZ3DKXJuUhmM4",
+          "time_created": 1783771711810,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now I need to remove the try-catch blocks from the routes. Let me update learning.ts to remove them.",
+            "time": {
+              "start": 1783771711810,
+              "end": 1783771711820
+            }
+          }
+        },
+        {
+          "id": "prt_f5114494d001D4Np0O9Q3z0k9o",
+          "time_created": 1783771711821,
+          "type": "text",
+          "data": {
+            "type": "text",
+            "text": "Now remove the unnecessary try-catch blocks from the routes:",
+            "time": {
+              "start": 1783771711821,
+              "end": 1783771720501
+            }
+          }
+        },
+        {
+          "id": "prt_f51144ada001kaUOlRvP8wj9rh",
+          "time_created": 1783771712218,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "write",
+            "callID": "call_0f5826d23ac3408b964d69d3",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/routes/learning.ts",
+                "content": "import type { FastifyInstance } from 'fastify'\nimport { z } from 'zod'\nimport type { ZodType } from 'zod'\nimport { getDocument, listDocuments } from '../services/documents.ts'\nimport { approvePlan, createPlan, getPlan, getPlansForDocument } from '../services/plans.ts'\nimport * as quiz from '../services/quizzes.ts'\nimport { completeAttempt, getAttempt, listAttempts } from '../services/attempts.ts'\n\nfunction validate<T>(schema: ZodType<T>, data: unknown): T {\n  return schema.parse(data)\n}\nconst IdParam = z.object({ id: z.coerce.number() })\n\nexport async function routes(app: FastifyInstance) {\n  app.get('/api/documents', () => listDocuments())\n\n  app.get('/api/documents/:id', async (req, reply) => {\n    const { id } = validate(IdParam, req.params)\n    const doc = await getDocument(id)\n    if (!doc) return reply.code(404).send({ error: 'Document not found' })\n    return doc\n  })\n\n  app.get('/api/documents/:id/plans', async (req) => {\n    const { id } = validate(IdParam, req.params)\n    return getPlansForDocument(id)\n  })\n\n  app.post('/api/documents/:id/plans', async (req, reply) => {\n    const { id } = validate(IdParam, req.params)\n    const plan = await createPlan(id)\n    return reply.code(201).send(plan)\n  })\n\n  app.get('/api/lesson-plans/:id', async (req, reply) => {\n    const { id } = validate(IdParam, req.params)\n    const plan = await getPlan(id)\n    if (!plan) return reply.code(404).send({ error: 'Plan not found' })\n    return plan\n  })\n\n  app.post('/api/lesson-plans/:id/approve', async (req) => {\n    const { id } = validate(IdParam, req.params)\n    return approvePlan(id)\n  })\n\n  app.get('/api/lesson-plans/:id/quizzes', async (req) => {\n    const { id } = validate(IdParam, req.params)\n    return quiz.getAllQuizzes(id)\n  })\n\n  const CreateQuizBody = z.object({ objectiveIndex: z.number() })\n\n  app.post('/api/lesson-plans/:id/quizzes', async (req) => {\n    const { id } = validate(IdParam, req.params)\n    const { objectiveIndex } = validate(CreateQuizBody, req.body)\n    return quiz.getOrCreateQuiz(id, objectiveIndex)\n  })\n\n  app.post('/api/quizzes/:id/explain', async (req) => {\n    const { id } = validate(IdParam, req.params)\n    return quiz.getExplanation(id)\n  })\n\n  const CheckAnswerBody = z.object({ learnerIndex: z.number() })\n\n  app.post('/api/quizzes/:id/check', async (req) => {\n    const { id } = validate(IdParam, req.params)\n    const { learnerIndex } = validate(CheckAnswerBody, req.body)\n    return quiz.checkAnswer(id, learnerIndex)\n  })\n\n  const HintBody = z.object({ previousGuessIndex: z.number().nullable().optional() })\n\n  app.post('/api/quizzes/:id/hint', async (req) => {\n    const { id } = validate(IdParam, req.params)\n    const { previousGuessIndex } = validate(HintBody, req.body)\n    const hint = await quiz.getHint(id, previousGuessIndex ?? null)\n    return { hint }\n  })\n\n  const LearnMoreBody = z.object({\n    learnerQuestion: z.string(),\n    history: z.array(z.object({ role: z.enum(['user', 'assistant']), content: z.string() })).optional()\n  })\n\n  app.post('/api/quizzes/:id/learn-more', async (req) => {\n    const { id } = validate(IdParam, req.params)\n    const { learnerQuestion, history } = validate(LearnMoreBody, req.body)\n    const message = await quiz.learnMoreAboutQuiz(id, learnerQuestion, history ?? [])\n    return { message }\n  })\n\n  const CompleteBody = z.object({\n    answers: z.array(z.object({ quizId: z.number(), learnerIndex: z.number().nullable(), attempts: z.number() }))\n  })\n\n  app.post('/api/lesson-plans/:id/complete', async (req) => {\n    const { id } = validate(IdParam, req.params)\n    const { answers } = validate(CompleteBody, req.body)\n    return completeAttempt(id, { answers })\n  })\n\n  app.get('/api/lesson-plans/:id/attempts', async (req) => {\n    const { id } = validate(IdParam, req.params)\n    return listAttempts(id)\n  })\n\n  app.get('/api/attempts/:id', async (req, reply) => {\n    const { id } = validate(IdParam, req.params)\n    const attempt = await getAttempt(id)\n    if (!attempt) return reply.code(404).send({ error: 'Attempt not found' })\n    return attempt\n  })\n}\n"
+              },
+              "output": "Wrote file successfully.",
+              "metadata": {
+                "diagnostics": {},
+                "filepath": "/Users/shivam/qnify/ai-learning-agent/backend/src/routes/learning.ts",
+                "exists": true,
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/routes/learning.ts",
+              "time": {
+                "start": 1783771720446,
+                "end": 1783771720451
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f51146b36001UYEuJh928ZKVjh",
+          "time_created": 1783771720502,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 21376,
+              "input": 432,
+              "output": 1145,
+              "reasoning": 23,
+              "cache": {
+                "write": 0,
+                "read": 19776
+              }
+            },
+            "cost": 0.0004428928
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f51146b3b001hzvuGzp4FM0GuS",
+      "time_created": 1783771720507,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 21478,
+          "input": 1232,
+          "output": 62,
+          "reasoning": 24,
+          "cache": {
+            "write": 0,
+            "read": 20160
+          }
+        },
+        "cost": 0.000253008
+      },
+      "parts": [
+        {
+          "id": "prt_f5114728f001AWkJKvO9MR748u",
+          "time_created": 1783771722383,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f51147291001QTVj9Y1pRt28qM",
+          "time_created": 1783771722385,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now let me verify the changes by checking if there are any TypeScript errors. Let me run the TypeScript compiler to check.",
+            "time": {
+              "start": 1783771722385,
+              "end": 1783771722603
+            }
+          }
+        },
+        {
+          "id": "prt_f5114736c001dzNGVxYvcJKVa8",
+          "time_created": 1783771722604,
+          "type": "text",
+          "data": {
+            "type": "text",
+            "text": "Let me verify the changes compile correctly:",
+            "time": {
+              "start": 1783771722604,
+              "end": 1783771723277
+            }
+          }
+        },
+        {
+          "id": "prt_f5114750f001GWYbQBNC26qcq7",
+          "time_created": 1783771723023,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "bash",
+            "callID": "call_654185d9ff1845ffabf8852b",
+            "state": {
+              "status": "completed",
+              "input": {
+                "command": "cd /Users/shivam/qnify/ai-learning-agent/backend && npx tsc --noEmit 2>&1 | head -50"
+              },
+              "output": "src/index.ts(21,7): error TS18046: 'err' is of type 'unknown'.\nsrc/index.ts(22,23): error TS18046: 'err' is of type 'unknown'.\nsrc/index.ts(22,53): error TS18046: 'err' is of type 'unknown'.\n",
+              "metadata": {
+                "output": "src/index.ts(21,7): error TS18046: 'err' is of type 'unknown'.\nsrc/index.ts(22,23): error TS18046: 'err' is of type 'unknown'.\nsrc/index.ts(22,53): error TS18046: 'err' is of type 'unknown'.\n",
+                "exit": 0,
+                "truncated": false
+              },
+              "title": "cd /Users/shivam/qnify/ai-learning-agent/backend && npx tsc --noEmit 2>&1 | head -50",
+              "time": {
+                "start": 1783771723763,
+                "end": 1783771723765
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f511477f6001glG8UrL8nsDhGH",
+          "time_created": 1783771723766,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 21478,
+              "input": 1232,
+              "output": 62,
+              "reasoning": 24,
+              "cache": {
+                "write": 0,
+                "read": 20160
+              }
+            },
+            "cost": 0.000253008
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f511477f9001MRlWrXO9xcQ3H7",
+      "time_created": 1783771723769,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 21908,
+          "input": 193,
+          "output": 316,
+          "reasoning": 23,
+          "cache": {
+            "write": 0,
+            "read": 21376
+          }
+        },
+        "cost": 0.0001817928
+      },
+      "parts": [
+        {
+          "id": "prt_f51147f4a001gKFDRNpy3luFuX",
+          "time_created": 1783771725643,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f51147f4c001yWvxtnpIr4QGZX",
+          "time_created": 1783771725644,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "There are TypeScript errors in index.ts because the error type is `unknown`. I need to fix the type casting.",
+            "time": {
+              "start": 1783771725644,
+              "end": 1783771725935
+            }
+          }
+        },
+        {
+          "id": "prt_f51148070001pyzBJktchBaJch",
+          "time_created": 1783771725936,
+          "type": "text",
+          "data": {
+            "type": "text",
+            "text": "Need to fix the type assertion in the error handler:",
+            "time": {
+              "start": 1783771725936,
+              "end": 1783771728578
+            }
+          }
+        },
+        {
+          "id": "prt_f5114810c001RsQI39lrPa8pov",
+          "time_created": 1783771726092,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "edit",
+            "callID": "call_1074f9da8a6244ddbf92e339",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/index.ts",
+                "oldString": "app.setErrorHandler((err, _req, reply) => {\n  if (err instanceof ZodError) {\n    return reply.code(400).send({\n      error: 'Validation failed',\n      details: err.issues.map((i) => ({ path: i.path.join('.'), message: i.message }))\n    })\n  }\n  if (err.statusCode) {\n    return reply.code(err.statusCode).send({ error: err.message })\n  }\n  app.log.error(err)\n  return reply.code(500).send({ error: 'Internal server error' })\n})",
+                "newString": "app.setErrorHandler((err, _req, reply) => {\n  if (err instanceof ZodError) {\n    return reply.code(400).send({\n      error: 'Validation failed',\n      details: err.issues.map((i) => ({ path: i.path.join('.'), message: i.message }))\n    })\n  }\n  const error = err as { statusCode?: number; message?: string }\n  if (error.statusCode) {\n    return reply.code(error.statusCode).send({ error: error.message })\n  }\n  app.log.error(err)\n  return reply.code(500).send({ error: 'Internal server error' })\n})"
+              },
+              "output": "Edit applied successfully.",
+              "metadata": {
+                "diagnostics": {},
+                "diff": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/index.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/index.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/index.ts\n@@ -17,10 +17,11 @@\n       error: 'Validation failed',\n       details: err.issues.map((i) => ({ path: i.path.join('.'), message: i.message }))\n     })\n   }\n-  if (err.statusCode) {\n-    return reply.code(err.statusCode).send({ error: err.message })\n+  const error = err as { statusCode?: number; message?: string }\n+  if (error.statusCode) {\n+    return reply.code(error.statusCode).send({ error: error.message })\n   }\n   app.log.error(err)\n   return reply.code(500).send({ error: 'Internal server error' })\n })\n",
+                "filediff": {
+                  "file": "/Users/shivam/qnify/ai-learning-agent/backend/src/index.ts",
+                  "patch": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/index.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/index.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/index.ts\n@@ -17,10 +17,11 @@\n       error: 'Validation failed',\n       details: err.issues.map((i) => ({ path: i.path.join('.'), message: i.message }))\n     })\n   }\n-  if (err.statusCode) {\n-    return reply.code(err.statusCode).send({ error: err.message })\n+  const error = err as { statusCode?: number; message?: string }\n+  if (error.statusCode) {\n+    return reply.code(error.statusCode).send({ error: error.message })\n   }\n   app.log.error(err)\n   return reply.code(500).send({ error: 'Internal server error' })\n })\n",
+                  "additions": 3,
+                  "deletions": 2
+                },
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/index.ts",
+              "time": {
+                "start": 1783771728258,
+                "end": 1783771728261
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f51148ac5001OqYQiB9mpJ15p0",
+          "time_created": 1783771728581,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 21908,
+              "input": 193,
+              "output": 316,
+              "reasoning": 23,
+              "cache": {
+                "write": 0,
+                "read": 21376
+              }
+            },
+            "cost": 0.0001817928
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f51148aca001EF5f57vSE0HF4v",
+      "time_created": 1783771728586,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 21980,
+          "input": 547,
+          "output": 49,
+          "reasoning": 8,
+          "cache": {
+            "write": 0,
+            "read": 21376
+          }
+        },
+        "cost": 0.0001523928
+      },
+      "parts": [
+        {
+          "id": "prt_f511490bc001BSYje2h1H7DaHf",
+          "time_created": 1783771730108,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f511490bd001Tg5cOSWE7RzG29",
+          "time_created": 1783771730109,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Let me run the type check again.",
+            "time": {
+              "start": 1783771730109,
+              "end": 1783771730418
+            }
+          }
+        },
+        {
+          "id": "prt_f511491f3001OGuoVDeqRr3HiP",
+          "time_created": 1783771730419,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "bash",
+            "callID": "call_bc887a807c3c43a1844fcf9f",
+            "state": {
+              "status": "completed",
+              "input": {
+                "command": "cd /Users/shivam/qnify/ai-learning-agent/backend && npx tsc --noEmit 2>&1"
+              },
+              "output": "(no output)",
+              "metadata": {
+                "output": "(no output)",
+                "exit": 0,
+                "truncated": false
+              },
+              "title": "cd /Users/shivam/qnify/ai-learning-agent/backend && npx tsc --noEmit 2>&1",
+              "time": {
+                "start": 1783771730656,
+                "end": 1783771731073
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f51149482001dOqh3wHs4HydmL",
+          "time_created": 1783771731074,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 21980,
+              "input": 547,
+              "output": 49,
+              "reasoning": 8,
+              "cache": {
+                "write": 0,
+                "read": 21376
+              }
+            },
+            "cost": 0.0001523928
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f51149485001X50OBu030pq5lX",
+      "time_created": 1783771731077,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 22236,
+          "input": 106,
+          "output": 219,
+          "reasoning": 23,
+          "cache": {
+            "write": 0,
+            "read": 21888
+          }
+        },
+        "cost": 0.0001438864
+      },
+      "parts": [
+        {
+          "id": "prt_f51149d40001A9U4K4IQSVUgps",
+          "time_created": 1783771733312,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f51149d42001NnA5HC3mwAjwEu",
+          "time_created": 1783771733314,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "TypeScript compiles without errors. Let me verify the final state of the files to make sure everything looks correct.",
+            "time": {
+              "start": 1783771733314,
+              "end": 1783771733569
+            }
+          }
+        },
+        {
+          "id": "prt_f51149e420015MMubiBa1AWed7",
+          "time_created": 1783771733570,
+          "type": "text",
+          "data": {
+            "type": "text",
+            "text": "TypeScript compiles cleanly. Here's a summary of the changes:\n\n1. **Created `backend/src/errors.ts`** - Custom error classes (`AppError`, `NotFoundError`, `BadRequestError`) with `statusCode` property\n\n2. **Updated `backend/src/index.ts`** - Enhanced error handler to:\n   - Handle `ZodError` \u2192 400\n   - Handle custom errors with `statusCode` \u2192 appropriate status code\n   - Log and return 500 for unhandled errors\n\n3. **Updated services** (`plans.ts`, `quizzes.ts`, `attempts.ts`) - Changed `throw new Error(...)` to `throw new NotFoundError(...)` or `throw new BadRequestError(...)` for proper HTTP status codes\n\n4. **Updated `backend/src/routes/learning.ts`** - Removed all try-catch blocks that were just catching and returning 400/404. Now errors propagate to Fastify's error handler. Handlers also no longer need `reply` parameter since they don't use it.",
+            "time": {
+              "start": 1783771733570,
+              "end": 1783771735585
+            }
+          }
+        },
+        {
+          "id": "prt_f5114a623001wAhKRdFYW2KWkl",
+          "time_created": 1783771735587,
+          "type": "step-finish",
+          "data": {
+            "reason": "stop",
+            "type": "step-finish",
+            "tokens": {
+              "total": 22236,
+              "input": 106,
+              "output": 219,
+              "reasoning": 23,
+              "cache": {
+                "write": 0,
+                "read": 21888
+              }
+            },
+            "cost": 0.0001438864
+          }
+        }
+      ]
+    }
+  ]
+}

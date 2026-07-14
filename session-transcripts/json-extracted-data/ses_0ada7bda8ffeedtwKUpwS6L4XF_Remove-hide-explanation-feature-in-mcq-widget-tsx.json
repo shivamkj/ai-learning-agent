@@ -1,0 +1,423 @@
+{
+  "session_id": "ses_0ada7bda8ffeedtwKUpwS6L4XF",
+  "title": "Remove hide explanation feature in mcq-widget.tsx",
+  "time_created": 1783792943703,
+  "time_updated": 1783793058328,
+  "cost": 0.03647742,
+  "tokens": {
+    "input": 9458,
+    "output": 633,
+    "reasoning": 4258
+  },
+  "messages": [
+    {
+      "id": "msg_f52584267001N60QkZ83nt5AHw",
+      "time_created": 1783792943719,
+      "role": "user",
+      "metadata": {
+        "agent": "build",
+        "model": {
+          "providerID": "opencode-go",
+          "modelID": "kimi-k2.7-code"
+        },
+        "tokens": null,
+        "cost": null
+      },
+      "parts": [
+        {
+          "id": "prt_f525842680014RGxnduqCAZnDM",
+          "time_created": 1783792943722,
+          "type": "text",
+          "data": {
+            "type": "text",
+            "text": "Remove hide explanation feature in frontend/src/components/mcq-widget.tsx"
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f52584270001zbMh0yBLkMvyjh",
+      "time_created": 1783792943728,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "kimi-k2.7-code",
+        "tokens": {
+          "total": 7322,
+          "input": 83,
+          "output": 35,
+          "reasoning": 36,
+          "cache": {
+            "write": 0,
+            "read": 7168
+          }
+        },
+        "cost": 0.00172477
+      },
+      "parts": [
+        {
+          "id": "prt_f52584b6f001Dnm9mCxU3g8JcJ",
+          "time_created": 1783792946031,
+          "type": "step-start",
+          "data": {
+            "snapshot": "0d4966871816b9e922a13aa015db8cdf8f1b6ca1",
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f52584b70001tji65qpUh8zaDI",
+          "time_created": 1783792946032,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "The user wants to remove the \"hide explanation\" feature in frontend/src/components/mcq-widget.tsx. I need to read the file first, then identify and remove the feature.",
+            "time": {
+              "start": 1783792946032,
+              "end": 1783792948767
+            }
+          }
+        },
+        {
+          "id": "prt_f52585620001lJhN9dzitbVwHc",
+          "time_created": 1783792948768,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "read",
+            "callID": "read_0",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx"
+              },
+              "output": "<path>/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx</path>\n<type>file</type>\n<content>\n1: import { useEffect, useState } from 'react'\n2: import Markdown from 'react-markdown'\n3: import { Check, CircleAlert, HelpCircle, Lightbulb, Loader2, MessageSquareText, Send, X } from 'lucide-react'\n4: import { cn } from '#lib/utils'\n5: import { Badge } from '#components/ui/badge'\n6: import { Button } from '#components/ui/button'\n7: import { Card, CardContent } from '#components/ui/card'\n8: import { RadioGroup, RadioGroupItem } from '#components/ui/radio-group'\n9: import { Textarea } from '#components/ui/textarea'\n10: import { checkAnswer, getExplanation, getHint, learnMore } from '#lib/api'\n11: import type { ChatMessage, QuizDTO } from '#lib/types'\n12: \n13: interface Props {\n14:   quiz: QuizDTO\n15:   objectiveNumber: number\n16:   totalObjectives: number\n17:   questionNumber: number\n18:   totalQuestionsInObjective: number\n19:   onCorrect: (learnerIndex: number) => void\n20:   onIncorrect: (learnerIndex: number) => void\n21:   onSkip: () => void\n22:   onNext: () => void\n23:   isLast: boolean\n24: }\n25: \n26: type Status = 'idle' | 'submitted' | 'correct' | 'incorrect'\n27: \n28: export function MCQWidget({\n29:   quiz,\n30:   objectiveNumber,\n31:   totalObjectives,\n32:   questionNumber,\n33:   totalQuestionsInObjective,\n34:   onCorrect,\n35:   onIncorrect,\n36:   onSkip,\n37:   onNext,\n38:   isLast\n39: }: Props) {\n40:   const [selected, setSelected] = useState<number | null>(null)\n41:   const [status, setStatus] = useState<Status>('idle')\n42:   const [submitting, setSubmitting] = useState(false)\n43:   const [hint, setHint] = useState<string | null>(null)\n44:   const [hintLoading, setHintLoading] = useState(false)\n45:   const [explanation, setExplanation] = useState<string | null>(null)\n46:   const [showExplanation, setShowExplanation] = useState(false)\n47:   const [explanationLoading, setExplanationLoading] = useState(false)\n48:   const [tries, setTries] = useState(0)\n49:   const [chatOpen, setChatOpen] = useState(false)\n50: \n51:   // Reset state when quiz changes (new objective)\n52:   useEffect(() => {\n53:     setSelected(null)\n54:     setStatus('idle')\n55:     setHint(null)\n56:     setExplanation(null)\n57:     setShowExplanation(false)\n58:     setTries(0)\n59:     setChatOpen(false)\n60:   }, [quiz.id])\n61: \n62:   const submit = async () => {\n63:     if (selected === null || submitting) return\n64:     setHint(null)\n65:     setSubmitting(true)\n66:     try {\n67:       const res = await checkAnswer(quiz.id, selected)\n68:       if (res.correct) {\n69:         setStatus('correct')\n70:         onCorrect(selected)\n71:       } else {\n72:         setStatus('incorrect')\n73:         onIncorrect(selected)\n74:         setTries((t) => t + 1)\n75:       }\n76:     } finally {\n77:       setSubmitting(false)\n78:     }\n79:   }\n80: \n81:   const retry = () => {\n82:     setStatus('idle')\n83:     setSelected(null)\n84:     setHint(null)\n85:   }\n86: \n87:   const requestHint = async () => {\n88:     setHintLoading(true)\n89:     try {\n90:       const res = await getHint(quiz.id, status === 'incorrect' ? selected : null)\n91:       setHint(res.hint)\n92:     } finally {\n93:       setHintLoading(false)\n94:     }\n95:   }\n96: \n97:   const locked = status === 'correct'\n98: \n99:   return (\n100:     <Card className=\"overflow-hidden\">\n101:       <CardContent className=\"p-0\">\n102:         <div className=\"border-b border-border bg-accent/40 px-5 py-3 sm:px-6\">\n103:           <div className=\"flex items-center justify-between gap-3\">\n104:             <div className=\"min-w-0\">\n105:               <p className=\"text-xs font-medium uppercase tracking-wide text-muted-foreground\">\n106:                 Path {objectiveNumber} of {totalObjectives} \u00b7 Question {questionNumber} of {totalQuestionsInObjective}\n107:               </p>\n108:               <p className=\"mt-0.5 truncate text-sm font-semibold\">{quiz.objectiveText}</p>\n109:             </div>\n110:             {tries > 0 && status !== 'correct' && (\n111:               <Badge variant=\"destructive\">\n112:                 {tries} {tries === 1 ? 'miss' : 'misses'}\n113:               </Badge>\n114:             )}\n115:             {status === 'correct' && (\n116:               <Badge variant=\"default\">\n117:                 <Check className=\"size-3\" />\n118:                 Correct\n119:               </Badge>\n120:             )}\n121:           </div>\n122:         </div>\n123: \n124:         <div className=\"space-y-5 p-5 sm:p-6\">\n125:           <p className=\"text-base font-medium leading-relaxed\">{quiz.question}</p>\n126: \n127:           <RadioGroup\n128:             value={selected !== null ? String(selected) : undefined}\n129:             onValueChange={(v) => {\n130:               if (locked) return\n131:               const next = Number(v)\n132:               setSelected(next)\n133:               if (status === 'incorrect') {\n134:                 setStatus('idle')\n135:                 setHint(null)\n136:               }\n137:             }}\n138:             className=\"gap-2.5\"\n139:           >\n140:             {quiz.options.map((opt, i) => {\n141:               const isSelected = selected === i\n142:               const showAsCorrect = locked && isSelected\n143:               const showAsWrong = status === 'incorrect' && isSelected\n144:               return (\n145:                 <label\n146:                   key={i}\n147:                   className={cn(\n148:                     'flex items-center gap-3 rounded-xl border p-3.5 text-sm transition-all',\n149:                     locked ? 'cursor-default' : 'cursor-pointer',\n150:                     !locked && 'hover:border-primary/50 hover:bg-accent/50',\n151:                     isSelected && !locked ? 'border-primary bg-primary/5' : 'border-border bg-card',\n152:                     showAsCorrect && 'border-success/60 bg-success/10 text-success',\n153:                     showAsWrong && 'border-danger/60 bg-danger/10 text-danger'\n154:                   )}\n155:                 >\n156:                   <RadioGroupItem\n157:                     value={String(i)}\n158:                     disabled={locked}\n159:                     className={cn(\n160:                       showAsCorrect &&\n161:                         'border-success text-success data-[checked]:bg-success data-[checked]:border-success',\n162:                       showAsWrong && 'border-danger text-danger data-[checked]:bg-danger data-[checked]:border-danger'\n163:                     )}\n164:                   />\n165:                   <span className=\"flex-1 leading-relaxed\">{opt}</span>\n166:                   {showAsCorrect && <Check className=\"size-4 shrink-0\" />}\n167:                   {showAsWrong && <X className=\"size-4 shrink-0\" />}\n168:                 </label>\n169:               )\n170:             })}\n171:           </RadioGroup>\n172: \n173:           {status === 'incorrect' && (\n174:             <div className=\"flex items-start gap-2.5 rounded-xl border border-danger/40 bg-danger/10 p-3.5 text-sm\">\n175:               <CircleAlert className=\"size-4 shrink-0 translate-y-0.5 text-danger\" />\n176:               <div>\n177:                 <p className=\"font-medium text-danger\">Not quite.</p>\n178:                 <p className=\"mt-0.5 text-muted-foreground\">\n179:                   Try again \u2014 you can request a hint or ask for a deeper explanation. No penalty for retries.\n180:                 </p>\n181:               </div>\n182:             </div>\n183:           )}\n184: \n185:           {hint && (\n186:             <div className=\"flex items-start gap-2.5 rounded-xl border border-primary/30 bg-primary/5 p-3.5 text-sm\">\n187:               <Lightbulb className=\"size-4 shrink-0 translate-y-0.5 text-primary\" />\n188:               <div>\n189:                 <p className=\"font-medium text-primary\">Hint</p>\n190:                 <p className=\"mt-0.5 text-foreground\">{hint}</p>\n191:               </div>\n192:             </div>\n193:           )}\n194: \n195:           {status === 'correct' && showExplanation && explanation && (\n196:             <div className=\"flex items-start gap-2.5 rounded-xl border border-success/40 bg-success/10 p-3.5 text-sm\">\n197:               <Check className=\"size-4 shrink-0 translate-y-0.5 text-success\" />\n198:               <div>\n199:                 <p className=\"font-medium text-success\">Explanation</p>\n200:                 <p className=\"mt-0.5 text-foreground\">{explanation}</p>\n201:               </div>\n202:             </div>\n203:           )}\n204: \n205:           <div className=\"flex flex-wrap items-center gap-2 pt-1\">\n206:             {!locked && (\n207:               <>\n208:                 <Button onClick={submit} disabled={selected === null || submitting} className=\"gap-1.5\">\n209:                   {submitting ? <Loader2 className=\"size-4 animate-spin\" /> : <Send className=\"size-4\" />}\n210:                   {status === 'incorrect' ? 'Re-submit' : 'Submit answer'}\n211:                 </Button>\n212:                 <Button variant=\"outline\" onClick={requestHint} disabled={hintLoading} className=\"gap-1.5\">\n213:                   {hintLoading ? <Loader2 className=\"size-4 animate-spin\" /> : <HelpCircle className=\"size-4\" />}\n214:                   {hint ? 'New hint' : 'Get a hint'}\n215:                 </Button>\n216:                 <Button variant=\"ghost\" onClick={() => setChatOpen(true)} className=\"gap-1.5\">\n217:                   <MessageSquareText className=\"size-4\" />\n218:                   AI Help\n219:                 </Button>\n220:                 {status === 'incorrect' && (\n221:                   <Button variant=\"ghost\" onClick={retry} className=\"ml-auto\">\n222:                     Reset selection\n223:                   </Button>\n224:                 )}\n225:                 {status === 'incorrect' && tries >= 1 && (\n226:                   <Button variant=\"ghost\" onClick={onSkip} className=\"text-muted-foreground\">\n227:                     Skip \u2192\n228:                   </Button>\n229:                 )}\n230:               </>\n231:             )}\n232:             {locked && (\n233:               <>\n234:                 <Button\n235:                   variant=\"outline\"\n236:                   onClick={async () => {\n237:                     if (showExplanation) {\n238:                       setShowExplanation(false)\n239:                       return\n240:                     }\n241:                     setExplanationLoading(true)\n242:                     try {\n243:                       const res = await getExplanation(quiz.id)\n244:                       setExplanation(res.explanation)\n245:                       setShowExplanation(true)\n246:                     } finally {\n247:                       setExplanationLoading(false)\n248:                     }\n249:                   }}\n250:                   disabled={explanationLoading}\n251:                   className=\"gap-1.5\"\n252:                 >\n253:                   {explanationLoading ? (\n254:                     <Loader2 className=\"size-4 animate-spin\" />\n255:                   ) : showExplanation ? (\n256:                     'Hide explanation'\n257:                   ) : (\n258:                     'Show explanation'\n259:                   )}\n260:                 </Button>\n261:                 <Button onClick={onNext} className=\"ml-auto gap-1.5\">\n262:                   {isLast ? 'Finish & see results' : 'Next'}\n263:                 </Button>\n264:               </>\n265:             )}\n266:           </div>\n267:         </div>\n268:       </CardContent>\n269: \n270:       {chatOpen && <LearnMorePanel quiz={quiz} onClose={() => setChatOpen(false)} />}\n271:     </Card>\n272:   )\n273: }\n274: \n275: interface LearnMoreProps {\n276:   quiz: QuizDTO\n277:   onClose: () => void\n278: }\n279: \n280: function LearnMorePanel({ quiz, onClose }: LearnMoreProps) {\n281:   const [messages, setMessages] = useState<ChatMessage[]>([\n282:     {\n283:       role: 'assistant',\n284:       content:\n285:         'I can dig deeper into the topic behind this question \u2014 without revealing the answer. Ask me anything about the concepts.'\n286:     }\n287:   ])\n288:   const [input, setInput] = useState('')\n289:   const [loading, setLoading] = useState(false)\n290: \n291:   const send = async () => {\n292:     const q = input.trim()\n293:     if (!q || loading) return\n294:     const nextHistory: ChatMessage[] = [...messages, { role: 'user', content: q }]\n295:     setMessages(nextHistory)\n296:     setInput('')\n297:     setLoading(true)\n298:     try {\n299:       const res = await learnMore(\n300:         quiz.id,\n301:         q,\n302:         nextHistory.filter((m) => m.role !== 'assistant' || m.content !== messages[0]?.content)\n303:       )\n304:       setMessages((cur) => [...cur, { role: 'assistant', content: res.message }])\n305:     } catch (err) {\n306:       setMessages((cur) => [\n307:         ...cur,\n308:         {\n309:           role: 'assistant',\n310:           content: `Sorry, I couldn't fetch an answer right now: ${(err as Error).message}`\n311:         }\n312:       ])\n313:     } finally {\n314:       setLoading(false)\n315:     }\n316:   }\n317: \n318:   return (\n319:     <div className=\"fixed inset-0 z-50 flex items-end justify-end sm:items-center sm:justify-end\">\n320:       <div className=\"absolute inset-0 bg-background/60 backdrop-blur-sm\" onClick={onClose} />\n321:       <div className=\"relative flex h-[70vh] w-full max-w-md flex-col rounded-t-2xl border border-border bg-card shadow-2xl sm:rounded-2xl\">\n322:         <div className=\"flex items-center justify-between border-b border-border bg-accent/40 px-4 py-3\">\n323:           <div className=\"flex items-center gap-2\">\n324:             <span className=\"flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground\">\n325:               <MessageSquareText className=\"size-4\" />\n326:             </span>\n327:             <div>\n328:               <p className=\"text-sm font-semibold\">Ask the tutor</p>\n329:               <p className=\"text-xs text-muted-foreground\">Answers stay grounded in your PDF</p>\n330:             </div>\n331:           </div>\n332:           <Button variant=\"ghost\" size=\"icon-sm\" onClick={onClose}>\n333:             <X className=\"size-4\" />\n334:           </Button>\n335:         </div>\n336:         <div className=\"flex-1 space-y-3 overflow-y-auto p-4\">\n337:           {messages.map((m, i) => (\n338:             <div key={i} className={cn('flex', m.role === 'user' ? 'justify-end' : 'justify-start')}>\n339:               <div\n340:                 className={cn(\n341:                   'max-w-[85%] rounded-2xl px-3.5 py-2 text-sm leading-relaxed',\n342:                   m.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-accent text-accent-foreground'\n343:                 )}\n344:               >\n345:                 {m.role === 'user' ? (\n346:                   <span className=\"whitespace-pre-wrap\">{m.content}</span>\n347:                 ) : (\n348:                   <Markdown>{m.content}</Markdown>\n349:                 )}\n350:               </div>\n351:             </div>\n352:           ))}\n353:           {loading && (\n354:             <div className=\"flex items-center gap-2 text-xs text-muted-foreground\">\n355:               <Loader2 className=\"size-3 animate-spin\" />\n356:               Thinking...\n357:             </div>\n358:           )}\n359:         </div>\n360:         <div className=\"border-t border-border p-3\">\n361:           <div className=\"flex items-end gap-2\">\n362:             <Textarea\n363:               value={input}\n364:               onChange={(e) => setInput(e.target.value)}\n365:               placeholder=\"Ask about the concept...\"\n366:               className=\"min-h-[44px] flex-1 resize-none\"\n367:               rows={1}\n368:               onKeyDown={(e) => {\n369:                 if (e.key === 'Enter' && !e.shiftKey) {\n370:                   e.preventDefault()\n371:                   void send()\n372:                 }\n373:               }}\n374:             />\n375:             <Button onClick={send} disabled={loading || !input.trim()} size=\"icon\">\n376:               <Send className=\"size-4\" />\n377:             </Button>\n378:           </div>\n379:         </div>\n380:       </div>\n381:     </div>\n382:   )\n383: }\n\n(End of file - total 383 lines)\n</content>",
+              "metadata": {
+                "preview": "import { useEffect, useState } from 'react'\nimport Markdown from 'react-markdown'\nimport { Check, CircleAlert, HelpCircle, Lightbulb, Loader2, MessageSquareText, Send, X } from 'lucide-react'\nimport { cn } from '#lib/utils'\nimport { Badge } from '#components/ui/badge'\nimport { Button } from '#components/ui/button'\nimport { Card, CardContent } from '#components/ui/card'\nimport { RadioGroup, RadioGroupItem } from '#components/ui/radio-group'\nimport { Textarea } from '#components/ui/textarea'\nimport { checkAnswer, getExplanation, getHint, learnMore } from '#lib/api'\nimport type { ChatMessage, QuizDTO } from '#lib/types'\n\ninterface Props {\n  quiz: QuizDTO\n  objectiveNumber: number\n  totalObjectives: number\n  questionNumber: number\n  totalQuestionsInObjective: number\n  onCorrect: (learnerIndex: number) => void\n  onIncorrect: (learnerIndex: number) => void",
+                "truncated": false,
+                "loaded": [],
+                "display": {
+                  "type": "file",
+                  "path": "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx",
+                  "text": "import { useEffect, useState } from 'react'\nimport Markdown from 'react-markdown'\nimport { Check, CircleAlert, HelpCircle, Lightbulb, Loader2, MessageSquareText, Send, X } from 'lucide-react'\nimport { cn } from '#lib/utils'\nimport { Badge } from '#components/ui/badge'\nimport { Button } from '#components/ui/button'\nimport { Card, CardContent } from '#components/ui/card'\nimport { RadioGroup, RadioGroupItem } from '#components/ui/radio-group'\nimport { Textarea } from '#components/ui/textarea'\nimport { checkAnswer, getExplanation, getHint, learnMore } from '#lib/api'\nimport type { ChatMessage, QuizDTO } from '#lib/types'\n\ninterface Props {\n  quiz: QuizDTO\n  objectiveNumber: number\n  totalObjectives: number\n  questionNumber: number\n  totalQuestionsInObjective: number\n  onCorrect: (learnerIndex: number) => void\n  onIncorrect: (learnerIndex: number) => void\n  onSkip: () => void\n  onNext: () => void\n  isLast: boolean\n}\n\ntype Status = 'idle' | 'submitted' | 'correct' | 'incorrect'\n\nexport function MCQWidget({\n  quiz,\n  objectiveNumber,\n  totalObjectives,\n  questionNumber,\n  totalQuestionsInObjective,\n  onCorrect,\n  onIncorrect,\n  onSkip,\n  onNext,\n  isLast\n}: Props) {\n  const [selected, setSelected] = useState<number | null>(null)\n  const [status, setStatus] = useState<Status>('idle')\n  const [submitting, setSubmitting] = useState(false)\n  const [hint, setHint] = useState<string | null>(null)\n  const [hintLoading, setHintLoading] = useState(false)\n  const [explanation, setExplanation] = useState<string | null>(null)\n  const [showExplanation, setShowExplanation] = useState(false)\n  const [explanationLoading, setExplanationLoading] = useState(false)\n  const [tries, setTries] = useState(0)\n  const [chatOpen, setChatOpen] = useState(false)\n\n  // Reset state when quiz changes (new objective)\n  useEffect(() => {\n    setSelected(null)\n    setStatus('idle')\n    setHint(null)\n    setExplanation(null)\n    setShowExplanation(false)\n    setTries(0)\n    setChatOpen(false)\n  }, [quiz.id])\n\n  const submit = async () => {\n    if (selected === null || submitting) return\n    setHint(null)\n    setSubmitting(true)\n    try {\n      const res = await checkAnswer(quiz.id, selected)\n      if (res.correct) {\n        setStatus('correct')\n        onCorrect(selected)\n      } else {\n        setStatus('incorrect')\n        onIncorrect(selected)\n        setTries((t) => t + 1)\n      }\n    } finally {\n      setSubmitting(false)\n    }\n  }\n\n  const retry = () => {\n    setStatus('idle')\n    setSelected(null)\n    setHint(null)\n  }\n\n  const requestHint = async () => {\n    setHintLoading(true)\n    try {\n      const res = await getHint(quiz.id, status === 'incorrect' ? selected : null)\n      setHint(res.hint)\n    } finally {\n      setHintLoading(false)\n    }\n  }\n\n  const locked = status === 'correct'\n\n  return (\n    <Card className=\"overflow-hidden\">\n      <CardContent className=\"p-0\">\n        <div className=\"border-b border-border bg-accent/40 px-5 py-3 sm:px-6\">\n          <div className=\"flex items-center justify-between gap-3\">\n            <div className=\"min-w-0\">\n              <p className=\"text-xs font-medium uppercase tracking-wide text-muted-foreground\">\n                Path {objectiveNumber} of {totalObjectives} \u00b7 Question {questionNumber} of {totalQuestionsInObjective}\n              </p>\n              <p className=\"mt-0.5 truncate text-sm font-semibold\">{quiz.objectiveText}</p>\n            </div>\n            {tries > 0 && status !== 'correct' && (\n              <Badge variant=\"destructive\">\n                {tries} {tries === 1 ? 'miss' : 'misses'}\n              </Badge>\n            )}\n            {status === 'correct' && (\n              <Badge variant=\"default\">\n                <Check className=\"size-3\" />\n                Correct\n              </Badge>\n            )}\n          </div>\n        </div>\n\n        <div className=\"space-y-5 p-5 sm:p-6\">\n          <p className=\"text-base font-medium leading-relaxed\">{quiz.question}</p>\n\n          <RadioGroup\n            value={selected !== null ? String(selected) : undefined}\n            onValueChange={(v) => {\n              if (locked) return\n              const next = Number(v)\n              setSelected(next)\n              if (status === 'incorrect') {\n                setStatus('idle')\n                setHint(null)\n              }\n            }}\n            className=\"gap-2.5\"\n          >\n            {quiz.options.map((opt, i) => {\n              const isSelected = selected === i\n              const showAsCorrect = locked && isSelected\n              const showAsWrong = status === 'incorrect' && isSelected\n              return (\n                <label\n                  key={i}\n                  className={cn(\n                    'flex items-center gap-3 rounded-xl border p-3.5 text-sm transition-all',\n                    locked ? 'cursor-default' : 'cursor-pointer',\n                    !locked && 'hover:border-primary/50 hover:bg-accent/50',\n                    isSelected && !locked ? 'border-primary bg-primary/5' : 'border-border bg-card',\n                    showAsCorrect && 'border-success/60 bg-success/10 text-success',\n                    showAsWrong && 'border-danger/60 bg-danger/10 text-danger'\n                  )}\n                >\n                  <RadioGroupItem\n                    value={String(i)}\n                    disabled={locked}\n                    className={cn(\n                      showAsCorrect &&\n                        'border-success text-success data-[checked]:bg-success data-[checked]:border-success',\n                      showAsWrong && 'border-danger text-danger data-[checked]:bg-danger data-[checked]:border-danger'\n                    )}\n                  />\n                  <span className=\"flex-1 leading-relaxed\">{opt}</span>\n                  {showAsCorrect && <Check className=\"size-4 shrink-0\" />}\n                  {showAsWrong && <X className=\"size-4 shrink-0\" />}\n                </label>\n              )\n            })}\n          </RadioGroup>\n\n          {status === 'incorrect' && (\n            <div className=\"flex items-start gap-2.5 rounded-xl border border-danger/40 bg-danger/10 p-3.5 text-sm\">\n              <CircleAlert className=\"size-4 shrink-0 translate-y-0.5 text-danger\" />\n              <div>\n                <p className=\"font-medium text-danger\">Not quite.</p>\n                <p className=\"mt-0.5 text-muted-foreground\">\n                  Try again \u2014 you can request a hint or ask for a deeper explanation. No penalty for retries.\n                </p>\n              </div>\n            </div>\n          )}\n\n          {hint && (\n            <div className=\"flex items-start gap-2.5 rounded-xl border border-primary/30 bg-primary/5 p-3.5 text-sm\">\n              <Lightbulb className=\"size-4 shrink-0 translate-y-0.5 text-primary\" />\n              <div>\n                <p className=\"font-medium text-primary\">Hint</p>\n                <p className=\"mt-0.5 text-foreground\">{hint}</p>\n              </div>\n            </div>\n          )}\n\n          {status === 'correct' && showExplanation && explanation && (\n            <div className=\"flex items-start gap-2.5 rounded-xl border border-success/40 bg-success/10 p-3.5 text-sm\">\n              <Check className=\"size-4 shrink-0 translate-y-0.5 text-success\" />\n              <div>\n                <p className=\"font-medium text-success\">Explanation</p>\n                <p className=\"mt-0.5 text-foreground\">{explanation}</p>\n              </div>\n            </div>\n          )}\n\n          <div className=\"flex flex-wrap items-center gap-2 pt-1\">\n            {!locked && (\n              <>\n                <Button onClick={submit} disabled={selected === null || submitting} className=\"gap-1.5\">\n                  {submitting ? <Loader2 className=\"size-4 animate-spin\" /> : <Send className=\"size-4\" />}\n                  {status === 'incorrect' ? 'Re-submit' : 'Submit answer'}\n                </Button>\n                <Button variant=\"outline\" onClick={requestHint} disabled={hintLoading} className=\"gap-1.5\">\n                  {hintLoading ? <Loader2 className=\"size-4 animate-spin\" /> : <HelpCircle className=\"size-4\" />}\n                  {hint ? 'New hint' : 'Get a hint'}\n                </Button>\n                <Button variant=\"ghost\" onClick={() => setChatOpen(true)} className=\"gap-1.5\">\n                  <MessageSquareText className=\"size-4\" />\n                  AI Help\n                </Button>\n                {status === 'incorrect' && (\n                  <Button variant=\"ghost\" onClick={retry} className=\"ml-auto\">\n                    Reset selection\n                  </Button>\n                )}\n                {status === 'incorrect' && tries >= 1 && (\n                  <Button variant=\"ghost\" onClick={onSkip} className=\"text-muted-foreground\">\n                    Skip \u2192\n                  </Button>\n                )}\n              </>\n            )}\n            {locked && (\n              <>\n                <Button\n                  variant=\"outline\"\n                  onClick={async () => {\n                    if (showExplanation) {\n                      setShowExplanation(false)\n                      return\n                    }\n                    setExplanationLoading(true)\n                    try {\n                      const res = await getExplanation(quiz.id)\n                      setExplanation(res.explanation)\n                      setShowExplanation(true)\n                    } finally {\n                      setExplanationLoading(false)\n                    }\n                  }}\n                  disabled={explanationLoading}\n                  className=\"gap-1.5\"\n                >\n                  {explanationLoading ? (\n                    <Loader2 className=\"size-4 animate-spin\" />\n                  ) : showExplanation ? (\n                    'Hide explanation'\n                  ) : (\n                    'Show explanation'\n                  )}\n                </Button>\n                <Button onClick={onNext} className=\"ml-auto gap-1.5\">\n                  {isLast ? 'Finish & see results' : 'Next'}\n                </Button>\n              </>\n            )}\n          </div>\n        </div>\n      </CardContent>\n\n      {chatOpen && <LearnMorePanel quiz={quiz} onClose={() => setChatOpen(false)} />}\n    </Card>\n  )\n}\n\ninterface LearnMoreProps {\n  quiz: QuizDTO\n  onClose: () => void\n}\n\nfunction LearnMorePanel({ quiz, onClose }: LearnMoreProps) {\n  const [messages, setMessages] = useState<ChatMessage[]>([\n    {\n      role: 'assistant',\n      content:\n        'I can dig deeper into the topic behind this question \u2014 without revealing the answer. Ask me anything about the concepts.'\n    }\n  ])\n  const [input, setInput] = useState('')\n  const [loading, setLoading] = useState(false)\n\n  const send = async () => {\n    const q = input.trim()\n    if (!q || loading) return\n    const nextHistory: ChatMessage[] = [...messages, { role: 'user', content: q }]\n    setMessages(nextHistory)\n    setInput('')\n    setLoading(true)\n    try {\n      const res = await learnMore(\n        quiz.id,\n        q,\n        nextHistory.filter((m) => m.role !== 'assistant' || m.content !== messages[0]?.content)\n      )\n      setMessages((cur) => [...cur, { role: 'assistant', content: res.message }])\n    } catch (err) {\n      setMessages((cur) => [\n        ...cur,\n        {\n          role: 'assistant',\n          content: `Sorry, I couldn't fetch an answer right now: ${(err as Error).message}`\n        }\n      ])\n    } finally {\n      setLoading(false)\n    }\n  }\n\n  return (\n    <div className=\"fixed inset-0 z-50 flex items-end justify-end sm:items-center sm:justify-end\">\n      <div className=\"absolute inset-0 bg-background/60 backdrop-blur-sm\" onClick={onClose} />\n      <div className=\"relative flex h-[70vh] w-full max-w-md flex-col rounded-t-2xl border border-border bg-card shadow-2xl sm:rounded-2xl\">\n        <div className=\"flex items-center justify-between border-b border-border bg-accent/40 px-4 py-3\">\n          <div className=\"flex items-center gap-2\">\n            <span className=\"flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground\">\n              <MessageSquareText className=\"size-4\" />\n            </span>\n            <div>\n              <p className=\"text-sm font-semibold\">Ask the tutor</p>\n              <p className=\"text-xs text-muted-foreground\">Answers stay grounded in your PDF</p>\n            </div>\n          </div>\n          <Button variant=\"ghost\" size=\"icon-sm\" onClick={onClose}>\n            <X className=\"size-4\" />\n          </Button>\n        </div>\n        <div className=\"flex-1 space-y-3 overflow-y-auto p-4\">\n          {messages.map((m, i) => (\n            <div key={i} className={cn('flex', m.role === 'user' ? 'justify-end' : 'justify-start')}>\n              <div\n                className={cn(\n                  'max-w-[85%] rounded-2xl px-3.5 py-2 text-sm leading-relaxed',\n                  m.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-accent text-accent-foreground'\n                )}\n              >\n                {m.role === 'user' ? (\n                  <span className=\"whitespace-pre-wrap\">{m.content}</span>\n                ) : (\n                  <Markdown>{m.content}</Markdown>\n                )}\n              </div>\n            </div>\n          ))}\n          {loading && (\n            <div className=\"flex items-center gap-2 text-xs text-muted-foreground\">\n              <Loader2 className=\"size-3 animate-spin\" />\n              Thinking...\n            </div>\n          )}\n        </div>\n        <div className=\"border-t border-border p-3\">\n          <div className=\"flex items-end gap-2\">\n            <Textarea\n              value={input}\n              onChange={(e) => setInput(e.target.value)}\n              placeholder=\"Ask about the concept...\"\n              className=\"min-h-[44px] flex-1 resize-none\"\n              rows={1}\n              onKeyDown={(e) => {\n                if (e.key === 'Enter' && !e.shiftKey) {\n                  e.preventDefault()\n                  void send()\n                }\n              }}\n            />\n            <Button onClick={send} disabled={loading || !input.trim()} size=\"icon\">\n              <Send className=\"size-4\" />\n            </Button>\n          </div>\n        </div>\n      </div>\n    </div>\n  )\n}",
+                  "lineStart": 1,
+                  "lineEnd": 383,
+                  "totalLines": 383,
+                  "truncated": false
+                }
+              },
+              "title": "frontend/src/components/mcq-widget.tsx",
+              "time": {
+                "start": 1783792949187,
+                "end": 1783792949197
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f52585823001zPaxYdqpDr8cEX",
+          "time_created": 1783792949283,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "snapshot": "0d4966871816b9e922a13aa015db8cdf8f1b6ca1",
+            "type": "step-finish",
+            "tokens": {
+              "total": 7322,
+              "input": 83,
+              "output": 35,
+              "reasoning": 36,
+              "cache": {
+                "write": 0,
+                "read": 7168
+              }
+            },
+            "cost": 0.00172477
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f5258584b001G3qvs7aAGszmMQ",
+      "time_created": 1783792949323,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "kimi-k2.7-code",
+        "tokens": {
+          "total": 16162,
+          "input": 4312,
+          "output": 494,
+          "reasoning": 4188,
+          "cache": {
+            "write": 0,
+            "read": 7168
+          }
+        },
+        "cost": 0.02418632
+      },
+      "parts": [
+        {
+          "id": "prt_f525861bd00169bs6PRtoUbeNF",
+          "time_created": 1783792951741,
+          "type": "step-start",
+          "data": {
+            "snapshot": "0d4966871816b9e922a13aa015db8cdf8f1b6ca1",
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f525861be001NgprvuB8WU6pHs",
+          "time_created": 1783792951742,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "I need to remove the \"hide explanation\" feature. Let me identify what to change:\n\n1. State: `showExplanation` is used to toggle. Remove it.\n2. Reset effect: `setShowExplanation(false)` \u2014 remove.\n3. Explanation display: condition `status === 'correct' && showExplanation && explanation` \u2014 should show when correct and explanation exists (or maybe always fetch and show after correct?). The feature being removed is the ability to hide it. So probably explanation should show automatically when correct.\n4. Button logic: currently toggles show/hide. We need to change to just fetch/show explanation. The button text shouldn't be \"Hide explanation\" anymore.\n\nWait, \"Remove hide explanation feature\" \u2014 what should the behavior be?\n- The explanation section should show automatically when the answer is correct? Or the button should only show explanation (no hide toggle)?\n- The state `showExplanation` would no longer be needed if we show it automatically after correct.\n\nLet me think about the cleanest interpretation: \"Remove hide explanation feature\" likely means removing the ability to hide the explanation. So the explanation should always be visible once shown. Probably the simplest approach:\n- When correct, automatically fetch and show explanation.\n- Remove the `Show explanation`/`Hide explanation` toggle button.\n- Show explanation unconditionally when `status === 'correct'`.\n\nBut that would require fetching explanation on correct. Alternatively, we keep the \"Show explanation\" button but it no longer toggles \u2014 once clicked it stays. But then we'd still need `showExplanation`.\n\nThe most minimal change to \"remove hide explanation feature\" is to remove the hide capability: the button no longer hides, it only shows. But then the explanation display condition would still need `showExplanation`.\n\nActually, the cleanest interpretation is: explanations should always be shown after answering correctly, so no toggle button is needed. Let me look at the flow:\n- Currently: user gets correct, then can click \"Show explanation\" to see it, then \"Hide explanation\" to hide it.\n- Removing hide feature: we should always show explanation when correct. But we still need to fetch it.\n\nWe could auto-fetch when status becomes correct. But that requires useEffect. Or we could keep the button but change it to just \"Show explanation\" without hide.\n\nGiven the instruction is to \"Remove hide explanation feature\", I think we should:\n1. Remove `showExplanation` state\n2. Remove the `setShowExplanation(false)` reset\n3. Change the explanation display to show when `status === 'correct' && explanation`\n4. Change the button to just fetch explanation, and disable/gone once explanation shown... or always show explanation automatically.\n\nHmm. Let me think about what the user most likely wants. \"Remove hide explanation feature\" \u2014 they probably want the explanation to always show, not be toggleable. So we should fetch it and show it.\n\nActually, the simplest is to keep fetching but remove the hide toggle. After correct, automatically show the explanation. We can either:\n- Fetch explanation automatically when status becomes correct (useEffect)\n- Or keep the button as \"Show explanation\" but once clicked, it stays (no hide)\n\nGiven there's already a button for it, maybe the user wants to remove just the hide functionality, meaning the button should always say \"Show explanation\" and not toggle. But that's weird because if explanation is shown, clicking again would refetch.\n\nI think the best interpretation: Remove the ability to hide. Show explanation automatically on correct. Remove the toggle button.\n\nWait, but if we show automatically, we need to fetch. We can add a useEffect to fetch explanation when status becomes correct.\n\nLet me check if there are tests for this. But the user only asked to modify the file. I'll make the minimal sensible change:\n\n1. Remove `showExplanation` state variable and setter\n2. Remove `setShowExplanation(false)` from reset effect\n3. Update explanation display condition from `status === 'correct' && showExplanation && explanation` to `status === 'correct' && explanation`\n4. Change the locked button logic: remove the toggle. Instead, when correct, automatically fetch explanation. We can use useEffect for that, or keep a \"Show explanation\" button that fetches but doesn't hide.\n\nActually, I think we should keep the button but remove hide. So the button says \"Show explanation\" always (or maybe it disappears once shown). But the simplest is to show explanation automatically when correct.\n\nLet me reconsider. The user says \"Remove hide explanation feature\". This is most naturally interpreted as: there's a feature where you can hide the explanation. Remove that feature. So the explanation, once shown, cannot be hidden.\n\nThere are two ways to implement:\nA. Show explanation automatically on correct (no button)\nB. Keep \"Show explanation\" button but no \"Hide explanation\" toggle\n\nOption A is cleaner but requires fetching on correct. Option B keeps the existing flow but removes hide.\n\nLooking at the existing code, the \"Show explanation\" button is only shown when `locked` (i.e., correct). If we show automatically, we don't need the button at all. This seems like the most natural removal of the feature.\n\nLet me implement option A:\n- Add useEffect to fetch explanation when status === 'correct' and explanation is null\n- Remove showExplanation state\n- Remove setShowExplanation(false) from reset\n- Change explanation display condition to `status === 'correct' && explanation`\n- Remove the explanation toggle button from locked section\n\nBut wait, there might be a loading state. We should keep `explanationLoading` and show a loader while fetching.\n\nLet me write the useEffect:\n```tsx\nuseEffect(() => {\n  if (status === 'correct' && explanation === null && !explanationLoading) {\n    setExplanationLoading(true)\n    getExplanation(quiz.id)\n      .then((res) => setExplanation(res.explanation))\n      .finally(() => setExplanationLoading(false))\n  }\n}, [status, quiz.id, explanation, explanationLoading])\n```\n\nThen in the locked buttons section, remove the explanation button entirely. Keep only the Next button.\n\nActually, maybe we should keep a button that shows loading state? But if it's automatic, no button needed.\n\nHmm, but the user said \"Remove hide explanation feature\" \u2014 not \"auto show explanation\". Let me consider option B as more conservative.\n\nOption B:\n- Remove `showExplanation` state\n- Remove setShowExplanation(false) from reset\n- Keep explanation display condition as `status === 'correct' && explanation`\n- Change button: always \"Show explanation\", never \"Hide explanation\". On click, fetch if not already fetched.\n\nBut if explanation is already shown, clicking the button again would refetch. That's odd. Maybe disable it once shown.\n\nLet me do Option A \u2014 it makes the most sense as removing the hide feature means explanation is always visible once correct.\n\nWait, I should also consider: maybe the user wants the explanation to always show (without needing to click), so removing both the show and hide buttons. Yes, that's option A.\n\nLet me implement option A. I need to be careful with dependencies in useEffect to avoid infinite loops.\n\nActually, looking more carefully, I think the safest interpretation that matches \"Remove hide explanation feature\" exactly is to remove the hiding ability but keep the showing ability. So:\n- The button no longer says \"Hide explanation\"\n- Once shown, it stays shown\n\nTo do this minimally:\n- Keep `showExplanation` state but rename? No, keep it but remove hide.\n- Change the button onClick to only set true, never false.\n- Change button text to always \"Show explanation\" (or disappear once shown).\n\nBut this is basically the same as keeping it but making it one-way. The display condition stays `status === 'correct' && showExplanation && explanation`.\n\nHmm, but why would you want to show it again if it's already shown? You wouldn't. So once shown, the button should disappear or be disabled.\n\nLet me do this interpretation:\n- Keep explanation state and showExplanation state\n- Reset effect: keep `setShowExplanation(false)`\n- Explanation display: keep condition `status === 'correct' && showExplanation && explanation`\n- Button: when clicked, fetch and set showExplanation true. Text always \"Show explanation\". Once shown, button disappears or is replaced.\n\nActually the cleanest minimal change: just remove the \"Hide explanation\" branch from the button. Change the onClick to:\n```tsx\nonClick={async () => {\n  if (explanation) {\n    // already shown, do nothing (or maybe refetch? no)\n    return\n  }\n  setExplanationLoading(true)\n  try {\n    const res = await getExplanation(quiz.id)\n    setExplanation(res.explanation)\n    setShowExplanation(true)\n  } finally {\n    setExplanationLoading(false)\n  }\n}}\n```\nAnd button text always \"Show explanation\".\n\nBut if explanation is already shown, the button would be useless. Better to hide it.\n\nOK let me step back. The phrase \"Remove hide explanation feature\" probably comes from a product decision: users shouldn't be able to hide explanations. The most straightforward implementation is to show explanations automatically. So I'll go with option A.\n\nLet me implement option A:\n\nChanges:\n1. Remove `showExplanation` state (line 46)\n2. Remove `setShowExplanation(false)` from reset effect (line 57)\n3. Add useEffect to auto-fetch explanation when correct\n4. Change explanation display condition (line 195) from `status === 'correct' && showExplanation && explanation` to `status === 'correct' && explanation`\n5. Remove the explanation toggle button from locked section (lines 234-260), keep Next button.\n\nWait, but should I keep explanationLoading? With auto-fetch, yes we need it. But if we use useEffect, we don't need a button loader. However, we might want to show a loading indicator somewhere. The explanation section could show a loader. But currently it only shows when explanation exists.\n\nMaybe simplest: in the explanation section, if status correct and loading, show loader. If explanation exists, show it.\n\nActually, let me reconsider option B one more time. It's more conservative and less likely to break things. The user just wants to remove the hide feature. Keep everything else.\n\nOption B final:\n- Keep `showExplanation` state (maybe it should always be true after correct, but we keep for control)\n- Remove hide capability\n- Button always fetches/shows, never hides\n- Once shown, button could disappear\n\nActually, you know what, I think the most minimal and correct change is:\n- Change the button so it no longer toggles; it only shows.\n- After showing, the button changes to... nothing? Or stays as \"Show explanation\"?\n\nLet me just make it so:\n- When correct and explanation not shown: show \"Show explanation\" button\n- When correct and explanation shown: don't show the button (or show it disabled)\n\nThis removes the hide feature.\n\nImplementation:\n```tsx\n{locked && (\n  <>\n    {!showExplanation && (\n      <Button\n        variant=\"outline\"\n        onClick={async () => {\n          setExplanationLoading(true)\n          try {\n            const res = await getExplanation(quiz.id)\n            setExplanation(res.explanation)\n            setShowExplanation(true)\n          } finally {\n            setExplanationLoading(false)\n          }\n        }}\n        disabled={explanationLoading}\n        className=\"gap-1.5\"\n      >\n        {explanationLoading ? (\n          <Loader2 className=\"size-4 animate-spin\" />\n        ) : (\n          'Show explanation'\n        )}\n      </Button>\n    )}\n    <Button onClick={onNext} className=\"ml-auto gap-1.5\">\n      {isLast ? 'Finish & see results' : 'Next'}\n    </Button>\n  </>\n)}\n```\n\nThis is minimal and removes the hide feature. Explanation stays shown once shown.\n\nBut wait, if we reset on new quiz, `showExplanation` is reset to false. Good.\n\nHmm, but actually the user said \"Remove hide explanation feature\". Maybe they want the explanation to always be visible from the start (no button at all). That's also a valid interpretation.\n\nGiven ambiguity, I think the minimal change that directly addresses \"remove hide\" is to remove the hide toggle but keep the show button. I'll go with that.\n\nActually, let me reconsider one more time. The file has:\n- `showExplanation` state\n- Button that toggles between \"Show explanation\" and \"Hide explanation\"\n- Explanation shown only when `showExplanation` is true\n\n\"Remove hide explanation feature\" = remove the ability to hide. So the button should not have a \"Hide explanation\" mode. The simplest code change:\n1. In button onClick, remove the `if (showExplanation) { setShowExplanation(false); return }` branch.\n2. Button text should always be \"Show explanation\".\n3. Maybe disable button when explanation already shown.\n\nThis keeps the rest of the logic intact. I'll do this.\n\nBut actually, if explanation is shown, clicking \"Show explanation\" again would refetch and set state. That's not ideal. Better to disable when shown. But then the button is useless after shown. Better to not render it when shown.\n\nLet me make these changes:\n- Keep `showExplanation` state\n- In reset effect, keep `setShowExplanation(false)`\n- In explanation display, keep condition\n- In locked buttons, conditionally render \"Show explanation\" button only when `!showExplanation`\n- Button onClick only fetches and sets `showExplanation(true)`\n- Button text always \"Show explanation\"\n\nThis removes the hide feature.\n\nHmm, but the user might want to remove the entire concept of hiding/showing. Let me look at the code once more and think about what makes most sense as a feature removal.\n\nActually, I just realized: if we keep `showExplanation` and the show button, we haven't really removed a feature, we've just made it one-way. The \"hide explanation feature\" specifically refers to the hide capability. So removing that one branch is exactly what's needed.\n\nI'll make the minimal change:\n1. Remove the hide branch in onClick\n2. Change button text to always \"Show explanation\"\n3. Keep the button always rendered (or maybe hide when shown?)\n\nIf we keep the button always rendered with text \"Show explanation\", clicking after shown would refetch. That's weird. So I'll conditionally render only when `!showExplanation`. This means once shown, it disappears.\n\nWait, but then there's no way to refetch if needed. That's fine.\n\nFinal implementation:\n```tsx\n{locked && (\n  <>\n    {!showExplanation && (\n      <Button\n        variant=\"outline\"\n        onClick={async () => {\n          setExplanationLoading(true)\n          try {\n            const res = await getExplanation(quiz.id)\n            setExplanation(res.explanation)\n            setShowExplanation(true)\n          } finally {\n            setExplanationLoading(false)\n          }\n        }}\n        disabled={explanationLoading}\n        className=\"gap-1.5\"\n      >\n        {explanationLoading ? <Loader2 className=\"size-4 animate-spin\" /> : 'Show explanation'}\n      </Button>\n    )}\n    <Button onClick={onNext} className=\"ml-auto gap-1.5\">\n      {isLast ? 'Finish & see results' : 'Next'}\n    </Button>\n  </>\n)}\n```\n\nAnd update explanation display condition? No, keep as is.\n\nActually, I want to double check if there's any issue with the `ml-auto` on Next button. When Show explanation button is not rendered, Next still has ml-auto so it aligns right. Good.\n\nOK, let me make this edit. But actually, I want to also consider if we should remove `showExplanation` entirely and just show explanation automatically. I think the user's intent is to remove the hide toggle, not necessarily to change when explanation is fetched. So keeping the show button is fine.\n\nHmm, but one more thought: if the explanation should never be hidden, why have a show button at all? Maybe the user wants it always visible. But \"Remove hide explanation feature\" doesn't necessarily mean \"always show automatically\"; it just means remove the hide action.\n\nI'll go with the minimal interpretation: remove the hide toggle, keep the show button. Actually, you know what, looking at typical UX, if you remove hide, you usually just show it automatically. But the instruction is specific to the hide feature.\n\nLet me just do the minimal change: remove hide capability. I'll keep `showExplanation` and the show button.\n\nActually, I changed my mind. I think the cleanest is to auto-show on correct and remove the button entirely. That's what most users would expect when they say \"remove hide explanation\" \u2014 the explanation is just there. Let me implement that.\n\nWait no, that requires auto-fetching which adds a useEffect. That's more invasive. The user asked to remove a feature, not add auto-fetch. Keep it simple.\n\nFinal decision: remove hide toggle, keep show button. Button disappears once shown.\n\nActually, I realize I can make it even simpler while still removing hide: keep the button always rendered, but on click only show (if not already shown). If already shown, do nothing. Text always \"Show explanation\". This avoids conditional rendering.\n\n```tsx\n<Button\n  variant=\"outline\"\n  onClick={async () => {\n    if (showExplanation) return\n    setExplanationLoading(true)\n    try {\n      const res = await getExplanation(quiz.id)\n      setExplanation(res.explanation)\n      setShowExplanation(true)\n    } finally {\n      setExplanationLoading(false)\n    }\n  }}\n  disabled={explanationLoading || showExplanation}\n  className=\"gap-1.5\"\n>\n  {explanationLoading ? (\n    <Loader2 className=\"size-4 animate-spin\" />\n  ) : (\n    'Show explanation'\n  )}\n</Button>\n```\n\nThis is clean. Disable when shown. No hide. I'll do this.\n\nNow I need to make the edit. Let me identify the exact oldString.\n\nOld block (lines 232-265):\n```tsx\n            {locked && (\n              <>\n                <Button\n                  variant=\"outline\"\n                  onClick={async () => {\n                    if (showExplanation) {\n                      setShowExplanation(false)\n                      return\n                    }\n                    setExplanationLoading(true)\n                    try {\n                      const res = await getExplanation(quiz.id)\n                      setExplanation(res.explanation)\n                      setShowExplanation(true)\n                    } finally {\n                      setExplanationLoading(false)\n                    }\n                  }}\n                  disabled={explanationLoading}\n                  className=\"gap-1.5\"\n                >\n                  {explanationLoading ? (\n                    <Loader2 className=\"size-4 animate-spin\" />\n                  ) : showExplanation ? (\n                    'Hide explanation'\n                  ) : (\n                    'Show explanation'\n                  )}\n                </Button>\n                <Button onClick={onNext} className=\"ml-auto gap-1.5\">\n                  {isLast ? 'Finish & see results' : 'Next'}\n                </Button>\n              </>\n            )}\n```\n\nNew block:\n```tsx\n            {locked && (\n              <>\n                <Button\n                  variant=\"outline\"\n                  onClick={async () => {\n                    if (showExplanation) return\n                    setExplanationLoading(true)\n                    try {\n                      const res = await getExplanation(quiz.id)\n                      setExplanation(res.explanation)\n                      setShowExplanation(true)\n                    } finally {\n                      setExplanationLoading(false)\n                    }\n                  }}\n                  disabled={explanationLoading || showExplanation}\n                  className=\"gap-1.5\"\n                >\n                  {explanationLoading ? (\n                    <Loader2 className=\"size-4 animate-spin\" />\n                  ) : (\n                    'Show explanation'\n                  )}\n                </Button>\n                <Button onClick={onNext} className=\"ml-auto gap-1.5\">\n                  {isLast ? 'Finish & see results' : 'Next'}\n                </Button>\n              </>\n            )}\n```\n\nThis removes the hide feature. The explanation, once shown, stays shown (button disabled).\n\nI should also verify typecheck passes after this. Let me run the frontend typecheck.\n\nActually, I should make sure the read tool was used before edit (it was). Now edit.",
+            "time": {
+              "start": 1783792951742,
+              "end": 1783793041214
+            }
+          }
+        },
+        {
+          "id": "prt_f5259bf40001WzUmKbi0pcfCgG",
+          "time_created": 1783793041217,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "edit",
+            "callID": "edit_1",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx",
+                "oldString": "            {locked && (\n              <>\n                <Button\n                  variant=\"outline\"\n                  onClick={async () => {\n                    if (showExplanation) {\n                      setShowExplanation(false)\n                      return\n                    }\n                    setExplanationLoading(true)\n                    try {\n                      const res = await getExplanation(quiz.id)\n                      setExplanation(res.explanation)\n                      setShowExplanation(true)\n                    } finally {\n                      setExplanationLoading(false)\n                    }\n                  }}\n                  disabled={explanationLoading}\n                  className=\"gap-1.5\"\n                >\n                  {explanationLoading ? (\n                    <Loader2 className=\"size-4 animate-spin\" />\n                  ) : showExplanation ? (\n                    'Hide explanation'\n                  ) : (\n                    'Show explanation'\n                  )}\n                </Button>\n                <Button onClick={onNext} className=\"ml-auto gap-1.5\">\n                  {isLast ? 'Finish & see results' : 'Next'}\n                </Button>\n              </>\n            )}",
+                "newString": "            {locked && (\n              <>\n                <Button\n                  variant=\"outline\"\n                  onClick={async () => {\n                    if (showExplanation) return\n                    setExplanationLoading(true)\n                    try {\n                      const res = await getExplanation(quiz.id)\n                      setExplanation(res.explanation)\n                      setShowExplanation(true)\n                    } finally {\n                      setExplanationLoading(false)\n                    }\n                  }}\n                  disabled={explanationLoading || showExplanation}\n                  className=\"gap-1.5\"\n                >\n                  {explanationLoading ? (\n                    <Loader2 className=\"size-4 animate-spin\" />\n                  ) : (\n                    'Show explanation'\n                  )}\n                </Button>\n                <Button onClick={onNext} className=\"ml-auto gap-1.5\">\n                  {isLast ? 'Finish & see results' : 'Next'}\n                </Button>\n              </>\n            )}"
+              },
+              "output": "Edit applied successfully.",
+              "metadata": {
+                "diagnostics": {},
+                "diff": "Index: /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n+++ /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n@@ -233,12 +233,9 @@\n <>\n   <Button\n     variant=\"outline\"\n     onClick={async () => {\n-      if (showExplanation) {\n-        setShowExplanation(false)\n-        return\n-      }\n+      if (showExplanation) return\n       setExplanationLoading(true)\n       try {\n         const res = await getExplanation(quiz.id)\n         setExplanation(res.explanation)\n@@ -246,15 +243,13 @@\n       } finally {\n         setExplanationLoading(false)\n       }\n     }}\n-    disabled={explanationLoading}\n+    disabled={explanationLoading || showExplanation}\n     className=\"gap-1.5\"\n   >\n     {explanationLoading ? (\n       <Loader2 className=\"size-4 animate-spin\" />\n-    ) : showExplanation ? (\n-      'Hide explanation'\n     ) : (\n       'Show explanation'\n     )}\n   </Button>\n",
+                "filediff": {
+                  "file": "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx",
+                  "patch": "Index: /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n+++ /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n@@ -233,12 +233,9 @@\n <>\n   <Button\n     variant=\"outline\"\n     onClick={async () => {\n-      if (showExplanation) {\n-        setShowExplanation(false)\n-        return\n-      }\n+      if (showExplanation) return\n       setExplanationLoading(true)\n       try {\n         const res = await getExplanation(quiz.id)\n         setExplanation(res.explanation)\n@@ -246,15 +243,13 @@\n       } finally {\n         setExplanationLoading(false)\n       }\n     }}\n-    disabled={explanationLoading}\n+    disabled={explanationLoading || showExplanation}\n     className=\"gap-1.5\"\n   >\n     {explanationLoading ? (\n       <Loader2 className=\"size-4 animate-spin\" />\n-    ) : showExplanation ? (\n-      'Hide explanation'\n     ) : (\n       'Show explanation'\n     )}\n   </Button>\n",
+                  "additions": 2,
+                  "deletions": 7
+                },
+                "truncated": false
+              },
+              "title": "frontend/src/components/mcq-widget.tsx",
+              "time": {
+                "start": 1783793050525,
+                "end": 1783793050528
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f5259e497001SqR4kU3nkbq6DR",
+          "time_created": 1783793050775,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "snapshot": "88f17ab631912a8cf513febffed37bd5f527b1f1",
+            "type": "step-finish",
+            "tokens": {
+              "total": 16162,
+              "input": 4312,
+              "output": 494,
+              "reasoning": 4188,
+              "cache": {
+                "write": 0,
+                "read": 7168
+              }
+            },
+            "cost": 0.02418632
+          }
+        },
+        {
+          "id": "prt_f5259e4c2001XEMT3KvAJ8cIRZ",
+          "time_created": 1783793050818,
+          "type": "patch",
+          "data": {
+            "type": "patch",
+            "hash": "0d4966871816b9e922a13aa015db8cdf8f1b6ca1",
+            "files": [
+              "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f5259e4c4001GWxKjycdse0X7Y",
+      "time_created": 1783793050820,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "kimi-k2.7-code",
+        "tokens": {
+          "total": 16229,
+          "input": 4913,
+          "output": 35,
+          "reasoning": 17,
+          "cache": {
+            "write": 0,
+            "read": 11264
+          }
+        },
+        "cost": 0.00701551
+      },
+      "parts": [
+        {
+          "id": "prt_f5259f08a001XFcHtda48XIOPy",
+          "time_created": 1783793053834,
+          "type": "step-start",
+          "data": {
+            "snapshot": "88f17ab631912a8cf513febffed37bd5f527b1f1",
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f5259f08c001wuTVDW9QYbww8C",
+          "time_created": 1783793053836,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now I should verify with typecheck. Let me run the frontend typecheck.",
+            "time": {
+              "start": 1783793053836,
+              "end": 1783793054135
+            }
+          }
+        },
+        {
+          "id": "prt_f5259f1b80014OO3wxbnJE4Vrn",
+          "time_created": 1783793054137,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "bash",
+            "callID": "bash_2",
+            "state": {
+              "status": "completed",
+              "input": {
+                "command": "pnpm typecheck",
+                "workdir": "/Users/shivam/qnify/ai-learning-agent/frontend"
+              },
+              "output": "\n> frontend@0.0.0 typecheck /Users/shivam/qnify/ai-learning-agent/frontend\n> tsc --noEmit\n\n",
+              "metadata": {
+                "output": "\n> frontend@0.0.0 typecheck /Users/shivam/qnify/ai-learning-agent/frontend\n> tsc --noEmit\n\n",
+                "exit": 0,
+                "truncated": false
+              },
+              "title": "pnpm typecheck",
+              "time": {
+                "start": 1783793054698,
+                "end": 1783793054768
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f5259f450001ARofQP2NxAmK5V",
+          "time_created": 1783793054800,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "snapshot": "88f17ab631912a8cf513febffed37bd5f527b1f1",
+            "type": "step-finish",
+            "tokens": {
+              "total": 16229,
+              "input": 4913,
+              "output": 35,
+              "reasoning": 17,
+              "cache": {
+                "write": 0,
+                "read": 11264
+              }
+            },
+            "cost": 0.00701551
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f5259f478001WUzMUw4wTumOFC",
+      "time_created": 1783793054840,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "kimi-k2.7-code",
+        "tokens": {
+          "total": 16364,
+          "input": 150,
+          "output": 69,
+          "reasoning": 17,
+          "cache": {
+            "write": 0,
+            "read": 16128
+          }
+        },
+        "cost": 0.00355082
+      },
+      "parts": [
+        {
+          "id": "prt_f5259fbc1001scZRR11DSQ6k9b",
+          "time_created": 1783793056705,
+          "type": "step-start",
+          "data": {
+            "snapshot": "88f17ab631912a8cf513febffed37bd5f527b1f1",
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f5259fbc2001jQvyxgnN5TsahQ",
+          "time_created": 1783793056706,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Typecheck passes. The task is complete. Let me summarize what I did.",
+            "time": {
+              "start": 1783793056706,
+              "end": 1783793056894
+            }
+          }
+        },
+        {
+          "id": "prt_f5259fc80001JTZU0GE73OHPsN",
+          "time_created": 1783793056896,
+          "type": "text",
+          "data": {
+            "type": "text",
+            "text": "Removed the hide-explanation toggle from `frontend/src/components/mcq-widget.tsx`.\n\nChanges:\n- The explanation button no longer hides the explanation once shown.\n- It now only fetches/displays the explanation and disables itself after the explanation is visible.\n- The button text is always \"Show explanation\".\n\nFrontend `pnpm typecheck` passes.",
+            "time": {
+              "start": 1783793056896,
+              "end": 1783793058244
+            }
+          }
+        },
+        {
+          "id": "prt_f525a01ee001xN2pTiNKyg7250",
+          "time_created": 1783793058287,
+          "type": "step-finish",
+          "data": {
+            "reason": "stop",
+            "snapshot": "88f17ab631912a8cf513febffed37bd5f527b1f1",
+            "type": "step-finish",
+            "tokens": {
+              "total": 16364,
+              "input": 150,
+              "output": 69,
+              "reasoning": 17,
+              "cache": {
+                "write": 0,
+                "read": 16128
+              }
+            },
+            "cost": 0.00355082
+          }
+        }
+      ]
+    }
+  ]
+}

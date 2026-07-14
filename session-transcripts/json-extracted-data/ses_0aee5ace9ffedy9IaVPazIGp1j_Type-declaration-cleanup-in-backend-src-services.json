@@ -1,0 +1,2743 @@
+{
+  "session_id": "ses_0aee5ace9ffedy9IaVPazIGp1j",
+  "title": "Type declaration cleanup in backend/src/services",
+  "time_created": 1783772107542,
+  "time_updated": 1783781389156,
+  "cost": 0.0056786016,
+  "tokens": {
+    "input": 17786,
+    "output": 4467,
+    "reasoning": 2778
+  },
+  "messages": [
+    {
+      "id": "msg_f511a5325001y6XYnsYH1MuneZ",
+      "time_created": 1783772107558,
+      "role": "user",
+      "metadata": {
+        "agent": "build",
+        "model": {
+          "providerID": "opencode-go",
+          "modelID": "mimo-v2.5",
+          "variant": "high"
+        },
+        "tokens": null,
+        "cost": null
+      },
+      "parts": [
+        {
+          "id": "prt_f511a5326001t6yraJLrbKgvvj",
+          "time_created": 1783772107560,
+          "type": "text",
+          "data": {
+            "type": "text",
+            "text": "Can you cleanup backend/src/services, to declare types above the function used in that, and at top if used in multiple function, don't use inline."
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f511a532e0015FomoC3OVVXAf1",
+      "time_created": 1783772107566,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 8001,
+          "input": 1762,
+          "output": 27,
+          "reasoning": 68,
+          "cache": {
+            "write": 0,
+            "read": 6144
+          }
+        },
+        "cost": 0.0002904832
+      },
+      "parts": [
+        {
+          "id": "prt_f511a613d001W4R7g0eUoJSs17",
+          "time_created": 1783772111165,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f511a613e0019BBP7RSrIfDnb4",
+          "time_created": 1783772111166,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "The user wants me to clean up the backend/src/services directory by:\n1. Moving type declarations above the functions they're used in\n2. If types are used in multiple functions, declaring them at the top of the file\n3. Not using inline types\n\nLet me first explore the directory structure to understand what files are in there.",
+            "time": {
+              "start": 1783772111166,
+              "end": 1783772111724
+            }
+          }
+        },
+        {
+          "id": "prt_f511a636d001A8lFA2VmJAscaQ",
+          "time_created": 1783772111725,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "glob",
+            "callID": "call_e9c916a9017e49fa901af6e0",
+            "state": {
+              "status": "completed",
+              "input": {
+                "pattern": "backend/src/services/**/*.ts"
+              },
+              "output": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n/Users/shivam/qnify/ai-learning-agent/backend/src/services/documents.ts\n/Users/shivam/qnify/ai-learning-agent/backend/src/services/types.ts\n/Users/shivam/qnify/ai-learning-agent/backend/src/services/pdf-to-markdown.ts\n/Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts\n/Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts",
+              "metadata": {
+                "count": 6,
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent",
+              "time": {
+                "start": 1783772111830,
+                "end": 1783772111849
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f511a640d001Z1xFJwwz71Umpj",
+          "time_created": 1783772111885,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 8001,
+              "input": 1762,
+              "output": 27,
+              "reasoning": 68,
+              "cache": {
+                "write": 0,
+                "read": 6144
+              }
+            },
+            "cost": 0.0002904832
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f511a64110018A7ulsCOjQQ0tC",
+      "time_created": 1783772111889,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 8349,
+          "input": 248,
+          "output": 213,
+          "reasoning": 16,
+          "cache": {
+            "write": 0,
+            "read": 7872
+          }
+        },
+        "cost": 0.0001208816
+      },
+      "parts": [
+        {
+          "id": "prt_f511a70f3001UUuPY0LZGFLOtm",
+          "time_created": 1783772115187,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f511a7135001lgb3s5jlJ0YVPZ",
+          "time_created": 1783772115253,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Let me read all these files to understand the current type usage and inline types.",
+            "time": {
+              "start": 1783772115253,
+              "end": 1783772115439
+            }
+          }
+        },
+        {
+          "id": "prt_f511a71f0001whZkOn04jk24lX",
+          "time_created": 1783772115440,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "read",
+            "callID": "call_f966f8ce852a45d5aed75cef",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts"
+              },
+              "output": "<path>/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts</path>\n<type>file</type>\n<content>\n1: import { db, type QuizQuestionRow } from '../db.ts'\n2: import { generateQuiz } from '../ai/quiz.ts'\n3: import { generateRetryHint, explainCorrect, learnMore } from '../ai/feedback.ts'\n4: import { getPlan } from './plans.ts'\n5: import { getDocumentMarkdown } from './documents.ts'\n6: import type { QuizDTO } from './types.ts'\n7: import { NotFoundError, BadRequestError } from '../errors.ts'\n8: \n9: export async function getOrCreateQuiz(planId: number, objectiveIndex: number): Promise<QuizDTO> {\n10:   const plan = await getPlan(planId)\n11:   if (!plan) throw new NotFoundError('Plan not found')\n12:   const objective = plan.objectives[objectiveIndex]\n13:   if (!objective) throw new NotFoundError(`Objective ${objectiveIndex} not found`)\n14: \n15:   const existing = db\n16:     .prepare(`SELECT * FROM quiz_questions WHERE lesson_plan_id = ? AND objective_index = ?`)\n17:     .get(planId, objectiveIndex) as QuizQuestionRow | undefined\n18: \n19:   if (existing) {\n20:     return {\n21:       id: existing.id,\n22:       objectiveIndex: existing.objective_index,\n23:       objectiveText: existing.objective_text,\n24:       question: existing.question,\n25:       options: JSON.parse(existing.options),\n26:       hint: existing.hint\n27:     }\n28:   }\n29: \n30:   const markdown = await getDocumentMarkdown(plan.document_id)\n31:   if (!markdown) throw new BadRequestError('Source document has no markdown content')\n32:   const quiz = await generateQuiz(markdown, objective.text, objective.topic)\n33: \n34:   const res = db\n35:     .prepare(\n36:       `INSERT INTO quiz_questions (lesson_plan_id, objective_index, objective_text, question, options, correct_index, explanation, hint)\n37:        VALUES (?, ?, ?, ?, ?, ?, ?, ?)\n38:        RETURNING id`\n39:     )\n40:     .get(\n41:       planId,\n42:       objectiveIndex,\n43:       objective.text,\n44:       quiz.question,\n45:       JSON.stringify(quiz.options),\n46:       quiz.correct_index,\n47:       quiz.explanation,\n48:       quiz.hint\n49:     ) as { id: number }\n50: \n51:   return {\n52:     id: res.id,\n53:     objectiveIndex,\n54:     objectiveText: objective.text,\n55:     question: quiz.question,\n56:     options: quiz.options,\n57:     hint: quiz.hint\n58:   }\n59: }\n60: \n61: export async function getAllQuizzes(planId: number): Promise<QuizDTO[]> {\n62:   const plan = await getPlan(planId)\n63:   if (!plan) return []\n64:   const rows = db\n65:     .prepare(`SELECT * FROM quiz_questions WHERE lesson_plan_id = ? ORDER BY objective_index ASC`)\n66:     .all(planId) as QuizQuestionRow[]\n67:   return rows.map((r) => ({\n68:     id: r.id,\n69:     objectiveIndex: r.objective_index,\n70:     objectiveText: r.objective_text,\n71:     question: r.question,\n72:     options: JSON.parse(r.options),\n73:     hint: r.hint\n74:   }))\n75: }\n76: \n77: export async function getQuizInternal(quizId: number): Promise<QuizQuestionRow | null> {\n78:   return (db.prepare(`SELECT * FROM quiz_questions WHERE id = ?`).get(quizId) as QuizQuestionRow | undefined) ?? null\n79: }\n80: \n81: export async function getHint(quizId: number, previousGuessIndex: number | null): Promise<string> {\n82:   const quiz = await getQuizInternal(quizId)\n83:   if (!quiz) throw new NotFoundError('Quiz not found')\n84:   const plan = await getPlan(quiz.lesson_plan_id)\n85:   if (!plan) throw new NotFoundError('Plan not found')\n86:   const markdown = await getDocumentMarkdown(plan.document_id)\n87:   if (!markdown) throw new BadRequestError('Source document has no markdown content')\n88:   const options = JSON.parse(quiz.options) as string[]\n89:   return generateRetryHint(\n90:     markdown,\n91:     quiz.question,\n92:     options,\n93:     previousGuessIndex !== null ? options[previousGuessIndex] : null\n94:   )\n95: }\n96: \n97: interface ExplanationResult {\n98:   explanation: string\n99:   correctIndex: number\n100: }\n101: \n102: export async function getExplanation(quizId: number): Promise<ExplanationResult> {\n103:   const quiz = await getQuizInternal(quizId)\n104:   if (!quiz) throw new NotFoundError('Quiz not found')\n105:   const plan = await getPlan(quiz.lesson_plan_id)\n106:   if (!plan) throw new NotFoundError('Plan not found')\n107:   const markdown = await getDocumentMarkdown(plan.document_id)\n108:   if (!markdown) throw new BadRequestError('Source document has no markdown content')\n109:   const options = JSON.parse(quiz.options) as string[]\n110:   const correct = options[quiz.correct_index]\n111:   const explanation = await explainCorrect(markdown, quiz.question, options, correct, quiz.correct_index)\n112:   return { explanation, correctIndex: quiz.correct_index }\n113: }\n114: \n115: interface AnswerOutput {\n116:   correct: boolean\n117:   explanation?: string\n118: }\n119: \n120: export async function checkAnswer(quizId: number, learnerIndex: number): Promise<AnswerOutput> {\n121:   const quiz = await getQuizInternal(quizId)\n122:   if (!quiz) throw new NotFoundError('Quiz not found')\n123:   const correct = learnerIndex === quiz.correct_index\n124:   if (!correct) return { correct: false }\n125:   const { explanation } = await getExplanation(quizId)\n126:   return { correct: true, explanation }\n127: }\n128: \n129: interface AI_Message {\n130:   role: 'user' | 'assistant'\n131:   content: string\n132: }\n133: export type MessageHistory = Array<AI_Message>\n134: \n135: export async function learnMoreAboutQuiz(id: number, question: string, history: MessageHistory): Promise<string> {\n136:   const quiz = await getQuizInternal(id)\n137:   if (!quiz) throw new NotFoundError('Quiz not found')\n138:   const plan = await getPlan(quiz.lesson_plan_id)\n139:   if (!plan) throw new NotFoundError('Plan not found')\n140:   const markdown = await getDocumentMarkdown(plan.document_id)\n141:   if (!markdown) throw new BadRequestError('Source document has no markdown content')\n142:   const options = JSON.parse(quiz.options) as string[]\n143:   return learnMore(markdown, quiz.question, options, question, history)\n144: }\n\n(End of file - total 144 lines)\n</content>",
+              "metadata": {
+                "preview": "import { db, type QuizQuestionRow } from '../db.ts'\nimport { generateQuiz } from '../ai/quiz.ts'\nimport { generateRetryHint, explainCorrect, learnMore } from '../ai/feedback.ts'\nimport { getPlan } from './plans.ts'\nimport { getDocumentMarkdown } from './documents.ts'\nimport type { QuizDTO } from './types.ts'\nimport { NotFoundError, BadRequestError } from '../errors.ts'\n\nexport async function getOrCreateQuiz(planId: number, objectiveIndex: number): Promise<QuizDTO> {\n  const plan = await getPlan(planId)\n  if (!plan) throw new NotFoundError('Plan not found')\n  const objective = plan.objectives[objectiveIndex]\n  if (!objective) throw new NotFoundError(`Objective ${objectiveIndex} not found`)\n\n  const existing = db\n    .prepare(`SELECT * FROM quiz_questions WHERE lesson_plan_id = ? AND objective_index = ?`)\n    .get(planId, objectiveIndex) as QuizQuestionRow | undefined\n\n  if (existing) {\n    return {",
+                "truncated": false,
+                "loaded": [],
+                "display": {
+                  "type": "file",
+                  "path": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts",
+                  "text": "import { db, type QuizQuestionRow } from '../db.ts'\nimport { generateQuiz } from '../ai/quiz.ts'\nimport { generateRetryHint, explainCorrect, learnMore } from '../ai/feedback.ts'\nimport { getPlan } from './plans.ts'\nimport { getDocumentMarkdown } from './documents.ts'\nimport type { QuizDTO } from './types.ts'\nimport { NotFoundError, BadRequestError } from '../errors.ts'\n\nexport async function getOrCreateQuiz(planId: number, objectiveIndex: number): Promise<QuizDTO> {\n  const plan = await getPlan(planId)\n  if (!plan) throw new NotFoundError('Plan not found')\n  const objective = plan.objectives[objectiveIndex]\n  if (!objective) throw new NotFoundError(`Objective ${objectiveIndex} not found`)\n\n  const existing = db\n    .prepare(`SELECT * FROM quiz_questions WHERE lesson_plan_id = ? AND objective_index = ?`)\n    .get(planId, objectiveIndex) as QuizQuestionRow | undefined\n\n  if (existing) {\n    return {\n      id: existing.id,\n      objectiveIndex: existing.objective_index,\n      objectiveText: existing.objective_text,\n      question: existing.question,\n      options: JSON.parse(existing.options),\n      hint: existing.hint\n    }\n  }\n\n  const markdown = await getDocumentMarkdown(plan.document_id)\n  if (!markdown) throw new BadRequestError('Source document has no markdown content')\n  const quiz = await generateQuiz(markdown, objective.text, objective.topic)\n\n  const res = db\n    .prepare(\n      `INSERT INTO quiz_questions (lesson_plan_id, objective_index, objective_text, question, options, correct_index, explanation, hint)\n       VALUES (?, ?, ?, ?, ?, ?, ?, ?)\n       RETURNING id`\n    )\n    .get(\n      planId,\n      objectiveIndex,\n      objective.text,\n      quiz.question,\n      JSON.stringify(quiz.options),\n      quiz.correct_index,\n      quiz.explanation,\n      quiz.hint\n    ) as { id: number }\n\n  return {\n    id: res.id,\n    objectiveIndex,\n    objectiveText: objective.text,\n    question: quiz.question,\n    options: quiz.options,\n    hint: quiz.hint\n  }\n}\n\nexport async function getAllQuizzes(planId: number): Promise<QuizDTO[]> {\n  const plan = await getPlan(planId)\n  if (!plan) return []\n  const rows = db\n    .prepare(`SELECT * FROM quiz_questions WHERE lesson_plan_id = ? ORDER BY objective_index ASC`)\n    .all(planId) as QuizQuestionRow[]\n  return rows.map((r) => ({\n    id: r.id,\n    objectiveIndex: r.objective_index,\n    objectiveText: r.objective_text,\n    question: r.question,\n    options: JSON.parse(r.options),\n    hint: r.hint\n  }))\n}\n\nexport async function getQuizInternal(quizId: number): Promise<QuizQuestionRow | null> {\n  return (db.prepare(`SELECT * FROM quiz_questions WHERE id = ?`).get(quizId) as QuizQuestionRow | undefined) ?? null\n}\n\nexport async function getHint(quizId: number, previousGuessIndex: number | null): Promise<string> {\n  const quiz = await getQuizInternal(quizId)\n  if (!quiz) throw new NotFoundError('Quiz not found')\n  const plan = await getPlan(quiz.lesson_plan_id)\n  if (!plan) throw new NotFoundError('Plan not found')\n  const markdown = await getDocumentMarkdown(plan.document_id)\n  if (!markdown) throw new BadRequestError('Source document has no markdown content')\n  const options = JSON.parse(quiz.options) as string[]\n  return generateRetryHint(\n    markdown,\n    quiz.question,\n    options,\n    previousGuessIndex !== null ? options[previousGuessIndex] : null\n  )\n}\n\ninterface ExplanationResult {\n  explanation: string\n  correctIndex: number\n}\n\nexport async function getExplanation(quizId: number): Promise<ExplanationResult> {\n  const quiz = await getQuizInternal(quizId)\n  if (!quiz) throw new NotFoundError('Quiz not found')\n  const plan = await getPlan(quiz.lesson_plan_id)\n  if (!plan) throw new NotFoundError('Plan not found')\n  const markdown = await getDocumentMarkdown(plan.document_id)\n  if (!markdown) throw new BadRequestError('Source document has no markdown content')\n  const options = JSON.parse(quiz.options) as string[]\n  const correct = options[quiz.correct_index]\n  const explanation = await explainCorrect(markdown, quiz.question, options, correct, quiz.correct_index)\n  return { explanation, correctIndex: quiz.correct_index }\n}\n\ninterface AnswerOutput {\n  correct: boolean\n  explanation?: string\n}\n\nexport async function checkAnswer(quizId: number, learnerIndex: number): Promise<AnswerOutput> {\n  const quiz = await getQuizInternal(quizId)\n  if (!quiz) throw new NotFoundError('Quiz not found')\n  const correct = learnerIndex === quiz.correct_index\n  if (!correct) return { correct: false }\n  const { explanation } = await getExplanation(quizId)\n  return { correct: true, explanation }\n}\n\ninterface AI_Message {\n  role: 'user' | 'assistant'\n  content: string\n}\nexport type MessageHistory = Array<AI_Message>\n\nexport async function learnMoreAboutQuiz(id: number, question: string, history: MessageHistory): Promise<string> {\n  const quiz = await getQuizInternal(id)\n  if (!quiz) throw new NotFoundError('Quiz not found')\n  const plan = await getPlan(quiz.lesson_plan_id)\n  if (!plan) throw new NotFoundError('Plan not found')\n  const markdown = await getDocumentMarkdown(plan.document_id)\n  if (!markdown) throw new BadRequestError('Source document has no markdown content')\n  const options = JSON.parse(quiz.options) as string[]\n  return learnMore(markdown, quiz.question, options, question, history)\n}",
+                  "lineStart": 1,
+                  "lineEnd": 144,
+                  "totalLines": 144,
+                  "truncated": false
+                }
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts",
+              "time": {
+                "start": 1783772115686,
+                "end": 1783772115689
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f511a7302001XzEdEMQhcZAPhp",
+          "time_created": 1783772115714,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "read",
+            "callID": "call_3d47dc3e239a4f64aa39ccd5",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/documents.ts"
+              },
+              "output": "<path>/Users/shivam/qnify/ai-learning-agent/backend/src/services/documents.ts</path>\n<type>file</type>\n<content>\n1: import path from 'node:path'\n2: import { nanoid } from 'nanoid'\n3: import { db, type DocumentRow } from '../db.ts'\n4: import { convertPdfToMarkdown } from './pdf-to-markdown.ts'\n5: import { UPLOADS_DIR } from '../config.ts'\n6: \n7: export async function listDocuments() {\n8:   const rows = db\n9:     .prepare(\n10:       `SELECT id, filename, title, markdown_chars, status, error, created_at\n11:        FROM documents ORDER BY datetime(created_at) DESC`\n12:     )\n13:     .all() as Array<\n14:     Pick<DocumentRow, 'id' | 'filename' | 'title' | 'markdown_chars' | 'status' | 'error' | 'created_at'>\n15:   >\n16:   return rows.map((r) => {\n17:     const planRow = db\n18:       .prepare(\n19:         `SELECT id, difficulty, status FROM lesson_plans WHERE document_id = ? ORDER BY datetime(created_at) DESC LIMIT 1`\n20:       )\n21:       .get(r.id) as { id: number; difficulty: string; status: string } | undefined\n22:     const attemptCount = (\n23:       db\n24:         .prepare(\n25:           `SELECT COUNT(*) AS c FROM attempts a JOIN lesson_plans p ON p.id = a.lesson_plan_id WHERE p.document_id = ?`\n26:         )\n27:         .get(r.id) as { c: number }\n28:     ).c\n29:     return {\n30:       ...r,\n31:       plan: planRow\n32:         ? {\n33:             id: planRow.id,\n34:             difficulty: planRow.difficulty,\n35:             status: planRow.status\n36:           }\n37:         : null,\n38:       attemptCount\n39:     }\n40:   })\n41: }\n42: \n43: export async function getDocument(id: number) {\n44:   const row = db.prepare(`SELECT * FROM documents WHERE id = ?`).get(id) as DocumentRow | undefined\n45:   if (!row) return null\n46:   return {\n47:     id: row.id,\n48:     filename: row.filename,\n49:     title: row.title,\n50:     status: row.status,\n51:     markdown_chars: row.markdown_chars,\n52:     created_at: row.created_at,\n53:     error: row.error\n54:   }\n55: }\n56: \n57: export async function getDocumentMarkdown(id: number): Promise<string | null> {\n58:   const row = db.prepare(`SELECT markdown FROM documents WHERE id = ?`).get(id) as\n59:     | { markdown: string | null }\n60:     | undefined\n61:   return row?.markdown ?? null\n62: }\n63: \n64: export async function uploadAndConvert(filename: string, buffer: Buffer): Promise<DocumentRow> {\n65:   const storedFilename = `${Date.now()}-${nanoid(8)}-${filename.replace(/[^a-zA-Z0-9.\\-_ ]/g, '')}`\n66:   const filepath = path.join(UPLOADS_DIR, storedFilename)\n67:   const { writeFile } = await import('node:fs/promises')\n68:   await writeFile(filepath, buffer)\n69: \n70:   const doc = db\n71:     .prepare(\n72:       `INSERT INTO documents (filename, stored_filename, filepath, status)\n73:        VALUES (?, ?, ?, 'processing')\n74:        RETURNING *`\n75:     )\n76:     .get(filename, storedFilename, filepath) as DocumentRow\n77: \n78:   convertPdfToMarkdown(filepath)\n79:     .then(async (result) => {\n80:       if (!result.ok) {\n81:         db.prepare(`UPDATE documents SET status = 'failed', error = ? WHERE id = ?`).run(\n82:           result.error ?? 'Unknown error',\n83:           doc.id\n84:         )\n85:         return\n86:       }\n87:       db.prepare(\n88:         `UPDATE documents SET status = 'ready', markdown = ?, markdown_chars = ?, error = NULL WHERE id = ?`\n89:       ).run(result.markdown, result.markdown.length, doc.id)\n90:     })\n91:     .catch((err: unknown) => {\n92:       db.prepare(`UPDATE documents SET status = 'failed', error = ? WHERE id = ?`).run((err as Error).message, doc.id)\n93:     })\n94: \n95:   return doc\n96: }\n\n(End of file - total 96 lines)\n</content>",
+              "metadata": {
+                "preview": "import path from 'node:path'\nimport { nanoid } from 'nanoid'\nimport { db, type DocumentRow } from '../db.ts'\nimport { convertPdfToMarkdown } from './pdf-to-markdown.ts'\nimport { UPLOADS_DIR } from '../config.ts'\n\nexport async function listDocuments() {\n  const rows = db\n    .prepare(\n      `SELECT id, filename, title, markdown_chars, status, error, created_at\n       FROM documents ORDER BY datetime(created_at) DESC`\n    )\n    .all() as Array<\n    Pick<DocumentRow, 'id' | 'filename' | 'title' | 'markdown_chars' | 'status' | 'error' | 'created_at'>\n  >\n  return rows.map((r) => {\n    const planRow = db\n      .prepare(\n        `SELECT id, difficulty, status FROM lesson_plans WHERE document_id = ? ORDER BY datetime(created_at) DESC LIMIT 1`\n      )",
+                "truncated": false,
+                "loaded": [],
+                "display": {
+                  "type": "file",
+                  "path": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/documents.ts",
+                  "text": "import path from 'node:path'\nimport { nanoid } from 'nanoid'\nimport { db, type DocumentRow } from '../db.ts'\nimport { convertPdfToMarkdown } from './pdf-to-markdown.ts'\nimport { UPLOADS_DIR } from '../config.ts'\n\nexport async function listDocuments() {\n  const rows = db\n    .prepare(\n      `SELECT id, filename, title, markdown_chars, status, error, created_at\n       FROM documents ORDER BY datetime(created_at) DESC`\n    )\n    .all() as Array<\n    Pick<DocumentRow, 'id' | 'filename' | 'title' | 'markdown_chars' | 'status' | 'error' | 'created_at'>\n  >\n  return rows.map((r) => {\n    const planRow = db\n      .prepare(\n        `SELECT id, difficulty, status FROM lesson_plans WHERE document_id = ? ORDER BY datetime(created_at) DESC LIMIT 1`\n      )\n      .get(r.id) as { id: number; difficulty: string; status: string } | undefined\n    const attemptCount = (\n      db\n        .prepare(\n          `SELECT COUNT(*) AS c FROM attempts a JOIN lesson_plans p ON p.id = a.lesson_plan_id WHERE p.document_id = ?`\n        )\n        .get(r.id) as { c: number }\n    ).c\n    return {\n      ...r,\n      plan: planRow\n        ? {\n            id: planRow.id,\n            difficulty: planRow.difficulty,\n            status: planRow.status\n          }\n        : null,\n      attemptCount\n    }\n  })\n}\n\nexport async function getDocument(id: number) {\n  const row = db.prepare(`SELECT * FROM documents WHERE id = ?`).get(id) as DocumentRow | undefined\n  if (!row) return null\n  return {\n    id: row.id,\n    filename: row.filename,\n    title: row.title,\n    status: row.status,\n    markdown_chars: row.markdown_chars,\n    created_at: row.created_at,\n    error: row.error\n  }\n}\n\nexport async function getDocumentMarkdown(id: number): Promise<string | null> {\n  const row = db.prepare(`SELECT markdown FROM documents WHERE id = ?`).get(id) as\n    | { markdown: string | null }\n    | undefined\n  return row?.markdown ?? null\n}\n\nexport async function uploadAndConvert(filename: string, buffer: Buffer): Promise<DocumentRow> {\n  const storedFilename = `${Date.now()}-${nanoid(8)}-${filename.replace(/[^a-zA-Z0-9.\\-_ ]/g, '')}`\n  const filepath = path.join(UPLOADS_DIR, storedFilename)\n  const { writeFile } = await import('node:fs/promises')\n  await writeFile(filepath, buffer)\n\n  const doc = db\n    .prepare(\n      `INSERT INTO documents (filename, stored_filename, filepath, status)\n       VALUES (?, ?, ?, 'processing')\n       RETURNING *`\n    )\n    .get(filename, storedFilename, filepath) as DocumentRow\n\n  convertPdfToMarkdown(filepath)\n    .then(async (result) => {\n      if (!result.ok) {\n        db.prepare(`UPDATE documents SET status = 'failed', error = ? WHERE id = ?`).run(\n          result.error ?? 'Unknown error',\n          doc.id\n        )\n        return\n      }\n      db.prepare(\n        `UPDATE documents SET status = 'ready', markdown = ?, markdown_chars = ?, error = NULL WHERE id = ?`\n      ).run(result.markdown, result.markdown.length, doc.id)\n    })\n    .catch((err: unknown) => {\n      db.prepare(`UPDATE documents SET status = 'failed', error = ? WHERE id = ?`).run((err as Error).message, doc.id)\n    })\n\n  return doc\n}",
+                  "lineStart": 1,
+                  "lineEnd": 96,
+                  "totalLines": 96,
+                  "truncated": false
+                }
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/services/documents.ts",
+              "time": {
+                "start": 1783772115901,
+                "end": 1783772115905
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f511a73f40017tJq6h92xJvr7v",
+          "time_created": 1783772115957,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "read",
+            "callID": "call_a351066ad74c4c37b4eace54",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/types.ts"
+              },
+              "output": "<path>/Users/shivam/qnify/ai-learning-agent/backend/src/services/types.ts</path>\n<type>file</type>\n<content>\n1: export interface Objective {\n2:   text: string\n3:   topic: string\n4: }\n5: \n6: export interface QuizDTO {\n7:   id: number\n8:   objectiveIndex: number\n9:   objectiveText: string\n10:   question: string\n11:   options: string[]\n12:   hint: string\n13: }\n14: \n15: export interface AttemptSummaryDTO {\n16:   score: number\n17:   total: number\n18:   summary: string\n19:   studyTips: string[]\n20:   weakTopics: string[]\n21:   strengths: string[]\n22:   answers: Array<Answer>\n23: }\n24: \n25: interface Answer {\n26:   question: string\n27:   options: string[]\n28:   correctIndex: number\n29:   learnerIndex: number | null\n30:   attempts: number\n31:   objectiveText: string\n32: }\n\n(End of file - total 32 lines)\n</content>",
+              "metadata": {
+                "preview": "export interface Objective {\n  text: string\n  topic: string\n}\n\nexport interface QuizDTO {\n  id: number\n  objectiveIndex: number\n  objectiveText: string\n  question: string\n  options: string[]\n  hint: string\n}\n\nexport interface AttemptSummaryDTO {\n  score: number\n  total: number\n  summary: string\n  studyTips: string[]\n  weakTopics: string[]",
+                "truncated": false,
+                "loaded": [],
+                "display": {
+                  "type": "file",
+                  "path": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/types.ts",
+                  "text": "export interface Objective {\n  text: string\n  topic: string\n}\n\nexport interface QuizDTO {\n  id: number\n  objectiveIndex: number\n  objectiveText: string\n  question: string\n  options: string[]\n  hint: string\n}\n\nexport interface AttemptSummaryDTO {\n  score: number\n  total: number\n  summary: string\n  studyTips: string[]\n  weakTopics: string[]\n  strengths: string[]\n  answers: Array<Answer>\n}\n\ninterface Answer {\n  question: string\n  options: string[]\n  correctIndex: number\n  learnerIndex: number | null\n  attempts: number\n  objectiveText: string\n}",
+                  "lineStart": 1,
+                  "lineEnd": 32,
+                  "totalLines": 32,
+                  "truncated": false
+                }
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/services/types.ts",
+              "time": {
+                "start": 1783772116180,
+                "end": 1783772116183
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f511a74e70016HF7PFIqgpWv5q",
+          "time_created": 1783772116199,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "read",
+            "callID": "call_66eb7c91ec96418abd3996ae",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/pdf-to-markdown.ts"
+              },
+              "output": "<path>/Users/shivam/qnify/ai-learning-agent/backend/src/services/pdf-to-markdown.ts</path>\n<type>file</type>\n<content>\n1: import { execFile } from 'node:child_process'\n2: import { readFile } from 'node:fs/promises'\n3: import { resolve, dirname, basename, extname } from 'node:path'\n4: import { promisify } from 'node:util'\n5: import { ROOT_DIR } from '../config.ts'\n6: \n7: const execFileAsync = promisify(execFile)\n8: \n9: export const PDF_TO_MARKDOWN_DIR = resolve(ROOT_DIR, '..', 'pdf-to-markdown')\n10: export const PYTHON_SCRIPT = resolve(PDF_TO_MARKDOWN_DIR, 'convert-docling.py')\n11: export const PYTHON_BIN = resolve(PDF_TO_MARKDOWN_DIR, '.venv', 'bin', 'python')\n12: \n13: export interface ConvertResult {\n14:   ok: boolean\n15:   markdown: string\n16:   error?: any\n17: }\n18: \n19: export async function convertPdfToMarkdown(inputPath: string): Promise<ConvertResult> {\n20:   const outputPath = resolve(dirname(inputPath), `${basename(inputPath, extname(inputPath))}.md`)\n21: \n22:   try {\n23:     const { stdout, stderr } = await execFileAsync(\n24:       PYTHON_BIN,\n25:       [PYTHON_SCRIPT, '--input', inputPath, '--output', outputPath],\n26:       { timeout: 600000, maxBuffer: 50 * 1024 * 1024 }\n27:     )\n28: \n29:     if (stdout) console.log('Python converter output:\\n', stdout.trim())\n30:     if (stderr) console.warn(`Python converter warning\\n: ${stderr.trim()}`)\n31: \n32:     const markdown = await readFile(outputPath, 'utf-8')\n33:     return { ok: true, markdown }\n34:   } catch (err) {\n35:     return { ok: false, markdown: '', error: err }\n36:   }\n37: }\n\n(End of file - total 37 lines)\n</content>",
+              "metadata": {
+                "preview": "import { execFile } from 'node:child_process'\nimport { readFile } from 'node:fs/promises'\nimport { resolve, dirname, basename, extname } from 'node:path'\nimport { promisify } from 'node:util'\nimport { ROOT_DIR } from '../config.ts'\n\nconst execFileAsync = promisify(execFile)\n\nexport const PDF_TO_MARKDOWN_DIR = resolve(ROOT_DIR, '..', 'pdf-to-markdown')\nexport const PYTHON_SCRIPT = resolve(PDF_TO_MARKDOWN_DIR, 'convert-docling.py')\nexport const PYTHON_BIN = resolve(PDF_TO_MARKDOWN_DIR, '.venv', 'bin', 'python')\n\nexport interface ConvertResult {\n  ok: boolean\n  markdown: string\n  error?: any\n}\n\nexport async function convertPdfToMarkdown(inputPath: string): Promise<ConvertResult> {\n  const outputPath = resolve(dirname(inputPath), `${basename(inputPath, extname(inputPath))}.md`)",
+                "truncated": false,
+                "loaded": [],
+                "display": {
+                  "type": "file",
+                  "path": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/pdf-to-markdown.ts",
+                  "text": "import { execFile } from 'node:child_process'\nimport { readFile } from 'node:fs/promises'\nimport { resolve, dirname, basename, extname } from 'node:path'\nimport { promisify } from 'node:util'\nimport { ROOT_DIR } from '../config.ts'\n\nconst execFileAsync = promisify(execFile)\n\nexport const PDF_TO_MARKDOWN_DIR = resolve(ROOT_DIR, '..', 'pdf-to-markdown')\nexport const PYTHON_SCRIPT = resolve(PDF_TO_MARKDOWN_DIR, 'convert-docling.py')\nexport const PYTHON_BIN = resolve(PDF_TO_MARKDOWN_DIR, '.venv', 'bin', 'python')\n\nexport interface ConvertResult {\n  ok: boolean\n  markdown: string\n  error?: any\n}\n\nexport async function convertPdfToMarkdown(inputPath: string): Promise<ConvertResult> {\n  const outputPath = resolve(dirname(inputPath), `${basename(inputPath, extname(inputPath))}.md`)\n\n  try {\n    const { stdout, stderr } = await execFileAsync(\n      PYTHON_BIN,\n      [PYTHON_SCRIPT, '--input', inputPath, '--output', outputPath],\n      { timeout: 600000, maxBuffer: 50 * 1024 * 1024 }\n    )\n\n    if (stdout) console.log('Python converter output:\\n', stdout.trim())\n    if (stderr) console.warn(`Python converter warning\\n: ${stderr.trim()}`)\n\n    const markdown = await readFile(outputPath, 'utf-8')\n    return { ok: true, markdown }\n  } catch (err) {\n    return { ok: false, markdown: '', error: err }\n  }\n}",
+                  "lineStart": 1,
+                  "lineEnd": 37,
+                  "totalLines": 37,
+                  "truncated": false
+                }
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/services/pdf-to-markdown.ts",
+              "time": {
+                "start": 1783772116448,
+                "end": 1783772116479
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f511a7615001BjhuBqw7Cva0FM",
+          "time_created": 1783772116501,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "read",
+            "callID": "call_226e6703b6844723aae33ae8",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts"
+              },
+              "output": "<path>/Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts</path>\n<type>file</type>\n<content>\n1: import { db, type AttemptRow } from '../db.ts'\n2: import { generateSummary, type AttemptInput } from '../ai/summary.ts'\n3: import { getPlan } from './plans.ts'\n4: import { getQuizInternal } from './quizzes.ts'\n5: import { getDocumentMarkdown } from './documents.ts'\n6: import type { AttemptSummaryDTO } from './types.ts'\n7: import { NotFoundError, BadRequestError } from '../errors.ts'\n8: \n9: export async function completeAttempt(\n10:   planId: number,\n11:   payload: {\n12:     answers: Array<{\n13:       quizId: number\n14:       learnerIndex: number | null\n15:       attempts: number\n16:     }>\n17:   }\n18: ): Promise<AttemptSummaryDTO> {\n19:   const plan = await getPlan(planId)\n20:   if (!plan) throw new NotFoundError('Plan not found')\n21: \n22:   const markdown = await getDocumentMarkdown(plan.document_id)\n23:   if (!markdown) throw new BadRequestError('Source document has no markdown content')\n24: \n25:   const questions: AttemptInput['questions'] = []\n26:   let score = 0\n27:   for (const ans of payload.answers) {\n28:     const quiz = await getQuizInternal(ans.quizId)\n29:     if (!quiz || quiz.lesson_plan_id !== planId) continue\n30:     const options = JSON.parse(quiz.options) as string[]\n31:     const correct = ans.learnerIndex === quiz.correct_index\n32:     if (correct) score += 1\n33:     questions.push({\n34:       objectiveText: quiz.objective_text,\n35:       question: quiz.question,\n36:       options,\n37:       correctIndex: quiz.correct_index,\n38:       learnerIndex: ans.learnerIndex,\n39:       attempts: ans.attempts\n40:     })\n41:   }\n42: \n43:   const summary = await generateSummary({\n44:     objectives: plan.objectives.map((o) => ({\n45:       text: o.text,\n46:       topic: o.topic\n47:     })),\n48:     questions,\n49:     markdown\n50:   })\n51: \n52:   db\n53:     .prepare(\n54:       `INSERT INTO attempts (lesson_plan_id, score, total, answers, summary, study_tips)\n55:      VALUES (?, ?, ?, ?, ?, ?)\n56:      RETURNING id`\n57:     )\n58:     .get(\n59:       planId,\n60:       score,\n61:       questions.length,\n62:       JSON.stringify(payload.answers),\n63:       summary.summary,\n64:       JSON.stringify(summary.study_tips)\n65:     ) as { id: number }\n66: \n67:   db.prepare(`UPDATE lesson_plans SET status = 'completed' WHERE id = ?`).run(planId)\n68: \n69:   return {\n70:     score,\n71:     total: questions.length,\n72:     summary: summary.summary,\n73:     studyTips: summary.study_tips,\n74:     weakTopics: summary.weak_topics,\n75:     strengths: summary.strengths,\n76:     answers: questions.map((q) => ({\n77:       question: q.question,\n78:       options: q.options,\n79:       correctIndex: q.correctIndex,\n80:       learnerIndex: q.learnerIndex,\n81:       attempts: q.attempts,\n82:       objectiveText: q.objectiveText\n83:     }))\n84:   }\n85: }\n86: \n87: export async function listAttempts(planId: number) {\n88:   const rows = db\n89:     .prepare(`SELECT * FROM attempts WHERE lesson_plan_id = ? ORDER BY datetime(created_at) DESC`)\n90:     .all(planId) as AttemptRow[]\n91:   return rows.map((r) => ({\n92:     id: r.id,\n93:     lesson_plan_id: r.lesson_plan_id,\n94:     score: r.score,\n95:     total: r.total,\n96:     summary: r.summary,\n97:     study_tips: JSON.parse(r.study_tips) as string[],\n98:     created_at: r.created_at\n99:   }))\n100: }\n101: \n102: export async function getAttempt(attemptId: number) {\n103:   const row = db.prepare(`SELECT * FROM attempts WHERE id = ?`).get(attemptId) as AttemptRow | undefined\n104:   if (!row) return null\n105:   return {\n106:     id: row.id,\n107:     lesson_plan_id: row.lesson_plan_id,\n108:     score: row.score,\n109:     total: row.total,\n110:     summary: row.summary,\n111:     study_tips: JSON.parse(row.study_tips) as string[],\n112:     created_at: row.created_at\n113:   }\n114: }\n\n(End of file - total 114 lines)\n</content>",
+              "metadata": {
+                "preview": "import { db, type AttemptRow } from '../db.ts'\nimport { generateSummary, type AttemptInput } from '../ai/summary.ts'\nimport { getPlan } from './plans.ts'\nimport { getQuizInternal } from './quizzes.ts'\nimport { getDocumentMarkdown } from './documents.ts'\nimport type { AttemptSummaryDTO } from './types.ts'\nimport { NotFoundError, BadRequestError } from '../errors.ts'\n\nexport async function completeAttempt(\n  planId: number,\n  payload: {\n    answers: Array<{\n      quizId: number\n      learnerIndex: number | null\n      attempts: number\n    }>\n  }\n): Promise<AttemptSummaryDTO> {\n  const plan = await getPlan(planId)\n  if (!plan) throw new NotFoundError('Plan not found')",
+                "truncated": false,
+                "loaded": [],
+                "display": {
+                  "type": "file",
+                  "path": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts",
+                  "text": "import { db, type AttemptRow } from '../db.ts'\nimport { generateSummary, type AttemptInput } from '../ai/summary.ts'\nimport { getPlan } from './plans.ts'\nimport { getQuizInternal } from './quizzes.ts'\nimport { getDocumentMarkdown } from './documents.ts'\nimport type { AttemptSummaryDTO } from './types.ts'\nimport { NotFoundError, BadRequestError } from '../errors.ts'\n\nexport async function completeAttempt(\n  planId: number,\n  payload: {\n    answers: Array<{\n      quizId: number\n      learnerIndex: number | null\n      attempts: number\n    }>\n  }\n): Promise<AttemptSummaryDTO> {\n  const plan = await getPlan(planId)\n  if (!plan) throw new NotFoundError('Plan not found')\n\n  const markdown = await getDocumentMarkdown(plan.document_id)\n  if (!markdown) throw new BadRequestError('Source document has no markdown content')\n\n  const questions: AttemptInput['questions'] = []\n  let score = 0\n  for (const ans of payload.answers) {\n    const quiz = await getQuizInternal(ans.quizId)\n    if (!quiz || quiz.lesson_plan_id !== planId) continue\n    const options = JSON.parse(quiz.options) as string[]\n    const correct = ans.learnerIndex === quiz.correct_index\n    if (correct) score += 1\n    questions.push({\n      objectiveText: quiz.objective_text,\n      question: quiz.question,\n      options,\n      correctIndex: quiz.correct_index,\n      learnerIndex: ans.learnerIndex,\n      attempts: ans.attempts\n    })\n  }\n\n  const summary = await generateSummary({\n    objectives: plan.objectives.map((o) => ({\n      text: o.text,\n      topic: o.topic\n    })),\n    questions,\n    markdown\n  })\n\n  db\n    .prepare(\n      `INSERT INTO attempts (lesson_plan_id, score, total, answers, summary, study_tips)\n     VALUES (?, ?, ?, ?, ?, ?)\n     RETURNING id`\n    )\n    .get(\n      planId,\n      score,\n      questions.length,\n      JSON.stringify(payload.answers),\n      summary.summary,\n      JSON.stringify(summary.study_tips)\n    ) as { id: number }\n\n  db.prepare(`UPDATE lesson_plans SET status = 'completed' WHERE id = ?`).run(planId)\n\n  return {\n    score,\n    total: questions.length,\n    summary: summary.summary,\n    studyTips: summary.study_tips,\n    weakTopics: summary.weak_topics,\n    strengths: summary.strengths,\n    answers: questions.map((q) => ({\n      question: q.question,\n      options: q.options,\n      correctIndex: q.correctIndex,\n      learnerIndex: q.learnerIndex,\n      attempts: q.attempts,\n      objectiveText: q.objectiveText\n    }))\n  }\n}\n\nexport async function listAttempts(planId: number) {\n  const rows = db\n    .prepare(`SELECT * FROM attempts WHERE lesson_plan_id = ? ORDER BY datetime(created_at) DESC`)\n    .all(planId) as AttemptRow[]\n  return rows.map((r) => ({\n    id: r.id,\n    lesson_plan_id: r.lesson_plan_id,\n    score: r.score,\n    total: r.total,\n    summary: r.summary,\n    study_tips: JSON.parse(r.study_tips) as string[],\n    created_at: r.created_at\n  }))\n}\n\nexport async function getAttempt(attemptId: number) {\n  const row = db.prepare(`SELECT * FROM attempts WHERE id = ?`).get(attemptId) as AttemptRow | undefined\n  if (!row) return null\n  return {\n    id: row.id,\n    lesson_plan_id: row.lesson_plan_id,\n    score: row.score,\n    total: row.total,\n    summary: row.summary,\n    study_tips: JSON.parse(row.study_tips) as string[],\n    created_at: row.created_at\n  }\n}",
+                  "lineStart": 1,
+                  "lineEnd": 114,
+                  "totalLines": 114,
+                  "truncated": false
+                }
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts",
+              "time": {
+                "start": 1783772116707,
+                "end": 1783772116709
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f511a7702001xw2KgUfOLruf0C",
+          "time_created": 1783772116738,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "read",
+            "callID": "call_9c5384851c58488c8f30ddcc",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts"
+              },
+              "output": "<path>/Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts</path>\n<type>file</type>\n<content>\n1: import { db, type DocumentRow, type LessonPlanRow } from '../db.ts'\n2: import { generatePlan } from '../ai/plan.ts'\n3: import type { Objective } from './types.ts'\n4: import { NotFoundError, BadRequestError } from '../errors.ts'\n5: \n6: export async function createPlan(documentId: number) {\n7:   const doc = db.prepare(`SELECT * FROM documents WHERE id = ?`).get(documentId) as DocumentRow | undefined\n8:   if (!doc) throw new NotFoundError('Document not found')\n9:   if (doc.status !== 'ready' || !doc.markdown) {\n10:     throw new BadRequestError(`Document is not ready for plan generation (status: ${doc.status})`)\n11:   }\n12: \n13:   const plan = await generatePlan(doc.markdown, doc.filename)\n14:   const objectivesJson = JSON.stringify(plan.objectives)\n15:   const res = db\n16:     .prepare(\n17:       `INSERT INTO lesson_plans (document_id, title, description, objectives, difficulty, status)\n18:        VALUES (?, ?, ?, ?, ?, 'draft')\n19:        RETURNING *`\n20:     )\n21:     .get(documentId, plan.title, plan.description, objectivesJson, plan.difficulty) as LessonPlanRow\n22: \n23:   return {\n24:     id: res.id,\n25:     document_id: documentId,\n26:     title: res.title,\n27:     description: res.description,\n28:     difficulty: res.difficulty as 'beginner' | 'intermediate' | 'advanced',\n29:     objectives: plan.objectives,\n30:     status: res.status as 'draft' | 'approved' | 'completed',\n31:     created_at: res.created_at\n32:   }\n33: }\n34: \n35: export async function getPlan(planId: number) {\n36:   const row = db.prepare(`SELECT * FROM lesson_plans WHERE id = ?`).get(planId) as LessonPlanRow | undefined\n37:   if (!row) return null\n38:   const doc = db.prepare(`SELECT filename FROM documents WHERE id = ?`).get(row.document_id) as { filename: string }\n39:   return {\n40:     id: row.id,\n41:     document_id: row.document_id,\n42:     document_filename: doc.filename,\n43:     title: row.title,\n44:     description: row.description,\n45:     difficulty: row.difficulty as 'beginner' | 'intermediate' | 'advanced',\n46:     objectives: JSON.parse(row.objectives) as Objective[],\n47:     status: row.status as 'draft' | 'approved' | 'completed',\n48:     created_at: row.created_at\n49:   }\n50: }\n51: \n52: export async function getPlansForDocument(documentId: number) {\n53:   const rows = db\n54:     .prepare(`SELECT * FROM lesson_plans WHERE document_id = ? ORDER BY datetime(created_at) DESC`)\n55:     .all(documentId) as LessonPlanRow[]\n56:   return rows.map((row) => ({\n57:     id: row.id,\n58:     document_id: row.document_id,\n59:     title: row.title,\n60:     description: row.description,\n61:     difficulty: row.difficulty as 'beginner' | 'intermediate' | 'advanced',\n62:     objectives: JSON.parse(row.objectives) as Objective[],\n63:     status: row.status as 'draft' | 'approved' | 'completed',\n64:     created_at: row.created_at\n65:   }))\n66: }\n67: \n68: export async function approvePlan(planId: number) {\n69:   const row = db.prepare(`SELECT * FROM lesson_plans WHERE id = ?`).get(planId) as LessonPlanRow | undefined\n70:   if (!row) throw new NotFoundError('Plan not found')\n71:   if (row.status === 'draft') {\n72:     db.prepare(`UPDATE lesson_plans SET status = 'approved' WHERE id = ?`).run(planId)\n73:   }\n74:   return getPlan(planId)\n75: }\n\n(End of file - total 75 lines)\n</content>",
+              "metadata": {
+                "preview": "import { db, type DocumentRow, type LessonPlanRow } from '../db.ts'\nimport { generatePlan } from '../ai/plan.ts'\nimport type { Objective } from './types.ts'\nimport { NotFoundError, BadRequestError } from '../errors.ts'\n\nexport async function createPlan(documentId: number) {\n  const doc = db.prepare(`SELECT * FROM documents WHERE id = ?`).get(documentId) as DocumentRow | undefined\n  if (!doc) throw new NotFoundError('Document not found')\n  if (doc.status !== 'ready' || !doc.markdown) {\n    throw new BadRequestError(`Document is not ready for plan generation (status: ${doc.status})`)\n  }\n\n  const plan = await generatePlan(doc.markdown, doc.filename)\n  const objectivesJson = JSON.stringify(plan.objectives)\n  const res = db\n    .prepare(\n      `INSERT INTO lesson_plans (document_id, title, description, objectives, difficulty, status)\n       VALUES (?, ?, ?, ?, ?, 'draft')\n       RETURNING *`\n    )",
+                "truncated": false,
+                "loaded": [],
+                "display": {
+                  "type": "file",
+                  "path": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts",
+                  "text": "import { db, type DocumentRow, type LessonPlanRow } from '../db.ts'\nimport { generatePlan } from '../ai/plan.ts'\nimport type { Objective } from './types.ts'\nimport { NotFoundError, BadRequestError } from '../errors.ts'\n\nexport async function createPlan(documentId: number) {\n  const doc = db.prepare(`SELECT * FROM documents WHERE id = ?`).get(documentId) as DocumentRow | undefined\n  if (!doc) throw new NotFoundError('Document not found')\n  if (doc.status !== 'ready' || !doc.markdown) {\n    throw new BadRequestError(`Document is not ready for plan generation (status: ${doc.status})`)\n  }\n\n  const plan = await generatePlan(doc.markdown, doc.filename)\n  const objectivesJson = JSON.stringify(plan.objectives)\n  const res = db\n    .prepare(\n      `INSERT INTO lesson_plans (document_id, title, description, objectives, difficulty, status)\n       VALUES (?, ?, ?, ?, ?, 'draft')\n       RETURNING *`\n    )\n    .get(documentId, plan.title, plan.description, objectivesJson, plan.difficulty) as LessonPlanRow\n\n  return {\n    id: res.id,\n    document_id: documentId,\n    title: res.title,\n    description: res.description,\n    difficulty: res.difficulty as 'beginner' | 'intermediate' | 'advanced',\n    objectives: plan.objectives,\n    status: res.status as 'draft' | 'approved' | 'completed',\n    created_at: res.created_at\n  }\n}\n\nexport async function getPlan(planId: number) {\n  const row = db.prepare(`SELECT * FROM lesson_plans WHERE id = ?`).get(planId) as LessonPlanRow | undefined\n  if (!row) return null\n  const doc = db.prepare(`SELECT filename FROM documents WHERE id = ?`).get(row.document_id) as { filename: string }\n  return {\n    id: row.id,\n    document_id: row.document_id,\n    document_filename: doc.filename,\n    title: row.title,\n    description: row.description,\n    difficulty: row.difficulty as 'beginner' | 'intermediate' | 'advanced',\n    objectives: JSON.parse(row.objectives) as Objective[],\n    status: row.status as 'draft' | 'approved' | 'completed',\n    created_at: row.created_at\n  }\n}\n\nexport async function getPlansForDocument(documentId: number) {\n  const rows = db\n    .prepare(`SELECT * FROM lesson_plans WHERE document_id = ? ORDER BY datetime(created_at) DESC`)\n    .all(documentId) as LessonPlanRow[]\n  return rows.map((row) => ({\n    id: row.id,\n    document_id: row.document_id,\n    title: row.title,\n    description: row.description,\n    difficulty: row.difficulty as 'beginner' | 'intermediate' | 'advanced',\n    objectives: JSON.parse(row.objectives) as Objective[],\n    status: row.status as 'draft' | 'approved' | 'completed',\n    created_at: row.created_at\n  }))\n}\n\nexport async function approvePlan(planId: number) {\n  const row = db.prepare(`SELECT * FROM lesson_plans WHERE id = ?`).get(planId) as LessonPlanRow | undefined\n  if (!row) throw new NotFoundError('Plan not found')\n  if (row.status === 'draft') {\n    db.prepare(`UPDATE lesson_plans SET status = 'approved' WHERE id = ?`).run(planId)\n  }\n  return getPlan(planId)\n}",
+                  "lineStart": 1,
+                  "lineEnd": 75,
+                  "totalLines": 75,
+                  "truncated": false
+                }
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts",
+              "time": {
+                "start": 1783772117000,
+                "end": 1783772117007
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f511a7833001X6VAB1n2oq8ju1",
+          "time_created": 1783772117044,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 8349,
+              "input": 248,
+              "output": 213,
+              "reasoning": 16,
+              "cache": {
+                "write": 0,
+                "read": 7872
+              }
+            },
+            "cost": 0.0001208816
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f511a7836001G8L1Lf9paknKN3",
+      "time_created": 1783772117046,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 14889,
+          "input": 6207,
+          "output": 36,
+          "reasoning": 582,
+          "cache": {
+            "write": 0,
+            "read": 8064
+          }
+        },
+        "cost": 0.0010645992
+      },
+      "parts": [
+        {
+          "id": "prt_f511a8421001dr1gA4D3RKED5F",
+          "time_created": 1783772120097,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f511a845b001SupSxkHFaySe4c",
+          "time_created": 1783772120155,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Let me analyze each file and identify inline types that should be extracted:\n\n**quizzes.ts:**\n1. Line 17: `QuizQuestionRow | undefined` - already imported type\n2. Line 49: `as { id: number }` - inline type, used once\n3. Line 88: `as string[]` - primitive type, no need to declare\n4. Line 97-100: `ExplanationResult` interface - already at top level, good\n5. Line 115-118: `AnswerOutput` interface - already at top level, good\n6. Line 129-133: `AI_Message` and `MessageHistory` - already at top level, good\n\n**documents.ts:**\n1. Line 13-15: `Array<Pick<DocumentRow, 'id' | 'filename' | 'title' | 'markdown_chars' | 'status' | 'error' | 'created_at'>>` - complex inline type, used once\n2. Line 21: `{ id: number; difficulty: string; status: string } | undefined` - inline type, used once\n3. Line 27: `{ c: number }` - inline type, used once\n4. Line 44: `DocumentRow | undefined` - imported type\n5. Line 58-60: `{ markdown: string | null } | undefined` - inline type, used once\n6. Line 76: `DocumentRow` - imported type\n\n**pdf-to-markdown.ts:**\n1. Line 13-17: `ConvertResult` interface - already at top level, good\n\n**attempts.ts:**\n1. Line 11-16: `payload: { answers: Array<{ quizId: number; learnerIndex: number | null; attempts: number }> }` - complex inline type in function parameter, used once\n2. Line 65: `{ id: number }` - inline type, used once\n\n\n3. Lines 87-99 and 102-113 both use `AttemptRow` which is imported. The return types for `listAttempts` and `getAttempt` are inferred but structurally identical - these could be extracted as a shared type.\n\n**plans.ts:**\n1. Line 7: `DocumentRow | undefined` - imported type\n2. Line 21: `LessonPlanRow` - imported type\n3. Line 36: `LessonPlanRow | undefined` - imported type\n4. Line 38: `{ filename: string }` - inline type, used onceI need to examine the database schema to understand what types are available for reference.",
+            "time": {
+              "start": 1783772120155,
+              "end": 1783772126063
+            }
+          }
+        },
+        {
+          "id": "prt_f511a9b720013lWYOTpRxs5bbW",
+          "time_created": 1783772126066,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "read",
+            "callID": "call_df1e167d1726413ab7532858",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/db.ts"
+              },
+              "output": "<path>/Users/shivam/qnify/ai-learning-agent/backend/src/db.ts</path>\n<type>file</type>\n<content>\n1: import Database from 'better-sqlite3'\n2: import { readFileSync } from 'node:fs'\n3: import { join } from 'node:path'\n4: import { DB_PATH, ROOT_DIR } from './config.ts'\n5: \n6: export const db = new Database(DB_PATH)\n7: db.pragma('journal_mode = WAL')\n8: db.pragma('foreign_keys = ON')\n9: \n10: export const SCHEMA_SQL = readFileSync(join(ROOT_DIR, 'src', 'schema.sql'), { encoding: 'utf-8' })\n11: \n12: export interface DocumentRow {\n13:   id: number\n14:   filename: string\n15:   stored_filename: string\n16:   filepath: string\n17:   title: string\n18:   markdown: string | null\n19:   markdown_chars: number\n20:   status: string\n21:   error: string | null\n22:   created_at: string\n23: }\n24: \n25: export interface LessonPlanRow {\n26:   id: number\n27:   document_id: number\n28:   title: string\n29:   description: string\n30:   objectives: string\n31:   difficulty: string\n32:   status: string\n33:   created_at: string\n34: }\n35: \n36: export interface QuizQuestionRow {\n37:   id: number\n38:   lesson_plan_id: number\n39:   objective_index: number\n40:   objective_text: string\n41:   question: string\n42:   options: string\n43:   correct_index: number\n44:   explanation: string\n45:   hint: string\n46:   created_at: string\n47: }\n48: \n49: export interface AttemptRow {\n50:   id: number\n51:   lesson_plan_id: number\n52:   score: number\n53:   total: number\n54:   answers: string\n55:   summary: string\n56:   study_tips: string\n57:   created_at: string\n58: }\n\n(End of file - total 58 lines)\n</content>",
+              "metadata": {
+                "preview": "import Database from 'better-sqlite3'\nimport { readFileSync } from 'node:fs'\nimport { join } from 'node:path'\nimport { DB_PATH, ROOT_DIR } from './config.ts'\n\nexport const db = new Database(DB_PATH)\ndb.pragma('journal_mode = WAL')\ndb.pragma('foreign_keys = ON')\n\nexport const SCHEMA_SQL = readFileSync(join(ROOT_DIR, 'src', 'schema.sql'), { encoding: 'utf-8' })\n\nexport interface DocumentRow {\n  id: number\n  filename: string\n  stored_filename: string\n  filepath: string\n  title: string\n  markdown: string | null\n  markdown_chars: number\n  status: string",
+                "truncated": false,
+                "loaded": [],
+                "display": {
+                  "type": "file",
+                  "path": "/Users/shivam/qnify/ai-learning-agent/backend/src/db.ts",
+                  "text": "import Database from 'better-sqlite3'\nimport { readFileSync } from 'node:fs'\nimport { join } from 'node:path'\nimport { DB_PATH, ROOT_DIR } from './config.ts'\n\nexport const db = new Database(DB_PATH)\ndb.pragma('journal_mode = WAL')\ndb.pragma('foreign_keys = ON')\n\nexport const SCHEMA_SQL = readFileSync(join(ROOT_DIR, 'src', 'schema.sql'), { encoding: 'utf-8' })\n\nexport interface DocumentRow {\n  id: number\n  filename: string\n  stored_filename: string\n  filepath: string\n  title: string\n  markdown: string | null\n  markdown_chars: number\n  status: string\n  error: string | null\n  created_at: string\n}\n\nexport interface LessonPlanRow {\n  id: number\n  document_id: number\n  title: string\n  description: string\n  objectives: string\n  difficulty: string\n  status: string\n  created_at: string\n}\n\nexport interface QuizQuestionRow {\n  id: number\n  lesson_plan_id: number\n  objective_index: number\n  objective_text: string\n  question: string\n  options: string\n  correct_index: number\n  explanation: string\n  hint: string\n  created_at: string\n}\n\nexport interface AttemptRow {\n  id: number\n  lesson_plan_id: number\n  score: number\n  total: number\n  answers: string\n  summary: string\n  study_tips: string\n  created_at: string\n}",
+                  "lineStart": 1,
+                  "lineEnd": 58,
+                  "totalLines": 58,
+                  "truncated": false
+                }
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/db.ts",
+              "time": {
+                "start": 1783772126339,
+                "end": 1783772126348
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f511a9c9c0015i1GYEvC8f5dlL",
+          "time_created": 1783772126364,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 14889,
+              "input": 6207,
+              "output": 36,
+              "reasoning": 582,
+              "cache": {
+                "write": 0,
+                "read": 8064
+              }
+            },
+            "cost": 0.0010645992
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f511a9ca2001S91ru2H4M9HgAN",
+      "time_created": 1783772126370,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 15966,
+          "input": 1232,
+          "output": 155,
+          "reasoning": 371,
+          "cache": {
+            "write": 0,
+            "read": 14208
+          }
+        },
+        "cost": 0.0003595424
+      },
+      "parts": [
+        {
+          "id": "prt_f511aa41f001jD5xC7JI8OLqjg",
+          "time_created": 1783772128288,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f511aa558001oXFmvycpSO9hP8",
+          "time_created": 1783772128600,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now I have a clear picture. Let me plan the changes:\n\n**documents.ts:**\n1. Extract `DocumentListItem` type (line 13-15)\n2. Extract `PlanSummary` type (line 21)\n3. Extract `CountResult` type (line 27) - actually `{ c: number }` is used once, maybe not worth extracting\n4. Extract `MarkdownRow` type (line 58-60)\n\nActually, looking more carefully, I should focus on extracting types that are either:\n- Complex enough to warrant a named type\n- Used in multiple places\n\nLet me reconsider:\n\n**documents.ts:**\n- `DocumentListItem` - the Pick type, used once but complex\n- `PlanSummary` - `{ id: number; difficulty: string; status: string }` - used once\n- `CountResult` - `{ c: number }` - trivial, used once\n- `MarkdownRow` - `{ markdown: string | null }` - used once\n\n**attempts.ts:**\n- `AttemptAnswer` - `{ quizId: number; learnerIndex: number | null; attempts: number }` - used once in array\n- `InsertResult` - `{ id: number }` - used once\n- The return types for `listAttempts` and `getAttempt` are identical but inferred\n\n**quizzes.ts:**\n- `ExplanationResult` - already extracted\n- `AnswerOutput` - already extracted\n- `AI_Message` - already extracted\n- `MessageHistory` - already extracted\n- Only inline is `{ id: number }` on line 49\n\n**plans.ts:**\n- `{ filename: string }` on line 38 - trivial\n\nLet me create the todo list and start working.",
+            "time": {
+              "start": 1783772128600,
+              "end": 1783772132135
+            }
+          }
+        },
+        {
+          "id": "prt_f511ab3290014PYpGImhFV2Cro",
+          "time_created": 1783772132137,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "todowrite",
+            "callID": "call_60f42a5ada4048b6aa091236",
+            "state": {
+              "status": "completed",
+              "input": {
+                "todos": [
+                  {
+                    "content": "Extract inline types in documents.ts to top-level declarations",
+                    "status": "pending",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Extract inline types in attempts.ts to top-level declarations",
+                    "status": "pending",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Extract inline types in quizzes.ts to top-level declarations",
+                    "status": "pending",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Extract inline types in plans.ts to top-level declarations",
+                    "status": "pending",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Verify TypeScript compiles without errors",
+                    "status": "pending",
+                    "priority": "high"
+                  }
+                ]
+              },
+              "output": "[\n  {\n    \"content\": \"Extract inline types in documents.ts to top-level declarations\",\n    \"status\": \"pending\",\n    \"priority\": \"high\"\n  },\n  {\n    \"content\": \"Extract inline types in attempts.ts to top-level declarations\",\n    \"status\": \"pending\",\n    \"priority\": \"high\"\n  },\n  {\n    \"content\": \"Extract inline types in quizzes.ts to top-level declarations\",\n    \"status\": \"pending\",\n    \"priority\": \"high\"\n  },\n  {\n    \"content\": \"Extract inline types in plans.ts to top-level declarations\",\n    \"status\": \"pending\",\n    \"priority\": \"high\"\n  },\n  {\n    \"content\": \"Verify TypeScript compiles without errors\",\n    \"status\": \"pending\",\n    \"priority\": \"high\"\n  }\n]",
+              "metadata": {
+                "todos": [
+                  {
+                    "content": "Extract inline types in documents.ts to top-level declarations",
+                    "status": "pending",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Extract inline types in attempts.ts to top-level declarations",
+                    "status": "pending",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Extract inline types in quizzes.ts to top-level declarations",
+                    "status": "pending",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Extract inline types in plans.ts to top-level declarations",
+                    "status": "pending",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Verify TypeScript compiles without errors",
+                    "status": "pending",
+                    "priority": "high"
+                  }
+                ],
+                "truncated": false
+              },
+              "title": "5 todos",
+              "time": {
+                "start": 1783772133404,
+                "end": 1783772133417
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f511ab860001PHySIX1F39zuxl",
+          "time_created": 1783772133472,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 15966,
+              "input": 1232,
+              "output": 155,
+              "reasoning": 371,
+              "cache": {
+                "write": 0,
+                "read": 14208
+              }
+            },
+            "cost": 0.0003595424
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f511ab864001pC7msFYM91uY6K",
+      "time_created": 1783772133476,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 16579,
+          "input": 721,
+          "output": 156,
+          "reasoning": 278,
+          "cache": {
+            "write": 0,
+            "read": 15424
+          }
+        },
+        "cost": 0.0002656472
+      },
+      "parts": [
+        {
+          "id": "prt_f511aca49001pSjzxXIR0a9Nc2",
+          "time_created": 1783772138057,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f511aca4a001R03ozxueiEarLH",
+          "time_created": 1783772138058,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Let me start with documents.ts. I'll identify the inline types to extract:\n\n1. `Array<Pick<DocumentRow, 'id' | 'filename' | 'title' | 'markdown_chars' | 'status' | 'error' | 'created_at'>>` - used in listDocuments return type\n2. `{ id: number; difficulty: string; status: string }` - used for planRow\n3. `{ c: number }` - used for count query\n4. `{ markdown: string | null }` - used for markdown query\n\nFor documents.ts:\n- `DocumentListItem` - the Pick type\n- `PlanSummary` - the plan object type\n- `CountResult` - the count query result\n- `MarkdownRow` - the markdown query result\n\nActually, looking at the code more carefully:\n- Line 13-15: This is the return type of the query, but it's actually used as a type assertion `as Array<Pick<...>>`\n- Line 21: `{ id: number; difficulty: string; status: string } | undefined` - type assertion\n- Line 27: `{ c: number }` - type assertion\n- Line 58-60: `{ markdown: string | null } | undefined` - type assertion\n\nLet me extract these.",
+            "time": {
+              "start": 1783772138058,
+              "end": 1783772140798
+            }
+          }
+        },
+        {
+          "id": "prt_f511ad500001mUBJBPIktMcKmQ",
+          "time_created": 1783772140800,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "todowrite",
+            "callID": "call_50a65d025c824aa58fc0621e",
+            "state": {
+              "status": "completed",
+              "input": {
+                "todos": [
+                  {
+                    "content": "Extract inline types in documents.ts to top-level declarations",
+                    "priority": "high",
+                    "status": "in_progress"
+                  },
+                  {
+                    "content": "Extract inline types in attempts.ts to top-level declarations",
+                    "priority": "high",
+                    "status": "pending"
+                  },
+                  {
+                    "content": "Extract inline types in quizzes.ts to top-level declarations",
+                    "priority": "high",
+                    "status": "pending"
+                  },
+                  {
+                    "content": "Extract inline types in plans.ts to top-level declarations",
+                    "priority": "high",
+                    "status": "pending"
+                  },
+                  {
+                    "content": "Verify TypeScript compiles without errors",
+                    "priority": "high",
+                    "status": "pending"
+                  }
+                ]
+              },
+              "output": "[\n  {\n    \"content\": \"Extract inline types in documents.ts to top-level declarations\",\n    \"status\": \"in_progress\",\n    \"priority\": \"high\"\n  },\n  {\n    \"content\": \"Extract inline types in attempts.ts to top-level declarations\",\n    \"status\": \"pending\",\n    \"priority\": \"high\"\n  },\n  {\n    \"content\": \"Extract inline types in quizzes.ts to top-level declarations\",\n    \"status\": \"pending\",\n    \"priority\": \"high\"\n  },\n  {\n    \"content\": \"Extract inline types in plans.ts to top-level declarations\",\n    \"status\": \"pending\",\n    \"priority\": \"high\"\n  },\n  {\n    \"content\": \"Verify TypeScript compiles without errors\",\n    \"status\": \"pending\",\n    \"priority\": \"high\"\n  }\n]",
+              "metadata": {
+                "todos": [
+                  {
+                    "content": "Extract inline types in documents.ts to top-level declarations",
+                    "status": "in_progress",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Extract inline types in attempts.ts to top-level declarations",
+                    "status": "pending",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Extract inline types in quizzes.ts to top-level declarations",
+                    "status": "pending",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Extract inline types in plans.ts to top-level declarations",
+                    "status": "pending",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Verify TypeScript compiles without errors",
+                    "status": "pending",
+                    "priority": "high"
+                  }
+                ],
+                "truncated": false
+              },
+              "title": "5 todos",
+              "time": {
+                "start": 1783772141917,
+                "end": 1783772141919
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f511ad99b001K4dRjwihsVRgiJ",
+          "time_created": 1783772141979,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 16579,
+              "input": 721,
+              "output": 156,
+              "reasoning": 278,
+              "cache": {
+                "write": 0,
+                "read": 15424
+              }
+            },
+            "cost": 0.0002656472
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f511ad99f001oGWClAsr5KH7g3",
+      "time_created": 1783772141983,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 18283,
+          "input": 631,
+          "output": 654,
+          "reasoning": 870,
+          "cache": {
+            "write": 0,
+            "read": 16128
+          }
+        },
+        "cost": 0.0005602184
+      },
+      "parts": [
+        {
+          "id": "prt_f511ae17b001JCa5BsSet6n57K",
+          "time_created": 1783772143996,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f511ae187001UX9j74ufFyxg2I",
+          "time_created": 1783772144007,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Let me analyze each file:\n\n**documents.ts** inline types:\n1. Line 13-15: `Array<Pick<DocumentRow, 'id' | 'filename' | 'title' | 'markdown_chars' | 'status' | 'error' | 'created_at'>>` - used once\n2. Line 21: `{ id: number; difficulty: string; status: string } | undefined` - used once\n3. Line 27: `{ c: number }` - used once\n4. Line 58-60: `{ markdown: string | null } | undefined` - used once\n\n**attempts.ts** inline types:\n1. Lines 11-16: `payload: { answers: Array<{ quizId: number; learnerIndex: number | null; attempts: number }> }` - the inner type `{ quizId: number; learnerIndex: number | null; attempts: number }` is used in the array\n2. Line 65: `as { id: number }` - used once\n\n**quizzes.ts** inline types:\n1. Line 17: `as QuizQuestionRow | undefined` - already a named type\n2. Line 49: `as { id: number }` - used once\n3. Line 66: `as QuizQuestionRow[]` - already a named type\n4. Line 78: already returns `QuizQuestionRow | null`\n5. Line 88: `as string[]` - primitive, not worth extracting\n6. Line 97-100: `ExplanationResult` - already at top\n7. Line 109: `as string[]` - primitive\n8. Line 115-118: `AnswerOutput` - already at top\n9. Line 129-133: `AI_Message` and `MessageHistory` - already at top\n\n**plans.ts** inline types:\n1. Line 28: `as 'beginner' | 'intermediate' | 'advanced'` - used in multiple places\n2. Line 30: `as 'draft' | 'approved' | 'completed'` - used in multiple places\n3. Line 38: `as { filename: string }` - used once\n4. Line 45: same difficulty union\n5. Line 47: same status union\n6. Line 61: same difficulty union\n7. Line 63: same status union\n\nSo for plans.ts, the `'beginner' | 'intermediate' | 'advanced'` and `'draft' | 'approved' | 'completed'` types are used multiple times across functions.\n\nLet me think about which types to extract:\n\n**documents.ts:**\n- `DocumentListItem` - Pick type for listDocuments query\n- `PlanSummaryRow` - `{ id: number; difficulty: string; status: string }` - used in listDocuments\n- `CountResult` - `{ c: number }` - used in listDocuments\n- `MarkdownRow` - `{ markdown: string | null }` - used in getDocumentMarkdown\n\n**attempts.ts:**\n- `AttemptAnswerInput` - `{ quizId: number; learnerIndex: number | null; attempts: number }` - used in completeAttempt param\n- `InsertResult` - `{ id: number }` - used in completeAttempt\n\n**quizzes.ts:**\n- `ExplanationResult` - already defined at top, good\n- `AnswerOutput` - already defined at top, good\n- `AI_Message` / `MessageHistory` - already defined at top, good\n- Only `{ id: number }` inline on line 49**plans.ts:**\n- `Difficulty` - `'beginner' | 'intermediate' | 'advanced'` - used multiple times\n- `PlanStatus` - `'draft' | 'approved' | 'completed'` - used multiple times\n- `PlanDocumentRef` - `{ filename: string }` - used once in getPlan\n\nLet me now implement the changes.",
+            "time": {
+              "start": 1783772144007,
+              "end": 1783772151501
+            }
+          }
+        },
+        {
+          "id": "prt_f511afece001N90UkeVtOp4r2Z",
+          "time_created": 1783772151502,
+          "type": "text",
+          "data": {
+            "type": "text",
+            "text": "Now I'll work through each file. Let me start with `documents.ts`:",
+            "time": {
+              "start": 1783772151502,
+              "end": 1783772156567
+            }
+          }
+        },
+        {
+          "id": "prt_f511aff8b001gyYyIS7mKIJ0v0",
+          "time_created": 1783772151691,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "edit",
+            "callID": "call_c378e9b356f7427e86da05ef",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/documents.ts",
+                "oldString": "import path from 'node:path'\nimport { nanoid } from 'nanoid'\nimport { db, type DocumentRow } from '../db.ts'\nimport { convertPdfToMarkdown } from './pdf-to-markdown.ts'\nimport { UPLOADS_DIR } from '../config.ts'\n\nexport async function listDocuments() {\n  const rows = db\n    .prepare(\n      `SELECT id, filename, title, markdown_chars, status, error, created_at\n       FROM documents ORDER BY datetime(created_at) DESC`\n    )\n    .all() as Array<\n    Pick<DocumentRow, 'id' | 'filename' | 'title' | 'markdown_chars' | 'status' | 'error' | 'created_at'>\n  >\n  return rows.map((r) => {\n    const planRow = db\n      .prepare(\n        `SELECT id, difficulty, status FROM lesson_plans WHERE document_id = ? ORDER BY datetime(created_at) DESC LIMIT 1`\n      )\n      .get(r.id) as { id: number; difficulty: string; status: string } | undefined\n    const attemptCount = (\n      db\n        .prepare(\n          `SELECT COUNT(*) AS c FROM attempts a JOIN lesson_plans p ON p.id = a.lesson_plan_id WHERE p.document_id = ?`\n        )\n        .get(r.id) as { c: number }\n    ).c",
+                "newString": "import path from 'node:path'\nimport { nanoid } from 'nanoid'\nimport { db, type DocumentRow } from '../db.ts'\nimport { convertPdfToMarkdown } from './pdf-to-markdown.ts'\nimport { UPLOADS_DIR } from '../config.ts'\n\ntype DocumentListItem = Pick<DocumentRow, 'id' | 'filename' | 'title' | 'markdown_chars' | 'status' | 'error' | 'created_at'>\n\ninterface PlanSummaryRow {\n  id: number\n  difficulty: string\n  status: string\n}\n\ninterface CountResult {\n  c: number\n}\n\nexport async function listDocuments() {\n  const rows = db\n    .prepare(\n      `SELECT id, filename, title, markdown_chars, status, error, created_at\n       FROM documents ORDER BY datetime(created_at) DESC`\n    )\n    .all() as DocumentListItem[]\n  return rows.map((r) => {\n    const planRow = db\n      .prepare(\n        `SELECT id, difficulty, status FROM lesson_plans WHERE document_id = ? ORDER BY datetime(created_at) DESC LIMIT 1`\n      )\n      .get(r.id) as PlanSummaryRow | undefined\n    const attemptCount = (\n      db\n        .prepare(\n          `SELECT COUNT(*) AS c FROM attempts a JOIN lesson_plans p ON p.id = a.lesson_plan_id WHERE p.document_id = ?`\n        )\n        .get(r.id) as CountResult\n    ).c"
+              },
+              "output": "Edit applied successfully.",
+              "metadata": {
+                "diagnostics": {},
+                "diff": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/documents.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/documents.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/documents.ts\n@@ -3,29 +3,39 @@\n import { db, type DocumentRow } from '../db.ts'\n import { convertPdfToMarkdown } from './pdf-to-markdown.ts'\n import { UPLOADS_DIR } from '../config.ts'\n \n+type DocumentListItem = Pick<DocumentRow, 'id' | 'filename' | 'title' | 'markdown_chars' | 'status' | 'error' | 'created_at'>\n+\n+interface PlanSummaryRow {\n+  id: number\n+  difficulty: string\n+  status: string\n+}\n+\n+interface CountResult {\n+  c: number\n+}\n+\n export async function listDocuments() {\n   const rows = db\n     .prepare(\n       `SELECT id, filename, title, markdown_chars, status, error, created_at\n        FROM documents ORDER BY datetime(created_at) DESC`\n     )\n-    .all() as Array<\n-    Pick<DocumentRow, 'id' | 'filename' | 'title' | 'markdown_chars' | 'status' | 'error' | 'created_at'>\n-  >\n+    .all() as DocumentListItem[]\n   return rows.map((r) => {\n     const planRow = db\n       .prepare(\n         `SELECT id, difficulty, status FROM lesson_plans WHERE document_id = ? ORDER BY datetime(created_at) DESC LIMIT 1`\n       )\n-      .get(r.id) as { id: number; difficulty: string; status: string } | undefined\n+      .get(r.id) as PlanSummaryRow | undefined\n     const attemptCount = (\n       db\n         .prepare(\n           `SELECT COUNT(*) AS c FROM attempts a JOIN lesson_plans p ON p.id = a.lesson_plan_id WHERE p.document_id = ?`\n         )\n-        .get(r.id) as { c: number }\n+        .get(r.id) as CountResult\n     ).c\n     return {\n       ...r,\n       plan: planRow\n",
+                "filediff": {
+                  "file": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/documents.ts",
+                  "patch": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/documents.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/documents.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/documents.ts\n@@ -3,29 +3,39 @@\n import { db, type DocumentRow } from '../db.ts'\n import { convertPdfToMarkdown } from './pdf-to-markdown.ts'\n import { UPLOADS_DIR } from '../config.ts'\n \n+type DocumentListItem = Pick<DocumentRow, 'id' | 'filename' | 'title' | 'markdown_chars' | 'status' | 'error' | 'created_at'>\n+\n+interface PlanSummaryRow {\n+  id: number\n+  difficulty: string\n+  status: string\n+}\n+\n+interface CountResult {\n+  c: number\n+}\n+\n export async function listDocuments() {\n   const rows = db\n     .prepare(\n       `SELECT id, filename, title, markdown_chars, status, error, created_at\n        FROM documents ORDER BY datetime(created_at) DESC`\n     )\n-    .all() as Array<\n-    Pick<DocumentRow, 'id' | 'filename' | 'title' | 'markdown_chars' | 'status' | 'error' | 'created_at'>\n-  >\n+    .all() as DocumentListItem[]\n   return rows.map((r) => {\n     const planRow = db\n       .prepare(\n         `SELECT id, difficulty, status FROM lesson_plans WHERE document_id = ? ORDER BY datetime(created_at) DESC LIMIT 1`\n       )\n-      .get(r.id) as { id: number; difficulty: string; status: string } | undefined\n+      .get(r.id) as PlanSummaryRow | undefined\n     const attemptCount = (\n       db\n         .prepare(\n           `SELECT COUNT(*) AS c FROM attempts a JOIN lesson_plans p ON p.id = a.lesson_plan_id WHERE p.document_id = ?`\n         )\n-        .get(r.id) as { c: number }\n+        .get(r.id) as CountResult\n     ).c\n     return {\n       ...r,\n       plan: planRow\n",
+                  "additions": 15,
+                  "deletions": 5
+                },
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/services/documents.ts",
+              "time": {
+                "start": 1783772156498,
+                "end": 1783772156500
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f511b1299001dV7VaIvTKDg25q",
+          "time_created": 1783772156569,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 18283,
+              "input": 631,
+              "output": 654,
+              "reasoning": 870,
+              "cache": {
+                "write": 0,
+                "read": 16128
+              }
+            },
+            "cost": 0.0005602184
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f511b129c0018KC5vpvs5Rq56X",
+      "time_created": 1783772156572,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 18490,
+          "input": 1593,
+          "output": 174,
+          "reasoning": 19,
+          "cache": {
+            "write": 0,
+            "read": 16704
+          }
+        },
+        "cost": 0.0003238312
+      },
+      "parts": [
+        {
+          "id": "prt_f511b1f540019gDETZGYMWREfX",
+          "time_created": 1783772159828,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f511b1f91001roMjaWCIViqnXq",
+          "time_created": 1783772159889,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now let me update the getDocumentMarkdown function to use a named type for the inline type.",
+            "time": {
+              "start": 1783772159889,
+              "end": 1783772160162
+            }
+          }
+        },
+        {
+          "id": "prt_f511b20a4001VsLpcW2XOH34hb",
+          "time_created": 1783772160164,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "edit",
+            "callID": "call_7b017eb6fd3f40fa9ff0147e",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/documents.ts",
+                "oldString": "export async function getDocumentMarkdown(id: number): Promise<string | null> {\n  const row = db.prepare(`SELECT markdown FROM documents WHERE id = ?`).get(id) as\n    | { markdown: string | null }\n    | undefined\n  return row?.markdown ?? null\n}",
+                "newString": "interface MarkdownRow {\n  markdown: string | null\n}\n\nexport async function getDocumentMarkdown(id: number): Promise<string | null> {\n  const row = db.prepare(`SELECT markdown FROM documents WHERE id = ?`).get(id) as MarkdownRow | undefined\n  return row?.markdown ?? null\n}"
+              },
+              "output": "Edit applied successfully.",
+              "metadata": {
+                "diagnostics": {},
+                "diff": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/documents.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/documents.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/documents.ts\n@@ -63,12 +63,14 @@\n     error: row.error\n   }\n }\n \n+interface MarkdownRow {\n+  markdown: string | null\n+}\n+\n export async function getDocumentMarkdown(id: number): Promise<string | null> {\n-  const row = db.prepare(`SELECT markdown FROM documents WHERE id = ?`).get(id) as\n-    | { markdown: string | null }\n-    | undefined\n+  const row = db.prepare(`SELECT markdown FROM documents WHERE id = ?`).get(id) as MarkdownRow | undefined\n   return row?.markdown ?? null\n }\n \n export async function uploadAndConvert(filename: string, buffer: Buffer): Promise<DocumentRow> {\n",
+                "filediff": {
+                  "file": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/documents.ts",
+                  "patch": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/documents.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/documents.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/documents.ts\n@@ -63,12 +63,14 @@\n     error: row.error\n   }\n }\n \n+interface MarkdownRow {\n+  markdown: string | null\n+}\n+\n export async function getDocumentMarkdown(id: number): Promise<string | null> {\n-  const row = db.prepare(`SELECT markdown FROM documents WHERE id = ?`).get(id) as\n-    | { markdown: string | null }\n-    | undefined\n+  const row = db.prepare(`SELECT markdown FROM documents WHERE id = ?`).get(id) as MarkdownRow | undefined\n   return row?.markdown ?? null\n }\n \n export async function uploadAndConvert(filename: string, buffer: Buffer): Promise<DocumentRow> {\n",
+                  "additions": 5,
+                  "deletions": 3
+                },
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/services/documents.ts",
+              "time": {
+                "start": 1783772161997,
+                "end": 1783772161999
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f511b27ed001kftPmDFuLGE2w0",
+          "time_created": 1783772162029,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 18490,
+              "input": 1593,
+              "output": 174,
+              "reasoning": 19,
+              "cache": {
+                "write": 0,
+                "read": 16704
+              }
+            },
+            "cost": 0.0003238312
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f511b27f3001PstHg7TAjT2Z6c",
+      "time_created": 1783772162035,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 18675,
+          "input": 265,
+          "output": 156,
+          "reasoning": 14,
+          "cache": {
+            "write": 0,
+            "read": 18240
+          }
+        },
+        "cost": 0.000135772
+      },
+      "parts": [
+        {
+          "id": "prt_f511b31e6001zJXq3ZolFFaw7r",
+          "time_created": 1783772164583,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f511b31e8001x75R1Sjq2K8LIb",
+          "time_created": 1783772164585,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now let me mark documents.ts as completed and move to attempts.ts.",
+            "time": {
+              "start": 1783772164584,
+              "end": 1783772164592
+            }
+          }
+        },
+        {
+          "id": "prt_f511b31f1001Qxb1Gpy09Lb23v",
+          "time_created": 1783772164593,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "todowrite",
+            "callID": "call_bc92af45f90b4a2fa7b0cc6e",
+            "state": {
+              "status": "completed",
+              "input": {
+                "todos": [
+                  {
+                    "content": "Extract inline types in documents.ts to top-level declarations",
+                    "priority": "high",
+                    "status": "completed"
+                  },
+                  {
+                    "content": "Extract inline types in attempts.ts to top-level declarations",
+                    "priority": "high",
+                    "status": "in_progress"
+                  },
+                  {
+                    "content": "Extract inline types in quizzes.ts to top-level declarations",
+                    "priority": "high",
+                    "status": "pending"
+                  },
+                  {
+                    "content": "Extract inline types in plans.ts to top-level declarations",
+                    "priority": "high",
+                    "status": "pending"
+                  },
+                  {
+                    "content": "Verify TypeScript compiles without errors",
+                    "priority": "high",
+                    "status": "pending"
+                  }
+                ]
+              },
+              "output": "[\n  {\n    \"content\": \"Extract inline types in documents.ts to top-level declarations\",\n    \"status\": \"completed\",\n    \"priority\": \"high\"\n  },\n  {\n    \"content\": \"Extract inline types in attempts.ts to top-level declarations\",\n    \"status\": \"in_progress\",\n    \"priority\": \"high\"\n  },\n  {\n    \"content\": \"Extract inline types in quizzes.ts to top-level declarations\",\n    \"status\": \"pending\",\n    \"priority\": \"high\"\n  },\n  {\n    \"content\": \"Extract inline types in plans.ts to top-level declarations\",\n    \"status\": \"pending\",\n    \"priority\": \"high\"\n  },\n  {\n    \"content\": \"Verify TypeScript compiles without errors\",\n    \"status\": \"pending\",\n    \"priority\": \"high\"\n  }\n]",
+              "metadata": {
+                "todos": [
+                  {
+                    "content": "Extract inline types in documents.ts to top-level declarations",
+                    "status": "completed",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Extract inline types in attempts.ts to top-level declarations",
+                    "status": "in_progress",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Extract inline types in quizzes.ts to top-level declarations",
+                    "status": "pending",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Extract inline types in plans.ts to top-level declarations",
+                    "status": "pending",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Verify TypeScript compiles without errors",
+                    "status": "pending",
+                    "priority": "high"
+                  }
+                ],
+                "truncated": false
+              },
+              "title": "4 todos",
+              "time": {
+                "start": 1783772165709,
+                "end": 1783772165711
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f511b365e001PzG2SlVHrgTNca",
+          "time_created": 1783772165726,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 18675,
+              "input": 265,
+              "output": 156,
+              "reasoning": 14,
+              "cache": {
+                "write": 0,
+                "read": 18240
+              }
+            },
+            "cost": 0.000135772
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f511b3662001Ae8215pIK15Pjk",
+      "time_created": 1783772165730,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 19295,
+          "input": 359,
+          "output": 348,
+          "reasoning": 92,
+          "cache": {
+            "write": 0,
+            "read": 18496
+          }
+        },
+        "cost": 0.0002252488
+      },
+      "parts": [
+        {
+          "id": "prt_f511b40af001WBdstRhHkdEPnk",
+          "time_created": 1783772168367,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f511b41e50012vWWs2EIJHXAMK",
+          "time_created": 1783772168677,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now let me work on attempts.ts. Looking at the inline types:\n\n1. `payload: { answers: Array<{ quizId: number; learnerIndex: number | null; attempts: number }> }` - the inner type `{ quizId: number; learnerIndex: number | null; attempts: number }` should be extracted\n\n2. Line 65: `as { id: number }` - used once\n\nLet me extract these.",
+            "time": {
+              "start": 1783772168677,
+              "end": 1783772169254
+            }
+          }
+        },
+        {
+          "id": "prt_f511b4427001h1d2CGAshDuBBF",
+          "time_created": 1783772169255,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "edit",
+            "callID": "call_ed74871ee44d4658b78c7db4",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts",
+                "newString": "import { db, type AttemptRow } from '../db.ts'\nimport { generateSummary, type AttemptInput } from '../ai/summary.ts'\nimport { getPlan } from './plans.ts'\nimport { getQuizInternal } from './quizzes.ts'\nimport { getDocumentMarkdown } from './documents.ts'\nimport type { AttemptSummaryDTO } from './types.ts'\nimport { NotFoundError, BadRequestError } from '../errors.ts'\n\ninterface AttemptAnswer {\n  quizId: number\n  learnerIndex: number | null\n  attempts: number\n}\n\ninterface InsertResult {\n  id: number\n}\n\nexport async function completeAttempt(\n  planId: number,\n  payload: {\n    answers: AttemptAnswer[]\n  }\n): Promise<AttemptSummaryDTO> {",
+                "oldString": "import { db, type AttemptRow } from '../db.ts'\nimport { generateSummary, type AttemptInput } from '../ai/summary.ts'\nimport { getPlan } from './plans.ts'\nimport { getQuizInternal } from './quizzes.ts'\nimport { getDocumentMarkdown } from './documents.ts'\nimport type { AttemptSummaryDTO } from './types.ts'\nimport { NotFoundError, BadRequestError } from '../errors.ts'\n\nexport async function completeAttempt(\n  planId: number,\n  payload: {\n    answers: Array<{\n      quizId: number\n      learnerIndex: number | null\n      attempts: number\n    }>\n  }\n): Promise<AttemptSummaryDTO> {"
+              },
+              "output": "Edit applied successfully.",
+              "metadata": {
+                "diagnostics": {},
+                "diff": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts\n@@ -5,16 +5,22 @@\n import { getDocumentMarkdown } from './documents.ts'\n import type { AttemptSummaryDTO } from './types.ts'\n import { NotFoundError, BadRequestError } from '../errors.ts'\n \n+interface AttemptAnswer {\n+  quizId: number\n+  learnerIndex: number | null\n+  attempts: number\n+}\n+\n+interface InsertResult {\n+  id: number\n+}\n+\n export async function completeAttempt(\n   planId: number,\n   payload: {\n-    answers: Array<{\n-      quizId: number\n-      learnerIndex: number | null\n-      attempts: number\n-    }>\n+    answers: AttemptAnswer[]\n   }\n ): Promise<AttemptSummaryDTO> {\n   const plan = await getPlan(planId)\n   if (!plan) throw new NotFoundError('Plan not found')\n",
+                "filediff": {
+                  "file": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts",
+                  "patch": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts\n@@ -5,16 +5,22 @@\n import { getDocumentMarkdown } from './documents.ts'\n import type { AttemptSummaryDTO } from './types.ts'\n import { NotFoundError, BadRequestError } from '../errors.ts'\n \n+interface AttemptAnswer {\n+  quizId: number\n+  learnerIndex: number | null\n+  attempts: number\n+}\n+\n+interface InsertResult {\n+  id: number\n+}\n+\n export async function completeAttempt(\n   planId: number,\n   payload: {\n-    answers: Array<{\n-      quizId: number\n-      learnerIndex: number | null\n-      attempts: number\n-    }>\n+    answers: AttemptAnswer[]\n   }\n ): Promise<AttemptSummaryDTO> {\n   const plan = await getPlan(planId)\n   if (!plan) throw new NotFoundError('Plan not found')\n",
+                  "additions": 11,
+                  "deletions": 5
+                },
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts",
+              "time": {
+                "start": 1783772171878,
+                "end": 1783772171880
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f511b4ea3001S58Ejmuw58reuL",
+          "time_created": 1783772171939,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 19295,
+              "input": 359,
+              "output": 348,
+              "reasoning": 92,
+              "cache": {
+                "write": 0,
+                "read": 18496
+              }
+            },
+            "cost": 0.0002252488
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f511b4ea6001j0n7F8Tj75JUIb",
+      "time_created": 1783772171942,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 19468,
+          "input": 494,
+          "output": 134,
+          "reasoning": 24,
+          "cache": {
+            "write": 0,
+            "read": 18816
+          }
+        },
+        "cost": 0.0001660848
+      },
+      "parts": [
+        {
+          "id": "prt_f511b56b8001sMBLNHFaMBSA2S",
+          "time_created": 1783772174008,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f511b56f1001ciV8SCbAIk8wsU",
+          "time_created": 1783772174065,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now let me update the inline `{ id: number }` type assertion in attempts.ts to use the InsertResult type.",
+            "time": {
+              "start": 1783772174065,
+              "end": 1783772174321
+            }
+          }
+        },
+        {
+          "id": "prt_f511b57f2001BELTQYwrS4U9DT",
+          "time_created": 1783772174323,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "edit",
+            "callID": "call_4dd199ef654e418488e2cf91",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts",
+                "oldString": "    .get(\n      planId,\n      score,\n      questions.length,\n      JSON.stringify(payload.answers),\n      summary.summary,\n      JSON.stringify(summary.study_tips)\n    ) as { id: number }",
+                "newString": "    .get(\n      planId,\n      score,\n      questions.length,\n      JSON.stringify(payload.answers),\n      summary.summary,\n      JSON.stringify(summary.study_tips)\n    ) as InsertResult"
+              },
+              "output": "Edit applied successfully.",
+              "metadata": {
+                "diagnostics": {},
+                "diff": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts\n@@ -67,9 +67,9 @@\n     questions.length,\n     JSON.stringify(payload.answers),\n     summary.summary,\n     JSON.stringify(summary.study_tips)\n-  ) as { id: number }\n+  ) as InsertResult\n \n db.prepare(`UPDATE lesson_plans SET status = 'completed' WHERE id = ?`).run(planId)\n \n return {\n",
+                "filediff": {
+                  "file": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts",
+                  "patch": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts\n@@ -67,9 +67,9 @@\n     questions.length,\n     JSON.stringify(payload.answers),\n     summary.summary,\n     JSON.stringify(summary.study_tips)\n-  ) as { id: number }\n+  ) as InsertResult\n \n db.prepare(`UPDATE lesson_plans SET status = 'completed' WHERE id = ?`).run(planId)\n \n return {\n",
+                  "additions": 1,
+                  "deletions": 1
+                },
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/services/attempts.ts",
+              "time": {
+                "start": 1783772175392,
+                "end": 1783772175393
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f511b5c3d001qByxEHfVZsERqr",
+          "time_created": 1783772175421,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 19468,
+              "input": 494,
+              "output": 134,
+              "reasoning": 24,
+              "cache": {
+                "write": 0,
+                "read": 18816
+              }
+            },
+            "cost": 0.0001660848
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f511b5c41001YpTUEdP1ItpQ7P",
+      "time_created": 1783772175425,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 19679,
+          "input": 219,
+          "output": 156,
+          "reasoning": 40,
+          "cache": {
+            "write": 0,
+            "read": 19264
+          }
+        },
+        "cost": 0.0001394792
+      },
+      "parts": [
+        {
+          "id": "prt_f511b6655001Vl0FcuyiZVDeH5",
+          "time_created": 1783772178005,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f511b6657001oyLhzj0pZRvZM7",
+          "time_created": 1783772178007,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now let me move to quizzes.ts. Let me check the inline types again:\n\n1. Line 49: `as { id: number }` - used once\n\nLet me extract this.",
+            "time": {
+              "start": 1783772178007,
+              "end": 1783772178197
+            }
+          }
+        },
+        {
+          "id": "prt_f511b6716001ulelHSsdlbOFFl",
+          "time_created": 1783772178198,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "todowrite",
+            "callID": "call_e10d5a08079140e8ae189313",
+            "state": {
+              "status": "completed",
+              "input": {
+                "todos": [
+                  {
+                    "content": "Extract inline types in documents.ts to top-level declarations",
+                    "priority": "high",
+                    "status": "completed"
+                  },
+                  {
+                    "content": "Extract inline types in attempts.ts to top-level declarations",
+                    "priority": "high",
+                    "status": "completed"
+                  },
+                  {
+                    "content": "Extract inline types in quizzes.ts to top-level declarations",
+                    "priority": "high",
+                    "status": "in_progress"
+                  },
+                  {
+                    "content": "Extract inline types in plans.ts to top-level declarations",
+                    "priority": "high",
+                    "status": "pending"
+                  },
+                  {
+                    "content": "Verify TypeScript compiles without errors",
+                    "priority": "high",
+                    "status": "pending"
+                  }
+                ]
+              },
+              "output": "[\n  {\n    \"content\": \"Extract inline types in documents.ts to top-level declarations\",\n    \"status\": \"completed\",\n    \"priority\": \"high\"\n  },\n  {\n    \"content\": \"Extract inline types in attempts.ts to top-level declarations\",\n    \"status\": \"completed\",\n    \"priority\": \"high\"\n  },\n  {\n    \"content\": \"Extract inline types in quizzes.ts to top-level declarations\",\n    \"status\": \"in_progress\",\n    \"priority\": \"high\"\n  },\n  {\n    \"content\": \"Extract inline types in plans.ts to top-level declarations\",\n    \"status\": \"pending\",\n    \"priority\": \"high\"\n  },\n  {\n    \"content\": \"Verify TypeScript compiles without errors\",\n    \"status\": \"pending\",\n    \"priority\": \"high\"\n  }\n]",
+              "metadata": {
+                "todos": [
+                  {
+                    "content": "Extract inline types in documents.ts to top-level declarations",
+                    "status": "completed",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Extract inline types in attempts.ts to top-level declarations",
+                    "status": "completed",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Extract inline types in quizzes.ts to top-level declarations",
+                    "status": "in_progress",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Extract inline types in plans.ts to top-level declarations",
+                    "status": "pending",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Verify TypeScript compiles without errors",
+                    "status": "pending",
+                    "priority": "high"
+                  }
+                ],
+                "truncated": false
+              },
+              "title": "3 todos",
+              "time": {
+                "start": 1783772179439,
+                "end": 1783772179442
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f511b6c29001K2THh02iLKHTuY",
+          "time_created": 1783772179497,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 19679,
+              "input": 219,
+              "output": 156,
+              "reasoning": 40,
+              "cache": {
+                "write": 0,
+                "read": 19264
+              }
+            },
+            "cost": 0.0001394792
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f511b6c2e001YMSVuI0DvHjzXn",
+      "time_created": 1783772179502,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 20216,
+          "input": 403,
+          "output": 290,
+          "reasoning": 67,
+          "cache": {
+            "write": 0,
+            "read": 19456
+          }
+        },
+        "cost": 0.0002108568
+      },
+      "parts": [
+        {
+          "id": "prt_f511b7585001AHOXkg2xm7H0QS",
+          "time_created": 1783772181893,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f511b7598001jFiZ2E4qr7TxTl",
+          "time_created": 1783772181912,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Looking at quizzes.ts again, the only inline type I see is:\n- Line 49: `as { id: number }` - used once\n\nThe other interfaces (ExplanationResult, AnswerOutput, AI_Message, MessageHistory) are already at the top level. Let me extract the `{ id: number }` type.",
+            "time": {
+              "start": 1783772181912,
+              "end": 1783772182698
+            }
+          }
+        },
+        {
+          "id": "prt_f511b78ab0016NSOl9Kg0zlIp3",
+          "time_created": 1783772182699,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "edit",
+            "callID": "call_31753fcd9ab34251b49ac6e2",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts",
+                "newString": "import { db, type QuizQuestionRow } from '../db.ts'\nimport { generateQuiz } from '../ai/quiz.ts'\nimport { generateRetryHint, explainCorrect, learnMore } from '../ai/feedback.ts'\nimport { getPlan } from './plans.ts'\nimport { getDocumentMarkdown } from './documents.ts'\nimport type { QuizDTO } from './types.ts'\nimport { NotFoundError, BadRequestError } from '../errors.ts'\n\ninterface InsertResult {\n  id: number\n}\n\nexport async function getOrCreateQuiz(planId: number, objectiveIndex: number): Promise<QuizDTO> {",
+                "oldString": "import { db, type QuizQuestionRow } from '../db.ts'\nimport { generateQuiz } from '../ai/quiz.ts'\nimport { generateRetryHint, explainCorrect, learnMore } from '../ai/feedback.ts'\nimport { getPlan } from './plans.ts'\nimport { getDocumentMarkdown } from './documents.ts'\nimport type { QuizDTO } from './types.ts'\nimport { NotFoundError, BadRequestError } from '../errors.ts'\n\nexport async function getOrCreateQuiz(planId: number, objectiveIndex: number): Promise<QuizDTO> {"
+              },
+              "output": "Edit applied successfully.",
+              "metadata": {
+                "diagnostics": {},
+                "diff": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n@@ -5,8 +5,12 @@\n import { getDocumentMarkdown } from './documents.ts'\n import type { QuizDTO } from './types.ts'\n import { NotFoundError, BadRequestError } from '../errors.ts'\n \n+interface InsertResult {\n+  id: number\n+}\n+\n export async function getOrCreateQuiz(planId: number, objectiveIndex: number): Promise<QuizDTO> {\n   const plan = await getPlan(planId)\n   if (!plan) throw new NotFoundError('Plan not found')\n   const objective = plan.objectives[objectiveIndex]\n",
+                "filediff": {
+                  "file": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts",
+                  "patch": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n@@ -5,8 +5,12 @@\n import { getDocumentMarkdown } from './documents.ts'\n import type { QuizDTO } from './types.ts'\n import { NotFoundError, BadRequestError } from '../errors.ts'\n \n+interface InsertResult {\n+  id: number\n+}\n+\n export async function getOrCreateQuiz(planId: number, objectiveIndex: number): Promise<QuizDTO> {\n   const plan = await getPlan(planId)\n   if (!plan) throw new NotFoundError('Plan not found')\n   const objective = plan.objectives[objectiveIndex]\n",
+                  "additions": 4,
+                  "deletions": 0
+                },
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts",
+              "time": {
+                "start": 1783772184696,
+                "end": 1783772184697
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f511b80b90016Zr0RTx3ruJW0K",
+          "time_created": 1783772184761,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 20216,
+              "input": 403,
+              "output": 290,
+              "reasoning": 67,
+              "cache": {
+                "write": 0,
+                "read": 19456
+              }
+            },
+            "cost": 0.0002108568
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f511b80bd001lO0RUvMRgLjtuc",
+      "time_created": 1783772184765,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 20407,
+          "input": 391,
+          "output": 152,
+          "reasoning": 24,
+          "cache": {
+            "write": 0,
+            "read": 19840
+          }
+        },
+        "cost": 0.000159572
+      },
+      "parts": [
+        {
+          "id": "prt_f511b8b15001er72oD6toGYLbE",
+          "time_created": 1783772187413,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f511b8b17001V4w22zKRUbnLc3",
+          "time_created": 1783772187415,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now let me update the inline `{ id: number }` type assertion in quizzes.ts to use the InsertResult type.",
+            "time": {
+              "start": 1783772187415,
+              "end": 1783772187632
+            }
+          }
+        },
+        {
+          "id": "prt_f511b8bf2001uFFjORXJgIG17i",
+          "time_created": 1783772187634,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "edit",
+            "callID": "call_cdab079214d647a390bdb754",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts",
+                "newString": "    .get(\n      planId,\n      objectiveIndex,\n      objective.text,\n      quiz.question,\n      JSON.stringify(quiz.options),\n      quiz.correct_index,\n      quiz.explanation,\n      quiz.hint\n    ) as InsertResult",
+                "oldString": "    .get(\n      planId,\n      objectiveIndex,\n      objective.text,\n      quiz.question,\n      JSON.stringify(quiz.options),\n      quiz.correct_index,\n      quiz.explanation,\n      quiz.hint\n    ) as { id: number }"
+              },
+              "output": "Edit applied successfully.",
+              "metadata": {
+                "diagnostics": {},
+                "diff": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n@@ -49,9 +49,9 @@\n     JSON.stringify(quiz.options),\n     quiz.correct_index,\n     quiz.explanation,\n     quiz.hint\n-  ) as { id: number }\n+  ) as InsertResult\n \n return {\n   id: res.id,\n   objectiveIndex,\n",
+                "filediff": {
+                  "file": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts",
+                  "patch": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n@@ -49,9 +49,9 @@\n     JSON.stringify(quiz.options),\n     quiz.correct_index,\n     quiz.explanation,\n     quiz.hint\n-  ) as { id: number }\n+  ) as InsertResult\n \n return {\n   id: res.id,\n   objectiveIndex,\n",
+                  "additions": 1,
+                  "deletions": 1
+                },
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts",
+              "time": {
+                "start": 1783772188789,
+                "end": 1783772188791
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f511b9098001wWSZBnlMEPqSaX",
+          "time_created": 1783772188824,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 20407,
+              "input": 391,
+              "output": 152,
+              "reasoning": 24,
+              "cache": {
+                "write": 0,
+                "read": 19840
+              }
+            },
+            "cost": 0.000159572
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f511b909c0014TIbTACDOcj489",
+      "time_created": 1783772188828,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 20687,
+          "input": 198,
+          "output": 156,
+          "reasoning": 109,
+          "cache": {
+            "write": 0,
+            "read": 20224
+          }
+        },
+        "cost": 0.0001585472
+      },
+      "parts": [
+        {
+          "id": "prt_f511b9b86001wQgq96uW2tKspD",
+          "time_created": 1783772191622,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f511b9bb9001Dte2S43tBm55y6",
+          "time_created": 1783772191674,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now let me move to plans.ts. Looking at the inline types:\n\n1. Line 28: `as 'beginner' | 'intermediate' | 'advanced'` - used in multiple places\n2. Line 30: `as 'draft' | 'approved' | 'completed'` - used in multiple places\n3. Line 38: `as { filename: string }` - used once\n\nThe difficulty and status union types are used multiple times across functions, so they should definitely be extracted.",
+            "time": {
+              "start": 1783772191674,
+              "end": 1783772192602
+            }
+          }
+        },
+        {
+          "id": "prt_f511b9f5b001nzzipT704TPYfY",
+          "time_created": 1783772192603,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "todowrite",
+            "callID": "call_dd3abd757da74ca2ae0cf486",
+            "state": {
+              "status": "completed",
+              "input": {
+                "todos": [
+                  {
+                    "content": "Extract inline types in documents.ts to top-level declarations",
+                    "priority": "high",
+                    "status": "completed"
+                  },
+                  {
+                    "content": "Extract inline types in attempts.ts to top-level declarations",
+                    "priority": "high",
+                    "status": "completed"
+                  },
+                  {
+                    "content": "Extract inline types in quizzes.ts to top-level declarations",
+                    "priority": "high",
+                    "status": "completed"
+                  },
+                  {
+                    "content": "Extract inline types in plans.ts to top-level declarations",
+                    "priority": "high",
+                    "status": "in_progress"
+                  },
+                  {
+                    "content": "Verify TypeScript compiles without errors",
+                    "priority": "high",
+                    "status": "pending"
+                  }
+                ]
+              },
+              "output": "[\n  {\n    \"content\": \"Extract inline types in documents.ts to top-level declarations\",\n    \"status\": \"completed\",\n    \"priority\": \"high\"\n  },\n  {\n    \"content\": \"Extract inline types in attempts.ts to top-level declarations\",\n    \"status\": \"completed\",\n    \"priority\": \"high\"\n  },\n  {\n    \"content\": \"Extract inline types in quizzes.ts to top-level declarations\",\n    \"status\": \"completed\",\n    \"priority\": \"high\"\n  },\n  {\n    \"content\": \"Extract inline types in plans.ts to top-level declarations\",\n    \"status\": \"in_progress\",\n    \"priority\": \"high\"\n  },\n  {\n    \"content\": \"Verify TypeScript compiles without errors\",\n    \"status\": \"pending\",\n    \"priority\": \"high\"\n  }\n]",
+              "metadata": {
+                "todos": [
+                  {
+                    "content": "Extract inline types in documents.ts to top-level declarations",
+                    "status": "completed",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Extract inline types in attempts.ts to top-level declarations",
+                    "status": "completed",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Extract inline types in quizzes.ts to top-level declarations",
+                    "status": "completed",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Extract inline types in plans.ts to top-level declarations",
+                    "status": "in_progress",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Verify TypeScript compiles without errors",
+                    "status": "pending",
+                    "priority": "high"
+                  }
+                ],
+                "truncated": false
+              },
+              "title": "2 todos",
+              "time": {
+                "start": 1783772193664,
+                "end": 1783772193665
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f511ba394001m8W7cEnoTuZV0v",
+          "time_created": 1783772193684,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 20687,
+              "input": 198,
+              "output": 156,
+              "reasoning": 109,
+              "cache": {
+                "write": 0,
+                "read": 20224
+              }
+            },
+            "cost": 0.0001585472
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f511ba398001vZ7JXj2YLlYxQ6",
+      "time_created": 1783772193688,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 21189,
+          "input": 451,
+          "output": 225,
+          "reasoning": 97,
+          "cache": {
+            "write": 0,
+            "read": 20416
+          }
+        },
+        "cost": 0.0002104648
+      },
+      "parts": [
+        {
+          "id": "prt_f511baf16001ngFItJxbpkw3mA",
+          "time_created": 1783772196630,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f511bafa6001WrpV0Xm4FE4xDp",
+          "time_created": 1783772196774,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Looking at plans.ts again:\n1. `'beginner' | 'intermediate' | 'advanced'` - used 3 times (lines 28, 45, 61)\n2. `'draft' | 'approved' | 'completed'` - used 3 times (lines 30, 47, 63)\n3. `{ filename: string }` - used once (line 38)\n\nLet me extract these types.",
+            "time": {
+              "start": 1783772196774,
+              "end": 1783772197553
+            }
+          }
+        },
+        {
+          "id": "prt_f511bb2b1001aDS0yWOt4FOn4D",
+          "time_created": 1783772197553,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "edit",
+            "callID": "call_6b935da6a24d4f24a876544a",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts",
+                "newString": "import { db, type DocumentRow, type LessonPlanRow } from '../db.ts'\nimport { generatePlan } from '../ai/plan.ts'\nimport type { Objective } from './types.ts'\nimport { NotFoundError, BadRequestError } from '../errors.ts'\n\ntype Difficulty = 'beginner' | 'intermediate' | 'advanced'\n\ntype PlanStatus = 'draft' | 'approved' | 'completed'\n\ninterface DocumentFilename {\n  filename: string\n}\n\nexport async function createPlan(documentId: number) {",
+                "oldString": "import { db, type DocumentRow, type LessonPlanRow } from '../db.ts'\nimport { generatePlan } from '../ai/plan.ts'\nimport type { Objective } from './types.ts'\nimport { NotFoundError, BadRequestError } from '../errors.ts'\n\nexport async function createPlan(documentId: number) {"
+              },
+              "output": "Edit applied successfully.",
+              "metadata": {
+                "diagnostics": {},
+                "diff": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n@@ -2,8 +2,16 @@\n import { generatePlan } from '../ai/plan.ts'\n import type { Objective } from './types.ts'\n import { NotFoundError, BadRequestError } from '../errors.ts'\n \n+type Difficulty = 'beginner' | 'intermediate' | 'advanced'\n+\n+type PlanStatus = 'draft' | 'approved' | 'completed'\n+\n+interface DocumentFilename {\n+  filename: string\n+}\n+\n export async function createPlan(documentId: number) {\n   const doc = db.prepare(`SELECT * FROM documents WHERE id = ?`).get(documentId) as DocumentRow | undefined\n   if (!doc) throw new NotFoundError('Document not found')\n   if (doc.status !== 'ready' || !doc.markdown) {\n",
+                "filediff": {
+                  "file": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts",
+                  "patch": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n@@ -2,8 +2,16 @@\n import { generatePlan } from '../ai/plan.ts'\n import type { Objective } from './types.ts'\n import { NotFoundError, BadRequestError } from '../errors.ts'\n \n+type Difficulty = 'beginner' | 'intermediate' | 'advanced'\n+\n+type PlanStatus = 'draft' | 'approved' | 'completed'\n+\n+interface DocumentFilename {\n+  filename: string\n+}\n+\n export async function createPlan(documentId: number) {\n   const doc = db.prepare(`SELECT * FROM documents WHERE id = ?`).get(documentId) as DocumentRow | undefined\n   if (!doc) throw new NotFoundError('Document not found')\n   if (doc.status !== 'ready' || !doc.markdown) {\n",
+                  "additions": 8,
+                  "deletions": 0
+                },
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts",
+              "time": {
+                "start": 1783772199424,
+                "end": 1783772199427
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f511bba39001AunLcRzRoCMDUe",
+          "time_created": 1783772199481,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 21189,
+              "input": 451,
+              "output": 225,
+              "reasoning": 97,
+              "cache": {
+                "write": 0,
+                "read": 20416
+              }
+            },
+            "cost": 0.0002104648
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f511bba3d001hoSYbMIHOvXFyM",
+      "time_created": 1783772199485,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 21422,
+          "input": 340,
+          "output": 201,
+          "reasoning": 17,
+          "cache": {
+            "write": 0,
+            "read": 20864
+          }
+        },
+        "cost": 0.0001670592
+      },
+      "parts": [
+        {
+          "id": "prt_f511bc588001UYDOPp8KXH8jz8",
+          "time_created": 1783772202376,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f511bc58a001Wgchs7lksXcYol",
+          "time_created": 1783772202378,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now let me update the inline type assertions in createPlan to use the new types.",
+            "time": {
+              "start": 1783772202378,
+              "end": 1783772202545
+            }
+          }
+        },
+        {
+          "id": "prt_f511bc6320010fe1O83E5SZWRu",
+          "time_created": 1783772202546,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "edit",
+            "callID": "call_e01dbf5f015148f2b087999e",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts",
+                "newString": "  return {\n    id: res.id,\n    document_id: documentId,\n    title: res.title,\n    description: res.description,\n    difficulty: res.difficulty as Difficulty,\n    objectives: plan.objectives,\n    status: res.status as PlanStatus,\n    created_at: res.created_at\n  }\n}",
+                "oldString": "  return {\n    id: res.id,\n    document_id: documentId,\n    title: res.title,\n    description: res.description,\n    difficulty: res.difficulty as 'beginner' | 'intermediate' | 'advanced',\n    objectives: plan.objectives,\n    status: res.status as 'draft' | 'approved' | 'completed',\n    created_at: res.created_at\n  }\n}"
+              },
+              "output": "Edit applied successfully.",
+              "metadata": {
+                "diagnostics": {},
+                "diff": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n@@ -32,11 +32,11 @@\n     id: res.id,\n     document_id: documentId,\n     title: res.title,\n     description: res.description,\n-    difficulty: res.difficulty as 'beginner' | 'intermediate' | 'advanced',\n+    difficulty: res.difficulty as Difficulty,\n     objectives: plan.objectives,\n-    status: res.status as 'draft' | 'approved' | 'completed',\n+    status: res.status as PlanStatus,\n     created_at: res.created_at\n   }\n }\n \n",
+                "filediff": {
+                  "file": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts",
+                  "patch": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n@@ -32,11 +32,11 @@\n     id: res.id,\n     document_id: documentId,\n     title: res.title,\n     description: res.description,\n-    difficulty: res.difficulty as 'beginner' | 'intermediate' | 'advanced',\n+    difficulty: res.difficulty as Difficulty,\n     objectives: plan.objectives,\n-    status: res.status as 'draft' | 'approved' | 'completed',\n+    status: res.status as PlanStatus,\n     created_at: res.created_at\n   }\n }\n \n",
+                  "additions": 2,
+                  "deletions": 2
+                },
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts",
+              "time": {
+                "start": 1783772204009,
+                "end": 1783772204011
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f511bcc10001PMsy6qdYr20HTw",
+          "time_created": 1783772204048,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 21422,
+              "input": 340,
+              "output": 201,
+              "reasoning": 17,
+              "cache": {
+                "write": 0,
+                "read": 20864
+              }
+            },
+            "cost": 0.0001670592
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f511bcc1400161bIzckBQQVLnj",
+      "time_created": 1783772204052,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 21824,
+          "input": 253,
+          "output": 375,
+          "reasoning": 12,
+          "cache": {
+            "write": 0,
+            "read": 21184
+          }
+        },
+        "cost": 0.0002030952
+      },
+      "parts": [
+        {
+          "id": "prt_f511bdf15001zln2I5ebncymck",
+          "time_created": 1783772208917,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f511bdf18001NXQzoKAxI9ajgM",
+          "time_created": 1783772208920,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now let me update getPlan to use the new types.",
+            "time": {
+              "start": 1783772208920,
+              "end": 1783772209227
+            }
+          }
+        },
+        {
+          "id": "prt_f511be04d001yiBT3TqcLci7Qs",
+          "time_created": 1783772209229,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "edit",
+            "callID": "call_dbd7974cbe4449e5845fc320",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts",
+                "newString": "export async function getPlan(planId: number) {\n  const row = db.prepare(`SELECT * FROM lesson_plans WHERE id = ?`).get(planId) as LessonPlanRow | undefined\n  if (!row) return null\n  const doc = db.prepare(`SELECT filename FROM documents WHERE id = ?`).get(row.document_id) as DocumentFilename\n  return {\n    id: row.id,\n    document_id: row.document_id,\n    document_filename: doc.filename,\n    title: row.title,\n    description: row.description,\n    difficulty: row.difficulty as Difficulty,\n    objectives: JSON.parse(row.objectives) as Objective[],\n    status: row.status as PlanStatus,\n    created_at: row.created_at\n  }\n}",
+                "oldString": "export async function getPlan(planId: number) {\n  const row = db.prepare(`SELECT * FROM lesson_plans WHERE id = ?`).get(planId) as LessonPlanRow | undefined\n  if (!row) return null\n  const doc = db.prepare(`SELECT filename FROM documents WHERE id = ?`).get(row.document_id) as { filename: string }\n  return {\n    id: row.id,\n    document_id: row.document_id,\n    document_filename: doc.filename,\n    title: row.title,\n    description: row.description,\n    difficulty: row.difficulty as 'beginner' | 'intermediate' | 'advanced',\n    objectives: JSON.parse(row.objectives) as Objective[],\n    status: row.status as 'draft' | 'approved' | 'completed',\n    created_at: row.created_at\n  }\n}"
+              },
+              "output": "Edit applied successfully.",
+              "metadata": {
+                "diagnostics": {},
+                "diff": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n@@ -42,18 +42,18 @@\n \n export async function getPlan(planId: number) {\n   const row = db.prepare(`SELECT * FROM lesson_plans WHERE id = ?`).get(planId) as LessonPlanRow | undefined\n   if (!row) return null\n-  const doc = db.prepare(`SELECT filename FROM documents WHERE id = ?`).get(row.document_id) as { filename: string }\n+  const doc = db.prepare(`SELECT filename FROM documents WHERE id = ?`).get(row.document_id) as DocumentFilename\n   return {\n     id: row.id,\n     document_id: row.document_id,\n     document_filename: doc.filename,\n     title: row.title,\n     description: row.description,\n-    difficulty: row.difficulty as 'beginner' | 'intermediate' | 'advanced',\n+    difficulty: row.difficulty as Difficulty,\n     objectives: JSON.parse(row.objectives) as Objective[],\n-    status: row.status as 'draft' | 'approved' | 'completed',\n+    status: row.status as PlanStatus,\n     created_at: row.created_at\n   }\n }\n \n",
+                "filediff": {
+                  "file": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts",
+                  "patch": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n@@ -42,18 +42,18 @@\n \n export async function getPlan(planId: number) {\n   const row = db.prepare(`SELECT * FROM lesson_plans WHERE id = ?`).get(planId) as LessonPlanRow | undefined\n   if (!row) return null\n-  const doc = db.prepare(`SELECT filename FROM documents WHERE id = ?`).get(row.document_id) as { filename: string }\n+  const doc = db.prepare(`SELECT filename FROM documents WHERE id = ?`).get(row.document_id) as DocumentFilename\n   return {\n     id: row.id,\n     document_id: row.document_id,\n     document_filename: doc.filename,\n     title: row.title,\n     description: row.description,\n-    difficulty: row.difficulty as 'beginner' | 'intermediate' | 'advanced',\n+    difficulty: row.difficulty as Difficulty,\n     objectives: JSON.parse(row.objectives) as Objective[],\n-    status: row.status as 'draft' | 'approved' | 'completed',\n+    status: row.status as PlanStatus,\n     created_at: row.created_at\n   }\n }\n \n",
+                  "additions": 3,
+                  "deletions": 3
+                },
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts",
+              "time": {
+                "start": 1783772212376,
+                "end": 1783772212378
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f511becc10019BcETAglhtSE6S",
+          "time_created": 1783772212417,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 21824,
+              "input": 253,
+              "output": 375,
+              "reasoning": 12,
+              "cache": {
+                "write": 0,
+                "read": 21184
+              }
+            },
+            "cost": 0.0002030952
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f511becc800185tDyVJwiiu3GM",
+      "time_created": 1783772212424,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 22184,
+          "input": 655,
+          "output": 331,
+          "reasoning": 14,
+          "cache": {
+            "write": 0,
+            "read": 21184
+          }
+        },
+        "cost": 0.0002476152
+      },
+      "parts": [
+        {
+          "id": "prt_f511bfa88001T4MhF3zPniItI0",
+          "time_created": 1783772215944,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f511bfa8a0011cmko8QPkbCnZX",
+          "time_created": 1783772215946,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now let me update getPlansForDocument to use the new types.",
+            "time": {
+              "start": 1783772215946,
+              "end": 1783772216066
+            }
+          }
+        },
+        {
+          "id": "prt_f511bfb03001UHhckhs25B1Vjb",
+          "time_created": 1783772216067,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "edit",
+            "callID": "call_561f8e89366a4b10b488b20f",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts",
+                "newString": "export async function getPlansForDocument(documentId: number) {\n  const rows = db\n    .prepare(`SELECT * FROM lesson_plans WHERE document_id = ? ORDER BY datetime(created_at) DESC`)\n    .all(documentId) as LessonPlanRow[]\n  return rows.map((row) => ({\n    id: row.id,\n    document_id: row.document_id,\n    title: row.title,\n    description: row.description,\n    difficulty: row.difficulty as Difficulty,\n    objectives: JSON.parse(row.objectives) as Objective[],\n    status: row.status as PlanStatus,\n    created_at: row.created_at\n  }))\n}",
+                "oldString": "export async function getPlansForDocument(documentId: number) {\n  const rows = db\n    .prepare(`SELECT * FROM lesson_plans WHERE document_id = ? ORDER BY datetime(created_at) DESC`)\n    .all(documentId) as LessonPlanRow[]\n  return rows.map((row) => ({\n    id: row.id,\n    document_id: row.document_id,\n    title: row.title,\n    description: row.description,\n    difficulty: row.difficulty as 'beginner' | 'intermediate' | 'advanced',\n    objectives: JSON.parse(row.objectives) as Objective[],\n    status: row.status as 'draft' | 'approved' | 'completed',\n    created_at: row.created_at\n  }))\n}"
+              },
+              "output": "Edit applied successfully.",
+              "metadata": {
+                "diagnostics": {},
+                "diff": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n@@ -65,11 +65,11 @@\n     id: row.id,\n     document_id: row.document_id,\n     title: row.title,\n     description: row.description,\n-    difficulty: row.difficulty as 'beginner' | 'intermediate' | 'advanced',\n+    difficulty: row.difficulty as Difficulty,\n     objectives: JSON.parse(row.objectives) as Objective[],\n-    status: row.status as 'draft' | 'approved' | 'completed',\n+    status: row.status as PlanStatus,\n     created_at: row.created_at\n   }))\n }\n \n",
+                "filediff": {
+                  "file": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts",
+                  "patch": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts\n@@ -65,11 +65,11 @@\n     id: row.id,\n     document_id: row.document_id,\n     title: row.title,\n     description: row.description,\n-    difficulty: row.difficulty as 'beginner' | 'intermediate' | 'advanced',\n+    difficulty: row.difficulty as Difficulty,\n     objectives: JSON.parse(row.objectives) as Objective[],\n-    status: row.status as 'draft' | 'approved' | 'completed',\n+    status: row.status as PlanStatus,\n     created_at: row.created_at\n   }))\n }\n \n",
+                  "additions": 2,
+                  "deletions": 2
+                },
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/services/plans.ts",
+              "time": {
+                "start": 1783772219263,
+                "end": 1783772219265
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f511c079d001hBhANnQoW1mhXI",
+          "time_created": 1783772219293,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 22184,
+              "input": 655,
+              "output": 331,
+              "reasoning": 14,
+              "cache": {
+                "write": 0,
+                "read": 21184
+              }
+            },
+            "cost": 0.0002476152
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f511c07a20016zeYlZHdVBA765",
+      "time_created": 1783772219298,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 22365,
+          "input": 375,
+          "output": 156,
+          "reasoning": 10,
+          "cache": {
+            "write": 0,
+            "read": 21824
+          }
+        },
+        "cost": 0.0001600872
+      },
+      "parts": [
+        {
+          "id": "prt_f511c1383001Tu8m6rS6wErA8h",
+          "time_created": 1783772222339,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f511c13c2001GUb0bk47ormG1u",
+          "time_created": 1783772222402,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now let me verify TypeScript compiles without errors.",
+            "time": {
+              "start": 1783772222402,
+              "end": 1783772222601
+            }
+          }
+        },
+        {
+          "id": "prt_f511c148a0016F1ZeU0JZs7eJX",
+          "time_created": 1783772222602,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "todowrite",
+            "callID": "call_da4f588dd63344fb9afc786d",
+            "state": {
+              "status": "completed",
+              "input": {
+                "todos": [
+                  {
+                    "content": "Extract inline types in documents.ts to top-level declarations",
+                    "priority": "high",
+                    "status": "completed"
+                  },
+                  {
+                    "content": "Extract inline types in attempts.ts to top-level declarations",
+                    "priority": "high",
+                    "status": "completed"
+                  },
+                  {
+                    "content": "Extract inline types in quizzes.ts to top-level declarations",
+                    "priority": "high",
+                    "status": "completed"
+                  },
+                  {
+                    "content": "Extract inline types in plans.ts to top-level declarations",
+                    "priority": "high",
+                    "status": "completed"
+                  },
+                  {
+                    "content": "Verify TypeScript compiles without errors",
+                    "priority": "high",
+                    "status": "in_progress"
+                  }
+                ]
+              },
+              "output": "[\n  {\n    \"content\": \"Extract inline types in documents.ts to top-level declarations\",\n    \"status\": \"completed\",\n    \"priority\": \"high\"\n  },\n  {\n    \"content\": \"Extract inline types in attempts.ts to top-level declarations\",\n    \"status\": \"completed\",\n    \"priority\": \"high\"\n  },\n  {\n    \"content\": \"Extract inline types in quizzes.ts to top-level declarations\",\n    \"status\": \"completed\",\n    \"priority\": \"high\"\n  },\n  {\n    \"content\": \"Extract inline types in plans.ts to top-level declarations\",\n    \"status\": \"completed\",\n    \"priority\": \"high\"\n  },\n  {\n    \"content\": \"Verify TypeScript compiles without errors\",\n    \"status\": \"in_progress\",\n    \"priority\": \"high\"\n  }\n]",
+              "metadata": {
+                "todos": [
+                  {
+                    "content": "Extract inline types in documents.ts to top-level declarations",
+                    "status": "completed",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Extract inline types in attempts.ts to top-level declarations",
+                    "status": "completed",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Extract inline types in quizzes.ts to top-level declarations",
+                    "status": "completed",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Extract inline types in plans.ts to top-level declarations",
+                    "status": "completed",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Verify TypeScript compiles without errors",
+                    "status": "in_progress",
+                    "priority": "high"
+                  }
+                ],
+                "truncated": false
+              },
+              "title": "1 todos",
+              "time": {
+                "start": 1783772223871,
+                "end": 1783772223872
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f511c1982001uPjvk5qI8WbxW7",
+          "time_created": 1783772223874,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 22365,
+              "input": 375,
+              "output": 156,
+              "reasoning": 10,
+              "cache": {
+                "write": 0,
+                "read": 21824
+              }
+            },
+            "cost": 0.0001600872
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f511c1995001Qcn2orPYxrp40E",
+      "time_created": 1783772223893,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 22590,
+          "input": 401,
+          "output": 27,
+          "reasoning": 18,
+          "cache": {
+            "write": 0,
+            "read": 22144
+          }
+        },
+        "cost": 0.0001307432
+      },
+      "parts": [
+        {
+          "id": "prt_f511c257e001Pvu9kUR2EELlGW",
+          "time_created": 1783772226942,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f511c25810015UTpPaohjerBYT",
+          "time_created": 1783772226945,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Let me check if there's a tsconfig.json and run the TypeScript compiler to verify.",
+            "time": {
+              "start": 1783772226945,
+              "end": 1783772226947
+            }
+          }
+        },
+        {
+          "id": "prt_f511c25840015LrcdGtOU12N27",
+          "time_created": 1783772226949,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "glob",
+            "callID": "call_3732e5b35cd64916bf32d941",
+            "state": {
+              "status": "completed",
+              "input": {
+                "pattern": "backend/tsconfig*.json"
+              },
+              "output": "/Users/shivam/qnify/ai-learning-agent/backend/tsconfig.json",
+              "metadata": {
+                "count": 1,
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent",
+              "time": {
+                "start": 1783772227095,
+                "end": 1783772227114
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f511c2645001nFU7cb7m912M4p",
+          "time_created": 1783772227141,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 22590,
+              "input": 401,
+              "output": 27,
+              "reasoning": 18,
+              "cache": {
+                "write": 0,
+                "read": 22144
+              }
+            },
+            "cost": 0.0001307432
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f511c2649001ZIjnZF8kig6aB9",
+      "time_created": 1783772227145,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 22685,
+          "input": 89,
+          "output": 57,
+          "reasoning": 11,
+          "cache": {
+            "write": 0,
+            "read": 22528
+          }
+        },
+        "cost": 9.45784e-05
+      },
+      "parts": [
+        {
+          "id": "prt_f511c337c0012m0rcMHkprIFqw",
+          "time_created": 1783772230524,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f511c337e001TqSss9wnKnU2xo",
+          "time_created": 1783772230526,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Let me run the TypeScript compiler to check for errors.",
+            "time": {
+              "start": 1783772230526,
+              "end": 1783772230635
+            }
+          }
+        },
+        {
+          "id": "prt_f511c33ed001osHFJRSBFcdRti",
+          "time_created": 1783772230637,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "bash",
+            "callID": "call_18709ca453df423ebf831eef",
+            "state": {
+              "status": "completed",
+              "input": {
+                "command": "cd backend && npx tsc --noEmit 2>&1",
+                "workdir": "/Users/shivam/qnify/ai-learning-agent"
+              },
+              "output": "(no output)",
+              "metadata": {
+                "output": "(no output)",
+                "exit": 0,
+                "truncated": false
+              },
+              "title": "cd backend && npx tsc --noEmit 2>&1",
+              "time": {
+                "start": 1783772230990,
+                "end": 1783772231642
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f511c37dc001lw8gDP0QhMsb8r",
+          "time_created": 1783772231644,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 22685,
+              "input": 89,
+              "output": 57,
+              "reasoning": 11,
+              "cache": {
+                "write": 0,
+                "read": 22528
+              }
+            },
+            "cost": 9.45784e-05
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f511c37df001p9TqLytrCoYiBx",
+      "time_created": 1783772231647,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 22869,
+          "input": 107,
+          "output": 155,
+          "reasoning": 15,
+          "cache": {
+            "write": 0,
+            "read": 22592
+          }
+        },
+        "cost": 0.0001258376
+      },
+      "parts": [
+        {
+          "id": "prt_f511c40af001dQhMPpniFNBVph",
+          "time_created": 1783772233903,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f511c40b0001CWVjzizDVtG548",
+          "time_created": 1783772233904,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "TypeScript compiles without errors. Let me mark the task as completed.",
+            "time": {
+              "start": 1783772233904,
+              "end": 1783772234125
+            }
+          }
+        },
+        {
+          "id": "prt_f511c418e001cpqMN2Hrm7UGg6",
+          "time_created": 1783772234126,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "todowrite",
+            "callID": "call_8fa9ca4ebeea4e45b294e5a4",
+            "state": {
+              "status": "completed",
+              "input": {
+                "todos": [
+                  {
+                    "content": "Extract inline types in documents.ts to top-level declarations",
+                    "priority": "high",
+                    "status": "completed"
+                  },
+                  {
+                    "content": "Extract inline types in attempts.ts to top-level declarations",
+                    "priority": "high",
+                    "status": "completed"
+                  },
+                  {
+                    "content": "Extract inline types in quizzes.ts to top-level declarations",
+                    "priority": "high",
+                    "status": "completed"
+                  },
+                  {
+                    "content": "Extract inline types in plans.ts to top-level declarations",
+                    "priority": "high",
+                    "status": "completed"
+                  },
+                  {
+                    "content": "Verify TypeScript compiles without errors",
+                    "priority": "high",
+                    "status": "completed"
+                  }
+                ]
+              },
+              "output": "[\n  {\n    \"content\": \"Extract inline types in documents.ts to top-level declarations\",\n    \"status\": \"completed\",\n    \"priority\": \"high\"\n  },\n  {\n    \"content\": \"Extract inline types in attempts.ts to top-level declarations\",\n    \"status\": \"completed\",\n    \"priority\": \"high\"\n  },\n  {\n    \"content\": \"Extract inline types in quizzes.ts to top-level declarations\",\n    \"status\": \"completed\",\n    \"priority\": \"high\"\n  },\n  {\n    \"content\": \"Extract inline types in plans.ts to top-level declarations\",\n    \"status\": \"completed\",\n    \"priority\": \"high\"\n  },\n  {\n    \"content\": \"Verify TypeScript compiles without errors\",\n    \"status\": \"completed\",\n    \"priority\": \"high\"\n  }\n]",
+              "metadata": {
+                "todos": [
+                  {
+                    "content": "Extract inline types in documents.ts to top-level declarations",
+                    "status": "completed",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Extract inline types in attempts.ts to top-level declarations",
+                    "status": "completed",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Extract inline types in quizzes.ts to top-level declarations",
+                    "status": "completed",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Extract inline types in plans.ts to top-level declarations",
+                    "status": "completed",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Verify TypeScript compiles without errors",
+                    "status": "completed",
+                    "priority": "high"
+                  }
+                ],
+                "truncated": false
+              },
+              "title": "0 todos",
+              "time": {
+                "start": 1783772235242,
+                "end": 1783772235244
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f511c45ee0010AHImPhCOLf72X",
+          "time_created": 1783772235246,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 22869,
+              "input": 107,
+              "output": 155,
+              "reasoning": 15,
+              "cache": {
+                "write": 0,
+                "read": 22592
+              }
+            },
+            "cost": 0.0001258376
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f511c45f1001kO6xaPXqJEb8DQ",
+      "time_created": 1783772235249,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 23191,
+          "input": 392,
+          "output": 133,
+          "reasoning": 10,
+          "cache": {
+            "write": 0,
+            "read": 22656
+          }
+        },
+        "cost": 0.0001583568
+      },
+      "parts": [
+        {
+          "id": "prt_f511c5115001jA1Yqvu2GRpvR5",
+          "time_created": 1783772238101,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f511c514f0011fnVZQ7EAXQuZ4",
+          "time_created": 1783772238159,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Let me provide a summary of the changes made.",
+            "time": {
+              "start": 1783772238159,
+              "end": 1783772238317
+            }
+          }
+        },
+        {
+          "id": "prt_f511c51ee0014Xi3eoHO7bsn7Q",
+          "time_created": 1783772238318,
+          "type": "text",
+          "data": {
+            "type": "text",
+            "text": "Done. Extracted inline types to top-level declarations in all service files:\n\n**documents.ts:**\n- `DocumentListItem` (type alias for `Pick<DocumentRow, ...>`)\n- `PlanSummaryRow`, `CountResult`, `MarkdownRow` (interfaces)\n\n**attempts.ts:**\n- `AttemptAnswer`, `InsertResult` (interfaces)\n\n**quizzes.ts:**\n- `InsertResult` (interface)\n\n**plans.ts:**\n- `Difficulty`, `PlanStatus` (type aliases for union types, used across 3 functions each)\n- `DocumentFilename` (interface)\n\nTypeScript compiles cleanly with no errors.",
+            "time": {
+              "start": 1783772238318,
+              "end": 1783772239557
+            }
+          }
+        },
+        {
+          "id": "prt_f511c56c7001xjTN6aTxEmHXBG",
+          "time_created": 1783772239559,
+          "type": "step-finish",
+          "data": {
+            "reason": "stop",
+            "type": "step-finish",
+            "tokens": {
+              "total": 23191,
+              "input": 392,
+              "output": 133,
+              "reasoning": 10,
+              "cache": {
+                "write": 0,
+                "read": 22656
+              }
+            },
+            "cost": 0.0001583568
+          }
+        }
+      ]
+    }
+  ]
+}

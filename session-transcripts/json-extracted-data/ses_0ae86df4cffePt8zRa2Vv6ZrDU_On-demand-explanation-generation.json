@@ -1,0 +1,2262 @@
+{
+  "session_id": "ses_0ae86df4cffePt8zRa2Vv6ZrDU",
+  "title": "On-demand explanation generation",
+  "time_created": 1783778320563,
+  "time_updated": 1783781389156,
+  "cost": 0.006062039199999999,
+  "tokens": {
+    "input": 27399,
+    "output": 2929,
+    "reasoning": 1181
+  },
+  "messages": [
+    {
+      "id": "msg_f517920c30018AZw10CVAbFZwV",
+      "time_created": 1783778320579,
+      "role": "user",
+      "metadata": {
+        "agent": "build",
+        "model": {
+          "providerID": "opencode-go",
+          "modelID": "mimo-v2.5",
+          "variant": "high"
+        },
+        "tokens": null,
+        "cost": null
+      },
+      "parts": [
+        {
+          "id": "prt_f517920c3002RLC1xx1Yj3dNjQ",
+          "time_created": 1783778320582,
+          "type": "text",
+          "data": {
+            "type": "text",
+            "text": "I have asked to make so explanation optional, but it is still generated as soon as we submit the answer and generate for every summit if Answer is correct. It is just hidden and a given optional shown on click of button, instead, it should be only generated when we click on button to generate explanation. "
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f517920cd001zgLqoq8ISbXtWB",
+      "time_created": 1783778320589,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 8156,
+          "input": 6913,
+          "output": 173,
+          "reasoning": 46,
+          "cache": {
+            "write": 0,
+            "read": 1024
+          }
+        },
+        "cost": 0.0010320072
+      },
+      "parts": [
+        {
+          "id": "prt_f5179293b001F3u6DOnNaYD2L5",
+          "time_created": 1783778322747,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f5179293d001diL5osg1aCqrrP",
+          "time_created": 1783778322749,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "The user is talking about an explanation feature in their application. They want the explanation to be generated only when a button is clicked, not automatically when the answer is submitted. Let me explore the codebase to understand the current implementation.",
+            "time": {
+              "start": 1783778322749,
+              "end": 1783778323256
+            }
+          }
+        },
+        {
+          "id": "prt_f51792b390012KyAUwHYwmI95Y",
+          "time_created": 1783778323257,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "task",
+            "callID": "call_217286c4a486424a92a5f84d",
+            "state": {
+              "status": "completed",
+              "input": {
+                "description": "Find explanation generation code",
+                "prompt": "Search the codebase to find all files related to explanation generation and display in this project. I need to understand:\n\n1. Where explanations are generated (look for \"explanation\", \"generate\", \"submit\" keywords)\n2. Where explanations are displayed (UI components)\n3. How the explanation generation is triggered (on submit vs on button click)\n\nLook for patterns like:\n- \"explanation\" in filenames\n- \"generate\" or \"generateExplanation\" in code\n- \"isCorrect\" or \"correct\" combined with \"explanation\"\n- Button handlers related to explanation\n\nReturn the file paths and relevant line numbers for each finding.",
+                "subagent_type": "explore"
+              },
+              "output": "<task id=\"ses_0ae86ce07ffeSkjKCIp0MJyuxl\" state=\"completed\">\n<task_result>\nHere is a comprehensive report of all findings related to explanation generation and display.\n\n---\n\n## 1. Where Explanations Are Generated (Backend)\n\n### AI Generation Layer\n\n**`/Users/shivam/qnify/ai-learning-agent/backend/src/ai/feedback.ts`**\n- **Line 21** -- `EXPLAIN_SYSTEM` constant: the system prompt that instructs the LLM to produce a short explanation of why the correct answer is right.\n- **Lines 44-62** -- `explainCorrect()`: the function that calls the LLM with the `EXPLAIN_SYSTEM` prompt, passing in the markdown source, question, options, and correct option. Returns a `Promise<string>`.\n\n**`/Users/shivam/qnify/ai-learning-agent/backend/src/ai/schemas.ts`**\n- **Line 21** -- `explanation: z.string().describe('A 1-3 sentence explanation of why the answer is correct.')` -- part of `quizSchema`, meaning an explanation is also generated at quiz creation time (alongside the question, options, correct index, and hint).\n\n**`/Users/shivam/qnify/ai-learning-agent/backend/src/ai/quiz.ts`**\n- **Line 11** -- The quiz system prompt states: `The explanation must justify the correct answer using the source.` This means the quiz generation agent also produces an initial explanation as part of the `Quiz` structured output.\n- **Lines 20-29** -- `generateQuiz()`: invokes the quiz agent with the `quizSchema` response format, which includes the `explanation` field.\n\n### Service Layer (Orchestration)\n\n**`/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts`**\n\nThere are **two distinct paths** that produce explanations:\n\n1. **At quiz creation time** (lines 42-57): When `getOrCreateQuiz()` calls `generateQuiz()` and inserts the result into the database. The `quiz.explanation` is stored in the `explanation` column of the `quiz_questions` table (line 55).\n\n2. **On-demand via `getExplanation()`** (lines 110-121): Calls `explainCorrect()` from `feedback.ts` to generate a fresh explanation from the LLM. This is invoked in two scenarios:\n   - **Via the `/api/quizzes/:id/explain` endpoint** (standalone call).\n   - **Inside `checkAnswer()`** (lines 128-135): When the learner's answer is correct, `getExplanation()` is called and the explanation is returned alongside `{ correct: true, explanation }`.\n\n**Key insight**: The `checkAnswer()` function (line 128) **only returns an explanation when the answer is correct** (line 132-134). If the answer is wrong, it returns `{ correct: false }` with no explanation.\n\n### API Routes\n\n**`/Users/shivam/qnify/ai-learning-agent/backend/src/routes.ts`**\n- **Line 75-78** -- `POST /api/quizzes/:id/explain`: calls `quiz.getExplanation(id)`, returns `{ explanation, correctIndex }`.\n- **Line 82-86** -- `POST /api/quizzes/:id/check`: calls `quiz.checkAnswer(id, learnerIndex)`, returns `{ correct, explanation? }`.\n\n### Database Schema\n\n**`/Users/shivam/qnify/ai-learning-agent/backend/src/schema.sql`**\n- **Lines 27-40** -- `quiz_questions` table: column `explanation TEXT NOT NULL DEFAULT ''` (line 35).\n\n**`/Users/shivam/qnify/ai-learning-agent/backend/src/db.ts`**\n- **Line 44** -- `QuizQuestionRow` interface: `explanation: string`.\n\n---\n\n## 2. Where Explanations Are Displayed (Frontend UI)\n\n**`/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx`**\n\nThis is the sole UI component that handles explanation display. The relevant pieces are:\n\n- **Line 41** -- State: `const [explanation, setExplanation] = useState<string | null>(null)`\n- **Line 42** -- Toggle state: `const [showExplanation, setShowExplanation] = useState(false)`\n- **Line 51** -- State reset: `setExplanation(null)` and `setShowExplanation(false)` when `quiz.id` changes (via `useEffect`).\n\n**Explanation rendering** (lines 191-198):\n```tsx\n{explanation && status === 'correct' && showExplanation && (\n  <div className=\"...\">\n    <Check className=\"...\" />\n    <div>\n      <p className=\"...\">Explanation</p>\n      <p className=\"...\">{explanation}</p>\n    </div>\n  </div>\n)}\n```\nThe explanation is only visible when **all three conditions** are met: `explanation` is truthy, `status === 'correct'`, and `showExplanation === true`.\n\n**Toggle button** (lines 230-233): After the answer is locked (correct), a button toggles `showExplanation`:\n```tsx\n{explanation && (\n  <Button variant=\"outline\" onClick={() => setShowExplanation(!showExplanation)}>\n    {showExplanation ? 'Hide explanation' : 'Show explanation'}\n  </Button>\n)}\n```\n\n---\n\n## 3. How Explanation Generation Is Triggered (Flow)\n\nThe explanation is **generated on submit** (not on a separate button click). Here is the exact flow:\n\n### Trigger Chain\n\n1. **User clicks \"Submit answer\" / \"Re-submit\" button** -- `/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx`, **line 204**: `<Button onClick={submit} ...>`.\n\n2. **`submit()` function** (lines 57-75 of `mcq-widget.tsx`):\n   - Calls `checkAnswer(quiz.id, selected)` -- the frontend API call at **line 62**.\n\n3. **Frontend API call** -- `/Users/shivam/qnify/ai-learning-agent/frontend/src/lib/api.ts`, **lines 99-103**: `POST /api/quizzes/:id/check` with `{ learnerIndex }`.\n\n4. **Backend route** -- `/Users/shivam/qnify/ai-learning-agent/backend/src/routes.ts`, **lines 82-86**: delegates to `quiz.checkAnswer(id, learnerIndex)`.\n\n5. **Backend service** -- `/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts`, **lines 128-135**:\n   - If `learnerIndex === quiz.correct_index` (correct), calls `getExplanation(quizId)` which calls the LLM `explainCorrect()`.\n   - Returns `{ correct: true, explanation }`.\n   - If incorrect, returns `{ correct: false }` (no explanation).\n\n6. **Back in `submit()`** (mcq-widget.tsx, lines 63-66):\n   ```ts\n   if (res.correct) {\n     if (res.explanation) setExplanation(res.explanation)  // stores explanation in state\n     setStatus('correct')                                   // locks the widget\n     onCorrect(selected, res.explanation ?? '')              // notifies parent\n   }\n   ```\n\n7. **User then clicks \"Show explanation\" button** (line 231) to toggle `showExplanation` to `true`, which renders the explanation text (lines 191-198).\n\n### Summary of the Trigger Model\n\n| Event | What Happens |\n|---|---|\n| **Submit (correct answer)** | `checkAnswer()` API call triggers LLM explanation generation; explanation is stored in component state but **not yet visible** |\n| **Show explanation button click** | Toggles `showExplanation` to `true`, rendering the explanation in the UI |\n| **Submit (wrong answer)** | No explanation is generated or returned |\n| **Quiz creation** | An explanation is pre-generated by the quiz agent and stored in the DB, but the `QuizDTO` type (frontend `types.ts` line 46-53) **does not include** the `explanation` field, so it is not sent to the client at creation time |\n\n---\n\n## Complete File Index\n\n| File | Lines | Role |\n|---|---|---|\n| `/Users/shivam/qnify/ai-learning-agent/backend/src/ai/feedback.ts` | 21, 44-62 | LLM system prompt for explanations; `explainCorrect()` function |\n| `/Users/shivam/qnify/ai-learning-agent/backend/src/ai/schemas.ts` | 21 | `explanation` field in `quizSchema` (quiz generation output) |\n| `/Users/shivam/qnify/ai-learning-agent/backend/src/ai/quiz.ts` | 11, 20-29 | Quiz agent prompt mentioning explanation; `generateQuiz()` |\n| `/Users/shivam/qnify/ai-learning-agent/backend/src/db.ts` | 44 | `QuizQuestionRow.explanation` type definition |\n| `/Users/shivam/qnify/ai-learning-agent/backend/src/schema.sql` | 35 | `explanation` column in `quiz_questions` table |\n| `/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts` | 44, 55, 105-121, 128-135 | DB insert of explanation; `getExplanation()`; `checkAnswer()` that triggers explanation on correct |\n| `/Users/shivam/qnify/ai-learning-agent/backend/src/routes.ts` | 75-78, 82-86 | `/explain` and `/check` API endpoints |\n| `/Users/shivam/qnify/ai-learning-agent/frontend/src/lib/api.ts` | 85-103 | `getExplanation()` and `checkAnswer()` frontend API functions |\n| `/Users/shivam/qnify/ai-learning-agent/frontend/src/lib/types.ts` | 46-53 | `QuizDTO` type (notably **missing** `explanation` field) |\n| `/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx` | 17, 41-42, 51-52, 57-75, 191-198, 230-233 | Explanation state management, generation trigger in `submit()`, UI rendering, toggle button |\n| `/Users/shivam/qnify/ai-learning-agent/frontend/src/pages/lesson-page.tsx` | 304-306 | `onCorrect` callback receives explanation (but discards it with `void explanation`) |\n</task_result>\n</task>",
+              "metadata": {
+                "parentSessionId": "ses_0ae86df4cffePt8zRa2Vv6ZrDU",
+                "sessionId": "ses_0ae86ce07ffeSkjKCIp0MJyuxl",
+                "model": {
+                  "modelID": "mimo-v2.5",
+                  "providerID": "opencode-go"
+                },
+                "truncated": false
+              },
+              "title": "Find explanation generation code",
+              "time": {
+                "start": 1783778324986,
+                "end": 1783778372120
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f5179ea19001umG3bNKldhUzNr",
+          "time_created": 1783778372122,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 8156,
+              "input": 6913,
+              "output": 173,
+              "reasoning": 46,
+              "cache": {
+                "write": 0,
+                "read": 1024
+              }
+            },
+            "cost": 0.0010320072
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f5179ea1c001gKbbaNXC1eLExj",
+      "time_created": 1783778372124,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 10753,
+          "input": 2673,
+          "output": 109,
+          "reasoning": 99,
+          "cache": {
+            "write": 0,
+            "read": 7872
+          }
+        },
+        "cost": 0.0004545016
+      },
+      "parts": [
+        {
+          "id": "prt_f5179f13b001tt0nMFbD8tcM8m",
+          "time_created": 1783778373947,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f5179f13d001ChswfFU9SMu5t2",
+          "time_created": 1783778373949,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now I understand the issue. The problem is:\n\n1. Currently, when a user submits a correct answer, the backend's `checkAnswer()` function generates an explanation via the LLM automatically.\n2. The explanation is stored in state but hidden until the user clicks \"Show explanation\".\n3. The user wants the explanation to ONLY be generated when they click the \"Show explanation\" button, not on every submit.\n\nLet me read the key files to understand the exact code and make the changes.",
+            "time": {
+              "start": 1783778373949,
+              "end": 1783778375029
+            }
+          }
+        },
+        {
+          "id": "prt_f5179f576001hue4VdD410FOXX",
+          "time_created": 1783778375030,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "read",
+            "callID": "call_ad4dea3b349144aabc2d844c",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts"
+              },
+              "output": "<path>/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts</path>\n<type>file</type>\n<content>\n1: import { db, type QuizQuestionRow } from '../db.ts'\n2: import { generateQuiz } from '../ai/quiz.ts'\n3: import { generateRetryHint, explainCorrect, aiChat } from '../ai/feedback.ts'\n4: import { getPlan } from './plans.ts'\n5: import { getDocumentMarkdown } from './documents.ts'\n6: import { NotFoundError, BadRequestError } from '../errors.ts'\n7: \n8: export interface QuizDTO {\n9:   id: number\n10:   objectiveIndex: number\n11:   objectiveText: string\n12:   question: string\n13:   options: string[]\n14:   hint: string\n15: }\n16: \n17: export async function getOrCreateQuiz(planId: number, objectiveIndex: number): Promise<QuizDTO> {\n18:   const plan = await getPlan(planId)\n19:   if (!plan) throw new NotFoundError('Plan not found')\n20:   const objective = plan.objectives[objectiveIndex]\n21:   if (!objective) throw new NotFoundError(`Objective ${objectiveIndex} not found`)\n22: \n23:   const existing = db\n24:     .prepare(`SELECT * FROM quiz_questions WHERE lesson_plan_id = ? AND objective_index = ?`)\n25:     .get(planId, objectiveIndex) as QuizQuestionRow | undefined\n26: \n27:   if (existing) {\n28:     return {\n29:       id: existing.id,\n30:       objectiveIndex: existing.objective_index,\n31:       objectiveText: existing.objective_text,\n32:       question: existing.question,\n33:       options: JSON.parse(existing.options),\n34:       hint: existing.hint\n35:     }\n36:   }\n37: \n38:   const markdown = await getDocumentMarkdown(plan.document_id)\n39:   if (!markdown) throw new BadRequestError('Source document has no markdown content')\n40:   const quiz = await generateQuiz(markdown, objective.text, objective.topic)\n41: \n42:   const res = db\n43:     .prepare(\n44:       `INSERT INTO quiz_questions (lesson_plan_id, objective_index, objective_text, question, options, correct_index, explanation, hint)\n45:        VALUES (?, ?, ?, ?, ?, ?, ?, ?)\n46:        RETURNING id`\n47:     )\n48:     .get(\n49:       planId,\n50:       objectiveIndex,\n51:       objective.text,\n52:       quiz.question,\n53:       JSON.stringify(quiz.options),\n54:       quiz.correct_index,\n55:       quiz.explanation,\n56:       quiz.hint\n57:     ) as { id: number }\n58: \n59:   return {\n60:     id: res.id,\n61:     objectiveIndex,\n62:     objectiveText: objective.text,\n63:     question: quiz.question,\n64:     options: quiz.options,\n65:     hint: quiz.hint\n66:   }\n67: }\n68: \n69: export async function getAllQuizzes(planId: number): Promise<QuizDTO[]> {\n70:   const plan = await getPlan(planId)\n71:   if (!plan) return []\n72:   const rows = db\n73:     .prepare(`SELECT * FROM quiz_questions WHERE lesson_plan_id = ? ORDER BY objective_index ASC`)\n74:     .all(planId) as QuizQuestionRow[]\n75:   return rows.map((r) => ({\n76:     id: r.id,\n77:     objectiveIndex: r.objective_index,\n78:     objectiveText: r.objective_text,\n79:     question: r.question,\n80:     options: JSON.parse(r.options),\n81:     hint: r.hint\n82:   }))\n83: }\n84: \n85: export async function getQuizInternal(quizId: number): Promise<QuizQuestionRow | null> {\n86:   return (db.prepare(`SELECT * FROM quiz_questions WHERE id = ?`).get(quizId) as QuizQuestionRow | undefined) ?? null\n87: }\n88: \n89: export async function getHint(quizId: number, previousGuessIndex: number | null): Promise<string> {\n90:   const quiz = await getQuizInternal(quizId)\n91:   if (!quiz) throw new NotFoundError('Quiz not found')\n92:   const plan = await getPlan(quiz.lesson_plan_id)\n93:   if (!plan) throw new NotFoundError('Plan not found')\n94:   const markdown = await getDocumentMarkdown(plan.document_id)\n95:   if (!markdown) throw new BadRequestError('Source document has no markdown content')\n96:   const options = JSON.parse(quiz.options) as string[]\n97:   return generateRetryHint(\n98:     markdown,\n99:     quiz.question,\n100:     options,\n101:     previousGuessIndex !== null ? options[previousGuessIndex] : null\n102:   )\n103: }\n104: \n105: interface ExplanationResult {\n106:   explanation: string\n107:   correctIndex: number\n108: }\n109: \n110: export async function getExplanation(quizId: number): Promise<ExplanationResult> {\n111:   const quiz = await getQuizInternal(quizId)\n112:   if (!quiz) throw new NotFoundError('Quiz not found')\n113:   const plan = await getPlan(quiz.lesson_plan_id)\n114:   if (!plan) throw new NotFoundError('Plan not found')\n115:   const markdown = await getDocumentMarkdown(plan.document_id)\n116:   if (!markdown) throw new BadRequestError('Source document has no markdown content')\n117:   const options = JSON.parse(quiz.options) as string[]\n118:   const correct = options[quiz.correct_index]\n119:   const explanation = await explainCorrect(markdown, quiz.question, options, correct, quiz.correct_index)\n120:   return { explanation, correctIndex: quiz.correct_index }\n121: }\n122: \n123: interface AnswerOutput {\n124:   correct: boolean\n125:   explanation?: string\n126: }\n127: \n128: export async function checkAnswer(quizId: number, learnerIndex: number): Promise<AnswerOutput> {\n129:   const quiz = await getQuizInternal(quizId)\n130:   if (!quiz) throw new NotFoundError('Quiz not found')\n131:   const correct = learnerIndex === quiz.correct_index\n132:   if (!correct) return { correct: false }\n133:   const { explanation } = await getExplanation(quizId)\n134:   return { correct: true, explanation }\n135: }\n136: \n137: interface AI_Message {\n138:   role: 'user' | 'assistant'\n139:   content: string\n140: }\n141: export type MessageHistory = Array<AI_Message>\n142: \n143: export async function getAiHelp(id: number, question: string, history: MessageHistory): Promise<string> {\n144:   const quiz = await getQuizInternal(id)\n145:   if (!quiz) throw new NotFoundError('Quiz not found')\n146:   const plan = await getPlan(quiz.lesson_plan_id)\n147:   if (!plan) throw new NotFoundError('Plan not found')\n148:   const markdown = await getDocumentMarkdown(plan.document_id)\n149:   if (!markdown) throw new BadRequestError('Source document has no markdown content')\n150:   const options = JSON.parse(quiz.options) as string[]\n151:   return aiChat(markdown, quiz.question, options, question, history)\n152: }\n\n(End of file - total 152 lines)\n</content>",
+              "metadata": {
+                "preview": "import { db, type QuizQuestionRow } from '../db.ts'\nimport { generateQuiz } from '../ai/quiz.ts'\nimport { generateRetryHint, explainCorrect, aiChat } from '../ai/feedback.ts'\nimport { getPlan } from './plans.ts'\nimport { getDocumentMarkdown } from './documents.ts'\nimport { NotFoundError, BadRequestError } from '../errors.ts'\n\nexport interface QuizDTO {\n  id: number\n  objectiveIndex: number\n  objectiveText: string\n  question: string\n  options: string[]\n  hint: string\n}\n\nexport async function getOrCreateQuiz(planId: number, objectiveIndex: number): Promise<QuizDTO> {\n  const plan = await getPlan(planId)\n  if (!plan) throw new NotFoundError('Plan not found')\n  const objective = plan.objectives[objectiveIndex]",
+                "truncated": false,
+                "loaded": [],
+                "display": {
+                  "type": "file",
+                  "path": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts",
+                  "text": "import { db, type QuizQuestionRow } from '../db.ts'\nimport { generateQuiz } from '../ai/quiz.ts'\nimport { generateRetryHint, explainCorrect, aiChat } from '../ai/feedback.ts'\nimport { getPlan } from './plans.ts'\nimport { getDocumentMarkdown } from './documents.ts'\nimport { NotFoundError, BadRequestError } from '../errors.ts'\n\nexport interface QuizDTO {\n  id: number\n  objectiveIndex: number\n  objectiveText: string\n  question: string\n  options: string[]\n  hint: string\n}\n\nexport async function getOrCreateQuiz(planId: number, objectiveIndex: number): Promise<QuizDTO> {\n  const plan = await getPlan(planId)\n  if (!plan) throw new NotFoundError('Plan not found')\n  const objective = plan.objectives[objectiveIndex]\n  if (!objective) throw new NotFoundError(`Objective ${objectiveIndex} not found`)\n\n  const existing = db\n    .prepare(`SELECT * FROM quiz_questions WHERE lesson_plan_id = ? AND objective_index = ?`)\n    .get(planId, objectiveIndex) as QuizQuestionRow | undefined\n\n  if (existing) {\n    return {\n      id: existing.id,\n      objectiveIndex: existing.objective_index,\n      objectiveText: existing.objective_text,\n      question: existing.question,\n      options: JSON.parse(existing.options),\n      hint: existing.hint\n    }\n  }\n\n  const markdown = await getDocumentMarkdown(plan.document_id)\n  if (!markdown) throw new BadRequestError('Source document has no markdown content')\n  const quiz = await generateQuiz(markdown, objective.text, objective.topic)\n\n  const res = db\n    .prepare(\n      `INSERT INTO quiz_questions (lesson_plan_id, objective_index, objective_text, question, options, correct_index, explanation, hint)\n       VALUES (?, ?, ?, ?, ?, ?, ?, ?)\n       RETURNING id`\n    )\n    .get(\n      planId,\n      objectiveIndex,\n      objective.text,\n      quiz.question,\n      JSON.stringify(quiz.options),\n      quiz.correct_index,\n      quiz.explanation,\n      quiz.hint\n    ) as { id: number }\n\n  return {\n    id: res.id,\n    objectiveIndex,\n    objectiveText: objective.text,\n    question: quiz.question,\n    options: quiz.options,\n    hint: quiz.hint\n  }\n}\n\nexport async function getAllQuizzes(planId: number): Promise<QuizDTO[]> {\n  const plan = await getPlan(planId)\n  if (!plan) return []\n  const rows = db\n    .prepare(`SELECT * FROM quiz_questions WHERE lesson_plan_id = ? ORDER BY objective_index ASC`)\n    .all(planId) as QuizQuestionRow[]\n  return rows.map((r) => ({\n    id: r.id,\n    objectiveIndex: r.objective_index,\n    objectiveText: r.objective_text,\n    question: r.question,\n    options: JSON.parse(r.options),\n    hint: r.hint\n  }))\n}\n\nexport async function getQuizInternal(quizId: number): Promise<QuizQuestionRow | null> {\n  return (db.prepare(`SELECT * FROM quiz_questions WHERE id = ?`).get(quizId) as QuizQuestionRow | undefined) ?? null\n}\n\nexport async function getHint(quizId: number, previousGuessIndex: number | null): Promise<string> {\n  const quiz = await getQuizInternal(quizId)\n  if (!quiz) throw new NotFoundError('Quiz not found')\n  const plan = await getPlan(quiz.lesson_plan_id)\n  if (!plan) throw new NotFoundError('Plan not found')\n  const markdown = await getDocumentMarkdown(plan.document_id)\n  if (!markdown) throw new BadRequestError('Source document has no markdown content')\n  const options = JSON.parse(quiz.options) as string[]\n  return generateRetryHint(\n    markdown,\n    quiz.question,\n    options,\n    previousGuessIndex !== null ? options[previousGuessIndex] : null\n  )\n}\n\ninterface ExplanationResult {\n  explanation: string\n  correctIndex: number\n}\n\nexport async function getExplanation(quizId: number): Promise<ExplanationResult> {\n  const quiz = await getQuizInternal(quizId)\n  if (!quiz) throw new NotFoundError('Quiz not found')\n  const plan = await getPlan(quiz.lesson_plan_id)\n  if (!plan) throw new NotFoundError('Plan not found')\n  const markdown = await getDocumentMarkdown(plan.document_id)\n  if (!markdown) throw new BadRequestError('Source document has no markdown content')\n  const options = JSON.parse(quiz.options) as string[]\n  const correct = options[quiz.correct_index]\n  const explanation = await explainCorrect(markdown, quiz.question, options, correct, quiz.correct_index)\n  return { explanation, correctIndex: quiz.correct_index }\n}\n\ninterface AnswerOutput {\n  correct: boolean\n  explanation?: string\n}\n\nexport async function checkAnswer(quizId: number, learnerIndex: number): Promise<AnswerOutput> {\n  const quiz = await getQuizInternal(quizId)\n  if (!quiz) throw new NotFoundError('Quiz not found')\n  const correct = learnerIndex === quiz.correct_index\n  if (!correct) return { correct: false }\n  const { explanation } = await getExplanation(quizId)\n  return { correct: true, explanation }\n}\n\ninterface AI_Message {\n  role: 'user' | 'assistant'\n  content: string\n}\nexport type MessageHistory = Array<AI_Message>\n\nexport async function getAiHelp(id: number, question: string, history: MessageHistory): Promise<string> {\n  const quiz = await getQuizInternal(id)\n  if (!quiz) throw new NotFoundError('Quiz not found')\n  const plan = await getPlan(quiz.lesson_plan_id)\n  if (!plan) throw new NotFoundError('Plan not found')\n  const markdown = await getDocumentMarkdown(plan.document_id)\n  if (!markdown) throw new BadRequestError('Source document has no markdown content')\n  const options = JSON.parse(quiz.options) as string[]\n  return aiChat(markdown, quiz.question, options, question, history)\n}",
+                  "lineStart": 1,
+                  "lineEnd": 152,
+                  "totalLines": 152,
+                  "truncated": false
+                }
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts",
+              "time": {
+                "start": 1783778375274,
+                "end": 1783778375278
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f5179f675001k1Ll5haMSFGObZ",
+          "time_created": 1783778375285,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "read",
+            "callID": "call_e7470ad591264e85b4a7e1de",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx"
+              },
+              "output": "<path>/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx</path>\n<type>file</type>\n<content>\n1: import { useEffect, useState } from 'react'\n2: import Markdown from 'react-markdown'\n3: import { Check, CircleAlert, HelpCircle, Lightbulb, Loader2, MessageSquareText, Send, X } from 'lucide-react'\n4: import { cn } from '#lib/utils'\n5: import { Badge } from '#components/ui/badge'\n6: import { Button } from '#components/ui/button'\n7: import { Card, CardContent } from '#components/ui/card'\n8: import { RadioGroup, RadioGroupItem } from '#components/ui/radio-group'\n9: import { Textarea } from '#components/ui/textarea'\n10: import { checkAnswer, getHint, learnMore } from '#lib/api'\n11: import type { ChatMessage, QuizDTO } from '#lib/types'\n12: \n13: interface Props {\n14:   quiz: QuizDTO\n15:   objectiveNumber: number\n16:   totalObjectives: number\n17:   onCorrect: (learnerIndex: number, explanation: string) => void\n18:   onIncorrect: (learnerIndex: number) => void\n19:   onSkip: () => void\n20:   onNext: () => void\n21:   isLast: boolean\n22: }\n23: \n24: type Status = 'idle' | 'submitted' | 'correct' | 'incorrect'\n25: \n26: export function MCQWidget({\n27:   quiz,\n28:   objectiveNumber,\n29:   totalObjectives,\n30:   onCorrect,\n31:   onIncorrect,\n32:   onSkip,\n33:   onNext,\n34:   isLast\n35: }: Props) {\n36:   const [selected, setSelected] = useState<number | null>(null)\n37:   const [status, setStatus] = useState<Status>('idle')\n38:   const [submitting, setSubmitting] = useState(false)\n39:   const [hint, setHint] = useState<string | null>(null)\n40:   const [hintLoading, setHintLoading] = useState(false)\n41:   const [explanation, setExplanation] = useState<string | null>(null)\n42:   const [showExplanation, setShowExplanation] = useState(false)\n43:   const [tries, setTries] = useState(0)\n44:   const [chatOpen, setChatOpen] = useState(false)\n45: \n46:   // Reset state when quiz changes (new objective)\n47:   useEffect(() => {\n48:     setSelected(null)\n49:     setStatus('idle')\n50:     setHint(null)\n51:     setExplanation(null)\n52:     setShowExplanation(false)\n53:     setTries(0)\n54:     setChatOpen(false)\n55:   }, [quiz.id])\n56: \n57:   const submit = async () => {\n58:     if (selected === null || submitting) return\n59:     setHint(null)\n60:     setSubmitting(true)\n61:     try {\n62:       const res = await checkAnswer(quiz.id, selected)\n63:       if (res.correct) {\n64:         if (res.explanation) setExplanation(res.explanation)\n65:         setStatus('correct')\n66:         onCorrect(selected, res.explanation ?? '')\n67:       } else {\n68:         setStatus('incorrect')\n69:         onIncorrect(selected)\n70:         setTries((t) => t + 1)\n71:       }\n72:     } finally {\n73:       setSubmitting(false)\n74:     }\n75:   }\n76: \n77:   const retry = () => {\n78:     setStatus('idle')\n79:     setSelected(null)\n80:     setHint(null)\n81:   }\n82: \n83:   const requestHint = async () => {\n84:     setHintLoading(true)\n85:     try {\n86:       const res = await getHint(quiz.id, status === 'incorrect' ? selected : null)\n87:       setHint(res.hint)\n88:     } finally {\n89:       setHintLoading(false)\n90:     }\n91:   }\n92: \n93:   const locked = status === 'correct'\n94: \n95:   return (\n96:     <Card className=\"overflow-hidden\">\n97:       <CardContent className=\"p-0\">\n98:         <div className=\"border-b border-border bg-accent/40 px-5 py-3 sm:px-6\">\n99:           <div className=\"flex items-center justify-between gap-3\">\n100:             <div className=\"min-w-0\">\n101:               <p className=\"text-xs font-medium uppercase tracking-wide text-muted-foreground\">\n102:                 Objective {objectiveNumber} of {totalObjectives}\n103:               </p>\n104:               <p className=\"mt-0.5 truncate text-sm font-semibold\">{quiz.objectiveText}</p>\n105:             </div>\n106:             {tries > 0 && status !== 'correct' && (\n107:               <Badge variant=\"destructive\">\n108:                 {tries} {tries === 1 ? 'miss' : 'misses'}\n109:               </Badge>\n110:             )}\n111:             {status === 'correct' && (\n112:               <Badge variant=\"default\">\n113:                 <Check className=\"size-3\" />\n114:                 Correct\n115:               </Badge>\n116:             )}\n117:           </div>\n118:         </div>\n119: \n120:         <div className=\"space-y-5 p-5 sm:p-6\">\n121:           <p className=\"text-base font-medium leading-relaxed\">{quiz.question}</p>\n122: \n123:           <RadioGroup\n124:             value={selected !== null ? String(selected) : undefined}\n125:             onValueChange={(v) => {\n126:               if (locked) return\n127:               const next = Number(v)\n128:               setSelected(next)\n129:               if (status === 'incorrect') {\n130:                 setStatus('idle')\n131:                 setHint(null)\n132:               }\n133:             }}\n134:             className=\"gap-2.5\"\n135:           >\n136:             {quiz.options.map((opt, i) => {\n137:               const isSelected = selected === i\n138:               const showAsCorrect = locked && isSelected\n139:               const showAsWrong = status === 'incorrect' && isSelected\n140:               return (\n141:                 <label\n142:                   key={i}\n143:                   className={cn(\n144:                     'flex items-center gap-3 rounded-xl border p-3.5 text-sm transition-all',\n145:                     locked ? 'cursor-default' : 'cursor-pointer',\n146:                     !locked && 'hover:border-primary/50 hover:bg-accent/50',\n147:                     isSelected && !locked ? 'border-primary bg-primary/5' : 'border-border bg-card',\n148:                     showAsCorrect && 'border-success/60 bg-success/10 text-success',\n149:                     showAsWrong && 'border-danger/60 bg-danger/10 text-danger'\n150:                   )}\n151:                 >\n152:                   <RadioGroupItem\n153:                     value={String(i)}\n154:                     disabled={locked}\n155:                     className={cn(\n156:                       showAsCorrect &&\n157:                         'border-success text-success data-[checked]:bg-success data-[checked]:border-success',\n158:                       showAsWrong && 'border-danger text-danger data-[checked]:bg-danger data-[checked]:border-danger'\n159:                     )}\n160:                   />\n161:                   <span className=\"flex-1 leading-relaxed\">{opt}</span>\n162:                   {showAsCorrect && <Check className=\"size-4 shrink-0\" />}\n163:                   {showAsWrong && <X className=\"size-4 shrink-0\" />}\n164:                 </label>\n165:               )\n166:             })}\n167:           </RadioGroup>\n168: \n169:           {status === 'incorrect' && (\n170:             <div className=\"flex items-start gap-2.5 rounded-xl border border-danger/40 bg-danger/10 p-3.5 text-sm\">\n171:               <CircleAlert className=\"size-4 shrink-0 translate-y-0.5 text-danger\" />\n172:               <div>\n173:                 <p className=\"font-medium text-danger\">Not quite.</p>\n174:                 <p className=\"mt-0.5 text-muted-foreground\">\n175:                   Try again \u2014 you can request a hint or ask for a deeper explanation. No penalty for retries.\n176:                 </p>\n177:               </div>\n178:             </div>\n179:           )}\n180: \n181:           {hint && (\n182:             <div className=\"flex items-start gap-2.5 rounded-xl border border-primary/30 bg-primary/5 p-3.5 text-sm\">\n183:               <Lightbulb className=\"size-4 shrink-0 translate-y-0.5 text-primary\" />\n184:               <div>\n185:                 <p className=\"font-medium text-primary\">Hint</p>\n186:                 <p className=\"mt-0.5 text-foreground\">{hint}</p>\n187:               </div>\n188:             </div>\n189:           )}\n190: \n191:           {explanation && status === 'correct' && showExplanation && (\n192:             <div className=\"flex items-start gap-2.5 rounded-xl border border-success/40 bg-success/10 p-3.5 text-sm\">\n193:               <Check className=\"size-4 shrink-0 translate-y-0.5 text-success\" />\n194:               <div>\n195:                 <p className=\"font-medium text-success\">Explanation</p>\n196:                 <p className=\"mt-0.5 text-foreground\">{explanation}</p>\n197:               </div>\n198:             </div>\n199:           )}\n200: \n201:           <div className=\"flex flex-wrap items-center gap-2 pt-1\">\n202:             {!locked && (\n203:               <>\n204:                 <Button onClick={submit} disabled={selected === null || submitting} className=\"gap-1.5\">\n205:                   {submitting ? <Loader2 className=\"size-4 animate-spin\" /> : <Send className=\"size-4\" />}\n206:                   {status === 'incorrect' ? 'Re-submit' : 'Submit answer'}\n207:                 </Button>\n208:                 <Button variant=\"outline\" onClick={requestHint} disabled={hintLoading} className=\"gap-1.5\">\n209:                   {hintLoading ? <Loader2 className=\"size-4 animate-spin\" /> : <HelpCircle className=\"size-4\" />}\n210:                   {hint ? 'New hint' : 'Get a hint'}\n211:                 </Button>\n212:                 <Button variant=\"ghost\" onClick={() => setChatOpen(true)} className=\"gap-1.5\">\n213:                   <MessageSquareText className=\"size-4\" />\n214:                   AI Help\n215:                 </Button>\n216:                 {status === 'incorrect' && (\n217:                   <Button variant=\"ghost\" onClick={retry} className=\"ml-auto\">\n218:                     Reset selection\n219:                   </Button>\n220:                 )}\n221:                 {status === 'incorrect' && tries >= 1 && (\n222:                   <Button variant=\"ghost\" onClick={onSkip} className=\"text-muted-foreground\">\n223:                     Skip \u2192\n224:                   </Button>\n225:                 )}\n226:               </>\n227:             )}\n228:             {locked && (\n229:               <>\n230:                 {explanation && (\n231:                   <Button variant=\"outline\" onClick={() => setShowExplanation(!showExplanation)} className=\"gap-1.5\">\n232:                     {showExplanation ? 'Hide explanation' : 'Show explanation'}\n233:                   </Button>\n234:                 )}\n235:                 <Button onClick={onNext} className=\"ml-auto gap-1.5\">\n236:                   {isLast ? 'Finish & see results' : 'Next objective'}\n237:                 </Button>\n238:               </>\n239:             )}\n240:           </div>\n241:         </div>\n242:       </CardContent>\n243: \n244:       {chatOpen && <LearnMorePanel quiz={quiz} onClose={() => setChatOpen(false)} />}\n245:     </Card>\n246:   )\n247: }\n248: \n249: interface LearnMoreProps {\n250:   quiz: QuizDTO\n251:   onClose: () => void\n252: }\n253: \n254: function LearnMorePanel({ quiz, onClose }: LearnMoreProps) {\n255:   const [messages, setMessages] = useState<ChatMessage[]>([\n256:     {\n257:       role: 'assistant',\n258:       content:\n259:         'I can dig deeper into the topic behind this question \u2014 without revealing the answer. Ask me anything about the concepts.'\n260:     }\n261:   ])\n262:   const [input, setInput] = useState('')\n263:   const [loading, setLoading] = useState(false)\n264: \n265:   const send = async () => {\n266:     const q = input.trim()\n267:     if (!q || loading) return\n268:     const nextHistory: ChatMessage[] = [...messages, { role: 'user', content: q }]\n269:     setMessages(nextHistory)\n270:     setInput('')\n271:     setLoading(true)\n272:     try {\n273:       const res = await learnMore(\n274:         quiz.id,\n275:         q,\n276:         nextHistory.filter((m) => m.role !== 'assistant' || m.content !== messages[0]?.content)\n277:       )\n278:       setMessages((cur) => [...cur, { role: 'assistant', content: res.message }])\n279:     } catch (err) {\n280:       setMessages((cur) => [\n281:         ...cur,\n282:         {\n283:           role: 'assistant',\n284:           content: `Sorry, I couldn't fetch an answer right now: ${(err as Error).message}`\n285:         }\n286:       ])\n287:     } finally {\n288:       setLoading(false)\n289:     }\n290:   }\n291: \n292:   return (\n293:     <div className=\"fixed inset-0 z-50 flex items-end justify-end sm:items-center sm:justify-end\">\n294:       <div className=\"absolute inset-0 bg-background/60 backdrop-blur-sm\" onClick={onClose} />\n295:       <div className=\"relative flex h-[70vh] w-full max-w-md flex-col rounded-t-2xl border border-border bg-card shadow-2xl sm:rounded-2xl\">\n296:         <div className=\"flex items-center justify-between border-b border-border bg-accent/40 px-4 py-3\">\n297:           <div className=\"flex items-center gap-2\">\n298:             <span className=\"flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground\">\n299:               <MessageSquareText className=\"size-4\" />\n300:             </span>\n301:             <div>\n302:               <p className=\"text-sm font-semibold\">Ask the tutor</p>\n303:               <p className=\"text-xs text-muted-foreground\">Answers stay grounded in your PDF</p>\n304:             </div>\n305:           </div>\n306:           <Button variant=\"ghost\" size=\"icon-sm\" onClick={onClose}>\n307:             <X className=\"size-4\" />\n308:           </Button>\n309:         </div>\n310:         <div className=\"flex-1 space-y-3 overflow-y-auto p-4\">\n311:           {messages.map((m, i) => (\n312:             <div key={i} className={cn('flex', m.role === 'user' ? 'justify-end' : 'justify-start')}>\n313:                 <div\n314:                 className={cn(\n315:                   'max-w-[85%] rounded-2xl px-3.5 py-2 text-sm leading-relaxed',\n316:                   m.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-accent text-accent-foreground'\n317:                 )}\n318:               >\n319:                 {m.role === 'user' ? (\n320:                   <span className=\"whitespace-pre-wrap\">{m.content}</span>\n321:                 ) : (\n322:                   <Markdown>{m.content}</Markdown>\n323:                 )}\n324:               </div>\n325:             </div>\n326:           ))}\n327:           {loading && (\n328:             <div className=\"flex items-center gap-2 text-xs text-muted-foreground\">\n329:               <Loader2 className=\"size-3 animate-spin\" />\n330:               Thinking...\n331:             </div>\n332:           )}\n333:         </div>\n334:         <div className=\"border-t border-border p-3\">\n335:           <div className=\"flex items-end gap-2\">\n336:             <Textarea\n337:               value={input}\n338:               onChange={(e) => setInput(e.target.value)}\n339:               placeholder=\"Ask about the concept...\"\n340:               className=\"min-h-[44px] flex-1 resize-none\"\n341:               rows={1}\n342:               onKeyDown={(e) => {\n343:                 if (e.key === 'Enter' && !e.shiftKey) {\n344:                   e.preventDefault()\n345:                   void send()\n346:                 }\n347:               }}\n348:             />\n349:             <Button onClick={send} disabled={loading || !input.trim()} size=\"icon\">\n350:               <Send className=\"size-4\" />\n351:             </Button>\n352:           </div>\n353:         </div>\n354:       </div>\n355:     </div>\n356:   )\n357: }\n\n(End of file - total 357 lines)\n</content>",
+              "metadata": {
+                "preview": "import { useEffect, useState } from 'react'\nimport Markdown from 'react-markdown'\nimport { Check, CircleAlert, HelpCircle, Lightbulb, Loader2, MessageSquareText, Send, X } from 'lucide-react'\nimport { cn } from '#lib/utils'\nimport { Badge } from '#components/ui/badge'\nimport { Button } from '#components/ui/button'\nimport { Card, CardContent } from '#components/ui/card'\nimport { RadioGroup, RadioGroupItem } from '#components/ui/radio-group'\nimport { Textarea } from '#components/ui/textarea'\nimport { checkAnswer, getHint, learnMore } from '#lib/api'\nimport type { ChatMessage, QuizDTO } from '#lib/types'\n\ninterface Props {\n  quiz: QuizDTO\n  objectiveNumber: number\n  totalObjectives: number\n  onCorrect: (learnerIndex: number, explanation: string) => void\n  onIncorrect: (learnerIndex: number) => void\n  onSkip: () => void\n  onNext: () => void",
+                "truncated": false,
+                "loaded": [],
+                "display": {
+                  "type": "file",
+                  "path": "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx",
+                  "text": "import { useEffect, useState } from 'react'\nimport Markdown from 'react-markdown'\nimport { Check, CircleAlert, HelpCircle, Lightbulb, Loader2, MessageSquareText, Send, X } from 'lucide-react'\nimport { cn } from '#lib/utils'\nimport { Badge } from '#components/ui/badge'\nimport { Button } from '#components/ui/button'\nimport { Card, CardContent } from '#components/ui/card'\nimport { RadioGroup, RadioGroupItem } from '#components/ui/radio-group'\nimport { Textarea } from '#components/ui/textarea'\nimport { checkAnswer, getHint, learnMore } from '#lib/api'\nimport type { ChatMessage, QuizDTO } from '#lib/types'\n\ninterface Props {\n  quiz: QuizDTO\n  objectiveNumber: number\n  totalObjectives: number\n  onCorrect: (learnerIndex: number, explanation: string) => void\n  onIncorrect: (learnerIndex: number) => void\n  onSkip: () => void\n  onNext: () => void\n  isLast: boolean\n}\n\ntype Status = 'idle' | 'submitted' | 'correct' | 'incorrect'\n\nexport function MCQWidget({\n  quiz,\n  objectiveNumber,\n  totalObjectives,\n  onCorrect,\n  onIncorrect,\n  onSkip,\n  onNext,\n  isLast\n}: Props) {\n  const [selected, setSelected] = useState<number | null>(null)\n  const [status, setStatus] = useState<Status>('idle')\n  const [submitting, setSubmitting] = useState(false)\n  const [hint, setHint] = useState<string | null>(null)\n  const [hintLoading, setHintLoading] = useState(false)\n  const [explanation, setExplanation] = useState<string | null>(null)\n  const [showExplanation, setShowExplanation] = useState(false)\n  const [tries, setTries] = useState(0)\n  const [chatOpen, setChatOpen] = useState(false)\n\n  // Reset state when quiz changes (new objective)\n  useEffect(() => {\n    setSelected(null)\n    setStatus('idle')\n    setHint(null)\n    setExplanation(null)\n    setShowExplanation(false)\n    setTries(0)\n    setChatOpen(false)\n  }, [quiz.id])\n\n  const submit = async () => {\n    if (selected === null || submitting) return\n    setHint(null)\n    setSubmitting(true)\n    try {\n      const res = await checkAnswer(quiz.id, selected)\n      if (res.correct) {\n        if (res.explanation) setExplanation(res.explanation)\n        setStatus('correct')\n        onCorrect(selected, res.explanation ?? '')\n      } else {\n        setStatus('incorrect')\n        onIncorrect(selected)\n        setTries((t) => t + 1)\n      }\n    } finally {\n      setSubmitting(false)\n    }\n  }\n\n  const retry = () => {\n    setStatus('idle')\n    setSelected(null)\n    setHint(null)\n  }\n\n  const requestHint = async () => {\n    setHintLoading(true)\n    try {\n      const res = await getHint(quiz.id, status === 'incorrect' ? selected : null)\n      setHint(res.hint)\n    } finally {\n      setHintLoading(false)\n    }\n  }\n\n  const locked = status === 'correct'\n\n  return (\n    <Card className=\"overflow-hidden\">\n      <CardContent className=\"p-0\">\n        <div className=\"border-b border-border bg-accent/40 px-5 py-3 sm:px-6\">\n          <div className=\"flex items-center justify-between gap-3\">\n            <div className=\"min-w-0\">\n              <p className=\"text-xs font-medium uppercase tracking-wide text-muted-foreground\">\n                Objective {objectiveNumber} of {totalObjectives}\n              </p>\n              <p className=\"mt-0.5 truncate text-sm font-semibold\">{quiz.objectiveText}</p>\n            </div>\n            {tries > 0 && status !== 'correct' && (\n              <Badge variant=\"destructive\">\n                {tries} {tries === 1 ? 'miss' : 'misses'}\n              </Badge>\n            )}\n            {status === 'correct' && (\n              <Badge variant=\"default\">\n                <Check className=\"size-3\" />\n                Correct\n              </Badge>\n            )}\n          </div>\n        </div>\n\n        <div className=\"space-y-5 p-5 sm:p-6\">\n          <p className=\"text-base font-medium leading-relaxed\">{quiz.question}</p>\n\n          <RadioGroup\n            value={selected !== null ? String(selected) : undefined}\n            onValueChange={(v) => {\n              if (locked) return\n              const next = Number(v)\n              setSelected(next)\n              if (status === 'incorrect') {\n                setStatus('idle')\n                setHint(null)\n              }\n            }}\n            className=\"gap-2.5\"\n          >\n            {quiz.options.map((opt, i) => {\n              const isSelected = selected === i\n              const showAsCorrect = locked && isSelected\n              const showAsWrong = status === 'incorrect' && isSelected\n              return (\n                <label\n                  key={i}\n                  className={cn(\n                    'flex items-center gap-3 rounded-xl border p-3.5 text-sm transition-all',\n                    locked ? 'cursor-default' : 'cursor-pointer',\n                    !locked && 'hover:border-primary/50 hover:bg-accent/50',\n                    isSelected && !locked ? 'border-primary bg-primary/5' : 'border-border bg-card',\n                    showAsCorrect && 'border-success/60 bg-success/10 text-success',\n                    showAsWrong && 'border-danger/60 bg-danger/10 text-danger'\n                  )}\n                >\n                  <RadioGroupItem\n                    value={String(i)}\n                    disabled={locked}\n                    className={cn(\n                      showAsCorrect &&\n                        'border-success text-success data-[checked]:bg-success data-[checked]:border-success',\n                      showAsWrong && 'border-danger text-danger data-[checked]:bg-danger data-[checked]:border-danger'\n                    )}\n                  />\n                  <span className=\"flex-1 leading-relaxed\">{opt}</span>\n                  {showAsCorrect && <Check className=\"size-4 shrink-0\" />}\n                  {showAsWrong && <X className=\"size-4 shrink-0\" />}\n                </label>\n              )\n            })}\n          </RadioGroup>\n\n          {status === 'incorrect' && (\n            <div className=\"flex items-start gap-2.5 rounded-xl border border-danger/40 bg-danger/10 p-3.5 text-sm\">\n              <CircleAlert className=\"size-4 shrink-0 translate-y-0.5 text-danger\" />\n              <div>\n                <p className=\"font-medium text-danger\">Not quite.</p>\n                <p className=\"mt-0.5 text-muted-foreground\">\n                  Try again \u2014 you can request a hint or ask for a deeper explanation. No penalty for retries.\n                </p>\n              </div>\n            </div>\n          )}\n\n          {hint && (\n            <div className=\"flex items-start gap-2.5 rounded-xl border border-primary/30 bg-primary/5 p-3.5 text-sm\">\n              <Lightbulb className=\"size-4 shrink-0 translate-y-0.5 text-primary\" />\n              <div>\n                <p className=\"font-medium text-primary\">Hint</p>\n                <p className=\"mt-0.5 text-foreground\">{hint}</p>\n              </div>\n            </div>\n          )}\n\n          {explanation && status === 'correct' && showExplanation && (\n            <div className=\"flex items-start gap-2.5 rounded-xl border border-success/40 bg-success/10 p-3.5 text-sm\">\n              <Check className=\"size-4 shrink-0 translate-y-0.5 text-success\" />\n              <div>\n                <p className=\"font-medium text-success\">Explanation</p>\n                <p className=\"mt-0.5 text-foreground\">{explanation}</p>\n              </div>\n            </div>\n          )}\n\n          <div className=\"flex flex-wrap items-center gap-2 pt-1\">\n            {!locked && (\n              <>\n                <Button onClick={submit} disabled={selected === null || submitting} className=\"gap-1.5\">\n                  {submitting ? <Loader2 className=\"size-4 animate-spin\" /> : <Send className=\"size-4\" />}\n                  {status === 'incorrect' ? 'Re-submit' : 'Submit answer'}\n                </Button>\n                <Button variant=\"outline\" onClick={requestHint} disabled={hintLoading} className=\"gap-1.5\">\n                  {hintLoading ? <Loader2 className=\"size-4 animate-spin\" /> : <HelpCircle className=\"size-4\" />}\n                  {hint ? 'New hint' : 'Get a hint'}\n                </Button>\n                <Button variant=\"ghost\" onClick={() => setChatOpen(true)} className=\"gap-1.5\">\n                  <MessageSquareText className=\"size-4\" />\n                  AI Help\n                </Button>\n                {status === 'incorrect' && (\n                  <Button variant=\"ghost\" onClick={retry} className=\"ml-auto\">\n                    Reset selection\n                  </Button>\n                )}\n                {status === 'incorrect' && tries >= 1 && (\n                  <Button variant=\"ghost\" onClick={onSkip} className=\"text-muted-foreground\">\n                    Skip \u2192\n                  </Button>\n                )}\n              </>\n            )}\n            {locked && (\n              <>\n                {explanation && (\n                  <Button variant=\"outline\" onClick={() => setShowExplanation(!showExplanation)} className=\"gap-1.5\">\n                    {showExplanation ? 'Hide explanation' : 'Show explanation'}\n                  </Button>\n                )}\n                <Button onClick={onNext} className=\"ml-auto gap-1.5\">\n                  {isLast ? 'Finish & see results' : 'Next objective'}\n                </Button>\n              </>\n            )}\n          </div>\n        </div>\n      </CardContent>\n\n      {chatOpen && <LearnMorePanel quiz={quiz} onClose={() => setChatOpen(false)} />}\n    </Card>\n  )\n}\n\ninterface LearnMoreProps {\n  quiz: QuizDTO\n  onClose: () => void\n}\n\nfunction LearnMorePanel({ quiz, onClose }: LearnMoreProps) {\n  const [messages, setMessages] = useState<ChatMessage[]>([\n    {\n      role: 'assistant',\n      content:\n        'I can dig deeper into the topic behind this question \u2014 without revealing the answer. Ask me anything about the concepts.'\n    }\n  ])\n  const [input, setInput] = useState('')\n  const [loading, setLoading] = useState(false)\n\n  const send = async () => {\n    const q = input.trim()\n    if (!q || loading) return\n    const nextHistory: ChatMessage[] = [...messages, { role: 'user', content: q }]\n    setMessages(nextHistory)\n    setInput('')\n    setLoading(true)\n    try {\n      const res = await learnMore(\n        quiz.id,\n        q,\n        nextHistory.filter((m) => m.role !== 'assistant' || m.content !== messages[0]?.content)\n      )\n      setMessages((cur) => [...cur, { role: 'assistant', content: res.message }])\n    } catch (err) {\n      setMessages((cur) => [\n        ...cur,\n        {\n          role: 'assistant',\n          content: `Sorry, I couldn't fetch an answer right now: ${(err as Error).message}`\n        }\n      ])\n    } finally {\n      setLoading(false)\n    }\n  }\n\n  return (\n    <div className=\"fixed inset-0 z-50 flex items-end justify-end sm:items-center sm:justify-end\">\n      <div className=\"absolute inset-0 bg-background/60 backdrop-blur-sm\" onClick={onClose} />\n      <div className=\"relative flex h-[70vh] w-full max-w-md flex-col rounded-t-2xl border border-border bg-card shadow-2xl sm:rounded-2xl\">\n        <div className=\"flex items-center justify-between border-b border-border bg-accent/40 px-4 py-3\">\n          <div className=\"flex items-center gap-2\">\n            <span className=\"flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground\">\n              <MessageSquareText className=\"size-4\" />\n            </span>\n            <div>\n              <p className=\"text-sm font-semibold\">Ask the tutor</p>\n              <p className=\"text-xs text-muted-foreground\">Answers stay grounded in your PDF</p>\n            </div>\n          </div>\n          <Button variant=\"ghost\" size=\"icon-sm\" onClick={onClose}>\n            <X className=\"size-4\" />\n          </Button>\n        </div>\n        <div className=\"flex-1 space-y-3 overflow-y-auto p-4\">\n          {messages.map((m, i) => (\n            <div key={i} className={cn('flex', m.role === 'user' ? 'justify-end' : 'justify-start')}>\n                <div\n                className={cn(\n                  'max-w-[85%] rounded-2xl px-3.5 py-2 text-sm leading-relaxed',\n                  m.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-accent text-accent-foreground'\n                )}\n              >\n                {m.role === 'user' ? (\n                  <span className=\"whitespace-pre-wrap\">{m.content}</span>\n                ) : (\n                  <Markdown>{m.content}</Markdown>\n                )}\n              </div>\n            </div>\n          ))}\n          {loading && (\n            <div className=\"flex items-center gap-2 text-xs text-muted-foreground\">\n              <Loader2 className=\"size-3 animate-spin\" />\n              Thinking...\n            </div>\n          )}\n        </div>\n        <div className=\"border-t border-border p-3\">\n          <div className=\"flex items-end gap-2\">\n            <Textarea\n              value={input}\n              onChange={(e) => setInput(e.target.value)}\n              placeholder=\"Ask about the concept...\"\n              className=\"min-h-[44px] flex-1 resize-none\"\n              rows={1}\n              onKeyDown={(e) => {\n                if (e.key === 'Enter' && !e.shiftKey) {\n                  e.preventDefault()\n                  void send()\n                }\n              }}\n            />\n            <Button onClick={send} disabled={loading || !input.trim()} size=\"icon\">\n              <Send className=\"size-4\" />\n            </Button>\n          </div>\n        </div>\n      </div>\n    </div>\n  )\n}",
+                  "lineStart": 1,
+                  "lineEnd": 357,
+                  "totalLines": 357,
+                  "truncated": false
+                }
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx",
+              "time": {
+                "start": 1783778375896,
+                "end": 1783778375903
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f5179f8da001W5zGdOwpc7iHo5",
+          "time_created": 1783778375898,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "read",
+            "callID": "call_3fbcf3834dba45d3914b3cd8",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/frontend/src/lib/api.ts"
+              },
+              "output": "<path>/Users/shivam/qnify/ai-learning-agent/frontend/src/lib/api.ts</path>\n<type>file</type>\n<content>\n1: import type {\n2:   AttemptListItem,\n3:   AttemptSummary,\n4:   ChatMessage,\n5:   DocumentDetail,\n6:   DocumentSummary,\n7:   Plan,\n8:   QuizDTO\n9: } from './types'\n10: \n11: const BASE = 'http://localhost:3003'\n12: \n13: export class ApiError extends Error {\n14:   status: number\n15:   constructor(message: string, status: number) {\n16:     super(message)\n17:     this.status = status\n18:   }\n19: }\n20: \n21: async function jsonFetch<T>(path: string, init?: RequestInit): Promise<T> {\n22:   const headers: Record<string, string> = {}\n23:   if (init?.method == 'POST' && init?.body != null) {\n24:     headers['Content-Type'] = 'application/json'\n25:   }\n26:   const res = await fetch(`${BASE}${path}`, { ...init, headers, body: init?.body })\n27:   if (!res.ok) {\n28:     let msg = `Request failed (${res.status})`\n29:     const body = await res.json()\n30:     msg = body.error ?? msg\n31:     throw new ApiError(msg, res.status)\n32:   }\n33:   if (res.status === 204) return undefined as unknown as T\n34:   return (await res.json()) as T\n35: }\n36: \n37: export async function listDocuments(): Promise<DocumentSummary[]> {\n38:   return jsonFetch<DocumentSummary[]>('/api/documents')\n39: }\n40: \n41: export async function getDocument(id: number): Promise<DocumentDetail> {\n42:   return jsonFetch<DocumentDetail>(`/api/documents/${id}`)\n43: }\n44: \n45: export async function uploadPdf(file: File): Promise<DocumentDetail> {\n46:   const form = new FormData()\n47:   form.append('file', file)\n48:   const res = await fetch(`${BASE}/api/documents/upload`, { method: 'POST', body: form })\n49:   if (!res.ok) {\n50:     let msg = 'Upload failed'\n51:     const body = await res.json()\n52:     msg = body.error ?? msg\n53:     throw new ApiError(msg, res.status)\n54:   }\n55:   return (await res.json()) as DocumentDetail\n56: }\n57: \n58: export async function listPlansForDocument(id: number): Promise<Plan[]> {\n59:   return jsonFetch<Plan[]>(`/api/documents/${id}/plans`)\n60: }\n61: \n62: export async function createPlan(documentId: number): Promise<Plan> {\n63:   return jsonFetch<Plan>(`/api/documents/${documentId}/plans`, { method: 'POST' })\n64: }\n65: \n66: export async function getPlan(planId: number): Promise<Plan> {\n67:   return jsonFetch<Plan>(`/api/lesson-plans/${planId}`)\n68: }\n69: \n70: export async function approvePlan(planId: number): Promise<Plan> {\n71:   return jsonFetch<Plan>(`/api/lesson-plans/${planId}/approve`, { method: 'POST' })\n72: }\n73: \n74: export async function listQuizzes(planId: number): Promise<QuizDTO[]> {\n75:   return jsonFetch<QuizDTO[]>(`/api/lesson-plans/${planId}/quizzes`)\n76: }\n77: \n78: export async function generateQuiz(planId: number, objectiveIndex: number): Promise<QuizDTO> {\n79:   return jsonFetch<QuizDTO>(`/api/lesson-plans/${planId}/quizzes`, {\n80:     method: 'POST',\n81:     body: JSON.stringify({ objectiveIndex })\n82:   })\n83: }\n84: \n85: interface Explanation {\n86:   explanation: string\n87:   correctIndex: number\n88: }\n89: \n90: export async function getExplanation(quizId: number): Promise<Explanation> {\n91:   return jsonFetch(`/api/quizzes/${quizId}/explain`, { method: 'POST', body: '{}' })\n92: }\n93: \n94: interface AnswerData {\n95:   correct: boolean\n96:   explanation?: string\n97: }\n98: \n99: export async function checkAnswer(quizId: number, learnerIndex: number): Promise<AnswerData> {\n100:   return jsonFetch(`/api/quizzes/${quizId}/check`, {\n101:     method: 'POST',\n102:     body: JSON.stringify({ learnerIndex })\n103:   })\n104: }\n105: \n106: export async function getHint(quizId: number, previousGuessIndex: number | null): Promise<{ hint: string }> {\n107:   return jsonFetch(`/api/quizzes/${quizId}/hint`, {\n108:     method: 'POST',\n109:     body: JSON.stringify({ previousGuessIndex })\n110:   })\n111: }\n112: \n113: interface Message {\n114:   message: string\n115: }\n116: \n117: export async function learnMore(quizId: number, learnerQuestion: string, history: ChatMessage[]): Promise<Message> {\n118:   return jsonFetch(`/api/quizzes/${quizId}/ai-help`, {\n119:     method: 'POST',\n120:     body: JSON.stringify({ learnerQuestion, history })\n121:   })\n122: }\n123: \n124: interface Attempts {\n125:   quizId: number\n126:   learnerIndex: number | null\n127:   attempts: number\n128: }\n129: \n130: export async function completeAttempt(planId: number, answers: Array<Attempts>): Promise<AttemptSummary> {\n131:   return jsonFetch(`/api/lesson-plans/${planId}/complete`, {\n132:     method: 'POST',\n133:     body: JSON.stringify({ answers })\n134:   })\n135: }\n136: \n137: export async function listAttempts(planId: number): Promise<AttemptListItem[]> {\n138:   return jsonFetch<AttemptListItem[]>(`/api/lesson-plans/${planId}/attempts`)\n139: }\n140: \n141: export async function getAttempt(attemptId: number): Promise<AttemptSummary> {\n142:   return jsonFetch<AttemptSummary>(`/api/attempts/${attemptId}`)\n143: }\n\n(End of file - total 143 lines)\n</content>",
+              "metadata": {
+                "preview": "import type {\n  AttemptListItem,\n  AttemptSummary,\n  ChatMessage,\n  DocumentDetail,\n  DocumentSummary,\n  Plan,\n  QuizDTO\n} from './types'\n\nconst BASE = 'http://localhost:3003'\n\nexport class ApiError extends Error {\n  status: number\n  constructor(message: string, status: number) {\n    super(message)\n    this.status = status\n  }\n}\n",
+                "truncated": false,
+                "loaded": [],
+                "display": {
+                  "type": "file",
+                  "path": "/Users/shivam/qnify/ai-learning-agent/frontend/src/lib/api.ts",
+                  "text": "import type {\n  AttemptListItem,\n  AttemptSummary,\n  ChatMessage,\n  DocumentDetail,\n  DocumentSummary,\n  Plan,\n  QuizDTO\n} from './types'\n\nconst BASE = 'http://localhost:3003'\n\nexport class ApiError extends Error {\n  status: number\n  constructor(message: string, status: number) {\n    super(message)\n    this.status = status\n  }\n}\n\nasync function jsonFetch<T>(path: string, init?: RequestInit): Promise<T> {\n  const headers: Record<string, string> = {}\n  if (init?.method == 'POST' && init?.body != null) {\n    headers['Content-Type'] = 'application/json'\n  }\n  const res = await fetch(`${BASE}${path}`, { ...init, headers, body: init?.body })\n  if (!res.ok) {\n    let msg = `Request failed (${res.status})`\n    const body = await res.json()\n    msg = body.error ?? msg\n    throw new ApiError(msg, res.status)\n  }\n  if (res.status === 204) return undefined as unknown as T\n  return (await res.json()) as T\n}\n\nexport async function listDocuments(): Promise<DocumentSummary[]> {\n  return jsonFetch<DocumentSummary[]>('/api/documents')\n}\n\nexport async function getDocument(id: number): Promise<DocumentDetail> {\n  return jsonFetch<DocumentDetail>(`/api/documents/${id}`)\n}\n\nexport async function uploadPdf(file: File): Promise<DocumentDetail> {\n  const form = new FormData()\n  form.append('file', file)\n  const res = await fetch(`${BASE}/api/documents/upload`, { method: 'POST', body: form })\n  if (!res.ok) {\n    let msg = 'Upload failed'\n    const body = await res.json()\n    msg = body.error ?? msg\n    throw new ApiError(msg, res.status)\n  }\n  return (await res.json()) as DocumentDetail\n}\n\nexport async function listPlansForDocument(id: number): Promise<Plan[]> {\n  return jsonFetch<Plan[]>(`/api/documents/${id}/plans`)\n}\n\nexport async function createPlan(documentId: number): Promise<Plan> {\n  return jsonFetch<Plan>(`/api/documents/${documentId}/plans`, { method: 'POST' })\n}\n\nexport async function getPlan(planId: number): Promise<Plan> {\n  return jsonFetch<Plan>(`/api/lesson-plans/${planId}`)\n}\n\nexport async function approvePlan(planId: number): Promise<Plan> {\n  return jsonFetch<Plan>(`/api/lesson-plans/${planId}/approve`, { method: 'POST' })\n}\n\nexport async function listQuizzes(planId: number): Promise<QuizDTO[]> {\n  return jsonFetch<QuizDTO[]>(`/api/lesson-plans/${planId}/quizzes`)\n}\n\nexport async function generateQuiz(planId: number, objectiveIndex: number): Promise<QuizDTO> {\n  return jsonFetch<QuizDTO>(`/api/lesson-plans/${planId}/quizzes`, {\n    method: 'POST',\n    body: JSON.stringify({ objectiveIndex })\n  })\n}\n\ninterface Explanation {\n  explanation: string\n  correctIndex: number\n}\n\nexport async function getExplanation(quizId: number): Promise<Explanation> {\n  return jsonFetch(`/api/quizzes/${quizId}/explain`, { method: 'POST', body: '{}' })\n}\n\ninterface AnswerData {\n  correct: boolean\n  explanation?: string\n}\n\nexport async function checkAnswer(quizId: number, learnerIndex: number): Promise<AnswerData> {\n  return jsonFetch(`/api/quizzes/${quizId}/check`, {\n    method: 'POST',\n    body: JSON.stringify({ learnerIndex })\n  })\n}\n\nexport async function getHint(quizId: number, previousGuessIndex: number | null): Promise<{ hint: string }> {\n  return jsonFetch(`/api/quizzes/${quizId}/hint`, {\n    method: 'POST',\n    body: JSON.stringify({ previousGuessIndex })\n  })\n}\n\ninterface Message {\n  message: string\n}\n\nexport async function learnMore(quizId: number, learnerQuestion: string, history: ChatMessage[]): Promise<Message> {\n  return jsonFetch(`/api/quizzes/${quizId}/ai-help`, {\n    method: 'POST',\n    body: JSON.stringify({ learnerQuestion, history })\n  })\n}\n\ninterface Attempts {\n  quizId: number\n  learnerIndex: number | null\n  attempts: number\n}\n\nexport async function completeAttempt(planId: number, answers: Array<Attempts>): Promise<AttemptSummary> {\n  return jsonFetch(`/api/lesson-plans/${planId}/complete`, {\n    method: 'POST',\n    body: JSON.stringify({ answers })\n  })\n}\n\nexport async function listAttempts(planId: number): Promise<AttemptListItem[]> {\n  return jsonFetch<AttemptListItem[]>(`/api/lesson-plans/${planId}/attempts`)\n}\n\nexport async function getAttempt(attemptId: number): Promise<AttemptSummary> {\n  return jsonFetch<AttemptSummary>(`/api/attempts/${attemptId}`)\n}",
+                  "lineStart": 1,
+                  "lineEnd": 143,
+                  "totalLines": 143,
+                  "truncated": false
+                }
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/frontend/src/lib/api.ts",
+              "time": {
+                "start": 1783778375955,
+                "end": 1783778375962
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f5179f93f001sJE89C4bWRMB5S",
+          "time_created": 1783778375999,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 10753,
+              "input": 2673,
+              "output": 109,
+              "reasoning": 99,
+              "cache": {
+                "write": 0,
+                "read": 7872
+              }
+            },
+            "cost": 0.0004545016
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f5179f942001bXWzp5VOr8sUiX",
+      "time_created": 1783778376002,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 19061,
+          "input": 8156,
+          "output": 138,
+          "reasoning": 271,
+          "cache": {
+            "write": 0,
+            "read": 10496
+          }
+        },
+        "cost": 0.0012857488
+      },
+      "parts": [
+        {
+          "id": "prt_f517a1c07001zre74nVpz02tEd",
+          "time_created": 1783778384903,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f517a1c08001Vgs45H4ltRILnb",
+          "time_created": 1783778384904,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now I understand the full picture. The issue is:\n\n1. **Backend**: `checkAnswer()` (line 128-135 in quizzes.ts) automatically generates an explanation via LLM when the answer is correct. This is an unnecessary LLM call on every correct submission.\n\n2. **Frontend**: The `submit()` function calls `checkAnswer()` which returns the explanation, stores it in state, but the explanation is hidden until the user clicks \"Show explanation\".\n\nThe fix should be:\n- **Backend**: `checkAnswer()` should NOT generate an explanation. It should just return `{ correct: true }` or `{ correct: false }`.\n\n\n- **Frontend**: The \"Show explanation\" button should call the `/api/quizzes/:id/explain` endpoint to fetch the explanation on demand, rather than having it pre-generated and hidden.\n\nI'm noticing the frontend already has a `getExplanation()` function that calls the explain endpoint, so I can leverage that. The key changes are removing the explanation generation from `checkAnswer()` in the backend and updating the \"Show explanation\" button to trigger a fresh API call instead of just toggling visibility of a pre-loaded explanation.\n\nI'll need to add loading states for when the explanation is being fetched and update the button to show that loading state while it's in progress.",
+            "time": {
+              "start": 1783778384904,
+              "end": 1783778387829
+            }
+          }
+        },
+        {
+          "id": "prt_f517a2777001qU5VhFp6d0NUKD",
+          "time_created": 1783778387831,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "todowrite",
+            "callID": "call_53142a2733c547628bc32856",
+            "state": {
+              "status": "completed",
+              "input": {
+                "todos": [
+                  {
+                    "content": "Backend: Remove LLM explanation generation from checkAnswer() - it should only return { correct: boolean }",
+                    "status": "pending",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Frontend: Update 'Show explanation' button to call getExplanation() API on click instead of toggling pre-generated explanation",
+                    "status": "pending",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Frontend: Add loading state for explanation fetch and update onCorrect callback to not pass explanation",
+                    "status": "pending",
+                    "priority": "medium"
+                  }
+                ]
+              },
+              "output": "[\n  {\n    \"content\": \"Backend: Remove LLM explanation generation from checkAnswer() - it should only return { correct: boolean }\",\n    \"status\": \"pending\",\n    \"priority\": \"high\"\n  },\n  {\n    \"content\": \"Frontend: Update 'Show explanation' button to call getExplanation() API on click instead of toggling pre-generated explanation\",\n    \"status\": \"pending\",\n    \"priority\": \"high\"\n  },\n  {\n    \"content\": \"Frontend: Add loading state for explanation fetch and update onCorrect callback to not pass explanation\",\n    \"status\": \"pending\",\n    \"priority\": \"medium\"\n  }\n]",
+              "metadata": {
+                "todos": [
+                  {
+                    "content": "Backend: Remove LLM explanation generation from checkAnswer() - it should only return { correct: boolean }",
+                    "status": "pending",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Frontend: Update 'Show explanation' button to call getExplanation() API on click instead of toggling pre-generated explanation",
+                    "status": "pending",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Frontend: Add loading state for explanation fetch and update onCorrect callback to not pass explanation",
+                    "status": "pending",
+                    "priority": "medium"
+                  }
+                ],
+                "truncated": false
+              },
+              "title": "3 todos",
+              "time": {
+                "start": 1783778389524,
+                "end": 1783778389528
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f517a2e56001I1a78LI5JLQcvl",
+          "time_created": 1783778389590,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 19061,
+              "input": 8156,
+              "output": 138,
+              "reasoning": 271,
+              "cache": {
+                "write": 0,
+                "read": 10496
+              }
+            },
+            "cost": 0.0012857488
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f517a2e5b001gkuJtYZG07UIUQ",
+      "time_created": 1783778389595,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 19358,
+          "input": 585,
+          "output": 114,
+          "reasoning": 35,
+          "cache": {
+            "write": 0,
+            "read": 18624
+          }
+        },
+        "cost": 0.0001757672
+      },
+      "parts": [
+        {
+          "id": "prt_f517a393e001ZO0jfJiLqKqa8k",
+          "time_created": 1783778392382,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f517a3940001rghKJF6QjD8pch",
+          "time_created": 1783778392384,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Let me also check the routes.ts to see the `/check` and `/explain` endpoints, and the lesson-page.tsx to see how `onCorrect` is used.",
+            "time": {
+              "start": 1783778392384,
+              "end": 1783778392754
+            }
+          }
+        },
+        {
+          "id": "prt_f517a3ab4001ifuW77oCD9N1tL",
+          "time_created": 1783778392756,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "read",
+            "callID": "call_0cca9d4e6bf44fdc96c31abe",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/routes.ts",
+                "offset": 70,
+                "limit": 25
+              },
+              "output": "<path>/Users/shivam/qnify/ai-learning-agent/backend/src/routes.ts</path>\n<type>file</type>\n<content>\n70:     const { id } = validate(IdParam, req.params)\n71:     const { objectiveIndex } = validate(CreateQuizBody, req.body)\n72:     return quiz.getOrCreateQuiz(id, objectiveIndex)\n73:   })\n74: \n75:   app.post('/api/quizzes/:id/explain', async (req) => {\n76:     const { id } = validate(IdParam, req.params)\n77:     return quiz.getExplanation(id)\n78:   })\n79: \n80:   const CheckAnswerBody = z.object({ learnerIndex: z.number() })\n81: \n82:   app.post('/api/quizzes/:id/check', async (req) => {\n83:     const { id } = validate(IdParam, req.params)\n84:     const { learnerIndex } = validate(CheckAnswerBody, req.body)\n85:     return quiz.checkAnswer(id, learnerIndex)\n86:   })\n87: \n88:   const HintBody = z.object({ previousGuessIndex: z.number().nullable().optional() })\n89: \n90:   app.post('/api/quizzes/:id/hint', async (req) => {\n91:     const { id } = validate(IdParam, req.params)\n92:     const { previousGuessIndex } = validate(HintBody, req.body)\n93:     const hint = await quiz.getHint(id, previousGuessIndex ?? null)\n94:     return { hint }\n\n(Showing lines 70-94 of 130. Use offset=95 to continue.)\n</content>",
+              "metadata": {
+                "preview": "    const { id } = validate(IdParam, req.params)\n    const { objectiveIndex } = validate(CreateQuizBody, req.body)\n    return quiz.getOrCreateQuiz(id, objectiveIndex)\n  })\n\n  app.post('/api/quizzes/:id/explain', async (req) => {\n    const { id } = validate(IdParam, req.params)\n    return quiz.getExplanation(id)\n  })\n\n  const CheckAnswerBody = z.object({ learnerIndex: z.number() })\n\n  app.post('/api/quizzes/:id/check', async (req) => {\n    const { id } = validate(IdParam, req.params)\n    const { learnerIndex } = validate(CheckAnswerBody, req.body)\n    return quiz.checkAnswer(id, learnerIndex)\n  })\n\n  const HintBody = z.object({ previousGuessIndex: z.number().nullable().optional() })\n",
+                "truncated": true,
+                "loaded": [],
+                "display": {
+                  "type": "file",
+                  "path": "/Users/shivam/qnify/ai-learning-agent/backend/src/routes.ts",
+                  "text": "    const { id } = validate(IdParam, req.params)\n    const { objectiveIndex } = validate(CreateQuizBody, req.body)\n    return quiz.getOrCreateQuiz(id, objectiveIndex)\n  })\n\n  app.post('/api/quizzes/:id/explain', async (req) => {\n    const { id } = validate(IdParam, req.params)\n    return quiz.getExplanation(id)\n  })\n\n  const CheckAnswerBody = z.object({ learnerIndex: z.number() })\n\n  app.post('/api/quizzes/:id/check', async (req) => {\n    const { id } = validate(IdParam, req.params)\n    const { learnerIndex } = validate(CheckAnswerBody, req.body)\n    return quiz.checkAnswer(id, learnerIndex)\n  })\n\n  const HintBody = z.object({ previousGuessIndex: z.number().nullable().optional() })\n\n  app.post('/api/quizzes/:id/hint', async (req) => {\n    const { id } = validate(IdParam, req.params)\n    const { previousGuessIndex } = validate(HintBody, req.body)\n    const hint = await quiz.getHint(id, previousGuessIndex ?? null)\n    return { hint }",
+                  "lineStart": 70,
+                  "lineEnd": 94,
+                  "totalLines": 130,
+                  "truncated": true
+                }
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/routes.ts",
+              "time": {
+                "start": 1783778393131,
+                "end": 1783778393138
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f517a3c6200179RrIB68HEIs6z",
+          "time_created": 1783778393186,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "read",
+            "callID": "call_f76c9c6c38094702a2a089f9",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/frontend/src/pages/lesson-page.tsx",
+                "offset": 295,
+                "limit": 20
+              },
+              "output": "<path>/Users/shivam/qnify/ai-learning-agent/frontend/src/pages/lesson-page.tsx</path>\n<type>file</type>\n<content>\n295: \n296:       <div className=\"grid gap-6 lg:grid-cols-[1fr_280px]\">\n297:         <div className=\"min-w-0\">\n298:           {currentQuiz ? (\n299:             <MCQWidget\n300:               key={currentQuiz.id}\n301:               quiz={currentQuiz}\n302:               objectiveNumber={currentIdx + 1}\n303:               totalObjectives={total}\n304:               onCorrect={(learnerIndex, explanation) => {\n305:                 void explanation\n306:                 handleCorrect(currentIdx, learnerIndex)\n307:               }}\n308:               onIncorrect={(learnerIndex) => handleIncorrect(currentIdx, learnerIndex)}\n309:               onSkip={() => handleSkip(currentIdx)}\n310:               onNext={advance}\n311:               isLast={currentIdx === total - 1}\n312:             />\n313:           ) : (\n314:             <Card>\n\n(Showing lines 295-314 of 335. Use offset=315 to continue.)\n</content>",
+              "metadata": {
+                "preview": "\n      <div className=\"grid gap-6 lg:grid-cols-[1fr_280px]\">\n        <div className=\"min-w-0\">\n          {currentQuiz ? (\n            <MCQWidget\n              key={currentQuiz.id}\n              quiz={currentQuiz}\n              objectiveNumber={currentIdx + 1}\n              totalObjectives={total}\n              onCorrect={(learnerIndex, explanation) => {\n                void explanation\n                handleCorrect(currentIdx, learnerIndex)\n              }}\n              onIncorrect={(learnerIndex) => handleIncorrect(currentIdx, learnerIndex)}\n              onSkip={() => handleSkip(currentIdx)}\n              onNext={advance}\n              isLast={currentIdx === total - 1}\n            />\n          ) : (\n            <Card>",
+                "truncated": true,
+                "loaded": [],
+                "display": {
+                  "type": "file",
+                  "path": "/Users/shivam/qnify/ai-learning-agent/frontend/src/pages/lesson-page.tsx",
+                  "text": "\n      <div className=\"grid gap-6 lg:grid-cols-[1fr_280px]\">\n        <div className=\"min-w-0\">\n          {currentQuiz ? (\n            <MCQWidget\n              key={currentQuiz.id}\n              quiz={currentQuiz}\n              objectiveNumber={currentIdx + 1}\n              totalObjectives={total}\n              onCorrect={(learnerIndex, explanation) => {\n                void explanation\n                handleCorrect(currentIdx, learnerIndex)\n              }}\n              onIncorrect={(learnerIndex) => handleIncorrect(currentIdx, learnerIndex)}\n              onSkip={() => handleSkip(currentIdx)}\n              onNext={advance}\n              isLast={currentIdx === total - 1}\n            />\n          ) : (\n            <Card>",
+                  "lineStart": 295,
+                  "lineEnd": 314,
+                  "totalLines": 335,
+                  "truncated": true
+                }
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/frontend/src/pages/lesson-page.tsx",
+              "time": {
+                "start": 1783778393522,
+                "end": 1783778393526
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f517a3e00001eKvTRJAJnNW9Qs",
+          "time_created": 1783778393600,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 19358,
+              "input": 585,
+              "output": 114,
+              "reasoning": 35,
+              "cache": {
+                "write": 0,
+                "read": 18624
+              }
+            },
+            "cost": 0.0001757672
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f517a3e04001wNzhoOGmG7J8E9",
+      "time_created": 1783778393604,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 20373,
+          "input": 849,
+          "output": 181,
+          "reasoning": 143,
+          "cache": {
+            "write": 0,
+            "read": 19200
+          }
+        },
+        "cost": 0.00026334
+      },
+      "parts": [
+        {
+          "id": "prt_f517a4733001Feb5XK96dYYWfy",
+          "time_created": 1783778395955,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f517a4734001br5iWk5aTzSP2b",
+          "time_created": 1783778395957,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now I have all the information I need. Let me make the changes:\n\n1. **Backend** (`quizzes.ts`): Remove LLM explanation from `checkAnswer()`, simplify it to just check correctness.\n2. **Frontend** (`mcq-widget.tsx`): \n   - Remove explanation from `submit()` result handling\n   - Add loading state for explanation\n   - Make \"Show explanation\" button call `getExplanation()` API\n   - Update `onCorrect` callback signature (remove explanation parameter)\n3. **Frontend** (`lesson-page.tsx`): Update `onCorrect` callback to not pass explanation.\n\n\n4. Now I'm implementing these changes across the codebase.",
+            "time": {
+              "start": 1783778395956,
+              "end": 1783778397509
+            }
+          }
+        },
+        {
+          "id": "prt_f517a4d46001OBAAK22WQ9AIlD",
+          "time_created": 1783778397510,
+          "type": "text",
+          "data": {
+            "type": "text",
+            "text": "Now I understand the issue. The `checkAnswer()` backend call generates an explanation via LLM on every correct submit. It should only be generated when the user clicks \"Show explanation\". Let me fix this.",
+            "time": {
+              "start": 1783778397510,
+              "end": 1783778398679
+            }
+          }
+        },
+        {
+          "id": "prt_f517a4e50001drtDITtxx0S7O4",
+          "time_created": 1783778397777,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "todowrite",
+            "callID": "call_7118a2b74f7a4828a8530637",
+            "state": {
+              "status": "completed",
+              "input": {
+                "todos": [
+                  {
+                    "content": "Backend: Remove LLM explanation generation from checkAnswer() - it should only return { correct: boolean }",
+                    "priority": "high",
+                    "status": "in_progress"
+                  },
+                  {
+                    "content": "Frontend: Update 'Show explanation' button to call getExplanation() API on click instead of toggling pre-generated explanation",
+                    "priority": "high",
+                    "status": "pending"
+                  },
+                  {
+                    "content": "Frontend: Add loading state for explanation fetch and update onCorrect callback to not pass explanation",
+                    "priority": "medium",
+                    "status": "pending"
+                  }
+                ]
+              },
+              "output": "[\n  {\n    \"content\": \"Backend: Remove LLM explanation generation from checkAnswer() - it should only return { correct: boolean }\",\n    \"status\": \"in_progress\",\n    \"priority\": \"high\"\n  },\n  {\n    \"content\": \"Frontend: Update 'Show explanation' button to call getExplanation() API on click instead of toggling pre-generated explanation\",\n    \"status\": \"pending\",\n    \"priority\": \"high\"\n  },\n  {\n    \"content\": \"Frontend: Add loading state for explanation fetch and update onCorrect callback to not pass explanation\",\n    \"status\": \"pending\",\n    \"priority\": \"medium\"\n  }\n]",
+              "metadata": {
+                "todos": [
+                  {
+                    "content": "Backend: Remove LLM explanation generation from checkAnswer() - it should only return { correct: boolean }",
+                    "status": "in_progress",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Frontend: Update 'Show explanation' button to call getExplanation() API on click instead of toggling pre-generated explanation",
+                    "status": "pending",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Frontend: Add loading state for explanation fetch and update onCorrect callback to not pass explanation",
+                    "status": "pending",
+                    "priority": "medium"
+                  }
+                ],
+                "truncated": false
+              },
+              "title": "3 todos",
+              "time": {
+                "start": 1783778398627,
+                "end": 1783778398628
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f517a51d9001meMO2OAEdTJ5QC",
+          "time_created": 1783778398681,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 20373,
+              "input": 849,
+              "output": 181,
+              "reasoning": 143,
+              "cache": {
+                "write": 0,
+                "read": 19200
+              }
+            },
+            "cost": 0.00026334
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f517a51db001CGZA3zpLRWRCLM",
+      "time_created": 1783778398683,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 20767,
+          "input": 490,
+          "output": 237,
+          "reasoning": 8,
+          "cache": {
+            "write": 0,
+            "read": 20032
+          }
+        },
+        "cost": 0.0001932896
+      },
+      "parts": [
+        {
+          "id": "prt_f517a58090015yT94Jgh4WlDoy",
+          "time_created": 1783778400265,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f517a580a0013BmjmqhMSLc22D",
+          "time_created": 1783778400266,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Let me make the backend change first.",
+            "time": {
+              "start": 1783778400266,
+              "end": 1783778400675
+            }
+          }
+        },
+        {
+          "id": "prt_f517a59a5001S1SvyEFXDLd3Qj",
+          "time_created": 1783778400677,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "edit",
+            "callID": "call_73b04f5878c04577a0a9cdac",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts",
+                "oldString": "interface AnswerOutput {\n  correct: boolean\n  explanation?: string\n}\n\nexport async function checkAnswer(quizId: number, learnerIndex: number): Promise<AnswerOutput> {\n  const quiz = await getQuizInternal(quizId)\n  if (!quiz) throw new NotFoundError('Quiz not found')\n  const correct = learnerIndex === quiz.correct_index\n  if (!correct) return { correct: false }\n  const { explanation } = await getExplanation(quizId)\n  return { correct: true, explanation }\n}",
+                "newString": "interface AnswerOutput {\n  correct: boolean\n}\n\nexport async function checkAnswer(quizId: number, learnerIndex: number): Promise<AnswerOutput> {\n  const quiz = await getQuizInternal(quizId)\n  if (!quiz) throw new NotFoundError('Quiz not found')\n  const correct = learnerIndex === quiz.correct_index\n  return { correct }\n}"
+              },
+              "output": "Edit applied successfully.",
+              "metadata": {
+                "diagnostics": {},
+                "diff": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n@@ -121,18 +121,15 @@\n }\n \n interface AnswerOutput {\n   correct: boolean\n-  explanation?: string\n }\n \n export async function checkAnswer(quizId: number, learnerIndex: number): Promise<AnswerOutput> {\n   const quiz = await getQuizInternal(quizId)\n   if (!quiz) throw new NotFoundError('Quiz not found')\n   const correct = learnerIndex === quiz.correct_index\n-  if (!correct) return { correct: false }\n-  const { explanation } = await getExplanation(quizId)\n-  return { correct: true, explanation }\n+  return { correct }\n }\n \n interface AI_Message {\n   role: 'user' | 'assistant'\n",
+                "filediff": {
+                  "file": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts",
+                  "patch": "Index: /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n+++ /Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts\n@@ -121,18 +121,15 @@\n }\n \n interface AnswerOutput {\n   correct: boolean\n-  explanation?: string\n }\n \n export async function checkAnswer(quizId: number, learnerIndex: number): Promise<AnswerOutput> {\n   const quiz = await getQuizInternal(quizId)\n   if (!quiz) throw new NotFoundError('Quiz not found')\n   const correct = learnerIndex === quiz.correct_index\n-  if (!correct) return { correct: false }\n-  const { explanation } = await getExplanation(quizId)\n-  return { correct: true, explanation }\n+  return { correct }\n }\n \n interface AI_Message {\n   role: 'user' | 'assistant'\n",
+                  "additions": 1,
+                  "deletions": 4
+                },
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts",
+              "time": {
+                "start": 1783778402322,
+                "end": 1783778402323
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f517a603c001Cn3vCbuO7Ho00a",
+          "time_created": 1783778402364,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 20767,
+              "input": 490,
+              "output": 237,
+              "reasoning": 8,
+              "cache": {
+                "write": 0,
+                "read": 20032
+              }
+            },
+            "cost": 0.0001932896
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f517a6040001wEu6i5rZzlxeOZ",
+      "time_created": 1783778402368,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 20985,
+          "input": 302,
+          "output": 139,
+          "reasoning": 64,
+          "cache": {
+            "write": 0,
+            "read": 20480
+          }
+        },
+        "cost": 0.000156464
+      },
+      "parts": [
+        {
+          "id": "prt_f517a7470001q7zdLFonQpb58A",
+          "time_created": 1783778407536,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f517a74710012YjYnp55SsYJKu",
+          "time_created": 1783778407537,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now let me update the frontend. I need to:\n1. Update `submit()` to not expect explanation from `checkAnswer()`\n2. Add a loading state for explanation\n3. Make the \"Show explanation\" button call `getExplanation()` API\n4. Update `onCorrect` callback to not pass explanation",
+            "time": {
+              "start": 1783778407537,
+              "end": 1783778408259
+            }
+          }
+        },
+        {
+          "id": "prt_f517a7745001gG0uW7pq2z14Ps",
+          "time_created": 1783778408261,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "todowrite",
+            "callID": "call_b422d229a9b24ef4a2ea9138",
+            "state": {
+              "status": "completed",
+              "input": {
+                "todos": [
+                  {
+                    "content": "Backend: Remove LLM explanation generation from checkAnswer() - it should only return { correct: boolean }",
+                    "priority": "high",
+                    "status": "completed"
+                  },
+                  {
+                    "content": "Frontend: Update 'Show explanation' button to call getExplanation() API on click instead of toggling pre-generated explanation",
+                    "priority": "high",
+                    "status": "in_progress"
+                  },
+                  {
+                    "content": "Frontend: Add loading state for explanation fetch and update onCorrect callback to not pass explanation",
+                    "priority": "medium",
+                    "status": "pending"
+                  }
+                ]
+              },
+              "output": "[\n  {\n    \"content\": \"Backend: Remove LLM explanation generation from checkAnswer() - it should only return { correct: boolean }\",\n    \"status\": \"completed\",\n    \"priority\": \"high\"\n  },\n  {\n    \"content\": \"Frontend: Update 'Show explanation' button to call getExplanation() API on click instead of toggling pre-generated explanation\",\n    \"status\": \"in_progress\",\n    \"priority\": \"high\"\n  },\n  {\n    \"content\": \"Frontend: Add loading state for explanation fetch and update onCorrect callback to not pass explanation\",\n    \"status\": \"pending\",\n    \"priority\": \"medium\"\n  }\n]",
+              "metadata": {
+                "todos": [
+                  {
+                    "content": "Backend: Remove LLM explanation generation from checkAnswer() - it should only return { correct: boolean }",
+                    "status": "completed",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Frontend: Update 'Show explanation' button to call getExplanation() API on click instead of toggling pre-generated explanation",
+                    "status": "in_progress",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Frontend: Add loading state for explanation fetch and update onCorrect callback to not pass explanation",
+                    "status": "pending",
+                    "priority": "medium"
+                  }
+                ],
+                "truncated": false
+              },
+              "title": "2 todos",
+              "time": {
+                "start": 1783778409997,
+                "end": 1783778409999
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f517a7e37001oEyF7qnhe5kfR1",
+          "time_created": 1783778410039,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 20985,
+              "input": 302,
+              "output": 139,
+              "reasoning": 64,
+              "cache": {
+                "write": 0,
+                "read": 20480
+              }
+            },
+            "cost": 0.000156464
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f517a7e3a001FpeGFUI1Wh3Mng",
+      "time_created": 1783778410042,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 21306,
+          "input": 398,
+          "output": 91,
+          "reasoning": 81,
+          "cache": {
+            "write": 0,
+            "read": 20736
+          }
+        },
+        "cost": 0.0001619408
+      },
+      "parts": [
+        {
+          "id": "prt_f517a86d6001DJZDrJp0D3HUDB",
+          "time_created": 1783778412246,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f517a86d8001S618oNC955Ujkg",
+          "time_created": 1783778412248,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now let me update the frontend mcq-widget.tsx. I need to:\n\n1. Import `getExplanation` from api.ts (it's already available in the codebase but not imported)\n2. Remove explanation from submit() result handling\n3. Add explanationLoading state\n4. Make the \"Show explanation\" button call getExplanation() API\n5. Update onCorrect callback to not pass explanation",
+            "time": {
+              "start": 1783778412248,
+              "end": 1783778413215
+            }
+          }
+        },
+        {
+          "id": "prt_f517a8aa10017U450tXLrG30GL",
+          "time_created": 1783778413217,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "edit",
+            "callID": "call_42f60a0ee0484ccb926c045f",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx",
+                "oldString": "import { checkAnswer, getHint, learnMore } from '#lib/api'",
+                "newString": "import { checkAnswer, getExplanation, getHint, learnMore } from '#lib/api'"
+              },
+              "output": "Edit applied successfully.",
+              "metadata": {
+                "diagnostics": {},
+                "diff": "Index: /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n+++ /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n@@ -6,9 +6,9 @@\n import { Button } from '#components/ui/button'\n import { Card, CardContent } from '#components/ui/card'\n import { RadioGroup, RadioGroupItem } from '#components/ui/radio-group'\n import { Textarea } from '#components/ui/textarea'\n-import { checkAnswer, getHint, learnMore } from '#lib/api'\n+import { checkAnswer, getExplanation, getHint, learnMore } from '#lib/api'\n import type { ChatMessage, QuizDTO } from '#lib/types'\n \n interface Props {\n   quiz: QuizDTO\n",
+                "filediff": {
+                  "file": "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx",
+                  "patch": "Index: /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n+++ /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n@@ -6,9 +6,9 @@\n import { Button } from '#components/ui/button'\n import { Card, CardContent } from '#components/ui/card'\n import { RadioGroup, RadioGroupItem } from '#components/ui/radio-group'\n import { Textarea } from '#components/ui/textarea'\n-import { checkAnswer, getHint, learnMore } from '#lib/api'\n+import { checkAnswer, getExplanation, getHint, learnMore } from '#lib/api'\n import type { ChatMessage, QuizDTO } from '#lib/types'\n \n interface Props {\n   quiz: QuizDTO\n",
+                  "additions": 1,
+                  "deletions": 1
+                },
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx",
+              "time": {
+                "start": 1783778413828,
+                "end": 1783778413830
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f517a8d2d001ye66A23lgcinyv",
+          "time_created": 1783778413869,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 21306,
+              "input": 398,
+              "output": 91,
+              "reasoning": 81,
+              "cache": {
+                "write": 0,
+                "read": 20736
+              }
+            },
+            "cost": 0.0001619408
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f517a8d32001eS1f6zgfDV1wnX",
+      "time_created": 1783778413874,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 21419,
+          "input": 585,
+          "output": 86,
+          "reasoning": 12,
+          "cache": {
+            "write": 0,
+            "read": 20736
+          }
+        },
+        "cost": 0.0001674008
+      },
+      "parts": [
+        {
+          "id": "prt_f517a95a3001ONvkid03oMGgJv",
+          "time_created": 1783778416036,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f517a95a6001CP71crCIStB3gW",
+          "time_created": 1783778416038,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now update the onCorrect callback signature to not require explanation.",
+            "time": {
+              "start": 1783778416038,
+              "end": 1783778416219
+            }
+          }
+        },
+        {
+          "id": "prt_f517a965c001KAook4fwS12I83",
+          "time_created": 1783778416220,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "edit",
+            "callID": "call_ae63aeaed10648da9f13d7ad",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx",
+                "oldString": "  onCorrect: (learnerIndex: number, explanation: string) => void",
+                "newString": "  onCorrect: (learnerIndex: number) => void"
+              },
+              "output": "Edit applied successfully.",
+              "metadata": {
+                "diagnostics": {},
+                "diff": "Index: /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n+++ /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n@@ -13,9 +13,9 @@\n interface Props {\n   quiz: QuizDTO\n   objectiveNumber: number\n   totalObjectives: number\n-  onCorrect: (learnerIndex: number, explanation: string) => void\n+  onCorrect: (learnerIndex: number) => void\n   onIncorrect: (learnerIndex: number) => void\n   onSkip: () => void\n   onNext: () => void\n   isLast: boolean\n",
+                "filediff": {
+                  "file": "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx",
+                  "patch": "Index: /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n+++ /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n@@ -13,9 +13,9 @@\n interface Props {\n   quiz: QuizDTO\n   objectiveNumber: number\n   totalObjectives: number\n-  onCorrect: (learnerIndex: number, explanation: string) => void\n+  onCorrect: (learnerIndex: number) => void\n   onIncorrect: (learnerIndex: number) => void\n   onSkip: () => void\n   onNext: () => void\n   isLast: boolean\n",
+                  "additions": 1,
+                  "deletions": 1
+                },
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx",
+              "time": {
+                "start": 1783778416746,
+                "end": 1783778416748
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f517a98e90010R43JcCS9SAaH4",
+          "time_created": 1783778416873,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 21419,
+              "input": 585,
+              "output": 86,
+              "reasoning": 12,
+              "cache": {
+                "write": 0,
+                "read": 20736
+              }
+            },
+            "cost": 0.0001674008
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f517a98ed00186D1gd74pH7a1B",
+      "time_created": 1783778416877,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 21588,
+          "input": 122,
+          "output": 131,
+          "reasoning": 23,
+          "cache": {
+            "write": 0,
+            "read": 21312
+          }
+        },
+        "cost": 0.0001198736
+      },
+      "parts": [
+        {
+          "id": "prt_f517aa873001o31abeLvDpsfnM",
+          "time_created": 1783778420851,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f517aa8750018rbUq3iUGZOhnZ",
+          "time_created": 1783778420854,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now update the submit() function to not expect explanation from checkAnswer(), and remove the explanation from onCorrect call.",
+            "time": {
+              "start": 1783778420854,
+              "end": 1783778421190
+            }
+          }
+        },
+        {
+          "id": "prt_f517aa9c7001RQGyXlJ3gK2eM1",
+          "time_created": 1783778421192,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "edit",
+            "callID": "call_173772c36e0b44c0be268009",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx",
+                "newString": "  const [explanation, setExplanation] = useState<string | null>(null)\n  const [showExplanation, setShowExplanation] = useState(false)\n  const [explanationLoading, setExplanationLoading] = useState(false)",
+                "oldString": "  const [explanation, setExplanation] = useState<string | null>(null)\n  const [showExplanation, setShowExplanation] = useState(false)"
+              },
+              "output": "Edit applied successfully.",
+              "metadata": {
+                "diagnostics": {},
+                "diff": "Index: /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n+++ /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n@@ -39,8 +39,9 @@\n const [hint, setHint] = useState<string | null>(null)\n const [hintLoading, setHintLoading] = useState(false)\n const [explanation, setExplanation] = useState<string | null>(null)\n const [showExplanation, setShowExplanation] = useState(false)\n+const [explanationLoading, setExplanationLoading] = useState(false)\n const [tries, setTries] = useState(0)\n const [chatOpen, setChatOpen] = useState(false)\n \n // Reset state when quiz changes (new objective)\n",
+                "filediff": {
+                  "file": "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx",
+                  "patch": "Index: /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n+++ /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n@@ -39,8 +39,9 @@\n const [hint, setHint] = useState<string | null>(null)\n const [hintLoading, setHintLoading] = useState(false)\n const [explanation, setExplanation] = useState<string | null>(null)\n const [showExplanation, setShowExplanation] = useState(false)\n+const [explanationLoading, setExplanationLoading] = useState(false)\n const [tries, setTries] = useState(0)\n const [chatOpen, setChatOpen] = useState(false)\n \n // Reset state when quiz changes (new objective)\n",
+                  "additions": 1,
+                  "deletions": 0
+                },
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx",
+              "time": {
+                "start": 1783778422085,
+                "end": 1783778422087
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f517aad7a001AAJ8cdeEoxZ4H7",
+          "time_created": 1783778422138,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 21588,
+              "input": 122,
+              "output": 131,
+              "reasoning": 23,
+              "cache": {
+                "write": 0,
+                "read": 21312
+              }
+            },
+            "cost": 0.0001198736
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f517aad7f001qSHjjhjYCdzNAU",
+      "time_created": 1783778422143,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 21903,
+          "input": 227,
+          "output": 282,
+          "reasoning": 18,
+          "cache": {
+            "write": 0,
+            "read": 21376
+          }
+        },
+        "cost": 0.0001756328
+      },
+      "parts": [
+        {
+          "id": "prt_f517ab609001ssjsF1v26EjaID",
+          "time_created": 1783778424329,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f517ab60a001eKAP0zovpLO4D5",
+          "time_created": 1783778424330,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now update the submit() function to not store explanation and not pass it to onCorrect.",
+            "time": {
+              "start": 1783778424330,
+              "end": 1783778424544
+            }
+          }
+        },
+        {
+          "id": "prt_f517ab6e2001G9hmYGYv26KZgc",
+          "time_created": 1783778424546,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "edit",
+            "callID": "call_1c502f29c3124dafb839b005",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx",
+                "newString": "  const submit = async () => {\n    if (selected === null || submitting) return\n    setHint(null)\n    setSubmitting(true)\n    try {\n      const res = await checkAnswer(quiz.id, selected)\n      if (res.correct) {\n        setStatus('correct')\n        onCorrect(selected)\n      } else {\n        setStatus('incorrect')\n        onIncorrect(selected)\n        setTries((t) => t + 1)\n      }\n    } finally {\n      setSubmitting(false)\n    }\n  }",
+                "oldString": "  const submit = async () => {\n    if (selected === null || submitting) return\n    setHint(null)\n    setSubmitting(true)\n    try {\n      const res = await checkAnswer(quiz.id, selected)\n      if (res.correct) {\n        if (res.explanation) setExplanation(res.explanation)\n        setStatus('correct')\n        onCorrect(selected, res.explanation ?? '')\n      } else {\n        setStatus('incorrect')\n        onIncorrect(selected)\n        setTries((t) => t + 1)\n      }\n    } finally {\n      setSubmitting(false)\n    }\n  }"
+              },
+              "output": "Edit applied successfully.",
+              "metadata": {
+                "diagnostics": {},
+                "diff": "Index: /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n+++ /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n@@ -61,11 +61,10 @@\n setSubmitting(true)\n try {\n   const res = await checkAnswer(quiz.id, selected)\n   if (res.correct) {\n-    if (res.explanation) setExplanation(res.explanation)\n     setStatus('correct')\n-    onCorrect(selected, res.explanation ?? '')\n+    onCorrect(selected)\n   } else {\n     setStatus('incorrect')\n     onIncorrect(selected)\n     setTries((t) => t + 1)\n",
+                "filediff": {
+                  "file": "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx",
+                  "patch": "Index: /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n+++ /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n@@ -61,11 +61,10 @@\n setSubmitting(true)\n try {\n   const res = await checkAnswer(quiz.id, selected)\n   if (res.correct) {\n-    if (res.explanation) setExplanation(res.explanation)\n     setStatus('correct')\n-    onCorrect(selected, res.explanation ?? '')\n+    onCorrect(selected)\n   } else {\n     setStatus('incorrect')\n     onIncorrect(selected)\n     setTries((t) => t + 1)\n",
+                  "additions": 1,
+                  "deletions": 2
+                },
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx",
+              "time": {
+                "start": 1783778426805,
+                "end": 1783778426806
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f517abfdc0011Rq20kCvsurz4U",
+          "time_created": 1783778426844,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 21903,
+              "input": 227,
+              "output": 282,
+              "reasoning": 18,
+              "cache": {
+                "write": 0,
+                "read": 21376
+              }
+            },
+            "cost": 0.0001756328
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f517abfdf001r8YEWqWMiWbm3D",
+      "time_created": 1783778426847,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 22207,
+          "input": 350,
+          "output": 265,
+          "reasoning": 24,
+          "cache": {
+            "write": 0,
+            "read": 21568
+          }
+        },
+        "cost": 0.0001903104
+      },
+      "parts": [
+        {
+          "id": "prt_f517ac670001za0LOi6UxYrsB2",
+          "time_created": 1783778428528,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f517ac672001kRoU70gcRR39NS",
+          "time_created": 1783778428530,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now update the \"Show explanation\" button to call getExplanation() API on click instead of just toggling the state.",
+            "time": {
+              "start": 1783778428530,
+              "end": 1783778428939
+            }
+          }
+        },
+        {
+          "id": "prt_f517ac80e0013wi5B7LWRRR3NJ",
+          "time_created": 1783778428942,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "edit",
+            "callID": "call_bbf80113fabd4e99b68c02a7",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx",
+                "newString": "            {locked && (\n              <>\n                <Button\n                  variant=\"outline\"\n                  onClick={async () => {\n                    if (showExplanation) {\n                      setShowExplanation(false)\n                      return\n                    }\n                    setExplanationLoading(true)\n                    try {\n                      const res = await getExplanation(quiz.id)\n                      setExplanation(res.explanation)\n                      setShowExplanation(true)\n                    } finally {\n                      setExplanationLoading(false)\n                    }\n                  }}\n                  disabled={explanationLoading}\n                  className=\"gap-1.5\"\n                >\n                  {explanationLoading ? (\n                    <Loader2 className=\"size-4 animate-spin\" />\n                  ) : showExplanation ? (\n                    'Hide explanation'\n                  ) : (\n                    'Show explanation'\n                  )}\n                </Button>",
+                "oldString": "            {locked && (\n              <>\n                {explanation && (\n                  <Button variant=\"outline\" onClick={() => setShowExplanation(!showExplanation)} className=\"gap-1.5\">\n                    {showExplanation ? 'Hide explanation' : 'Show explanation'}\n                  </Button>\n                )}"
+              },
+              "output": "Edit applied successfully.",
+              "metadata": {
+                "diagnostics": {},
+                "diff": "Index: /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n+++ /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n@@ -226,13 +226,35 @@\n   </>\n )}\n {locked && (\n   <>\n-    {explanation && (\n-      <Button variant=\"outline\" onClick={() => setShowExplanation(!showExplanation)} className=\"gap-1.5\">\n-        {showExplanation ? 'Hide explanation' : 'Show explanation'}\n-      </Button>\n-    )}\n+    <Button\n+      variant=\"outline\"\n+      onClick={async () => {\n+        if (showExplanation) {\n+          setShowExplanation(false)\n+          return\n+        }\n+        setExplanationLoading(true)\n+        try {\n+          const res = await getExplanation(quiz.id)\n+          setExplanation(res.explanation)\n+          setShowExplanation(true)\n+        } finally {\n+          setExplanationLoading(false)\n+        }\n+      }}\n+      disabled={explanationLoading}\n+      className=\"gap-1.5\"\n+    >\n+      {explanationLoading ? (\n+        <Loader2 className=\"size-4 animate-spin\" />\n+      ) : showExplanation ? (\n+        'Hide explanation'\n+      ) : (\n+        'Show explanation'\n+      )}\n+    </Button>\n     <Button onClick={onNext} className=\"ml-auto gap-1.5\">\n       {isLast ? 'Finish & see results' : 'Next objective'}\n     </Button>\n   </>\n",
+                "filediff": {
+                  "file": "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx",
+                  "patch": "Index: /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n+++ /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n@@ -226,13 +226,35 @@\n   </>\n )}\n {locked && (\n   <>\n-    {explanation && (\n-      <Button variant=\"outline\" onClick={() => setShowExplanation(!showExplanation)} className=\"gap-1.5\">\n-        {showExplanation ? 'Hide explanation' : 'Show explanation'}\n-      </Button>\n-    )}\n+    <Button\n+      variant=\"outline\"\n+      onClick={async () => {\n+        if (showExplanation) {\n+          setShowExplanation(false)\n+          return\n+        }\n+        setExplanationLoading(true)\n+        try {\n+          const res = await getExplanation(quiz.id)\n+          setExplanation(res.explanation)\n+          setShowExplanation(true)\n+        } finally {\n+          setExplanationLoading(false)\n+        }\n+      }}\n+      disabled={explanationLoading}\n+      className=\"gap-1.5\"\n+    >\n+      {explanationLoading ? (\n+        <Loader2 className=\"size-4 animate-spin\" />\n+      ) : showExplanation ? (\n+        'Hide explanation'\n+      ) : (\n+        'Show explanation'\n+      )}\n+    </Button>\n     <Button onClick={onNext} className=\"ml-auto gap-1.5\">\n       {isLast ? 'Finish & see results' : 'Next objective'}\n     </Button>\n   </>\n",
+                  "additions": 27,
+                  "deletions": 5
+                },
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx",
+              "time": {
+                "start": 1783778431190,
+                "end": 1783778431191
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f517ad125001oGq86Yu8NOC1Rf",
+          "time_created": 1783778431269,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 22207,
+              "input": 350,
+              "output": 265,
+              "reasoning": 24,
+              "cache": {
+                "write": 0,
+                "read": 21568
+              }
+            },
+            "cost": 0.0001903104
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f517ad129001MFs4Wc7zpbRby8",
+      "time_created": 1783778431273,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 22544,
+          "input": 846,
+          "output": 87,
+          "reasoning": 235,
+          "cache": {
+            "write": 0,
+            "read": 21376
+          }
+        },
+        "cost": 0.0002684528
+      },
+      "parts": [
+        {
+          "id": "prt_f517aee9a001oLzEqDKw77BHsA",
+          "time_created": 1783778438810,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f517aee9b001W6hf0QqnpRXobX",
+          "time_created": 1783778438811,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now I need to update the explanation display to use `showExplanation` instead of also requiring `explanation` to be truthy (since explanation is now fetched on demand). Actually, let me think about this... the explanation state is set when the user clicks the button and the API call completes. So the condition `explanation && status === 'correct' && showExplanation` still makes sense because when the user clicks \"Show explanation\", the API is called, explanation is set, and showExplanation is set to true. So it will show.\n\nBut actually, there's a small issue: the explanation display condition also checks `explanation &&`, which is redundant if we're only showing it when `showExplanation` is true (since we only set `showExplanation` to true after the API call returns). \n\nI see now\u2014since `showExplanation` is only set to true after the explanation has been fetched and stored, the `explanation` check becomes unnecessary. I can simplify the condition to just check `status === 'correct' && showExplanation`, and since `explanation` is always a string when shown, I can remove the null check entirely.",
+            "time": {
+              "start": 1783778438811,
+              "end": 1783778443016
+            }
+          }
+        },
+        {
+          "id": "prt_f517aff0a001X3yl9yFOBoeYmN",
+          "time_created": 1783778443018,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "edit",
+            "callID": "call_62254184e3904c6592a93de8",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx",
+                "newString": "          {status === 'correct' && showExplanation && explanation && (",
+                "oldString": "          {explanation && status === 'correct' && showExplanation && ("
+              },
+              "output": "Edit applied successfully.",
+              "metadata": {
+                "diagnostics": {},
+                "diff": "Index: /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n+++ /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n@@ -187,9 +187,9 @@\n     </div>\n   </div>\n )}\n \n-{explanation && status === 'correct' && showExplanation && (\n+{status === 'correct' && showExplanation && explanation && (\n   <div className=\"flex items-start gap-2.5 rounded-xl border border-success/40 bg-success/10 p-3.5 text-sm\">\n     <Check className=\"size-4 shrink-0 translate-y-0.5 text-success\" />\n     <div>\n       <p className=\"font-medium text-success\">Explanation</p>\n",
+                "filediff": {
+                  "file": "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx",
+                  "patch": "Index: /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n+++ /Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx\n@@ -187,9 +187,9 @@\n     </div>\n   </div>\n )}\n \n-{explanation && status === 'correct' && showExplanation && (\n+{status === 'correct' && showExplanation && explanation && (\n   <div className=\"flex items-start gap-2.5 rounded-xl border border-success/40 bg-success/10 p-3.5 text-sm\">\n     <Check className=\"size-4 shrink-0 translate-y-0.5 text-success\" />\n     <div>\n       <p className=\"font-medium text-success\">Explanation</p>\n",
+                  "additions": 1,
+                  "deletions": 1
+                },
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx",
+              "time": {
+                "start": 1783778443384,
+                "end": 1783778443385
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f517b00900012kDdbznojRJ96j",
+          "time_created": 1783778443408,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 22544,
+              "input": 846,
+              "output": 87,
+              "reasoning": 235,
+              "cache": {
+                "write": 0,
+                "read": 21376
+              }
+            },
+            "cost": 0.0002684528
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f517b0095001mV482E90C1Symw",
+      "time_created": 1783778443413,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 22717,
+          "input": 351,
+          "output": 139,
+          "reasoning": 19,
+          "cache": {
+            "write": 0,
+            "read": 22208
+          }
+        },
+        "cost": 0.0001555624
+      },
+      "parts": [
+        {
+          "id": "prt_f517b08fb0019CKRDXkL8YbjwI",
+          "time_created": 1783778445563,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f517b08fd001ZyhXdR03HWldxv",
+          "time_created": 1783778445565,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now update the lesson-page.tsx to fix the onCorrect callback that no longer passes explanation.",
+            "time": {
+              "start": 1783778445565,
+              "end": 1783778445661
+            }
+          }
+        },
+        {
+          "id": "prt_f517b095e0012KsEcAt12CRKU7",
+          "time_created": 1783778445662,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "todowrite",
+            "callID": "call_126de2fca4f0434ea81e893f",
+            "state": {
+              "status": "completed",
+              "input": {
+                "todos": [
+                  {
+                    "content": "Backend: Remove LLM explanation generation from checkAnswer() - it should only return { correct: boolean }",
+                    "priority": "high",
+                    "status": "completed"
+                  },
+                  {
+                    "content": "Frontend: Update 'Show explanation' button to call getExplanation() API on click instead of toggling pre-generated explanation",
+                    "priority": "high",
+                    "status": "completed"
+                  },
+                  {
+                    "content": "Frontend: Add loading state for explanation fetch and update onCorrect callback to not pass explanation",
+                    "priority": "medium",
+                    "status": "in_progress"
+                  }
+                ]
+              },
+              "output": "[\n  {\n    \"content\": \"Backend: Remove LLM explanation generation from checkAnswer() - it should only return { correct: boolean }\",\n    \"status\": \"completed\",\n    \"priority\": \"high\"\n  },\n  {\n    \"content\": \"Frontend: Update 'Show explanation' button to call getExplanation() API on click instead of toggling pre-generated explanation\",\n    \"status\": \"completed\",\n    \"priority\": \"high\"\n  },\n  {\n    \"content\": \"Frontend: Add loading state for explanation fetch and update onCorrect callback to not pass explanation\",\n    \"status\": \"in_progress\",\n    \"priority\": \"medium\"\n  }\n]",
+              "metadata": {
+                "todos": [
+                  {
+                    "content": "Backend: Remove LLM explanation generation from checkAnswer() - it should only return { correct: boolean }",
+                    "status": "completed",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Frontend: Update 'Show explanation' button to call getExplanation() API on click instead of toggling pre-generated explanation",
+                    "status": "completed",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Frontend: Add loading state for explanation fetch and update onCorrect callback to not pass explanation",
+                    "status": "in_progress",
+                    "priority": "medium"
+                  }
+                ],
+                "truncated": false
+              },
+              "title": "1 todos",
+              "time": {
+                "start": 1783778446588,
+                "end": 1783778446589
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f517b0d3d001rBBJVI7VG7OIz1",
+          "time_created": 1783778446653,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 22717,
+              "input": 351,
+              "output": 139,
+              "reasoning": 19,
+              "cache": {
+                "write": 0,
+                "read": 22208
+              }
+            },
+            "cost": 0.0001555624
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f517b0d400018Xi18DOAQ8DKIw",
+      "time_created": 1783778446656,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 22981,
+          "input": 338,
+          "output": 102,
+          "reasoning": 13,
+          "cache": {
+            "write": 0,
+            "read": 22528
+          }
+        },
+        "cost": 0.0001425984
+      },
+      "parts": [
+        {
+          "id": "prt_f517b13a20016swWKkbukt1jeb",
+          "time_created": 1783778448290,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f517b13a4001tqi0s245aN8Ytf",
+          "time_created": 1783778448292,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now update lesson-page.tsx to fix the onCorrect callback.",
+            "time": {
+              "start": 1783778448292,
+              "end": 1783778448369
+            }
+          }
+        },
+        {
+          "id": "prt_f517b13f20018sOVgXgB491hiN",
+          "time_created": 1783778448370,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "edit",
+            "callID": "call_9cc00098752045f6b9a9e86b",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/frontend/src/pages/lesson-page.tsx",
+                "newString": "              onCorrect={(learnerIndex) => {\n                handleCorrect(currentIdx, learnerIndex)\n              }}",
+                "oldString": "              onCorrect={(learnerIndex, explanation) => {\n                void explanation\n                handleCorrect(currentIdx, learnerIndex)\n              }}"
+              },
+              "output": "Edit applied successfully.",
+              "metadata": {
+                "diagnostics": {},
+                "diff": "Index: /Users/shivam/qnify/ai-learning-agent/frontend/src/pages/lesson-page.tsx\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/frontend/src/pages/lesson-page.tsx\n+++ /Users/shivam/qnify/ai-learning-agent/frontend/src/pages/lesson-page.tsx\n@@ -300,10 +300,9 @@\n key={currentQuiz.id}\n quiz={currentQuiz}\n objectiveNumber={currentIdx + 1}\n totalObjectives={total}\n-onCorrect={(learnerIndex, explanation) => {\n-  void explanation\n+onCorrect={(learnerIndex) => {\n   handleCorrect(currentIdx, learnerIndex)\n }}\n onIncorrect={(learnerIndex) => handleIncorrect(currentIdx, learnerIndex)}\n onSkip={() => handleSkip(currentIdx)}\n",
+                "filediff": {
+                  "file": "/Users/shivam/qnify/ai-learning-agent/frontend/src/pages/lesson-page.tsx",
+                  "patch": "Index: /Users/shivam/qnify/ai-learning-agent/frontend/src/pages/lesson-page.tsx\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/frontend/src/pages/lesson-page.tsx\n+++ /Users/shivam/qnify/ai-learning-agent/frontend/src/pages/lesson-page.tsx\n@@ -300,10 +300,9 @@\n key={currentQuiz.id}\n quiz={currentQuiz}\n objectiveNumber={currentIdx + 1}\n totalObjectives={total}\n-onCorrect={(learnerIndex, explanation) => {\n-  void explanation\n+onCorrect={(learnerIndex) => {\n   handleCorrect(currentIdx, learnerIndex)\n }}\n onIncorrect={(learnerIndex) => handleIncorrect(currentIdx, learnerIndex)}\n onSkip={() => handleSkip(currentIdx)}\n",
+                  "additions": 1,
+                  "deletions": 2
+                },
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/frontend/src/pages/lesson-page.tsx",
+              "time": {
+                "start": 1783778449216,
+                "end": 1783778449218
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f517b1774001k5pXGFCF5XsScH",
+          "time_created": 1783778449268,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 22981,
+              "input": 338,
+              "output": 102,
+              "reasoning": 13,
+              "cache": {
+                "write": 0,
+                "read": 22528
+              }
+            },
+            "cost": 0.0001425984
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f517b1779001NPvQbnlTMUTNZe",
+      "time_created": 1783778449273,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 23092,
+          "input": 788,
+          "output": 78,
+          "reasoning": 18,
+          "cache": {
+            "write": 0,
+            "read": 22208
+          }
+        },
+        "cost": 0.0001993824
+      },
+      "parts": [
+        {
+          "id": "prt_f517b296a001JguenZUNjy0t2a",
+          "time_created": 1783778453866,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f517b297900190jOSHSl80Yws7",
+          "time_created": 1783778453881,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now let me also update the frontend API type for AnswerData to remove the explanation field.",
+            "time": {
+              "start": 1783778453881,
+              "end": 1783778454252
+            }
+          }
+        },
+        {
+          "id": "prt_f517b2aed001GpwnNUXPruTGDb",
+          "time_created": 1783778454253,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "edit",
+            "callID": "call_0c28fefd69904502af66b854",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/frontend/src/lib/api.ts",
+                "newString": "interface AnswerData {\n  correct: boolean\n}",
+                "oldString": "interface AnswerData {\n  correct: boolean\n  explanation?: string\n}"
+              },
+              "output": "Edit applied successfully.",
+              "metadata": {
+                "diagnostics": {},
+                "diff": "Index: /Users/shivam/qnify/ai-learning-agent/frontend/src/lib/api.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/frontend/src/lib/api.ts\n+++ /Users/shivam/qnify/ai-learning-agent/frontend/src/lib/api.ts\n@@ -92,9 +92,8 @@\n }\n \n interface AnswerData {\n   correct: boolean\n-  explanation?: string\n }\n \n export async function checkAnswer(quizId: number, learnerIndex: number): Promise<AnswerData> {\n   return jsonFetch(`/api/quizzes/${quizId}/check`, {\n",
+                "filediff": {
+                  "file": "/Users/shivam/qnify/ai-learning-agent/frontend/src/lib/api.ts",
+                  "patch": "Index: /Users/shivam/qnify/ai-learning-agent/frontend/src/lib/api.ts\n===================================================================\n--- /Users/shivam/qnify/ai-learning-agent/frontend/src/lib/api.ts\n+++ /Users/shivam/qnify/ai-learning-agent/frontend/src/lib/api.ts\n@@ -92,9 +92,8 @@\n }\n \n interface AnswerData {\n   correct: boolean\n-  explanation?: string\n }\n \n export async function checkAnswer(quizId: number, learnerIndex: number): Promise<AnswerData> {\n   return jsonFetch(`/api/quizzes/${quizId}/check`, {\n",
+                  "additions": 0,
+                  "deletions": 1
+                },
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/frontend/src/lib/api.ts",
+              "time": {
+                "start": 1783778454789,
+                "end": 1783778454791
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f517b2d78001HTvZGEbLaK1JmB",
+          "time_created": 1783778454904,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 23092,
+              "input": 788,
+              "output": 78,
+              "reasoning": 18,
+              "cache": {
+                "write": 0,
+                "read": 22208
+              }
+            },
+            "cost": 0.0001993824
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f517b2d7c001MGYli9qZNX9cOk",
+      "time_created": 1783778454908,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 23259,
+          "input": 259,
+          "output": 138,
+          "reasoning": 14,
+          "cache": {
+            "write": 0,
+            "read": 22848
+          }
+        },
+        "cost": 0.0001427944
+      },
+      "parts": [
+        {
+          "id": "prt_f517b3951001Mx9XHogMVoTbrK",
+          "time_created": 1783778457937,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f517b3952001jVKuBGT2CK9o8p",
+          "time_created": 1783778457938,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Let me verify all the changes look correct by reading the modified files.",
+            "time": {
+              "start": 1783778457938,
+              "end": 1783778458157
+            }
+          }
+        },
+        {
+          "id": "prt_f517b3a2e001Bd4clk3wlp4bll",
+          "time_created": 1783778458159,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "todowrite",
+            "callID": "call_bfa5c3ae466943bfadb4c0d6",
+            "state": {
+              "status": "completed",
+              "input": {
+                "todos": [
+                  {
+                    "content": "Backend: Remove LLM explanation generation from checkAnswer() - it should only return { correct: boolean }",
+                    "priority": "high",
+                    "status": "completed"
+                  },
+                  {
+                    "content": "Frontend: Update 'Show explanation' button to call getExplanation() API on click instead of toggling pre-generated explanation",
+                    "priority": "high",
+                    "status": "completed"
+                  },
+                  {
+                    "content": "Frontend: Add loading state for explanation fetch and update onCorrect callback to not pass explanation",
+                    "priority": "medium",
+                    "status": "completed"
+                  }
+                ]
+              },
+              "output": "[\n  {\n    \"content\": \"Backend: Remove LLM explanation generation from checkAnswer() - it should only return { correct: boolean }\",\n    \"status\": \"completed\",\n    \"priority\": \"high\"\n  },\n  {\n    \"content\": \"Frontend: Update 'Show explanation' button to call getExplanation() API on click instead of toggling pre-generated explanation\",\n    \"status\": \"completed\",\n    \"priority\": \"high\"\n  },\n  {\n    \"content\": \"Frontend: Add loading state for explanation fetch and update onCorrect callback to not pass explanation\",\n    \"status\": \"completed\",\n    \"priority\": \"medium\"\n  }\n]",
+              "metadata": {
+                "todos": [
+                  {
+                    "content": "Backend: Remove LLM explanation generation from checkAnswer() - it should only return { correct: boolean }",
+                    "status": "completed",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Frontend: Update 'Show explanation' button to call getExplanation() API on click instead of toggling pre-generated explanation",
+                    "status": "completed",
+                    "priority": "high"
+                  },
+                  {
+                    "content": "Frontend: Add loading state for explanation fetch and update onCorrect callback to not pass explanation",
+                    "status": "completed",
+                    "priority": "medium"
+                  }
+                ],
+                "truncated": false
+              },
+              "title": "0 todos",
+              "time": {
+                "start": 1783778459350,
+                "end": 1783778459352
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f517b3ed9001rUISNy2hAsQPjC",
+          "time_created": 1783778459353,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 23259,
+              "input": 259,
+              "output": 138,
+              "reasoning": 14,
+              "cache": {
+                "write": 0,
+                "read": 22848
+              }
+            },
+            "cost": 0.0001427944
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f517b3edc001dK32ExpQu2ggbj",
+      "time_created": 1783778459356,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 23545,
+          "input": 431,
+          "output": 116,
+          "reasoning": 22,
+          "cache": {
+            "write": 0,
+            "read": 22976
+          }
+        },
+        "cost": 0.0001633128
+      },
+      "parts": [
+        {
+          "id": "prt_f517b4cbb001TxXfcoUGWaLOxA",
+          "time_created": 1783778462907,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f517b4cbc001gzmx56Jr3UMC8i",
+          "time_created": 1783778462909,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Let me also check if there are any other references to the old AnswerOutput type or explanation in checkAnswer.",
+            "time": {
+              "start": 1783778462908,
+              "end": 1783778463333
+            }
+          }
+        },
+        {
+          "id": "prt_f517b4e67001A1VzdjjC4j0DiD",
+          "time_created": 1783778463335,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "read",
+            "callID": "call_99ac9090162d4b63a590d8c9",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts",
+                "limit": 15,
+                "offset": 123
+              },
+              "output": "<path>/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts</path>\n<type>file</type>\n<content>\n123: interface AnswerOutput {\n124:   correct: boolean\n125: }\n126: \n127: export async function checkAnswer(quizId: number, learnerIndex: number): Promise<AnswerOutput> {\n128:   const quiz = await getQuizInternal(quizId)\n129:   if (!quiz) throw new NotFoundError('Quiz not found')\n130:   const correct = learnerIndex === quiz.correct_index\n131:   return { correct }\n132: }\n133: \n134: interface AI_Message {\n135:   role: 'user' | 'assistant'\n136:   content: string\n137: }\n\n(Showing lines 123-137 of 149. Use offset=138 to continue.)\n</content>",
+              "metadata": {
+                "preview": "interface AnswerOutput {\n  correct: boolean\n}\n\nexport async function checkAnswer(quizId: number, learnerIndex: number): Promise<AnswerOutput> {\n  const quiz = await getQuizInternal(quizId)\n  if (!quiz) throw new NotFoundError('Quiz not found')\n  const correct = learnerIndex === quiz.correct_index\n  return { correct }\n}\n\ninterface AI_Message {\n  role: 'user' | 'assistant'\n  content: string\n}",
+                "truncated": true,
+                "loaded": [],
+                "display": {
+                  "type": "file",
+                  "path": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts",
+                  "text": "interface AnswerOutput {\n  correct: boolean\n}\n\nexport async function checkAnswer(quizId: number, learnerIndex: number): Promise<AnswerOutput> {\n  const quiz = await getQuizInternal(quizId)\n  if (!quiz) throw new NotFoundError('Quiz not found')\n  const correct = learnerIndex === quiz.correct_index\n  return { correct }\n}\n\ninterface AI_Message {\n  role: 'user' | 'assistant'\n  content: string\n}",
+                  "lineStart": 123,
+                  "lineEnd": 137,
+                  "totalLines": 149,
+                  "truncated": true
+                }
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts",
+              "time": {
+                "start": 1783778463696,
+                "end": 1783778463705
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f517b50130016CCtWKiKQQwxfZ",
+          "time_created": 1783778463763,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "read",
+            "callID": "call_c04809ed9af142ca878ed865",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx",
+                "limit": 50,
+                "offset": 57
+              },
+              "output": "<path>/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx</path>\n<type>file</type>\n<content>\n57: \n58:   const submit = async () => {\n59:     if (selected === null || submitting) return\n60:     setHint(null)\n61:     setSubmitting(true)\n62:     try {\n63:       const res = await checkAnswer(quiz.id, selected)\n64:       if (res.correct) {\n65:         setStatus('correct')\n66:         onCorrect(selected)\n67:       } else {\n68:         setStatus('incorrect')\n69:         onIncorrect(selected)\n70:         setTries((t) => t + 1)\n71:       }\n72:     } finally {\n73:       setSubmitting(false)\n74:     }\n75:   }\n76: \n77:   const retry = () => {\n78:     setStatus('idle')\n79:     setSelected(null)\n80:     setHint(null)\n81:   }\n82: \n83:   const requestHint = async () => {\n84:     setHintLoading(true)\n85:     try {\n86:       const res = await getHint(quiz.id, status === 'incorrect' ? selected : null)\n87:       setHint(res.hint)\n88:     } finally {\n89:       setHintLoading(false)\n90:     }\n91:   }\n92: \n93:   const locked = status === 'correct'\n94: \n95:   return (\n96:     <Card className=\"overflow-hidden\">\n97:       <CardContent className=\"p-0\">\n98:         <div className=\"border-b border-border bg-accent/40 px-5 py-3 sm:px-6\">\n99:           <div className=\"flex items-center justify-between gap-3\">\n100:             <div className=\"min-w-0\">\n101:               <p className=\"text-xs font-medium uppercase tracking-wide text-muted-foreground\">\n102:                 Objective {objectiveNumber} of {totalObjectives}\n103:               </p>\n104:               <p className=\"mt-0.5 truncate text-sm font-semibold\">{quiz.objectiveText}</p>\n105:             </div>\n106:             {tries > 0 && status !== 'correct' && (\n\n(Showing lines 57-106 of 379. Use offset=107 to continue.)\n</content>",
+              "metadata": {
+                "preview": "\n  const submit = async () => {\n    if (selected === null || submitting) return\n    setHint(null)\n    setSubmitting(true)\n    try {\n      const res = await checkAnswer(quiz.id, selected)\n      if (res.correct) {\n        setStatus('correct')\n        onCorrect(selected)\n      } else {\n        setStatus('incorrect')\n        onIncorrect(selected)\n        setTries((t) => t + 1)\n      }\n    } finally {\n      setSubmitting(false)\n    }\n  }\n",
+                "truncated": true,
+                "loaded": [],
+                "display": {
+                  "type": "file",
+                  "path": "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx",
+                  "text": "\n  const submit = async () => {\n    if (selected === null || submitting) return\n    setHint(null)\n    setSubmitting(true)\n    try {\n      const res = await checkAnswer(quiz.id, selected)\n      if (res.correct) {\n        setStatus('correct')\n        onCorrect(selected)\n      } else {\n        setStatus('incorrect')\n        onIncorrect(selected)\n        setTries((t) => t + 1)\n      }\n    } finally {\n      setSubmitting(false)\n    }\n  }\n\n  const retry = () => {\n    setStatus('idle')\n    setSelected(null)\n    setHint(null)\n  }\n\n  const requestHint = async () => {\n    setHintLoading(true)\n    try {\n      const res = await getHint(quiz.id, status === 'incorrect' ? selected : null)\n      setHint(res.hint)\n    } finally {\n      setHintLoading(false)\n    }\n  }\n\n  const locked = status === 'correct'\n\n  return (\n    <Card className=\"overflow-hidden\">\n      <CardContent className=\"p-0\">\n        <div className=\"border-b border-border bg-accent/40 px-5 py-3 sm:px-6\">\n          <div className=\"flex items-center justify-between gap-3\">\n            <div className=\"min-w-0\">\n              <p className=\"text-xs font-medium uppercase tracking-wide text-muted-foreground\">\n                Objective {objectiveNumber} of {totalObjectives}\n              </p>\n              <p className=\"mt-0.5 truncate text-sm font-semibold\">{quiz.objectiveText}</p>\n            </div>\n            {tries > 0 && status !== 'correct' && (",
+                  "lineStart": 57,
+                  "lineEnd": 106,
+                  "totalLines": 379,
+                  "truncated": true
+                }
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx",
+              "time": {
+                "start": 1783778464472,
+                "end": 1783778464477
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f517b52df001K623CAr2oqrJ7u",
+          "time_created": 1783778464479,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 23545,
+              "input": 431,
+              "output": 116,
+              "reasoning": 22,
+              "cache": {
+                "write": 0,
+                "read": 22976
+              }
+            },
+            "cost": 0.0001633128
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f517b52e30013ZTEt4hpcBUu3B",
+      "time_created": 1783778464483,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 24412,
+          "input": 1239,
+          "output": 61,
+          "reasoning": 8,
+          "cache": {
+            "write": 0,
+            "read": 23104
+          }
+        },
+        "cost": 0.0002574712
+      },
+      "parts": [
+        {
+          "id": "prt_f517b65a4001WraGJ78mcjph9b",
+          "time_created": 1783778469284,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f517b65a5001kQz7qgVDACcqKx",
+          "time_created": 1783778469285,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Let me check the explanation button area.",
+            "time": {
+              "start": 1783778469285,
+              "end": 1783778469361
+            }
+          }
+        },
+        {
+          "id": "prt_f517b65f3001mEYjNQ1ahVF2TC",
+          "time_created": 1783778469363,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "read",
+            "callID": "call_7fa85e2c767f4afb9feeaffc",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx",
+                "limit": 40,
+                "offset": 225
+              },
+              "output": "<path>/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx</path>\n<type>file</type>\n<content>\n225:                 )}\n226:               </>\n227:             )}\n228:             {locked && (\n229:               <>\n230:                 <Button\n231:                   variant=\"outline\"\n232:                   onClick={async () => {\n233:                     if (showExplanation) {\n234:                       setShowExplanation(false)\n235:                       return\n236:                     }\n237:                     setExplanationLoading(true)\n238:                     try {\n239:                       const res = await getExplanation(quiz.id)\n240:                       setExplanation(res.explanation)\n241:                       setShowExplanation(true)\n242:                     } finally {\n243:                       setExplanationLoading(false)\n244:                     }\n245:                   }}\n246:                   disabled={explanationLoading}\n247:                   className=\"gap-1.5\"\n248:                 >\n249:                   {explanationLoading ? (\n250:                     <Loader2 className=\"size-4 animate-spin\" />\n251:                   ) : showExplanation ? (\n252:                     'Hide explanation'\n253:                   ) : (\n254:                     'Show explanation'\n255:                   )}\n256:                 </Button>\n257:                 <Button onClick={onNext} className=\"ml-auto gap-1.5\">\n258:                   {isLast ? 'Finish & see results' : 'Next objective'}\n259:                 </Button>\n260:               </>\n261:             )}\n262:           </div>\n263:         </div>\n264:       </CardContent>\n\n(Showing lines 225-264 of 379. Use offset=265 to continue.)\n</content>",
+              "metadata": {
+                "preview": "                )}\n              </>\n            )}\n            {locked && (\n              <>\n                <Button\n                  variant=\"outline\"\n                  onClick={async () => {\n                    if (showExplanation) {\n                      setShowExplanation(false)\n                      return\n                    }\n                    setExplanationLoading(true)\n                    try {\n                      const res = await getExplanation(quiz.id)\n                      setExplanation(res.explanation)\n                      setShowExplanation(true)\n                    } finally {\n                      setExplanationLoading(false)\n                    }",
+                "truncated": true,
+                "loaded": [],
+                "display": {
+                  "type": "file",
+                  "path": "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx",
+                  "text": "                )}\n              </>\n            )}\n            {locked && (\n              <>\n                <Button\n                  variant=\"outline\"\n                  onClick={async () => {\n                    if (showExplanation) {\n                      setShowExplanation(false)\n                      return\n                    }\n                    setExplanationLoading(true)\n                    try {\n                      const res = await getExplanation(quiz.id)\n                      setExplanation(res.explanation)\n                      setShowExplanation(true)\n                    } finally {\n                      setExplanationLoading(false)\n                    }\n                  }}\n                  disabled={explanationLoading}\n                  className=\"gap-1.5\"\n                >\n                  {explanationLoading ? (\n                    <Loader2 className=\"size-4 animate-spin\" />\n                  ) : showExplanation ? (\n                    'Hide explanation'\n                  ) : (\n                    'Show explanation'\n                  )}\n                </Button>\n                <Button onClick={onNext} className=\"ml-auto gap-1.5\">\n                  {isLast ? 'Finish & see results' : 'Next objective'}\n                </Button>\n              </>\n            )}\n          </div>\n        </div>\n      </CardContent>",
+                  "lineStart": 225,
+                  "lineEnd": 264,
+                  "totalLines": 379,
+                  "truncated": true
+                }
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx",
+              "time": {
+                "start": 1783778469739,
+                "end": 1783778469749
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f517b6834001EkYlS9zTzqXCBM",
+          "time_created": 1783778469940,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 24412,
+              "input": 1239,
+              "output": 61,
+              "reasoning": 8,
+              "cache": {
+                "write": 0,
+                "read": 23104
+              }
+            },
+            "cost": 0.0002574712
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f517b683b001gRtUFjBxlov0ec",
+      "time_created": 1783778469947,
+      "role": "assistant",
+      "metadata": {
+        "agent": "build",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 25147,
+          "input": 1497,
+          "output": 262,
+          "reasoning": 28,
+          "cache": {
+            "write": 0,
+            "read": 23360
+          }
+        },
+        "cost": 0.000356188
+      },
+      "parts": [
+        {
+          "id": "prt_f517b7470001L5LaCkn7f5J5j6",
+          "time_created": 1783778473073,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f517b7473001Dspxm33N6MlORM",
+          "time_created": 1783778473075,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Everything looks good. Let me verify there are no other places where the explanation is used from checkAnswer or if there are any TypeScript issues.",
+            "time": {
+              "start": 1783778473075,
+              "end": 1783778473180
+            }
+          }
+        },
+        {
+          "id": "prt_f517b74dd0011zqihHcHIomGuC",
+          "time_created": 1783778473181,
+          "type": "text",
+          "data": {
+            "type": "text",
+            "text": "All changes are complete. Here's what was done:\n\n**Backend** (`backend/src/services/quizzes.ts:127-131`):\n- `checkAnswer()` no longer calls the LLM to generate an explanation. It now only returns `{ correct: boolean }`.\n\n**Frontend** (`frontend/src/components/mcq-widget.tsx`):\n- `submit()` no longer expects or stores an explanation from `checkAnswer()`\n- Added `explanationLoading` state for the fetch spinner\n- \"Show explanation\" button now calls the `/api/quizzes/:id/explain` endpoint on click, fetching the explanation on-demand with a loading spinner\n- Hiding the explanation just toggles the UI without re-fetching\n- `onCorrect` callback signature simplified (no longer passes explanation)\n\n**Frontend** (`frontend/src/pages/lesson-page.tsx:304`):\n- Updated `onCorrect` handler to match new signature (removed unused `explanation` parameter)\n\n**Frontend** (`frontend/src/lib/api.ts:94-96`):\n- Removed `explanation` from `AnswerData` interface\n\nThe explanation is now only generated when the user explicitly clicks \"Show explanation\" \u2014 no LLM call on every correct answer submission.",
+            "time": {
+              "start": 1783778473181,
+              "end": 1783778475726
+            }
+          }
+        },
+        {
+          "id": "prt_f517b7ecf0015FEr77X4FkpTOu",
+          "time_created": 1783778475727,
+          "type": "step-finish",
+          "data": {
+            "reason": "stop",
+            "type": "step-finish",
+            "tokens": {
+              "total": 25147,
+              "input": 1497,
+              "output": 262,
+              "reasoning": 28,
+              "cache": {
+                "write": 0,
+                "read": 23360
+              }
+            },
+            "cost": 0.000356188
+          }
+        }
+      ]
+    }
+  ]
+}

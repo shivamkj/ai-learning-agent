@@ -1,0 +1,1086 @@
+{
+  "session_id": "ses_0ae86ce07ffeSkjKCIp0MJyuxl",
+  "title": "Find explanation generation code (@explore subagent)",
+  "time_created": 1783778324984,
+  "time_updated": 1783781389156,
+  "cost": 0.0062902672000000005,
+  "tokens": {
+    "input": 37766,
+    "output": 3156,
+    "reasoning": 96
+  },
+  "messages": [
+    {
+      "id": "msg_f517931fc001GvzWKACBS84q7t",
+      "time_created": 1783778324988,
+      "role": "user",
+      "metadata": {
+        "agent": "explore",
+        "model": {
+          "providerID": "opencode-go",
+          "modelID": "mimo-v2.5",
+          "variant": "high"
+        },
+        "tokens": null,
+        "cost": null
+      },
+      "parts": [
+        {
+          "id": "prt_f517931fe001xKyZ7CoQK5yUE0",
+          "time_created": 1783778324990,
+          "type": "text",
+          "data": {
+            "type": "text",
+            "text": "Search the codebase to find all files related to explanation generation and display in this project. I need to understand:\n\n1. Where explanations are generated (look for \"explanation\", \"generate\", \"submit\" keywords)\n2. Where explanations are displayed (UI components)\n3. How the explanation generation is triggered (on submit vs on button click)\n\nLook for patterns like:\n- \"explanation\" in filenames\n- \"generate\" or \"generateExplanation\" in code\n- \"isCorrect\" or \"correct\" combined with \"explanation\"\n- Button handlers related to explanation\n\nReturn the file paths and relevant line numbers for each finding."
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f51793202001XQKY1elKSJP64F",
+      "time_created": 1783778324994,
+      "role": "assistant",
+      "metadata": {
+        "agent": "explore",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 3644,
+          "input": 293,
+          "output": 256,
+          "reasoning": 23,
+          "cache": {
+            "write": 0,
+            "read": 3072
+          }
+        },
+        "cost": 0.0001277416
+      },
+      "parts": [
+        {
+          "id": "prt_f51793d34001h2IL6jpWysKFPV",
+          "time_created": 1783778327860,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f51793d35001SGBm9296SZxN2j",
+          "time_created": 1783778327861,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Let me search the codebase thoroughly for explanation-related files and code patterns. I'll start with multiple parallel searches.",
+            "time": {
+              "start": 1783778327861,
+              "end": 1783778327997
+            }
+          }
+        },
+        {
+          "id": "prt_f51793dbe001Emd0iM1IDwy0qA",
+          "time_created": 1783778327998,
+          "type": "text",
+          "data": {
+            "type": "text",
+            "text": "I'll start by searching for files and code patterns related to explanation generation and display across the codebase.",
+            "time": {
+              "start": 1783778327998,
+              "end": 1783778330235
+            }
+          }
+        },
+        {
+          "id": "prt_f51793ec4001LK3BY9vzwbzxSI",
+          "time_created": 1783778328260,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "glob",
+            "callID": "call_f439f33f621d443aa1663338",
+            "state": {
+              "status": "completed",
+              "input": {
+                "pattern": "**/*explanation*"
+              },
+              "output": "No files found",
+              "metadata": {
+                "count": 0,
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent",
+              "time": {
+                "start": 1783778328388,
+                "end": 1783778328405
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f51793f8b001jby9Tcz1vd8jG5",
+          "time_created": 1783778328459,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "glob",
+            "callID": "call_ae905c8b410e405f8cba5c6f",
+            "state": {
+              "status": "completed",
+              "input": {
+                "pattern": "**/*Explanation*"
+              },
+              "output": "No files found",
+              "metadata": {
+                "count": 0,
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent",
+              "time": {
+                "start": 1783778328566,
+                "end": 1783778328575
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f5179406f0017KI5KqGueQD0De",
+          "time_created": 1783778328687,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "glob",
+            "callID": "call_e91d25e392024a43a2711431",
+            "state": {
+              "status": "completed",
+              "input": {
+                "pattern": "**/*Explain*"
+              },
+              "output": "No files found",
+              "metadata": {
+                "count": 0,
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent",
+              "time": {
+                "start": 1783778328834,
+                "end": 1783778328842
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f51794155001nUFWpNRbzZi1Ya",
+          "time_created": 1783778328917,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "grep",
+            "callID": "call_2251b6b28c054639805dea24",
+            "state": {
+              "status": "completed",
+              "input": {
+                "pattern": "explanation",
+                "include": "*.{ts,tsx,js,jsx}"
+              },
+              "output": "Found 27 matches\n/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts:\n  Line 44:       `INSERT INTO quiz_questions (lesson_plan_id, objective_index, objective_text, question, options, correct_index, explanation, hint)\n\n  Line 55:       quiz.explanation,\n\n  Line 106:   explanation: string\n\n  Line 119:   const explanation = await explainCorrect(markdown, quiz.question, options, correct, quiz.correct_index)\n\n  Line 120:   return { explanation, correctIndex: quiz.correct_index }\n\n  Line 125:   explanation?: string\n\n  Line 133:   const { explanation } = await getExplanation(quizId)\n\n  Line 134:   return { correct: true, explanation }\n\n\n/Users/shivam/qnify/ai-learning-agent/backend/src/db.ts:\n  Line 44:   explanation: string\n\n\n/Users/shivam/qnify/ai-learning-agent/backend/src/ai/schemas.ts:\n  Line 21:   explanation: z.string().describe('A 1-3 sentence explanation of why the answer is correct.'),\n\n\n/Users/shivam/qnify/ai-learning-agent/backend/src/ai/quiz.ts:\n  Line 11: - The explanation must justify the correct answer using the source.\n\n\n/Users/shivam/qnify/ai-learning-agent/backend/src/ai/feedback.ts:\n  Line 21: const EXPLAIN_SYSTEM = `You are a tutor giving a short, friendly explanation of why the correct answer to a MCQ is right, grounded in the PDF. 2-3 sentences max. No fluff.`\n\n\n/Users/shivam/qnify/ai-learning-agent/frontend/src/pages/library-page.tsx:\n  Line 54:             hints, and explanations \u2014 grounded in your PDF.\n\n\n/Users/shivam/qnify/ai-learning-agent/frontend/src/pages/lesson-page.tsx:\n  Line 304:               onCorrect={(learnerIndex, explanation) => {\n\n  Line 305:                 void explanation\n\n\n/Users/shivam/qnify/ai-learning-agent/frontend/src/lib/api.ts:\n  Line 86:   explanation: string\n\n  Line 96:   explanation?: string\n\n\n/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx:\n  Line 17:   onCorrect: (learnerIndex: number, explanation: string) => void\n\n  Line 41:   const [explanation, setExplanation] = useState<string | null>(null)\n\n  Line 64:         if (res.explanation) setExplanation(res.explanation)\n\n  Line 66:         onCorrect(selected, res.explanation ?? '')\n\n  Line 175:                   Try again \u2014 you can request a hint or ask for a deeper explanation. No penalty for retries.\n\n  Line 191:           {explanation && status === 'correct' && showExplanation && (\n\n  Line 196:                 <p className=\"mt-0.5 text-foreground\">{explanation}</p>\n\n  Line 230:                 {explanation && (\n\n  Line 232:                     {showExplanation ? 'Hide explanation' : 'Show explanation'}\n\n\n/Users/shivam/qnify/ai-learning-agent/frontend/src/components/plan-card.tsx:\n  Line 92:                   The agent will generate one MCQ per objective. You'll get hints and explanations, and can ask\n",
+              "metadata": {
+                "matches": 27,
+                "truncated": false
+              },
+              "title": "explanation",
+              "time": {
+                "start": 1783778329146,
+                "end": 1783778329159
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f5179427a001RZ31GurxrXJLIN",
+          "time_created": 1783778329210,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "grep",
+            "callID": "call_2eb21794bfe14386ab7ceba8",
+            "state": {
+              "status": "completed",
+              "input": {
+                "pattern": "generateExplanation|generate.*explanation|explanation.*generate",
+                "include": "*.{ts,tsx,js,jsx}"
+              },
+              "output": "Found 1 matches\n/Users/shivam/qnify/ai-learning-agent/frontend/src/components/plan-card.tsx:\n  Line 92:                   The agent will generate one MCQ per objective. You'll get hints and explanations, and can ask\n",
+              "metadata": {
+                "matches": 1,
+                "truncated": false
+              },
+              "title": "generateExplanation|generate.*explanation|explanation.*generate",
+              "time": {
+                "start": 1783778329525,
+                "end": 1783778329540
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f5179440e001ZP8Cn01e609iDJ",
+          "time_created": 1783778329614,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "grep",
+            "callID": "call_b8a9163776284f9280588e37",
+            "state": {
+              "status": "completed",
+              "input": {
+                "pattern": "isCorrect.*explanation|explanation.*isCorrect|correct.*explanation",
+                "include": "*.{ts,tsx,js,jsx}"
+              },
+              "output": "Found 2 matches\n/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts:\n  Line 44:       `INSERT INTO quiz_questions (lesson_plan_id, objective_index, objective_text, question, options, correct_index, explanation, hint)\n\n  Line 134:   return { correct: true, explanation }\n",
+              "metadata": {
+                "matches": 2,
+                "truncated": false
+              },
+              "title": "isCorrect.*explanation|explanation.*isCorrect|correct.*explanation",
+              "time": {
+                "start": 1783778329900,
+                "end": 1783778329911
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f51794568001ZUQy9RE6pPR3sO",
+          "time_created": 1783778329960,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "read",
+            "callID": "call_ea16960bf36540d982c37223",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent"
+              },
+              "output": "<path>/Users/shivam/qnify/ai-learning-agent</path>\n<type>directory</type>\n<entries>\n.DS_Store\n.git/\n.gitignore\nbackend/\nfrontend/\npdf-to-markdown/\n\n(6 entries)\n</entries>",
+              "metadata": {
+                "preview": ".DS_Store\n.git/\n.gitignore\nbackend/\nfrontend/\npdf-to-markdown/",
+                "truncated": false,
+                "loaded": [],
+                "display": {
+                  "type": "directory",
+                  "path": "/Users/shivam/qnify/ai-learning-agent",
+                  "entries": [
+                    ".DS_Store",
+                    ".git/",
+                    ".gitignore",
+                    "backend/",
+                    "frontend/",
+                    "pdf-to-markdown/"
+                  ],
+                  "offset": 1,
+                  "totalEntries": 6,
+                  "truncated": false
+                }
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent",
+              "time": {
+                "start": 1783778330167,
+                "end": 1783778330169
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f5179467d001hkGG465kogJsFp",
+          "time_created": 1783778330237,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 3644,
+              "input": 293,
+              "output": 256,
+              "reasoning": 23,
+              "cache": {
+                "write": 0,
+                "read": 3072
+              }
+            },
+            "cost": 0.0001277416
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f51794680001s6MloWlsCYTVeP",
+      "time_created": 1783778330240,
+      "role": "assistant",
+      "metadata": {
+        "agent": "explore",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 4937,
+          "input": 1283,
+          "output": 302,
+          "reasoning": 24,
+          "cache": {
+            "write": 0,
+            "read": 3328
+          }
+        },
+        "cost": 0.0002802184
+      },
+      "parts": [
+        {
+          "id": "prt_f51794f9b0016hawtUMzZ4rgEv",
+          "time_created": 1783778332572,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f51794ff8001INkzdrc07Lze2m",
+          "time_created": 1783778332664,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Good, I have a good initial picture. Let me now read the key files in detail to understand the full flow.",
+            "time": {
+              "start": 1783778332664,
+              "end": 1783778334526
+            }
+          }
+        },
+        {
+          "id": "prt_f517957400010mZqlugyoLS8kr",
+          "time_created": 1783778334528,
+          "type": "text",
+          "data": {
+            "type": "text",
+            "text": "Now let me read the key files in detail to understand the full flow.",
+            "time": {
+              "start": 1783778334528,
+              "end": 1783778336853
+            }
+          }
+        },
+        {
+          "id": "prt_f517957c8001VbbLd2v2Or4s6e",
+          "time_created": 1783778334664,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "read",
+            "callID": "call_2364794dbf774f819b4a12f3",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts"
+              },
+              "output": "<path>/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts</path>\n<type>file</type>\n<content>\n1: import { db, type QuizQuestionRow } from '../db.ts'\n2: import { generateQuiz } from '../ai/quiz.ts'\n3: import { generateRetryHint, explainCorrect, aiChat } from '../ai/feedback.ts'\n4: import { getPlan } from './plans.ts'\n5: import { getDocumentMarkdown } from './documents.ts'\n6: import { NotFoundError, BadRequestError } from '../errors.ts'\n7: \n8: export interface QuizDTO {\n9:   id: number\n10:   objectiveIndex: number\n11:   objectiveText: string\n12:   question: string\n13:   options: string[]\n14:   hint: string\n15: }\n16: \n17: export async function getOrCreateQuiz(planId: number, objectiveIndex: number): Promise<QuizDTO> {\n18:   const plan = await getPlan(planId)\n19:   if (!plan) throw new NotFoundError('Plan not found')\n20:   const objective = plan.objectives[objectiveIndex]\n21:   if (!objective) throw new NotFoundError(`Objective ${objectiveIndex} not found`)\n22: \n23:   const existing = db\n24:     .prepare(`SELECT * FROM quiz_questions WHERE lesson_plan_id = ? AND objective_index = ?`)\n25:     .get(planId, objectiveIndex) as QuizQuestionRow | undefined\n26: \n27:   if (existing) {\n28:     return {\n29:       id: existing.id,\n30:       objectiveIndex: existing.objective_index,\n31:       objectiveText: existing.objective_text,\n32:       question: existing.question,\n33:       options: JSON.parse(existing.options),\n34:       hint: existing.hint\n35:     }\n36:   }\n37: \n38:   const markdown = await getDocumentMarkdown(plan.document_id)\n39:   if (!markdown) throw new BadRequestError('Source document has no markdown content')\n40:   const quiz = await generateQuiz(markdown, objective.text, objective.topic)\n41: \n42:   const res = db\n43:     .prepare(\n44:       `INSERT INTO quiz_questions (lesson_plan_id, objective_index, objective_text, question, options, correct_index, explanation, hint)\n45:        VALUES (?, ?, ?, ?, ?, ?, ?, ?)\n46:        RETURNING id`\n47:     )\n48:     .get(\n49:       planId,\n50:       objectiveIndex,\n51:       objective.text,\n52:       quiz.question,\n53:       JSON.stringify(quiz.options),\n54:       quiz.correct_index,\n55:       quiz.explanation,\n56:       quiz.hint\n57:     ) as { id: number }\n58: \n59:   return {\n60:     id: res.id,\n61:     objectiveIndex,\n62:     objectiveText: objective.text,\n63:     question: quiz.question,\n64:     options: quiz.options,\n65:     hint: quiz.hint\n66:   }\n67: }\n68: \n69: export async function getAllQuizzes(planId: number): Promise<QuizDTO[]> {\n70:   const plan = await getPlan(planId)\n71:   if (!plan) return []\n72:   const rows = db\n73:     .prepare(`SELECT * FROM quiz_questions WHERE lesson_plan_id = ? ORDER BY objective_index ASC`)\n74:     .all(planId) as QuizQuestionRow[]\n75:   return rows.map((r) => ({\n76:     id: r.id,\n77:     objectiveIndex: r.objective_index,\n78:     objectiveText: r.objective_text,\n79:     question: r.question,\n80:     options: JSON.parse(r.options),\n81:     hint: r.hint\n82:   }))\n83: }\n84: \n85: export async function getQuizInternal(quizId: number): Promise<QuizQuestionRow | null> {\n86:   return (db.prepare(`SELECT * FROM quiz_questions WHERE id = ?`).get(quizId) as QuizQuestionRow | undefined) ?? null\n87: }\n88: \n89: export async function getHint(quizId: number, previousGuessIndex: number | null): Promise<string> {\n90:   const quiz = await getQuizInternal(quizId)\n91:   if (!quiz) throw new NotFoundError('Quiz not found')\n92:   const plan = await getPlan(quiz.lesson_plan_id)\n93:   if (!plan) throw new NotFoundError('Plan not found')\n94:   const markdown = await getDocumentMarkdown(plan.document_id)\n95:   if (!markdown) throw new BadRequestError('Source document has no markdown content')\n96:   const options = JSON.parse(quiz.options) as string[]\n97:   return generateRetryHint(\n98:     markdown,\n99:     quiz.question,\n100:     options,\n101:     previousGuessIndex !== null ? options[previousGuessIndex] : null\n102:   )\n103: }\n104: \n105: interface ExplanationResult {\n106:   explanation: string\n107:   correctIndex: number\n108: }\n109: \n110: export async function getExplanation(quizId: number): Promise<ExplanationResult> {\n111:   const quiz = await getQuizInternal(quizId)\n112:   if (!quiz) throw new NotFoundError('Quiz not found')\n113:   const plan = await getPlan(quiz.lesson_plan_id)\n114:   if (!plan) throw new NotFoundError('Plan not found')\n115:   const markdown = await getDocumentMarkdown(plan.document_id)\n116:   if (!markdown) throw new BadRequestError('Source document has no markdown content')\n117:   const options = JSON.parse(quiz.options) as string[]\n118:   const correct = options[quiz.correct_index]\n119:   const explanation = await explainCorrect(markdown, quiz.question, options, correct, quiz.correct_index)\n120:   return { explanation, correctIndex: quiz.correct_index }\n121: }\n122: \n123: interface AnswerOutput {\n124:   correct: boolean\n125:   explanation?: string\n126: }\n127: \n128: export async function checkAnswer(quizId: number, learnerIndex: number): Promise<AnswerOutput> {\n129:   const quiz = await getQuizInternal(quizId)\n130:   if (!quiz) throw new NotFoundError('Quiz not found')\n131:   const correct = learnerIndex === quiz.correct_index\n132:   if (!correct) return { correct: false }\n133:   const { explanation } = await getExplanation(quizId)\n134:   return { correct: true, explanation }\n135: }\n136: \n137: interface AI_Message {\n138:   role: 'user' | 'assistant'\n139:   content: string\n140: }\n141: export type MessageHistory = Array<AI_Message>\n142: \n143: export async function getAiHelp(id: number, question: string, history: MessageHistory): Promise<string> {\n144:   const quiz = await getQuizInternal(id)\n145:   if (!quiz) throw new NotFoundError('Quiz not found')\n146:   const plan = await getPlan(quiz.lesson_plan_id)\n147:   if (!plan) throw new NotFoundError('Plan not found')\n148:   const markdown = await getDocumentMarkdown(plan.document_id)\n149:   if (!markdown) throw new BadRequestError('Source document has no markdown content')\n150:   const options = JSON.parse(quiz.options) as string[]\n151:   return aiChat(markdown, quiz.question, options, question, history)\n152: }\n\n(End of file - total 152 lines)\n</content>",
+              "metadata": {
+                "preview": "import { db, type QuizQuestionRow } from '../db.ts'\nimport { generateQuiz } from '../ai/quiz.ts'\nimport { generateRetryHint, explainCorrect, aiChat } from '../ai/feedback.ts'\nimport { getPlan } from './plans.ts'\nimport { getDocumentMarkdown } from './documents.ts'\nimport { NotFoundError, BadRequestError } from '../errors.ts'\n\nexport interface QuizDTO {\n  id: number\n  objectiveIndex: number\n  objectiveText: string\n  question: string\n  options: string[]\n  hint: string\n}\n\nexport async function getOrCreateQuiz(planId: number, objectiveIndex: number): Promise<QuizDTO> {\n  const plan = await getPlan(planId)\n  if (!plan) throw new NotFoundError('Plan not found')\n  const objective = plan.objectives[objectiveIndex]",
+                "truncated": false,
+                "loaded": [],
+                "display": {
+                  "type": "file",
+                  "path": "/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts",
+                  "text": "import { db, type QuizQuestionRow } from '../db.ts'\nimport { generateQuiz } from '../ai/quiz.ts'\nimport { generateRetryHint, explainCorrect, aiChat } from '../ai/feedback.ts'\nimport { getPlan } from './plans.ts'\nimport { getDocumentMarkdown } from './documents.ts'\nimport { NotFoundError, BadRequestError } from '../errors.ts'\n\nexport interface QuizDTO {\n  id: number\n  objectiveIndex: number\n  objectiveText: string\n  question: string\n  options: string[]\n  hint: string\n}\n\nexport async function getOrCreateQuiz(planId: number, objectiveIndex: number): Promise<QuizDTO> {\n  const plan = await getPlan(planId)\n  if (!plan) throw new NotFoundError('Plan not found')\n  const objective = plan.objectives[objectiveIndex]\n  if (!objective) throw new NotFoundError(`Objective ${objectiveIndex} not found`)\n\n  const existing = db\n    .prepare(`SELECT * FROM quiz_questions WHERE lesson_plan_id = ? AND objective_index = ?`)\n    .get(planId, objectiveIndex) as QuizQuestionRow | undefined\n\n  if (existing) {\n    return {\n      id: existing.id,\n      objectiveIndex: existing.objective_index,\n      objectiveText: existing.objective_text,\n      question: existing.question,\n      options: JSON.parse(existing.options),\n      hint: existing.hint\n    }\n  }\n\n  const markdown = await getDocumentMarkdown(plan.document_id)\n  if (!markdown) throw new BadRequestError('Source document has no markdown content')\n  const quiz = await generateQuiz(markdown, objective.text, objective.topic)\n\n  const res = db\n    .prepare(\n      `INSERT INTO quiz_questions (lesson_plan_id, objective_index, objective_text, question, options, correct_index, explanation, hint)\n       VALUES (?, ?, ?, ?, ?, ?, ?, ?)\n       RETURNING id`\n    )\n    .get(\n      planId,\n      objectiveIndex,\n      objective.text,\n      quiz.question,\n      JSON.stringify(quiz.options),\n      quiz.correct_index,\n      quiz.explanation,\n      quiz.hint\n    ) as { id: number }\n\n  return {\n    id: res.id,\n    objectiveIndex,\n    objectiveText: objective.text,\n    question: quiz.question,\n    options: quiz.options,\n    hint: quiz.hint\n  }\n}\n\nexport async function getAllQuizzes(planId: number): Promise<QuizDTO[]> {\n  const plan = await getPlan(planId)\n  if (!plan) return []\n  const rows = db\n    .prepare(`SELECT * FROM quiz_questions WHERE lesson_plan_id = ? ORDER BY objective_index ASC`)\n    .all(planId) as QuizQuestionRow[]\n  return rows.map((r) => ({\n    id: r.id,\n    objectiveIndex: r.objective_index,\n    objectiveText: r.objective_text,\n    question: r.question,\n    options: JSON.parse(r.options),\n    hint: r.hint\n  }))\n}\n\nexport async function getQuizInternal(quizId: number): Promise<QuizQuestionRow | null> {\n  return (db.prepare(`SELECT * FROM quiz_questions WHERE id = ?`).get(quizId) as QuizQuestionRow | undefined) ?? null\n}\n\nexport async function getHint(quizId: number, previousGuessIndex: number | null): Promise<string> {\n  const quiz = await getQuizInternal(quizId)\n  if (!quiz) throw new NotFoundError('Quiz not found')\n  const plan = await getPlan(quiz.lesson_plan_id)\n  if (!plan) throw new NotFoundError('Plan not found')\n  const markdown = await getDocumentMarkdown(plan.document_id)\n  if (!markdown) throw new BadRequestError('Source document has no markdown content')\n  const options = JSON.parse(quiz.options) as string[]\n  return generateRetryHint(\n    markdown,\n    quiz.question,\n    options,\n    previousGuessIndex !== null ? options[previousGuessIndex] : null\n  )\n}\n\ninterface ExplanationResult {\n  explanation: string\n  correctIndex: number\n}\n\nexport async function getExplanation(quizId: number): Promise<ExplanationResult> {\n  const quiz = await getQuizInternal(quizId)\n  if (!quiz) throw new NotFoundError('Quiz not found')\n  const plan = await getPlan(quiz.lesson_plan_id)\n  if (!plan) throw new NotFoundError('Plan not found')\n  const markdown = await getDocumentMarkdown(plan.document_id)\n  if (!markdown) throw new BadRequestError('Source document has no markdown content')\n  const options = JSON.parse(quiz.options) as string[]\n  const correct = options[quiz.correct_index]\n  const explanation = await explainCorrect(markdown, quiz.question, options, correct, quiz.correct_index)\n  return { explanation, correctIndex: quiz.correct_index }\n}\n\ninterface AnswerOutput {\n  correct: boolean\n  explanation?: string\n}\n\nexport async function checkAnswer(quizId: number, learnerIndex: number): Promise<AnswerOutput> {\n  const quiz = await getQuizInternal(quizId)\n  if (!quiz) throw new NotFoundError('Quiz not found')\n  const correct = learnerIndex === quiz.correct_index\n  if (!correct) return { correct: false }\n  const { explanation } = await getExplanation(quizId)\n  return { correct: true, explanation }\n}\n\ninterface AI_Message {\n  role: 'user' | 'assistant'\n  content: string\n}\nexport type MessageHistory = Array<AI_Message>\n\nexport async function getAiHelp(id: number, question: string, history: MessageHistory): Promise<string> {\n  const quiz = await getQuizInternal(id)\n  if (!quiz) throw new NotFoundError('Quiz not found')\n  const plan = await getPlan(quiz.lesson_plan_id)\n  if (!plan) throw new NotFoundError('Plan not found')\n  const markdown = await getDocumentMarkdown(plan.document_id)\n  if (!markdown) throw new BadRequestError('Source document has no markdown content')\n  const options = JSON.parse(quiz.options) as string[]\n  return aiChat(markdown, quiz.question, options, question, history)\n}",
+                  "lineStart": 1,
+                  "lineEnd": 152,
+                  "totalLines": 152,
+                  "truncated": false
+                }
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts",
+              "time": {
+                "start": 1783778334791,
+                "end": 1783778334799
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f5179589a001xqQYQzhWyiZ9Lk",
+          "time_created": 1783778334874,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "read",
+            "callID": "call_5eab645bcca54be1a0098d62",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx"
+              },
+              "output": "<path>/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx</path>\n<type>file</type>\n<content>\n1: import { useEffect, useState } from 'react'\n2: import Markdown from 'react-markdown'\n3: import { Check, CircleAlert, HelpCircle, Lightbulb, Loader2, MessageSquareText, Send, X } from 'lucide-react'\n4: import { cn } from '#lib/utils'\n5: import { Badge } from '#components/ui/badge'\n6: import { Button } from '#components/ui/button'\n7: import { Card, CardContent } from '#components/ui/card'\n8: import { RadioGroup, RadioGroupItem } from '#components/ui/radio-group'\n9: import { Textarea } from '#components/ui/textarea'\n10: import { checkAnswer, getHint, learnMore } from '#lib/api'\n11: import type { ChatMessage, QuizDTO } from '#lib/types'\n12: \n13: interface Props {\n14:   quiz: QuizDTO\n15:   objectiveNumber: number\n16:   totalObjectives: number\n17:   onCorrect: (learnerIndex: number, explanation: string) => void\n18:   onIncorrect: (learnerIndex: number) => void\n19:   onSkip: () => void\n20:   onNext: () => void\n21:   isLast: boolean\n22: }\n23: \n24: type Status = 'idle' | 'submitted' | 'correct' | 'incorrect'\n25: \n26: export function MCQWidget({\n27:   quiz,\n28:   objectiveNumber,\n29:   totalObjectives,\n30:   onCorrect,\n31:   onIncorrect,\n32:   onSkip,\n33:   onNext,\n34:   isLast\n35: }: Props) {\n36:   const [selected, setSelected] = useState<number | null>(null)\n37:   const [status, setStatus] = useState<Status>('idle')\n38:   const [submitting, setSubmitting] = useState(false)\n39:   const [hint, setHint] = useState<string | null>(null)\n40:   const [hintLoading, setHintLoading] = useState(false)\n41:   const [explanation, setExplanation] = useState<string | null>(null)\n42:   const [showExplanation, setShowExplanation] = useState(false)\n43:   const [tries, setTries] = useState(0)\n44:   const [chatOpen, setChatOpen] = useState(false)\n45: \n46:   // Reset state when quiz changes (new objective)\n47:   useEffect(() => {\n48:     setSelected(null)\n49:     setStatus('idle')\n50:     setHint(null)\n51:     setExplanation(null)\n52:     setShowExplanation(false)\n53:     setTries(0)\n54:     setChatOpen(false)\n55:   }, [quiz.id])\n56: \n57:   const submit = async () => {\n58:     if (selected === null || submitting) return\n59:     setHint(null)\n60:     setSubmitting(true)\n61:     try {\n62:       const res = await checkAnswer(quiz.id, selected)\n63:       if (res.correct) {\n64:         if (res.explanation) setExplanation(res.explanation)\n65:         setStatus('correct')\n66:         onCorrect(selected, res.explanation ?? '')\n67:       } else {\n68:         setStatus('incorrect')\n69:         onIncorrect(selected)\n70:         setTries((t) => t + 1)\n71:       }\n72:     } finally {\n73:       setSubmitting(false)\n74:     }\n75:   }\n76: \n77:   const retry = () => {\n78:     setStatus('idle')\n79:     setSelected(null)\n80:     setHint(null)\n81:   }\n82: \n83:   const requestHint = async () => {\n84:     setHintLoading(true)\n85:     try {\n86:       const res = await getHint(quiz.id, status === 'incorrect' ? selected : null)\n87:       setHint(res.hint)\n88:     } finally {\n89:       setHintLoading(false)\n90:     }\n91:   }\n92: \n93:   const locked = status === 'correct'\n94: \n95:   return (\n96:     <Card className=\"overflow-hidden\">\n97:       <CardContent className=\"p-0\">\n98:         <div className=\"border-b border-border bg-accent/40 px-5 py-3 sm:px-6\">\n99:           <div className=\"flex items-center justify-between gap-3\">\n100:             <div className=\"min-w-0\">\n101:               <p className=\"text-xs font-medium uppercase tracking-wide text-muted-foreground\">\n102:                 Objective {objectiveNumber} of {totalObjectives}\n103:               </p>\n104:               <p className=\"mt-0.5 truncate text-sm font-semibold\">{quiz.objectiveText}</p>\n105:             </div>\n106:             {tries > 0 && status !== 'correct' && (\n107:               <Badge variant=\"destructive\">\n108:                 {tries} {tries === 1 ? 'miss' : 'misses'}\n109:               </Badge>\n110:             )}\n111:             {status === 'correct' && (\n112:               <Badge variant=\"default\">\n113:                 <Check className=\"size-3\" />\n114:                 Correct\n115:               </Badge>\n116:             )}\n117:           </div>\n118:         </div>\n119: \n120:         <div className=\"space-y-5 p-5 sm:p-6\">\n121:           <p className=\"text-base font-medium leading-relaxed\">{quiz.question}</p>\n122: \n123:           <RadioGroup\n124:             value={selected !== null ? String(selected) : undefined}\n125:             onValueChange={(v) => {\n126:               if (locked) return\n127:               const next = Number(v)\n128:               setSelected(next)\n129:               if (status === 'incorrect') {\n130:                 setStatus('idle')\n131:                 setHint(null)\n132:               }\n133:             }}\n134:             className=\"gap-2.5\"\n135:           >\n136:             {quiz.options.map((opt, i) => {\n137:               const isSelected = selected === i\n138:               const showAsCorrect = locked && isSelected\n139:               const showAsWrong = status === 'incorrect' && isSelected\n140:               return (\n141:                 <label\n142:                   key={i}\n143:                   className={cn(\n144:                     'flex items-center gap-3 rounded-xl border p-3.5 text-sm transition-all',\n145:                     locked ? 'cursor-default' : 'cursor-pointer',\n146:                     !locked && 'hover:border-primary/50 hover:bg-accent/50',\n147:                     isSelected && !locked ? 'border-primary bg-primary/5' : 'border-border bg-card',\n148:                     showAsCorrect && 'border-success/60 bg-success/10 text-success',\n149:                     showAsWrong && 'border-danger/60 bg-danger/10 text-danger'\n150:                   )}\n151:                 >\n152:                   <RadioGroupItem\n153:                     value={String(i)}\n154:                     disabled={locked}\n155:                     className={cn(\n156:                       showAsCorrect &&\n157:                         'border-success text-success data-[checked]:bg-success data-[checked]:border-success',\n158:                       showAsWrong && 'border-danger text-danger data-[checked]:bg-danger data-[checked]:border-danger'\n159:                     )}\n160:                   />\n161:                   <span className=\"flex-1 leading-relaxed\">{opt}</span>\n162:                   {showAsCorrect && <Check className=\"size-4 shrink-0\" />}\n163:                   {showAsWrong && <X className=\"size-4 shrink-0\" />}\n164:                 </label>\n165:               )\n166:             })}\n167:           </RadioGroup>\n168: \n169:           {status === 'incorrect' && (\n170:             <div className=\"flex items-start gap-2.5 rounded-xl border border-danger/40 bg-danger/10 p-3.5 text-sm\">\n171:               <CircleAlert className=\"size-4 shrink-0 translate-y-0.5 text-danger\" />\n172:               <div>\n173:                 <p className=\"font-medium text-danger\">Not quite.</p>\n174:                 <p className=\"mt-0.5 text-muted-foreground\">\n175:                   Try again \u2014 you can request a hint or ask for a deeper explanation. No penalty for retries.\n176:                 </p>\n177:               </div>\n178:             </div>\n179:           )}\n180: \n181:           {hint && (\n182:             <div className=\"flex items-start gap-2.5 rounded-xl border border-primary/30 bg-primary/5 p-3.5 text-sm\">\n183:               <Lightbulb className=\"size-4 shrink-0 translate-y-0.5 text-primary\" />\n184:               <div>\n185:                 <p className=\"font-medium text-primary\">Hint</p>\n186:                 <p className=\"mt-0.5 text-foreground\">{hint}</p>\n187:               </div>\n188:             </div>\n189:           )}\n190: \n191:           {explanation && status === 'correct' && showExplanation && (\n192:             <div className=\"flex items-start gap-2.5 rounded-xl border border-success/40 bg-success/10 p-3.5 text-sm\">\n193:               <Check className=\"size-4 shrink-0 translate-y-0.5 text-success\" />\n194:               <div>\n195:                 <p className=\"font-medium text-success\">Explanation</p>\n196:                 <p className=\"mt-0.5 text-foreground\">{explanation}</p>\n197:               </div>\n198:             </div>\n199:           )}\n200: \n201:           <div className=\"flex flex-wrap items-center gap-2 pt-1\">\n202:             {!locked && (\n203:               <>\n204:                 <Button onClick={submit} disabled={selected === null || submitting} className=\"gap-1.5\">\n205:                   {submitting ? <Loader2 className=\"size-4 animate-spin\" /> : <Send className=\"size-4\" />}\n206:                   {status === 'incorrect' ? 'Re-submit' : 'Submit answer'}\n207:                 </Button>\n208:                 <Button variant=\"outline\" onClick={requestHint} disabled={hintLoading} className=\"gap-1.5\">\n209:                   {hintLoading ? <Loader2 className=\"size-4 animate-spin\" /> : <HelpCircle className=\"size-4\" />}\n210:                   {hint ? 'New hint' : 'Get a hint'}\n211:                 </Button>\n212:                 <Button variant=\"ghost\" onClick={() => setChatOpen(true)} className=\"gap-1.5\">\n213:                   <MessageSquareText className=\"size-4\" />\n214:                   AI Help\n215:                 </Button>\n216:                 {status === 'incorrect' && (\n217:                   <Button variant=\"ghost\" onClick={retry} className=\"ml-auto\">\n218:                     Reset selection\n219:                   </Button>\n220:                 )}\n221:                 {status === 'incorrect' && tries >= 1 && (\n222:                   <Button variant=\"ghost\" onClick={onSkip} className=\"text-muted-foreground\">\n223:                     Skip \u2192\n224:                   </Button>\n225:                 )}\n226:               </>\n227:             )}\n228:             {locked && (\n229:               <>\n230:                 {explanation && (\n231:                   <Button variant=\"outline\" onClick={() => setShowExplanation(!showExplanation)} className=\"gap-1.5\">\n232:                     {showExplanation ? 'Hide explanation' : 'Show explanation'}\n233:                   </Button>\n234:                 )}\n235:                 <Button onClick={onNext} className=\"ml-auto gap-1.5\">\n236:                   {isLast ? 'Finish & see results' : 'Next objective'}\n237:                 </Button>\n238:               </>\n239:             )}\n240:           </div>\n241:         </div>\n242:       </CardContent>\n243: \n244:       {chatOpen && <LearnMorePanel quiz={quiz} onClose={() => setChatOpen(false)} />}\n245:     </Card>\n246:   )\n247: }\n248: \n249: interface LearnMoreProps {\n250:   quiz: QuizDTO\n251:   onClose: () => void\n252: }\n253: \n254: function LearnMorePanel({ quiz, onClose }: LearnMoreProps) {\n255:   const [messages, setMessages] = useState<ChatMessage[]>([\n256:     {\n257:       role: 'assistant',\n258:       content:\n259:         'I can dig deeper into the topic behind this question \u2014 without revealing the answer. Ask me anything about the concepts.'\n260:     }\n261:   ])\n262:   const [input, setInput] = useState('')\n263:   const [loading, setLoading] = useState(false)\n264: \n265:   const send = async () => {\n266:     const q = input.trim()\n267:     if (!q || loading) return\n268:     const nextHistory: ChatMessage[] = [...messages, { role: 'user', content: q }]\n269:     setMessages(nextHistory)\n270:     setInput('')\n271:     setLoading(true)\n272:     try {\n273:       const res = await learnMore(\n274:         quiz.id,\n275:         q,\n276:         nextHistory.filter((m) => m.role !== 'assistant' || m.content !== messages[0]?.content)\n277:       )\n278:       setMessages((cur) => [...cur, { role: 'assistant', content: res.message }])\n279:     } catch (err) {\n280:       setMessages((cur) => [\n281:         ...cur,\n282:         {\n283:           role: 'assistant',\n284:           content: `Sorry, I couldn't fetch an answer right now: ${(err as Error).message}`\n285:         }\n286:       ])\n287:     } finally {\n288:       setLoading(false)\n289:     }\n290:   }\n291: \n292:   return (\n293:     <div className=\"fixed inset-0 z-50 flex items-end justify-end sm:items-center sm:justify-end\">\n294:       <div className=\"absolute inset-0 bg-background/60 backdrop-blur-sm\" onClick={onClose} />\n295:       <div className=\"relative flex h-[70vh] w-full max-w-md flex-col rounded-t-2xl border border-border bg-card shadow-2xl sm:rounded-2xl\">\n296:         <div className=\"flex items-center justify-between border-b border-border bg-accent/40 px-4 py-3\">\n297:           <div className=\"flex items-center gap-2\">\n298:             <span className=\"flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground\">\n299:               <MessageSquareText className=\"size-4\" />\n300:             </span>\n301:             <div>\n302:               <p className=\"text-sm font-semibold\">Ask the tutor</p>\n303:               <p className=\"text-xs text-muted-foreground\">Answers stay grounded in your PDF</p>\n304:             </div>\n305:           </div>\n306:           <Button variant=\"ghost\" size=\"icon-sm\" onClick={onClose}>\n307:             <X className=\"size-4\" />\n308:           </Button>\n309:         </div>\n310:         <div className=\"flex-1 space-y-3 overflow-y-auto p-4\">\n311:           {messages.map((m, i) => (\n312:             <div key={i} className={cn('flex', m.role === 'user' ? 'justify-end' : 'justify-start')}>\n313:                 <div\n314:                 className={cn(\n315:                   'max-w-[85%] rounded-2xl px-3.5 py-2 text-sm leading-relaxed',\n316:                   m.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-accent text-accent-foreground'\n317:                 )}\n318:               >\n319:                 {m.role === 'user' ? (\n320:                   <span className=\"whitespace-pre-wrap\">{m.content}</span>\n321:                 ) : (\n322:                   <Markdown>{m.content}</Markdown>\n323:                 )}\n324:               </div>\n325:             </div>\n326:           ))}\n327:           {loading && (\n328:             <div className=\"flex items-center gap-2 text-xs text-muted-foreground\">\n329:               <Loader2 className=\"size-3 animate-spin\" />\n330:               Thinking...\n331:             </div>\n332:           )}\n333:         </div>\n334:         <div className=\"border-t border-border p-3\">\n335:           <div className=\"flex items-end gap-2\">\n336:             <Textarea\n337:               value={input}\n338:               onChange={(e) => setInput(e.target.value)}\n339:               placeholder=\"Ask about the concept...\"\n340:               className=\"min-h-[44px] flex-1 resize-none\"\n341:               rows={1}\n342:               onKeyDown={(e) => {\n343:                 if (e.key === 'Enter' && !e.shiftKey) {\n344:                   e.preventDefault()\n345:                   void send()\n346:                 }\n347:               }}\n348:             />\n349:             <Button onClick={send} disabled={loading || !input.trim()} size=\"icon\">\n350:               <Send className=\"size-4\" />\n351:             </Button>\n352:           </div>\n353:         </div>\n354:       </div>\n355:     </div>\n356:   )\n357: }\n\n(End of file - total 357 lines)\n</content>",
+              "metadata": {
+                "preview": "import { useEffect, useState } from 'react'\nimport Markdown from 'react-markdown'\nimport { Check, CircleAlert, HelpCircle, Lightbulb, Loader2, MessageSquareText, Send, X } from 'lucide-react'\nimport { cn } from '#lib/utils'\nimport { Badge } from '#components/ui/badge'\nimport { Button } from '#components/ui/button'\nimport { Card, CardContent } from '#components/ui/card'\nimport { RadioGroup, RadioGroupItem } from '#components/ui/radio-group'\nimport { Textarea } from '#components/ui/textarea'\nimport { checkAnswer, getHint, learnMore } from '#lib/api'\nimport type { ChatMessage, QuizDTO } from '#lib/types'\n\ninterface Props {\n  quiz: QuizDTO\n  objectiveNumber: number\n  totalObjectives: number\n  onCorrect: (learnerIndex: number, explanation: string) => void\n  onIncorrect: (learnerIndex: number) => void\n  onSkip: () => void\n  onNext: () => void",
+                "truncated": false,
+                "loaded": [],
+                "display": {
+                  "type": "file",
+                  "path": "/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx",
+                  "text": "import { useEffect, useState } from 'react'\nimport Markdown from 'react-markdown'\nimport { Check, CircleAlert, HelpCircle, Lightbulb, Loader2, MessageSquareText, Send, X } from 'lucide-react'\nimport { cn } from '#lib/utils'\nimport { Badge } from '#components/ui/badge'\nimport { Button } from '#components/ui/button'\nimport { Card, CardContent } from '#components/ui/card'\nimport { RadioGroup, RadioGroupItem } from '#components/ui/radio-group'\nimport { Textarea } from '#components/ui/textarea'\nimport { checkAnswer, getHint, learnMore } from '#lib/api'\nimport type { ChatMessage, QuizDTO } from '#lib/types'\n\ninterface Props {\n  quiz: QuizDTO\n  objectiveNumber: number\n  totalObjectives: number\n  onCorrect: (learnerIndex: number, explanation: string) => void\n  onIncorrect: (learnerIndex: number) => void\n  onSkip: () => void\n  onNext: () => void\n  isLast: boolean\n}\n\ntype Status = 'idle' | 'submitted' | 'correct' | 'incorrect'\n\nexport function MCQWidget({\n  quiz,\n  objectiveNumber,\n  totalObjectives,\n  onCorrect,\n  onIncorrect,\n  onSkip,\n  onNext,\n  isLast\n}: Props) {\n  const [selected, setSelected] = useState<number | null>(null)\n  const [status, setStatus] = useState<Status>('idle')\n  const [submitting, setSubmitting] = useState(false)\n  const [hint, setHint] = useState<string | null>(null)\n  const [hintLoading, setHintLoading] = useState(false)\n  const [explanation, setExplanation] = useState<string | null>(null)\n  const [showExplanation, setShowExplanation] = useState(false)\n  const [tries, setTries] = useState(0)\n  const [chatOpen, setChatOpen] = useState(false)\n\n  // Reset state when quiz changes (new objective)\n  useEffect(() => {\n    setSelected(null)\n    setStatus('idle')\n    setHint(null)\n    setExplanation(null)\n    setShowExplanation(false)\n    setTries(0)\n    setChatOpen(false)\n  }, [quiz.id])\n\n  const submit = async () => {\n    if (selected === null || submitting) return\n    setHint(null)\n    setSubmitting(true)\n    try {\n      const res = await checkAnswer(quiz.id, selected)\n      if (res.correct) {\n        if (res.explanation) setExplanation(res.explanation)\n        setStatus('correct')\n        onCorrect(selected, res.explanation ?? '')\n      } else {\n        setStatus('incorrect')\n        onIncorrect(selected)\n        setTries((t) => t + 1)\n      }\n    } finally {\n      setSubmitting(false)\n    }\n  }\n\n  const retry = () => {\n    setStatus('idle')\n    setSelected(null)\n    setHint(null)\n  }\n\n  const requestHint = async () => {\n    setHintLoading(true)\n    try {\n      const res = await getHint(quiz.id, status === 'incorrect' ? selected : null)\n      setHint(res.hint)\n    } finally {\n      setHintLoading(false)\n    }\n  }\n\n  const locked = status === 'correct'\n\n  return (\n    <Card className=\"overflow-hidden\">\n      <CardContent className=\"p-0\">\n        <div className=\"border-b border-border bg-accent/40 px-5 py-3 sm:px-6\">\n          <div className=\"flex items-center justify-between gap-3\">\n            <div className=\"min-w-0\">\n              <p className=\"text-xs font-medium uppercase tracking-wide text-muted-foreground\">\n                Objective {objectiveNumber} of {totalObjectives}\n              </p>\n              <p className=\"mt-0.5 truncate text-sm font-semibold\">{quiz.objectiveText}</p>\n            </div>\n            {tries > 0 && status !== 'correct' && (\n              <Badge variant=\"destructive\">\n                {tries} {tries === 1 ? 'miss' : 'misses'}\n              </Badge>\n            )}\n            {status === 'correct' && (\n              <Badge variant=\"default\">\n                <Check className=\"size-3\" />\n                Correct\n              </Badge>\n            )}\n          </div>\n        </div>\n\n        <div className=\"space-y-5 p-5 sm:p-6\">\n          <p className=\"text-base font-medium leading-relaxed\">{quiz.question}</p>\n\n          <RadioGroup\n            value={selected !== null ? String(selected) : undefined}\n            onValueChange={(v) => {\n              if (locked) return\n              const next = Number(v)\n              setSelected(next)\n              if (status === 'incorrect') {\n                setStatus('idle')\n                setHint(null)\n              }\n            }}\n            className=\"gap-2.5\"\n          >\n            {quiz.options.map((opt, i) => {\n              const isSelected = selected === i\n              const showAsCorrect = locked && isSelected\n              const showAsWrong = status === 'incorrect' && isSelected\n              return (\n                <label\n                  key={i}\n                  className={cn(\n                    'flex items-center gap-3 rounded-xl border p-3.5 text-sm transition-all',\n                    locked ? 'cursor-default' : 'cursor-pointer',\n                    !locked && 'hover:border-primary/50 hover:bg-accent/50',\n                    isSelected && !locked ? 'border-primary bg-primary/5' : 'border-border bg-card',\n                    showAsCorrect && 'border-success/60 bg-success/10 text-success',\n                    showAsWrong && 'border-danger/60 bg-danger/10 text-danger'\n                  )}\n                >\n                  <RadioGroupItem\n                    value={String(i)}\n                    disabled={locked}\n                    className={cn(\n                      showAsCorrect &&\n                        'border-success text-success data-[checked]:bg-success data-[checked]:border-success',\n                      showAsWrong && 'border-danger text-danger data-[checked]:bg-danger data-[checked]:border-danger'\n                    )}\n                  />\n                  <span className=\"flex-1 leading-relaxed\">{opt}</span>\n                  {showAsCorrect && <Check className=\"size-4 shrink-0\" />}\n                  {showAsWrong && <X className=\"size-4 shrink-0\" />}\n                </label>\n              )\n            })}\n          </RadioGroup>\n\n          {status === 'incorrect' && (\n            <div className=\"flex items-start gap-2.5 rounded-xl border border-danger/40 bg-danger/10 p-3.5 text-sm\">\n              <CircleAlert className=\"size-4 shrink-0 translate-y-0.5 text-danger\" />\n              <div>\n                <p className=\"font-medium text-danger\">Not quite.</p>\n                <p className=\"mt-0.5 text-muted-foreground\">\n                  Try again \u2014 you can request a hint or ask for a deeper explanation. No penalty for retries.\n                </p>\n              </div>\n            </div>\n          )}\n\n          {hint && (\n            <div className=\"flex items-start gap-2.5 rounded-xl border border-primary/30 bg-primary/5 p-3.5 text-sm\">\n              <Lightbulb className=\"size-4 shrink-0 translate-y-0.5 text-primary\" />\n              <div>\n                <p className=\"font-medium text-primary\">Hint</p>\n                <p className=\"mt-0.5 text-foreground\">{hint}</p>\n              </div>\n            </div>\n          )}\n\n          {explanation && status === 'correct' && showExplanation && (\n            <div className=\"flex items-start gap-2.5 rounded-xl border border-success/40 bg-success/10 p-3.5 text-sm\">\n              <Check className=\"size-4 shrink-0 translate-y-0.5 text-success\" />\n              <div>\n                <p className=\"font-medium text-success\">Explanation</p>\n                <p className=\"mt-0.5 text-foreground\">{explanation}</p>\n              </div>\n            </div>\n          )}\n\n          <div className=\"flex flex-wrap items-center gap-2 pt-1\">\n            {!locked && (\n              <>\n                <Button onClick={submit} disabled={selected === null || submitting} className=\"gap-1.5\">\n                  {submitting ? <Loader2 className=\"size-4 animate-spin\" /> : <Send className=\"size-4\" />}\n                  {status === 'incorrect' ? 'Re-submit' : 'Submit answer'}\n                </Button>\n                <Button variant=\"outline\" onClick={requestHint} disabled={hintLoading} className=\"gap-1.5\">\n                  {hintLoading ? <Loader2 className=\"size-4 animate-spin\" /> : <HelpCircle className=\"size-4\" />}\n                  {hint ? 'New hint' : 'Get a hint'}\n                </Button>\n                <Button variant=\"ghost\" onClick={() => setChatOpen(true)} className=\"gap-1.5\">\n                  <MessageSquareText className=\"size-4\" />\n                  AI Help\n                </Button>\n                {status === 'incorrect' && (\n                  <Button variant=\"ghost\" onClick={retry} className=\"ml-auto\">\n                    Reset selection\n                  </Button>\n                )}\n                {status === 'incorrect' && tries >= 1 && (\n                  <Button variant=\"ghost\" onClick={onSkip} className=\"text-muted-foreground\">\n                    Skip \u2192\n                  </Button>\n                )}\n              </>\n            )}\n            {locked && (\n              <>\n                {explanation && (\n                  <Button variant=\"outline\" onClick={() => setShowExplanation(!showExplanation)} className=\"gap-1.5\">\n                    {showExplanation ? 'Hide explanation' : 'Show explanation'}\n                  </Button>\n                )}\n                <Button onClick={onNext} className=\"ml-auto gap-1.5\">\n                  {isLast ? 'Finish & see results' : 'Next objective'}\n                </Button>\n              </>\n            )}\n          </div>\n        </div>\n      </CardContent>\n\n      {chatOpen && <LearnMorePanel quiz={quiz} onClose={() => setChatOpen(false)} />}\n    </Card>\n  )\n}\n\ninterface LearnMoreProps {\n  quiz: QuizDTO\n  onClose: () => void\n}\n\nfunction LearnMorePanel({ quiz, onClose }: LearnMoreProps) {\n  const [messages, setMessages] = useState<ChatMessage[]>([\n    {\n      role: 'assistant',\n      content:\n        'I can dig deeper into the topic behind this question \u2014 without revealing the answer. Ask me anything about the concepts.'\n    }\n  ])\n  const [input, setInput] = useState('')\n  const [loading, setLoading] = useState(false)\n\n  const send = async () => {\n    const q = input.trim()\n    if (!q || loading) return\n    const nextHistory: ChatMessage[] = [...messages, { role: 'user', content: q }]\n    setMessages(nextHistory)\n    setInput('')\n    setLoading(true)\n    try {\n      const res = await learnMore(\n        quiz.id,\n        q,\n        nextHistory.filter((m) => m.role !== 'assistant' || m.content !== messages[0]?.content)\n      )\n      setMessages((cur) => [...cur, { role: 'assistant', content: res.message }])\n    } catch (err) {\n      setMessages((cur) => [\n        ...cur,\n        {\n          role: 'assistant',\n          content: `Sorry, I couldn't fetch an answer right now: ${(err as Error).message}`\n        }\n      ])\n    } finally {\n      setLoading(false)\n    }\n  }\n\n  return (\n    <div className=\"fixed inset-0 z-50 flex items-end justify-end sm:items-center sm:justify-end\">\n      <div className=\"absolute inset-0 bg-background/60 backdrop-blur-sm\" onClick={onClose} />\n      <div className=\"relative flex h-[70vh] w-full max-w-md flex-col rounded-t-2xl border border-border bg-card shadow-2xl sm:rounded-2xl\">\n        <div className=\"flex items-center justify-between border-b border-border bg-accent/40 px-4 py-3\">\n          <div className=\"flex items-center gap-2\">\n            <span className=\"flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground\">\n              <MessageSquareText className=\"size-4\" />\n            </span>\n            <div>\n              <p className=\"text-sm font-semibold\">Ask the tutor</p>\n              <p className=\"text-xs text-muted-foreground\">Answers stay grounded in your PDF</p>\n            </div>\n          </div>\n          <Button variant=\"ghost\" size=\"icon-sm\" onClick={onClose}>\n            <X className=\"size-4\" />\n          </Button>\n        </div>\n        <div className=\"flex-1 space-y-3 overflow-y-auto p-4\">\n          {messages.map((m, i) => (\n            <div key={i} className={cn('flex', m.role === 'user' ? 'justify-end' : 'justify-start')}>\n                <div\n                className={cn(\n                  'max-w-[85%] rounded-2xl px-3.5 py-2 text-sm leading-relaxed',\n                  m.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-accent text-accent-foreground'\n                )}\n              >\n                {m.role === 'user' ? (\n                  <span className=\"whitespace-pre-wrap\">{m.content}</span>\n                ) : (\n                  <Markdown>{m.content}</Markdown>\n                )}\n              </div>\n            </div>\n          ))}\n          {loading && (\n            <div className=\"flex items-center gap-2 text-xs text-muted-foreground\">\n              <Loader2 className=\"size-3 animate-spin\" />\n              Thinking...\n            </div>\n          )}\n        </div>\n        <div className=\"border-t border-border p-3\">\n          <div className=\"flex items-end gap-2\">\n            <Textarea\n              value={input}\n              onChange={(e) => setInput(e.target.value)}\n              placeholder=\"Ask about the concept...\"\n              className=\"min-h-[44px] flex-1 resize-none\"\n              rows={1}\n              onKeyDown={(e) => {\n                if (e.key === 'Enter' && !e.shiftKey) {\n                  e.preventDefault()\n                  void send()\n                }\n              }}\n            />\n            <Button onClick={send} disabled={loading || !input.trim()} size=\"icon\">\n              <Send className=\"size-4\" />\n            </Button>\n          </div>\n        </div>\n      </div>\n    </div>\n  )\n}",
+                  "lineStart": 1,
+                  "lineEnd": 357,
+                  "totalLines": 357,
+                  "truncated": false
+                }
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx",
+              "time": {
+                "start": 1783778335144,
+                "end": 1783778335149
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f517959e6001dx4ksuBitE0gpC",
+          "time_created": 1783778335206,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "read",
+            "callID": "call_6ac5141e0e604d049ed5ffbb",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/frontend/src/pages/lesson-page.tsx"
+              },
+              "output": "<path>/Users/shivam/qnify/ai-learning-agent/frontend/src/pages/lesson-page.tsx</path>\n<type>file</type>\n<content>\n1: import { useCallback, useEffect, useState } from 'react'\n2: import { useNavigate, useParams } from 'react-router-dom'\n3: import { ArrowLeft, Loader2 } from 'lucide-react'\n4: import { PlanCard } from '#components/plan-card'\n5: import { MCQWidget } from '#components/mcq-widget'\n6: import { ObjectiveTracker, type ObjectiveStatus } from '#components/objective-tracker'\n7: import { SummaryView } from '#components/summary-view'\n8: import { Card, CardContent } from '#components/ui/card'\n9: import { Progress } from '#components/ui/progress'\n10: import { approvePlan, completeAttempt, generateQuiz, getAttempt, getPlan, listAttempts, listQuizzes } from '#lib/api'\n11: import type { AttemptSummary, Plan, QuizDTO } from '#lib/types'\n12: import { difficultyLabel } from '#lib/format'\n13: \n14: type Phase = 'loading' | 'review' | 'quiz' | 'summary' | 'error'\n15: \n16: interface AnswerState {\n17:   quizId: number\n18:   learnerIndex: number | null\n19:   attempts: number\n20:   correct: boolean\n21:   finalized: boolean\n22: }\n23: \n24: function blankAnswer(quizId: number): AnswerState {\n25:   return {\n26:     quizId,\n27:     learnerIndex: null,\n28:     attempts: 0,\n29:     correct: false,\n30:     finalized: false\n31:   }\n32: }\n33: \n34: export function LessonPage() {\n35:   const { planId } = useParams<{ planId: string }>()\n36:   const navigate = useNavigate()\n37:   const [phase, setPhase] = useState<Phase>('loading')\n38:   const [plan, setPlan] = useState<Plan | null>(null)\n39:   const [error, setError] = useState<string | null>(null)\n40:   const [quizzes, setQuizzes] = useState<Record<number, QuizDTO>>({})\n41:   const [answers, setAnswers] = useState<Record<number, AnswerState>>({})\n42:   const [currentIdx, setCurrentIdx] = useState(0)\n43:   const [loadingQuiz, setLoadingQuiz] = useState(false)\n44:   const [summary, setSummary] = useState<AttemptSummary | null>(null)\n45:   const [finishing, setFinishing] = useState(false)\n46: \n47:   useEffect(() => {\n48:     if (!planId) return\n49:     const id = Number(planId)\n50: \n51:     async function loadPlan() {\n52:       const p = await getPlan(id)\n53:       setPlan(p)\n54: \n55:       if (p.status === 'draft') {\n56:         setPhase('review')\n57:         return\n58:       }\n59: \n60:       if (p.status !== 'completed') {\n61:         setPhase('quiz')\n62:         return\n63:       }\n64: \n65:       try {\n66:         const attempts = await listAttempts(id)\n67:         if (attempts.length === 0) {\n68:           setPhase('quiz')\n69:           return\n70:         }\n71:         const latest = await getAttempt(attempts[0].id)\n72:         setSummary(latest)\n73:         setPhase('summary')\n74:       } catch {\n75:         setPhase('quiz')\n76:       }\n77:     }\n78: \n79:     loadPlan().catch((err: unknown) => {\n80:       setError((err as Error).message)\n81:       setPhase('error')\n82:     })\n83:   }, [planId])\n84: \n85:   // Preload cached quizzes when entering the quiz phase (retest path)\n86:   useEffect(() => {\n87:     if (phase !== 'quiz' || !planId || !plan) return\n88:     const id = Number(planId)\n89:     listQuizzes(id)\n90:       .then((existing) => {\n91:         if (existing.length === 0) return\n92:         const map: Record<number, QuizDTO> = {}\n93:         for (const q of existing) map[q.objectiveIndex] = q\n94:         setQuizzes(map)\n95:       })\n96:       .catch(() => {\n97:         // ignore \u2014 we'll lazy-generate\n98:       })\n99:   }, [phase, planId, plan])\n100: \n101:   const currentQuiz = quizzes[currentIdx]\n102: \n103:   // Lazy-generate the quiz for the current objective when needed\n104:   useEffect(() => {\n105:     if (phase !== 'quiz' || !plan || !planId) return\n106:     if (quizzes[currentIdx] || loadingQuiz) return\n107:     if (currentIdx >= plan.objectives.length) return\n108:     const id = Number(planId)\n109:     setLoadingQuiz(true)\n110:     generateQuiz(id, currentIdx)\n111:       .then((q) => {\n112:         setQuizzes((prev) => ({ ...prev, [currentIdx]: q }))\n113:       })\n114:       .catch((err: unknown) => {\n115:         setError((err as Error).message)\n116:         setPhase('error')\n117:       })\n118:       .finally(() => setLoadingQuiz(false))\n119:   }, [phase, plan, planId, currentIdx, quizzes, loadingQuiz])\n120: \n121:   const handleApprove = useCallback(async () => {\n122:     if (!plan) return\n123:     try {\n124:       const updated = await approvePlan(plan.id)\n125:       setPlan(updated)\n126:       setPhase('quiz')\n127:     } catch (err) {\n128:       setError((err as Error).message)\n129:       setPhase('error')\n130:     }\n131:   }, [plan])\n132: \n133:   const handleIncorrect = useCallback(\n134:     (idx: number, learnerIndex: number) => {\n135:       setAnswers((prev) => {\n136:         const quizId = quizzes[idx]?.id ?? -1\n137:         const existing = prev[idx] ?? blankAnswer(quizId)\n138:         return {\n139:           ...prev,\n140:           [idx]: {\n141:             ...existing,\n142:             quizId,\n143:             learnerIndex,\n144:             correct: false,\n145:             attempts: existing.attempts + 1,\n146:             finalized: false\n147:           }\n148:         }\n149:       })\n150:     },\n151:     [quizzes]\n152:   )\n153: \n154:   const handleCorrect = useCallback(\n155:     (idx: number, learnerIndex: number) => {\n156:       setAnswers((prev) => {\n157:         const quizId = quizzes[idx]?.id ?? -1\n158:         const existing = prev[idx] ?? blankAnswer(quizId)\n159:         return {\n160:           ...prev,\n161:           [idx]: {\n162:             ...existing,\n163:             quizId,\n164:             learnerIndex,\n165:             correct: true,\n166:             // attempts stays \u2014 counts only incorrect tries\n167:             finalized: true\n168:           }\n169:         }\n170:       })\n171:     },\n172:     [quizzes]\n173:   )\n174: \n175:   const handleSkip = useCallback(\n176:     (idx: number) => {\n177:       setAnswers((prev) => {\n178:         const quizId = quizzes[idx]?.id ?? -1\n179:         const existing = prev[idx] ?? blankAnswer(quizId)\n180:         return {\n181:           ...prev,\n182:           [idx]: {\n183:             ...existing,\n184:             quizId,\n185:             learnerIndex: null,\n186:             correct: false,\n187:             finalized: true\n188:           }\n189:         }\n190:       })\n191:       setCurrentIdx((i) => i + 1)\n192:     },\n193:     [quizzes]\n194:   )\n195: \n196:   const finish = useCallback(async () => {\n197:     if (!plan || !planId || finishing) return\n198:     setFinishing(true)\n199:     try {\n200:       const payload = Object.values(answers).map((a) => ({\n201:         quizId: a.quizId,\n202:         learnerIndex: a.learnerIndex,\n203:         attempts: a.attempts\n204:       }))\n205:       const result = await completeAttempt(plan.id, payload)\n206:       setSummary(result)\n207:       setPhase('summary')\n208:     } catch (err) {\n209:       setError((err as Error).message)\n210:       setPhase('error')\n211:     } finally {\n212:       setFinishing(false)\n213:     }\n214:   }, [plan, planId, answers, finishing])\n215: \n216:   const advance = useCallback(() => {\n217:     if (!plan) return\n218:     if (currentIdx + 1 >= plan.objectives.length) {\n219:       void finish()\n220:     } else {\n221:       setCurrentIdx((i) => i + 1)\n222:     }\n223:   }, [currentIdx, plan, finish])\n224: \n225:   const handleRetake = useCallback(() => {\n226:     setAnswers({})\n227:     setQuizzes({})\n228:     setCurrentIdx(0)\n229:     setSummary(null)\n230:     setPhase('quiz')\n231:   }, [])\n232: \n233:   if (phase === 'loading') {\n234:     return (\n235:       <div className=\"flex h-[60vh] items-center justify-center\">\n236:         <Loader2 className=\"size-6 animate-spin text-primary\" />\n237:       </div>\n238:     )\n239:   }\n240: \n241:   if (phase === 'error' || !plan) {\n242:     return (\n243:       <div className=\"mx-auto max-w-2xl\">\n244:         <Card>\n245:           <CardContent className=\"p-8 text-center\">\n246:             <p className=\"text-sm font-medium text-danger\">{error ?? 'Something went wrong.'}</p>\n247:           </CardContent>\n248:         </Card>\n249:       </div>\n250:     )\n251:   }\n252: \n253:   if (phase === 'review') {\n254:     return <PlanCard plan={plan} onApprove={handleApprove} onBack={() => navigate('/')} />\n255:   }\n256: \n257:   if (phase === 'summary' && summary) {\n258:     return <SummaryView summary={summary} onRetake={handleRetake} onBackToLibrary={() => navigate('/')} />\n259:   }\n260: \n261:   // quiz phase\n262:   const total = plan.objectives.length\n263:   const answerList = plan.objectives.map((_, i) => answers[i])\n264:   const completed = answerList.filter((a) => a?.finalized).length\n265:   const score = answerList.filter((a) => a?.correct).length\n266:   const progressPct = total === 0 ? 0 : Math.round((completed / total) * 100)\n267:   const statuses: ObjectiveStatus[] = plan.objectives.map((_, i) => {\n268:     const a = answers[i]\n269:     if (a?.finalized) {\n270:       return a.correct ? 'correct' : 'skipped'\n271:     }\n272:     if (i === currentIdx) return 'current'\n273:     return 'pending'\n274:   })\n275: \n276:   return (\n277:     <div className=\"space-y-6\">\n278:       <div className=\"space-y-2\">\n279:         <div className=\"flex items-center justify-between gap-3\">\n280:           <div className=\"min-w-0\">\n281:             <h1 className=\"truncate text-xl font-bold tracking-tight\">{plan.title}</h1>\n282:             <p className=\"text-xs text-muted-foreground\">\n283:               {difficultyLabel(plan.difficulty)} \u00b7 {completed} of {total} objectives done\n284:             </p>\n285:           </div>\n286:           <div className=\"text-right\">\n287:             <p className=\"text-2xl font-bold tabular-nums\">\n288:               {score}\n289:               <span className=\"text-base text-muted-foreground\">/{total}</span>\n290:             </p>\n291:           </div>\n292:         </div>\n293:         <Progress value={progressPct} />\n294:       </div>\n295: \n296:       <div className=\"grid gap-6 lg:grid-cols-[1fr_280px]\">\n297:         <div className=\"min-w-0\">\n298:           {currentQuiz ? (\n299:             <MCQWidget\n300:               key={currentQuiz.id}\n301:               quiz={currentQuiz}\n302:               objectiveNumber={currentIdx + 1}\n303:               totalObjectives={total}\n304:               onCorrect={(learnerIndex, explanation) => {\n305:                 void explanation\n306:                 handleCorrect(currentIdx, learnerIndex)\n307:               }}\n308:               onIncorrect={(learnerIndex) => handleIncorrect(currentIdx, learnerIndex)}\n309:               onSkip={() => handleSkip(currentIdx)}\n310:               onNext={advance}\n311:               isLast={currentIdx === total - 1}\n312:             />\n313:           ) : (\n314:             <Card>\n315:               <CardContent className=\"flex flex-col items-center justify-center gap-3 p-12 text-center\">\n316:                 <Loader2 className=\"size-6 animate-spin text-primary\" />\n317:                 <p className=\"text-sm text-muted-foreground\">Generating question for objective {currentIdx + 1}...</p>\n318:               </CardContent>\n319:             </Card>\n320:           )}\n321:           {finishing && (\n322:             <p className=\"mt-4 flex items-center justify-center gap-2 text-sm text-muted-foreground\">\n323:               <Loader2 className=\"size-4 animate-spin\" />\n324:               Building your progress report...\n325:             </p>\n326:           )}\n327:         </div>\n328: \n329:         <aside className=\"lg:sticky lg:top-20 lg:self-start\">\n330:           <ObjectiveTracker objectives={plan.objectives} statuses={statuses} score={score} total={total} />\n331:         </aside>\n332:       </div>\n333:     </div>\n334:   )\n335: }\n\n(End of file - total 335 lines)\n</content>",
+              "metadata": {
+                "preview": "import { useCallback, useEffect, useState } from 'react'\nimport { useNavigate, useParams } from 'react-router-dom'\nimport { ArrowLeft, Loader2 } from 'lucide-react'\nimport { PlanCard } from '#components/plan-card'\nimport { MCQWidget } from '#components/mcq-widget'\nimport { ObjectiveTracker, type ObjectiveStatus } from '#components/objective-tracker'\nimport { SummaryView } from '#components/summary-view'\nimport { Card, CardContent } from '#components/ui/card'\nimport { Progress } from '#components/ui/progress'\nimport { approvePlan, completeAttempt, generateQuiz, getAttempt, getPlan, listAttempts, listQuizzes } from '#lib/api'\nimport type { AttemptSummary, Plan, QuizDTO } from '#lib/types'\nimport { difficultyLabel } from '#lib/format'\n\ntype Phase = 'loading' | 'review' | 'quiz' | 'summary' | 'error'\n\ninterface AnswerState {\n  quizId: number\n  learnerIndex: number | null\n  attempts: number\n  correct: boolean",
+                "truncated": false,
+                "loaded": [],
+                "display": {
+                  "type": "file",
+                  "path": "/Users/shivam/qnify/ai-learning-agent/frontend/src/pages/lesson-page.tsx",
+                  "text": "import { useCallback, useEffect, useState } from 'react'\nimport { useNavigate, useParams } from 'react-router-dom'\nimport { ArrowLeft, Loader2 } from 'lucide-react'\nimport { PlanCard } from '#components/plan-card'\nimport { MCQWidget } from '#components/mcq-widget'\nimport { ObjectiveTracker, type ObjectiveStatus } from '#components/objective-tracker'\nimport { SummaryView } from '#components/summary-view'\nimport { Card, CardContent } from '#components/ui/card'\nimport { Progress } from '#components/ui/progress'\nimport { approvePlan, completeAttempt, generateQuiz, getAttempt, getPlan, listAttempts, listQuizzes } from '#lib/api'\nimport type { AttemptSummary, Plan, QuizDTO } from '#lib/types'\nimport { difficultyLabel } from '#lib/format'\n\ntype Phase = 'loading' | 'review' | 'quiz' | 'summary' | 'error'\n\ninterface AnswerState {\n  quizId: number\n  learnerIndex: number | null\n  attempts: number\n  correct: boolean\n  finalized: boolean\n}\n\nfunction blankAnswer(quizId: number): AnswerState {\n  return {\n    quizId,\n    learnerIndex: null,\n    attempts: 0,\n    correct: false,\n    finalized: false\n  }\n}\n\nexport function LessonPage() {\n  const { planId } = useParams<{ planId: string }>()\n  const navigate = useNavigate()\n  const [phase, setPhase] = useState<Phase>('loading')\n  const [plan, setPlan] = useState<Plan | null>(null)\n  const [error, setError] = useState<string | null>(null)\n  const [quizzes, setQuizzes] = useState<Record<number, QuizDTO>>({})\n  const [answers, setAnswers] = useState<Record<number, AnswerState>>({})\n  const [currentIdx, setCurrentIdx] = useState(0)\n  const [loadingQuiz, setLoadingQuiz] = useState(false)\n  const [summary, setSummary] = useState<AttemptSummary | null>(null)\n  const [finishing, setFinishing] = useState(false)\n\n  useEffect(() => {\n    if (!planId) return\n    const id = Number(planId)\n\n    async function loadPlan() {\n      const p = await getPlan(id)\n      setPlan(p)\n\n      if (p.status === 'draft') {\n        setPhase('review')\n        return\n      }\n\n      if (p.status !== 'completed') {\n        setPhase('quiz')\n        return\n      }\n\n      try {\n        const attempts = await listAttempts(id)\n        if (attempts.length === 0) {\n          setPhase('quiz')\n          return\n        }\n        const latest = await getAttempt(attempts[0].id)\n        setSummary(latest)\n        setPhase('summary')\n      } catch {\n        setPhase('quiz')\n      }\n    }\n\n    loadPlan().catch((err: unknown) => {\n      setError((err as Error).message)\n      setPhase('error')\n    })\n  }, [planId])\n\n  // Preload cached quizzes when entering the quiz phase (retest path)\n  useEffect(() => {\n    if (phase !== 'quiz' || !planId || !plan) return\n    const id = Number(planId)\n    listQuizzes(id)\n      .then((existing) => {\n        if (existing.length === 0) return\n        const map: Record<number, QuizDTO> = {}\n        for (const q of existing) map[q.objectiveIndex] = q\n        setQuizzes(map)\n      })\n      .catch(() => {\n        // ignore \u2014 we'll lazy-generate\n      })\n  }, [phase, planId, plan])\n\n  const currentQuiz = quizzes[currentIdx]\n\n  // Lazy-generate the quiz for the current objective when needed\n  useEffect(() => {\n    if (phase !== 'quiz' || !plan || !planId) return\n    if (quizzes[currentIdx] || loadingQuiz) return\n    if (currentIdx >= plan.objectives.length) return\n    const id = Number(planId)\n    setLoadingQuiz(true)\n    generateQuiz(id, currentIdx)\n      .then((q) => {\n        setQuizzes((prev) => ({ ...prev, [currentIdx]: q }))\n      })\n      .catch((err: unknown) => {\n        setError((err as Error).message)\n        setPhase('error')\n      })\n      .finally(() => setLoadingQuiz(false))\n  }, [phase, plan, planId, currentIdx, quizzes, loadingQuiz])\n\n  const handleApprove = useCallback(async () => {\n    if (!plan) return\n    try {\n      const updated = await approvePlan(plan.id)\n      setPlan(updated)\n      setPhase('quiz')\n    } catch (err) {\n      setError((err as Error).message)\n      setPhase('error')\n    }\n  }, [plan])\n\n  const handleIncorrect = useCallback(\n    (idx: number, learnerIndex: number) => {\n      setAnswers((prev) => {\n        const quizId = quizzes[idx]?.id ?? -1\n        const existing = prev[idx] ?? blankAnswer(quizId)\n        return {\n          ...prev,\n          [idx]: {\n            ...existing,\n            quizId,\n            learnerIndex,\n            correct: false,\n            attempts: existing.attempts + 1,\n            finalized: false\n          }\n        }\n      })\n    },\n    [quizzes]\n  )\n\n  const handleCorrect = useCallback(\n    (idx: number, learnerIndex: number) => {\n      setAnswers((prev) => {\n        const quizId = quizzes[idx]?.id ?? -1\n        const existing = prev[idx] ?? blankAnswer(quizId)\n        return {\n          ...prev,\n          [idx]: {\n            ...existing,\n            quizId,\n            learnerIndex,\n            correct: true,\n            // attempts stays \u2014 counts only incorrect tries\n            finalized: true\n          }\n        }\n      })\n    },\n    [quizzes]\n  )\n\n  const handleSkip = useCallback(\n    (idx: number) => {\n      setAnswers((prev) => {\n        const quizId = quizzes[idx]?.id ?? -1\n        const existing = prev[idx] ?? blankAnswer(quizId)\n        return {\n          ...prev,\n          [idx]: {\n            ...existing,\n            quizId,\n            learnerIndex: null,\n            correct: false,\n            finalized: true\n          }\n        }\n      })\n      setCurrentIdx((i) => i + 1)\n    },\n    [quizzes]\n  )\n\n  const finish = useCallback(async () => {\n    if (!plan || !planId || finishing) return\n    setFinishing(true)\n    try {\n      const payload = Object.values(answers).map((a) => ({\n        quizId: a.quizId,\n        learnerIndex: a.learnerIndex,\n        attempts: a.attempts\n      }))\n      const result = await completeAttempt(plan.id, payload)\n      setSummary(result)\n      setPhase('summary')\n    } catch (err) {\n      setError((err as Error).message)\n      setPhase('error')\n    } finally {\n      setFinishing(false)\n    }\n  }, [plan, planId, answers, finishing])\n\n  const advance = useCallback(() => {\n    if (!plan) return\n    if (currentIdx + 1 >= plan.objectives.length) {\n      void finish()\n    } else {\n      setCurrentIdx((i) => i + 1)\n    }\n  }, [currentIdx, plan, finish])\n\n  const handleRetake = useCallback(() => {\n    setAnswers({})\n    setQuizzes({})\n    setCurrentIdx(0)\n    setSummary(null)\n    setPhase('quiz')\n  }, [])\n\n  if (phase === 'loading') {\n    return (\n      <div className=\"flex h-[60vh] items-center justify-center\">\n        <Loader2 className=\"size-6 animate-spin text-primary\" />\n      </div>\n    )\n  }\n\n  if (phase === 'error' || !plan) {\n    return (\n      <div className=\"mx-auto max-w-2xl\">\n        <Card>\n          <CardContent className=\"p-8 text-center\">\n            <p className=\"text-sm font-medium text-danger\">{error ?? 'Something went wrong.'}</p>\n          </CardContent>\n        </Card>\n      </div>\n    )\n  }\n\n  if (phase === 'review') {\n    return <PlanCard plan={plan} onApprove={handleApprove} onBack={() => navigate('/')} />\n  }\n\n  if (phase === 'summary' && summary) {\n    return <SummaryView summary={summary} onRetake={handleRetake} onBackToLibrary={() => navigate('/')} />\n  }\n\n  // quiz phase\n  const total = plan.objectives.length\n  const answerList = plan.objectives.map((_, i) => answers[i])\n  const completed = answerList.filter((a) => a?.finalized).length\n  const score = answerList.filter((a) => a?.correct).length\n  const progressPct = total === 0 ? 0 : Math.round((completed / total) * 100)\n  const statuses: ObjectiveStatus[] = plan.objectives.map((_, i) => {\n    const a = answers[i]\n    if (a?.finalized) {\n      return a.correct ? 'correct' : 'skipped'\n    }\n    if (i === currentIdx) return 'current'\n    return 'pending'\n  })\n\n  return (\n    <div className=\"space-y-6\">\n      <div className=\"space-y-2\">\n        <div className=\"flex items-center justify-between gap-3\">\n          <div className=\"min-w-0\">\n            <h1 className=\"truncate text-xl font-bold tracking-tight\">{plan.title}</h1>\n            <p className=\"text-xs text-muted-foreground\">\n              {difficultyLabel(plan.difficulty)} \u00b7 {completed} of {total} objectives done\n            </p>\n          </div>\n          <div className=\"text-right\">\n            <p className=\"text-2xl font-bold tabular-nums\">\n              {score}\n              <span className=\"text-base text-muted-foreground\">/{total}</span>\n            </p>\n          </div>\n        </div>\n        <Progress value={progressPct} />\n      </div>\n\n      <div className=\"grid gap-6 lg:grid-cols-[1fr_280px]\">\n        <div className=\"min-w-0\">\n          {currentQuiz ? (\n            <MCQWidget\n              key={currentQuiz.id}\n              quiz={currentQuiz}\n              objectiveNumber={currentIdx + 1}\n              totalObjectives={total}\n              onCorrect={(learnerIndex, explanation) => {\n                void explanation\n                handleCorrect(currentIdx, learnerIndex)\n              }}\n              onIncorrect={(learnerIndex) => handleIncorrect(currentIdx, learnerIndex)}\n              onSkip={() => handleSkip(currentIdx)}\n              onNext={advance}\n              isLast={currentIdx === total - 1}\n            />\n          ) : (\n            <Card>\n              <CardContent className=\"flex flex-col items-center justify-center gap-3 p-12 text-center\">\n                <Loader2 className=\"size-6 animate-spin text-primary\" />\n                <p className=\"text-sm text-muted-foreground\">Generating question for objective {currentIdx + 1}...</p>\n              </CardContent>\n            </Card>\n          )}\n          {finishing && (\n            <p className=\"mt-4 flex items-center justify-center gap-2 text-sm text-muted-foreground\">\n              <Loader2 className=\"size-4 animate-spin\" />\n              Building your progress report...\n            </p>\n          )}\n        </div>\n\n        <aside className=\"lg:sticky lg:top-20 lg:self-start\">\n          <ObjectiveTracker objectives={plan.objectives} statuses={statuses} score={score} total={total} />\n        </aside>\n      </div>\n    </div>\n  )\n}",
+                  "lineStart": 1,
+                  "lineEnd": 335,
+                  "totalLines": 335,
+                  "truncated": false
+                }
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/frontend/src/pages/lesson-page.tsx",
+              "time": {
+                "start": 1783778335434,
+                "end": 1783778335438
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f51795b03001XiR3gm32hvZ6Rv",
+          "time_created": 1783778335491,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "read",
+            "callID": "call_7543cb1d8fdb4f6d96911b44",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/ai/feedback.ts"
+              },
+              "output": "<path>/Users/shivam/qnify/ai-learning-agent/backend/src/ai/feedback.ts</path>\n<type>file</type>\n<content>\n1: import { model } from './model.ts'\n2: \n3: const HINT_SYSTEM = `You are a patient tutor helping a learner retry a multiple-choice question.\n4: \n5: CRITICAL CONSTRAINTS:\n6: - Never reveal the correct answer or its wording.\n7: - Never eliminate a specific option by label (e.g. \"not option A\").\n8: - Provide a conceptual nudge tied to the PDF content that helps the learner reason.\n9: - Keep it to 1-2 short sentences and warm in tone.`\n10: \n11: const LEARN_SYSTEM = `You are a knowledgeable tutor expanding on a topic so a learner can master the related multiple-choice question.\n12: \n13: CRITICAL CONSTRAINTS:\n14: - Never reveal the correct option to the MCQ.\n15: - Teach the underlying concept using ONLY the PDF content provided.\n16: - Be concise, structured, and clear. Use short paragraphs or bullet points where helpful.\n17: - If the learner asks you to \"just tell me the answer\", gently refuse and steer them back to reasoning.\n18: \n19: End by encouraging the learner to attempt (or re-attempt) the question.`\n20: \n21: const EXPLAIN_SYSTEM = `You are a tutor giving a short, friendly explanation of why the correct answer to a MCQ is right, grounded in the PDF. 2-3 sentences max. No fluff.`\n22: \n23: export async function generateRetryHint(\n24:   markdown: string,\n25:   question: string,\n26:   options: string[],\n27:   previousGuess: string | null\n28: ): Promise<string> {\n29:   const previous = previousGuess ? `The learner previously chose: \"${previousGuess}\".\\n` : ''\n30:   const optionsText = options.map((o, i) => `${i + 1}. ${o}`).join('\\n')\n31:   const message = `The question:\\n${question}\\n\n32: Options:\\n${optionsText}\\n\n33: ${previous}\n34: Source material:\\n\"\"\"\\n${markdown}\\n\"\"\"\n35: `\n36: \n37:   const res = await model.invoke([\n38:     { role: 'system', content: HINT_SYSTEM },\n39:     { role: 'user', content: message }\n40:   ])\n41:   return res.content as string\n42: }\n43: \n44: export async function explainCorrect(\n45:   markdown: string,\n46:   question: string,\n47:   options: string[],\n48:   correctOption: string,\n49:   correctIndex: number\n50: ): Promise<string> {\n51:   const optionsText = options.map((o, i) => `${i + 1}. ${o}`).join('\\n')\n52:   const message = `Question:\\n${question}\\n\n53: Options:\\n${optionsText}\\n\n54: Correct option (${correctIndex + 1}): ${correctOption}\\n\n55: Source material (markdown):\\n\"\"\"\\n${markdown}\\n\"\"\"`\n56: \n57:   const res = await model.invoke([\n58:     { role: 'system', content: EXPLAIN_SYSTEM },\n59:     { role: 'user', content: message }\n60:   ])\n61:   return res.content as string\n62: }\n63: \n64: export async function aiChat(\n65:   markdown: string,\n66:   question: string,\n67:   options: string[],\n68:   learnerQuestion: string,\n69:   history: Array<{ role: 'user' | 'assistant'; content: string }>\n70: ): Promise<string> {\n71:   const optionsText = options.map((o, i) => `${i + 1}. ${o}`).join('\\n')\n72:   const message = `The learner is currently working on this MCQ:\\n${question}\\n\n73: Options:\\n${optionsText}\\n\n74: Learner asks: ${learnerQuestion}\\n\n75: Source material (markdown):\\n\"\"\"\\n${markdown}\\n\"\"\"`\n76: \n77:   const messageHistory = history.map((m) => ({\n78:     role: m.role === 'user' ? ('user' as const) : ('assistant' as const),\n79:     content: m.content\n80:   }))\n81: \n82:   const res = await model.invoke([\n83:     { role: 'system', content: LEARN_SYSTEM },\n84:     ...messageHistory,\n85:     { role: 'user', content: message }\n86:   ])\n87:   return res.content as string\n88: }\n\n(End of file - total 88 lines)\n</content>",
+              "metadata": {
+                "preview": "import { model } from './model.ts'\n\nconst HINT_SYSTEM = `You are a patient tutor helping a learner retry a multiple-choice question.\n\nCRITICAL CONSTRAINTS:\n- Never reveal the correct answer or its wording.\n- Never eliminate a specific option by label (e.g. \"not option A\").\n- Provide a conceptual nudge tied to the PDF content that helps the learner reason.\n- Keep it to 1-2 short sentences and warm in tone.`\n\nconst LEARN_SYSTEM = `You are a knowledgeable tutor expanding on a topic so a learner can master the related multiple-choice question.\n\nCRITICAL CONSTRAINTS:\n- Never reveal the correct option to the MCQ.\n- Teach the underlying concept using ONLY the PDF content provided.\n- Be concise, structured, and clear. Use short paragraphs or bullet points where helpful.\n- If the learner asks you to \"just tell me the answer\", gently refuse and steer them back to reasoning.\n\nEnd by encouraging the learner to attempt (or re-attempt) the question.`\n",
+                "truncated": false,
+                "loaded": [],
+                "display": {
+                  "type": "file",
+                  "path": "/Users/shivam/qnify/ai-learning-agent/backend/src/ai/feedback.ts",
+                  "text": "import { model } from './model.ts'\n\nconst HINT_SYSTEM = `You are a patient tutor helping a learner retry a multiple-choice question.\n\nCRITICAL CONSTRAINTS:\n- Never reveal the correct answer or its wording.\n- Never eliminate a specific option by label (e.g. \"not option A\").\n- Provide a conceptual nudge tied to the PDF content that helps the learner reason.\n- Keep it to 1-2 short sentences and warm in tone.`\n\nconst LEARN_SYSTEM = `You are a knowledgeable tutor expanding on a topic so a learner can master the related multiple-choice question.\n\nCRITICAL CONSTRAINTS:\n- Never reveal the correct option to the MCQ.\n- Teach the underlying concept using ONLY the PDF content provided.\n- Be concise, structured, and clear. Use short paragraphs or bullet points where helpful.\n- If the learner asks you to \"just tell me the answer\", gently refuse and steer them back to reasoning.\n\nEnd by encouraging the learner to attempt (or re-attempt) the question.`\n\nconst EXPLAIN_SYSTEM = `You are a tutor giving a short, friendly explanation of why the correct answer to a MCQ is right, grounded in the PDF. 2-3 sentences max. No fluff.`\n\nexport async function generateRetryHint(\n  markdown: string,\n  question: string,\n  options: string[],\n  previousGuess: string | null\n): Promise<string> {\n  const previous = previousGuess ? `The learner previously chose: \"${previousGuess}\".\\n` : ''\n  const optionsText = options.map((o, i) => `${i + 1}. ${o}`).join('\\n')\n  const message = `The question:\\n${question}\\n\nOptions:\\n${optionsText}\\n\n${previous}\nSource material:\\n\"\"\"\\n${markdown}\\n\"\"\"\n`\n\n  const res = await model.invoke([\n    { role: 'system', content: HINT_SYSTEM },\n    { role: 'user', content: message }\n  ])\n  return res.content as string\n}\n\nexport async function explainCorrect(\n  markdown: string,\n  question: string,\n  options: string[],\n  correctOption: string,\n  correctIndex: number\n): Promise<string> {\n  const optionsText = options.map((o, i) => `${i + 1}. ${o}`).join('\\n')\n  const message = `Question:\\n${question}\\n\nOptions:\\n${optionsText}\\n\nCorrect option (${correctIndex + 1}): ${correctOption}\\n\nSource material (markdown):\\n\"\"\"\\n${markdown}\\n\"\"\"`\n\n  const res = await model.invoke([\n    { role: 'system', content: EXPLAIN_SYSTEM },\n    { role: 'user', content: message }\n  ])\n  return res.content as string\n}\n\nexport async function aiChat(\n  markdown: string,\n  question: string,\n  options: string[],\n  learnerQuestion: string,\n  history: Array<{ role: 'user' | 'assistant'; content: string }>\n): Promise<string> {\n  const optionsText = options.map((o, i) => `${i + 1}. ${o}`).join('\\n')\n  const message = `The learner is currently working on this MCQ:\\n${question}\\n\nOptions:\\n${optionsText}\\n\nLearner asks: ${learnerQuestion}\\n\nSource material (markdown):\\n\"\"\"\\n${markdown}\\n\"\"\"`\n\n  const messageHistory = history.map((m) => ({\n    role: m.role === 'user' ? ('user' as const) : ('assistant' as const),\n    content: m.content\n  }))\n\n  const res = await model.invoke([\n    { role: 'system', content: LEARN_SYSTEM },\n    ...messageHistory,\n    { role: 'user', content: message }\n  ])\n  return res.content as string\n}",
+                  "lineStart": 1,
+                  "lineEnd": 88,
+                  "totalLines": 88,
+                  "truncated": false
+                }
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/ai/feedback.ts",
+              "time": {
+                "start": 1783778335694,
+                "end": 1783778335701
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f51795c02001to1MKb6ySIxA4T",
+          "time_created": 1783778335746,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "read",
+            "callID": "call_bcc1822328de45d5b8cdf3fe",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/frontend/src/lib/api.ts"
+              },
+              "output": "<path>/Users/shivam/qnify/ai-learning-agent/frontend/src/lib/api.ts</path>\n<type>file</type>\n<content>\n1: import type {\n2:   AttemptListItem,\n3:   AttemptSummary,\n4:   ChatMessage,\n5:   DocumentDetail,\n6:   DocumentSummary,\n7:   Plan,\n8:   QuizDTO\n9: } from './types'\n10: \n11: const BASE = 'http://localhost:3003'\n12: \n13: export class ApiError extends Error {\n14:   status: number\n15:   constructor(message: string, status: number) {\n16:     super(message)\n17:     this.status = status\n18:   }\n19: }\n20: \n21: async function jsonFetch<T>(path: string, init?: RequestInit): Promise<T> {\n22:   const headers: Record<string, string> = {}\n23:   if (init?.method == 'POST' && init?.body != null) {\n24:     headers['Content-Type'] = 'application/json'\n25:   }\n26:   const res = await fetch(`${BASE}${path}`, { ...init, headers, body: init?.body })\n27:   if (!res.ok) {\n28:     let msg = `Request failed (${res.status})`\n29:     const body = await res.json()\n30:     msg = body.error ?? msg\n31:     throw new ApiError(msg, res.status)\n32:   }\n33:   if (res.status === 204) return undefined as unknown as T\n34:   return (await res.json()) as T\n35: }\n36: \n37: export async function listDocuments(): Promise<DocumentSummary[]> {\n38:   return jsonFetch<DocumentSummary[]>('/api/documents')\n39: }\n40: \n41: export async function getDocument(id: number): Promise<DocumentDetail> {\n42:   return jsonFetch<DocumentDetail>(`/api/documents/${id}`)\n43: }\n44: \n45: export async function uploadPdf(file: File): Promise<DocumentDetail> {\n46:   const form = new FormData()\n47:   form.append('file', file)\n48:   const res = await fetch(`${BASE}/api/documents/upload`, { method: 'POST', body: form })\n49:   if (!res.ok) {\n50:     let msg = 'Upload failed'\n51:     const body = await res.json()\n52:     msg = body.error ?? msg\n53:     throw new ApiError(msg, res.status)\n54:   }\n55:   return (await res.json()) as DocumentDetail\n56: }\n57: \n58: export async function listPlansForDocument(id: number): Promise<Plan[]> {\n59:   return jsonFetch<Plan[]>(`/api/documents/${id}/plans`)\n60: }\n61: \n62: export async function createPlan(documentId: number): Promise<Plan> {\n63:   return jsonFetch<Plan>(`/api/documents/${documentId}/plans`, { method: 'POST' })\n64: }\n65: \n66: export async function getPlan(planId: number): Promise<Plan> {\n67:   return jsonFetch<Plan>(`/api/lesson-plans/${planId}`)\n68: }\n69: \n70: export async function approvePlan(planId: number): Promise<Plan> {\n71:   return jsonFetch<Plan>(`/api/lesson-plans/${planId}/approve`, { method: 'POST' })\n72: }\n73: \n74: export async function listQuizzes(planId: number): Promise<QuizDTO[]> {\n75:   return jsonFetch<QuizDTO[]>(`/api/lesson-plans/${planId}/quizzes`)\n76: }\n77: \n78: export async function generateQuiz(planId: number, objectiveIndex: number): Promise<QuizDTO> {\n79:   return jsonFetch<QuizDTO>(`/api/lesson-plans/${planId}/quizzes`, {\n80:     method: 'POST',\n81:     body: JSON.stringify({ objectiveIndex })\n82:   })\n83: }\n84: \n85: interface Explanation {\n86:   explanation: string\n87:   correctIndex: number\n88: }\n89: \n90: export async function getExplanation(quizId: number): Promise<Explanation> {\n91:   return jsonFetch(`/api/quizzes/${quizId}/explain`, { method: 'POST', body: '{}' })\n92: }\n93: \n94: interface AnswerData {\n95:   correct: boolean\n96:   explanation?: string\n97: }\n98: \n99: export async function checkAnswer(quizId: number, learnerIndex: number): Promise<AnswerData> {\n100:   return jsonFetch(`/api/quizzes/${quizId}/check`, {\n101:     method: 'POST',\n102:     body: JSON.stringify({ learnerIndex })\n103:   })\n104: }\n105: \n106: export async function getHint(quizId: number, previousGuessIndex: number | null): Promise<{ hint: string }> {\n107:   return jsonFetch(`/api/quizzes/${quizId}/hint`, {\n108:     method: 'POST',\n109:     body: JSON.stringify({ previousGuessIndex })\n110:   })\n111: }\n112: \n113: interface Message {\n114:   message: string\n115: }\n116: \n117: export async function learnMore(quizId: number, learnerQuestion: string, history: ChatMessage[]): Promise<Message> {\n118:   return jsonFetch(`/api/quizzes/${quizId}/ai-help`, {\n119:     method: 'POST',\n120:     body: JSON.stringify({ learnerQuestion, history })\n121:   })\n122: }\n123: \n124: interface Attempts {\n125:   quizId: number\n126:   learnerIndex: number | null\n127:   attempts: number\n128: }\n129: \n130: export async function completeAttempt(planId: number, answers: Array<Attempts>): Promise<AttemptSummary> {\n131:   return jsonFetch(`/api/lesson-plans/${planId}/complete`, {\n132:     method: 'POST',\n133:     body: JSON.stringify({ answers })\n134:   })\n135: }\n136: \n137: export async function listAttempts(planId: number): Promise<AttemptListItem[]> {\n138:   return jsonFetch<AttemptListItem[]>(`/api/lesson-plans/${planId}/attempts`)\n139: }\n140: \n141: export async function getAttempt(attemptId: number): Promise<AttemptSummary> {\n142:   return jsonFetch<AttemptSummary>(`/api/attempts/${attemptId}`)\n143: }\n\n(End of file - total 143 lines)\n</content>",
+              "metadata": {
+                "preview": "import type {\n  AttemptListItem,\n  AttemptSummary,\n  ChatMessage,\n  DocumentDetail,\n  DocumentSummary,\n  Plan,\n  QuizDTO\n} from './types'\n\nconst BASE = 'http://localhost:3003'\n\nexport class ApiError extends Error {\n  status: number\n  constructor(message: string, status: number) {\n    super(message)\n    this.status = status\n  }\n}\n",
+                "truncated": false,
+                "loaded": [],
+                "display": {
+                  "type": "file",
+                  "path": "/Users/shivam/qnify/ai-learning-agent/frontend/src/lib/api.ts",
+                  "text": "import type {\n  AttemptListItem,\n  AttemptSummary,\n  ChatMessage,\n  DocumentDetail,\n  DocumentSummary,\n  Plan,\n  QuizDTO\n} from './types'\n\nconst BASE = 'http://localhost:3003'\n\nexport class ApiError extends Error {\n  status: number\n  constructor(message: string, status: number) {\n    super(message)\n    this.status = status\n  }\n}\n\nasync function jsonFetch<T>(path: string, init?: RequestInit): Promise<T> {\n  const headers: Record<string, string> = {}\n  if (init?.method == 'POST' && init?.body != null) {\n    headers['Content-Type'] = 'application/json'\n  }\n  const res = await fetch(`${BASE}${path}`, { ...init, headers, body: init?.body })\n  if (!res.ok) {\n    let msg = `Request failed (${res.status})`\n    const body = await res.json()\n    msg = body.error ?? msg\n    throw new ApiError(msg, res.status)\n  }\n  if (res.status === 204) return undefined as unknown as T\n  return (await res.json()) as T\n}\n\nexport async function listDocuments(): Promise<DocumentSummary[]> {\n  return jsonFetch<DocumentSummary[]>('/api/documents')\n}\n\nexport async function getDocument(id: number): Promise<DocumentDetail> {\n  return jsonFetch<DocumentDetail>(`/api/documents/${id}`)\n}\n\nexport async function uploadPdf(file: File): Promise<DocumentDetail> {\n  const form = new FormData()\n  form.append('file', file)\n  const res = await fetch(`${BASE}/api/documents/upload`, { method: 'POST', body: form })\n  if (!res.ok) {\n    let msg = 'Upload failed'\n    const body = await res.json()\n    msg = body.error ?? msg\n    throw new ApiError(msg, res.status)\n  }\n  return (await res.json()) as DocumentDetail\n}\n\nexport async function listPlansForDocument(id: number): Promise<Plan[]> {\n  return jsonFetch<Plan[]>(`/api/documents/${id}/plans`)\n}\n\nexport async function createPlan(documentId: number): Promise<Plan> {\n  return jsonFetch<Plan>(`/api/documents/${documentId}/plans`, { method: 'POST' })\n}\n\nexport async function getPlan(planId: number): Promise<Plan> {\n  return jsonFetch<Plan>(`/api/lesson-plans/${planId}`)\n}\n\nexport async function approvePlan(planId: number): Promise<Plan> {\n  return jsonFetch<Plan>(`/api/lesson-plans/${planId}/approve`, { method: 'POST' })\n}\n\nexport async function listQuizzes(planId: number): Promise<QuizDTO[]> {\n  return jsonFetch<QuizDTO[]>(`/api/lesson-plans/${planId}/quizzes`)\n}\n\nexport async function generateQuiz(planId: number, objectiveIndex: number): Promise<QuizDTO> {\n  return jsonFetch<QuizDTO>(`/api/lesson-plans/${planId}/quizzes`, {\n    method: 'POST',\n    body: JSON.stringify({ objectiveIndex })\n  })\n}\n\ninterface Explanation {\n  explanation: string\n  correctIndex: number\n}\n\nexport async function getExplanation(quizId: number): Promise<Explanation> {\n  return jsonFetch(`/api/quizzes/${quizId}/explain`, { method: 'POST', body: '{}' })\n}\n\ninterface AnswerData {\n  correct: boolean\n  explanation?: string\n}\n\nexport async function checkAnswer(quizId: number, learnerIndex: number): Promise<AnswerData> {\n  return jsonFetch(`/api/quizzes/${quizId}/check`, {\n    method: 'POST',\n    body: JSON.stringify({ learnerIndex })\n  })\n}\n\nexport async function getHint(quizId: number, previousGuessIndex: number | null): Promise<{ hint: string }> {\n  return jsonFetch(`/api/quizzes/${quizId}/hint`, {\n    method: 'POST',\n    body: JSON.stringify({ previousGuessIndex })\n  })\n}\n\ninterface Message {\n  message: string\n}\n\nexport async function learnMore(quizId: number, learnerQuestion: string, history: ChatMessage[]): Promise<Message> {\n  return jsonFetch(`/api/quizzes/${quizId}/ai-help`, {\n    method: 'POST',\n    body: JSON.stringify({ learnerQuestion, history })\n  })\n}\n\ninterface Attempts {\n  quizId: number\n  learnerIndex: number | null\n  attempts: number\n}\n\nexport async function completeAttempt(planId: number, answers: Array<Attempts>): Promise<AttemptSummary> {\n  return jsonFetch(`/api/lesson-plans/${planId}/complete`, {\n    method: 'POST',\n    body: JSON.stringify({ answers })\n  })\n}\n\nexport async function listAttempts(planId: number): Promise<AttemptListItem[]> {\n  return jsonFetch<AttemptListItem[]>(`/api/lesson-plans/${planId}/attempts`)\n}\n\nexport async function getAttempt(attemptId: number): Promise<AttemptSummary> {\n  return jsonFetch<AttemptSummary>(`/api/attempts/${attemptId}`)\n}",
+                  "lineStart": 1,
+                  "lineEnd": 143,
+                  "totalLines": 143,
+                  "truncated": false
+                }
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/frontend/src/lib/api.ts",
+              "time": {
+                "start": 1783778335980,
+                "end": 1783778335988
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f51795d2c001Hmt2ZRw556uzqF",
+          "time_created": 1783778336044,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "read",
+            "callID": "call_666ccfdbcd464c4ab5ea6f6b",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/db.ts"
+              },
+              "output": "<path>/Users/shivam/qnify/ai-learning-agent/backend/src/db.ts</path>\n<type>file</type>\n<content>\n1: import Database from 'better-sqlite3'\n2: import { readFileSync } from 'node:fs'\n3: import { join } from 'node:path'\n4: import { DB_PATH, ROOT_DIR } from './config.ts'\n5: \n6: export const db = new Database(DB_PATH)\n7: db.pragma('journal_mode = WAL')\n8: db.pragma('foreign_keys = ON')\n9: \n10: export const SCHEMA_SQL = readFileSync(join(ROOT_DIR, 'src', 'schema.sql'), { encoding: 'utf-8' })\n11: \n12: export interface DocumentRow {\n13:   id: number\n14:   filename: string\n15:   stored_filename: string\n16:   filepath: string\n17:   title: string\n18:   markdown: string | null\n19:   markdown_chars: number\n20:   status: string\n21:   error: string | null\n22:   created_at: string\n23: }\n24: \n25: export interface LessonPlanRow {\n26:   id: number\n27:   document_id: number\n28:   title: string\n29:   description: string\n30:   objectives: string\n31:   difficulty: string\n32:   status: string\n33:   created_at: string\n34: }\n35: \n36: export interface QuizQuestionRow {\n37:   id: number\n38:   lesson_plan_id: number\n39:   objective_index: number\n40:   objective_text: string\n41:   question: string\n42:   options: string\n43:   correct_index: number\n44:   explanation: string\n45:   hint: string\n46:   created_at: string\n47: }\n48: \n49: export interface AttemptRow {\n50:   id: number\n51:   lesson_plan_id: number\n52:   score: number\n53:   total: number\n54:   answers: string\n55:   summary: string\n56:   study_tips: string\n57:   weak_topics: string\n58:   strengths: string\n59:   created_at: string\n60: }\n\n(End of file - total 60 lines)\n</content>",
+              "metadata": {
+                "preview": "import Database from 'better-sqlite3'\nimport { readFileSync } from 'node:fs'\nimport { join } from 'node:path'\nimport { DB_PATH, ROOT_DIR } from './config.ts'\n\nexport const db = new Database(DB_PATH)\ndb.pragma('journal_mode = WAL')\ndb.pragma('foreign_keys = ON')\n\nexport const SCHEMA_SQL = readFileSync(join(ROOT_DIR, 'src', 'schema.sql'), { encoding: 'utf-8' })\n\nexport interface DocumentRow {\n  id: number\n  filename: string\n  stored_filename: string\n  filepath: string\n  title: string\n  markdown: string | null\n  markdown_chars: number\n  status: string",
+                "truncated": false,
+                "loaded": [],
+                "display": {
+                  "type": "file",
+                  "path": "/Users/shivam/qnify/ai-learning-agent/backend/src/db.ts",
+                  "text": "import Database from 'better-sqlite3'\nimport { readFileSync } from 'node:fs'\nimport { join } from 'node:path'\nimport { DB_PATH, ROOT_DIR } from './config.ts'\n\nexport const db = new Database(DB_PATH)\ndb.pragma('journal_mode = WAL')\ndb.pragma('foreign_keys = ON')\n\nexport const SCHEMA_SQL = readFileSync(join(ROOT_DIR, 'src', 'schema.sql'), { encoding: 'utf-8' })\n\nexport interface DocumentRow {\n  id: number\n  filename: string\n  stored_filename: string\n  filepath: string\n  title: string\n  markdown: string | null\n  markdown_chars: number\n  status: string\n  error: string | null\n  created_at: string\n}\n\nexport interface LessonPlanRow {\n  id: number\n  document_id: number\n  title: string\n  description: string\n  objectives: string\n  difficulty: string\n  status: string\n  created_at: string\n}\n\nexport interface QuizQuestionRow {\n  id: number\n  lesson_plan_id: number\n  objective_index: number\n  objective_text: string\n  question: string\n  options: string\n  correct_index: number\n  explanation: string\n  hint: string\n  created_at: string\n}\n\nexport interface AttemptRow {\n  id: number\n  lesson_plan_id: number\n  score: number\n  total: number\n  answers: string\n  summary: string\n  study_tips: string\n  weak_topics: string\n  strengths: string\n  created_at: string\n}",
+                  "lineStart": 1,
+                  "lineEnd": 60,
+                  "totalLines": 60,
+                  "truncated": false
+                }
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/db.ts",
+              "time": {
+                "start": 1783778336295,
+                "end": 1783778336303
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f51795e5e001Iw1z1Msd3CgwBD",
+          "time_created": 1783778336350,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "read",
+            "callID": "call_9af2bba52e3a4f2687649473",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/ai/schemas.ts"
+              },
+              "output": "<path>/Users/shivam/qnify/ai-learning-agent/backend/src/ai/schemas.ts</path>\n<type>file</type>\n<content>\n1: import { z } from 'zod'\n2: \n3: export const objectiveSchema = z.object({\n4:   text: z.string().describe('A concise, learner-facing learning objective.'),\n5:   topic: z.string().describe('Short topic label, 2-4 words.')\n6: })\n7: \n8: export const planSchema = z.object({\n9:   title: z.string().describe('Short, human-friendly title for the lesson.'),\n10:   description: z.string().describe('A 1-2 sentence overview of what the learner will gain.'),\n11:   difficulty: z.enum(['beginner', 'intermediate', 'advanced']).describe('Overall difficulty of the material.'),\n12:   objectives: z.array(objectiveSchema).min(3).max(6).describe('Ordered list of 3-6 learning objectives.')\n13: })\n14: \n15: export type Plan = z.infer<typeof planSchema>\n16: \n17: export const quizSchema = z.object({\n18:   question: z.string().describe('A clear MCQ question stem grounded in the PDF content.'),\n19:   options: z.array(z.string()).min(4).max(4).describe('Exactly 4 answer choices, plausible and unambiguous.'),\n20:   correct_index: z.number().int().min(0).max(3).describe('Index of the correct option in options.'),\n21:   explanation: z.string().describe('A 1-3 sentence explanation of why the answer is correct.'),\n22:   hint: z.string().describe('A short, conceptual hint that nudges the learner without revealing the answer.')\n23: })\n24: \n25: export type Quiz = z.infer<typeof quizSchema>\n26: \n27: export const summarySchema = z.object({\n28:   summary: z.string().describe(\"A 2-4 sentence narrative summary of the learner's performance.\"),\n29:   study_tips: z.array(z.string()).min(2).max(5).describe('Personalized study tips targeting weak areas.'),\n30:   weak_topics: z.array(z.string()).describe('Topics the learner struggled with, if any.'),\n31:   strengths: z.array(z.string()).describe('Topics the learner demonstrated mastery over.')\n32: })\n33: \n34: export type Summary = z.infer<typeof summarySchema>\n\n(End of file - total 34 lines)\n</content>",
+              "metadata": {
+                "preview": "import { z } from 'zod'\n\nexport const objectiveSchema = z.object({\n  text: z.string().describe('A concise, learner-facing learning objective.'),\n  topic: z.string().describe('Short topic label, 2-4 words.')\n})\n\nexport const planSchema = z.object({\n  title: z.string().describe('Short, human-friendly title for the lesson.'),\n  description: z.string().describe('A 1-2 sentence overview of what the learner will gain.'),\n  difficulty: z.enum(['beginner', 'intermediate', 'advanced']).describe('Overall difficulty of the material.'),\n  objectives: z.array(objectiveSchema).min(3).max(6).describe('Ordered list of 3-6 learning objectives.')\n})\n\nexport type Plan = z.infer<typeof planSchema>\n\nexport const quizSchema = z.object({\n  question: z.string().describe('A clear MCQ question stem grounded in the PDF content.'),\n  options: z.array(z.string()).min(4).max(4).describe('Exactly 4 answer choices, plausible and unambiguous.'),\n  correct_index: z.number().int().min(0).max(3).describe('Index of the correct option in options.'),",
+                "truncated": false,
+                "loaded": [],
+                "display": {
+                  "type": "file",
+                  "path": "/Users/shivam/qnify/ai-learning-agent/backend/src/ai/schemas.ts",
+                  "text": "import { z } from 'zod'\n\nexport const objectiveSchema = z.object({\n  text: z.string().describe('A concise, learner-facing learning objective.'),\n  topic: z.string().describe('Short topic label, 2-4 words.')\n})\n\nexport const planSchema = z.object({\n  title: z.string().describe('Short, human-friendly title for the lesson.'),\n  description: z.string().describe('A 1-2 sentence overview of what the learner will gain.'),\n  difficulty: z.enum(['beginner', 'intermediate', 'advanced']).describe('Overall difficulty of the material.'),\n  objectives: z.array(objectiveSchema).min(3).max(6).describe('Ordered list of 3-6 learning objectives.')\n})\n\nexport type Plan = z.infer<typeof planSchema>\n\nexport const quizSchema = z.object({\n  question: z.string().describe('A clear MCQ question stem grounded in the PDF content.'),\n  options: z.array(z.string()).min(4).max(4).describe('Exactly 4 answer choices, plausible and unambiguous.'),\n  correct_index: z.number().int().min(0).max(3).describe('Index of the correct option in options.'),\n  explanation: z.string().describe('A 1-3 sentence explanation of why the answer is correct.'),\n  hint: z.string().describe('A short, conceptual hint that nudges the learner without revealing the answer.')\n})\n\nexport type Quiz = z.infer<typeof quizSchema>\n\nexport const summarySchema = z.object({\n  summary: z.string().describe(\"A 2-4 sentence narrative summary of the learner's performance.\"),\n  study_tips: z.array(z.string()).min(2).max(5).describe('Personalized study tips targeting weak areas.'),\n  weak_topics: z.array(z.string()).describe('Topics the learner struggled with, if any.'),\n  strengths: z.array(z.string()).describe('Topics the learner demonstrated mastery over.')\n})\n\nexport type Summary = z.infer<typeof summarySchema>",
+                  "lineStart": 1,
+                  "lineEnd": 34,
+                  "totalLines": 34,
+                  "truncated": false
+                }
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/ai/schemas.ts",
+              "time": {
+                "start": 1783778336538,
+                "end": 1783778336547
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f51795f50001Ow4dwb10UGJ8Mo",
+          "time_created": 1783778336592,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "read",
+            "callID": "call_d0b682c709a24d248c40dc39",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/ai/quiz.ts"
+              },
+              "output": "<path>/Users/shivam/qnify/ai-learning-agent/backend/src/ai/quiz.ts</path>\n<type>file</type>\n<content>\n1: import { createAgent } from 'langchain'\n2: import { model } from './model.ts'\n3: import { quizSchema, type Quiz } from './schemas.ts'\n4: \n5: const SYSTEM = `You are a meticulous quiz author. Build a single multiple-choice question that rigorously tests ONE learning objective using ONLY information present in the provided PDF markdown.\n6: \n7: Rules:\n8: - The question must be grounded in the document. Do not invent facts.\n9: - Exactly 4 options. All options should be plausible; distractors should reflect common misconceptions.\n10: - The correct option must be unambiguous given the source material.\n11: - The explanation must justify the correct answer using the source.\n12: - The hint must be conceptual and NEVER reveal or hint at the correct option index or wording.`\n13: \n14: const quizAgent = createAgent({\n15:   model: model,\n16:   systemPrompt: SYSTEM,\n17:   responseFormat: quizSchema\n18: })\n19: \n20: export async function generateQuiz(markdown: string, objectiveText: string, objectiveTopic: string): Promise<Quiz> {\n21:   const message = `\n22: Objective to assess: ${objectiveText}\n23: Topic: ${objectiveTopic}\n24: Source material (markdown):\\n\"\"\"\\n${markdown}\\n\"\"\"\n25: `\n26:   const result = await quizAgent.invoke({\n27:     messages: [{ role: 'user', content: message.trim() }]\n28:   })\n29:   return result.structuredResponse\n30: }\n\n(End of file - total 30 lines)\n</content>",
+              "metadata": {
+                "preview": "import { createAgent } from 'langchain'\nimport { model } from './model.ts'\nimport { quizSchema, type Quiz } from './schemas.ts'\n\nconst SYSTEM = `You are a meticulous quiz author. Build a single multiple-choice question that rigorously tests ONE learning objective using ONLY information present in the provided PDF markdown.\n\nRules:\n- The question must be grounded in the document. Do not invent facts.\n- Exactly 4 options. All options should be plausible; distractors should reflect common misconceptions.\n- The correct option must be unambiguous given the source material.\n- The explanation must justify the correct answer using the source.\n- The hint must be conceptual and NEVER reveal or hint at the correct option index or wording.`\n\nconst quizAgent = createAgent({\n  model: model,\n  systemPrompt: SYSTEM,\n  responseFormat: quizSchema\n})\n\nexport async function generateQuiz(markdown: string, objectiveText: string, objectiveTopic: string): Promise<Quiz> {",
+                "truncated": false,
+                "loaded": [],
+                "display": {
+                  "type": "file",
+                  "path": "/Users/shivam/qnify/ai-learning-agent/backend/src/ai/quiz.ts",
+                  "text": "import { createAgent } from 'langchain'\nimport { model } from './model.ts'\nimport { quizSchema, type Quiz } from './schemas.ts'\n\nconst SYSTEM = `You are a meticulous quiz author. Build a single multiple-choice question that rigorously tests ONE learning objective using ONLY information present in the provided PDF markdown.\n\nRules:\n- The question must be grounded in the document. Do not invent facts.\n- Exactly 4 options. All options should be plausible; distractors should reflect common misconceptions.\n- The correct option must be unambiguous given the source material.\n- The explanation must justify the correct answer using the source.\n- The hint must be conceptual and NEVER reveal or hint at the correct option index or wording.`\n\nconst quizAgent = createAgent({\n  model: model,\n  systemPrompt: SYSTEM,\n  responseFormat: quizSchema\n})\n\nexport async function generateQuiz(markdown: string, objectiveText: string, objectiveTopic: string): Promise<Quiz> {\n  const message = `\nObjective to assess: ${objectiveText}\nTopic: ${objectiveTopic}\nSource material (markdown):\\n\"\"\"\\n${markdown}\\n\"\"\"\n`\n  const result = await quizAgent.invoke({\n    messages: [{ role: 'user', content: message.trim() }]\n  })\n  return result.structuredResponse\n}",
+                  "lineStart": 1,
+                  "lineEnd": 30,
+                  "totalLines": 30,
+                  "truncated": false
+                }
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/ai/quiz.ts",
+              "time": {
+                "start": 1783778336783,
+                "end": 1783778336786
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f517960570018GNi3ZpogmOCym",
+          "time_created": 1783778336855,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 4937,
+              "input": 1283,
+              "output": 302,
+              "reasoning": 24,
+              "cache": {
+                "write": 0,
+                "read": 3328
+              }
+            },
+            "cost": 0.0002802184
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f5179605a001vDrqs454W9QqBS",
+      "time_created": 1783778336858,
+      "role": "assistant",
+      "metadata": {
+        "agent": "explore",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 19490,
+          "input": 16212,
+          "output": 188,
+          "reasoning": 18,
+          "cache": {
+            "write": 0,
+            "read": 3072
+          }
+        },
+        "cost": 0.0023359616
+      },
+      "parts": [
+        {
+          "id": "prt_f51796ec1001DmeFZ0TXAjJ6IK",
+          "time_created": 1783778340545,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f51796f03001DFY44wRMZhUwG8",
+          "time_created": 1783778340611,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now let me also check the backend routes and the schema SQL to get the complete picture.",
+            "time": {
+              "start": 1783778340611,
+              "end": 1783778340895
+            }
+          }
+        },
+        {
+          "id": "prt_f51797021001git63ZPX03cSog",
+          "time_created": 1783778340897,
+          "type": "text",
+          "data": {
+            "type": "text",
+            "text": "Let me also check the backend routes and the SQL schema for completeness.",
+            "time": {
+              "start": 1783778340897,
+              "end": 1783778342551
+            }
+          }
+        },
+        {
+          "id": "prt_f5179717d001Bj7ZxXm2CfOsKC",
+          "time_created": 1783778341245,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "glob",
+            "callID": "call_39e63a2261864b4b8984de43",
+            "state": {
+              "status": "completed",
+              "input": {
+                "pattern": "**/*route*",
+                "path": "/Users/shivam/qnify/ai-learning-agent"
+              },
+              "output": "/Users/shivam/qnify/ai-learning-agent/backend/src/routes.ts",
+              "metadata": {
+                "count": 1,
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent",
+              "time": {
+                "start": 1783778341592,
+                "end": 1783778341605
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f517972da001xHouzLKiCnYXXr",
+          "time_created": 1783778341594,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "glob",
+            "callID": "call_e04ae01e12734aca9bfbe5ee",
+            "state": {
+              "status": "completed",
+              "input": {
+                "pattern": "**/*schema*",
+                "path": "/Users/shivam/qnify/ai-learning-agent"
+              },
+              "output": "/Users/shivam/qnify/ai-learning-agent/backend/src/ai/schemas.ts\n/Users/shivam/qnify/ai-learning-agent/backend/src/schema.sql",
+              "metadata": {
+                "count": 2,
+                "truncated": false
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent",
+              "time": {
+                "start": 1783778341674,
+                "end": 1783778341688
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f5179735f001CoBCJRBjIgfQLi",
+          "time_created": 1783778341727,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "grep",
+            "callID": "call_769d4cdd9c004c98a8d6b7b8",
+            "state": {
+              "status": "completed",
+              "input": {
+                "include": "*.{ts,tsx}",
+                "pattern": "explain|check|/check",
+                "path": "/Users/shivam/qnify/ai-learning-agent/backend/src"
+              },
+              "output": "Found 7 matches\n/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts:\n  Line 3: import { generateRetryHint, explainCorrect, aiChat } from '../ai/feedback.ts'\n\n  Line 119:   const explanation = await explainCorrect(markdown, quiz.question, options, correct, quiz.correct_index)\n\n  Line 128: export async function checkAnswer(quizId: number, learnerIndex: number): Promise<AnswerOutput> {\n\n\n/Users/shivam/qnify/ai-learning-agent/backend/src/ai/feedback.ts:\n  Line 44: export async function explainCorrect(\n\n\n/Users/shivam/qnify/ai-learning-agent/backend/src/routes.ts:\n  Line 75:   app.post('/api/quizzes/:id/explain', async (req) => {\n\n  Line 82:   app.post('/api/quizzes/:id/check', async (req) => {\n\n  Line 85:     return quiz.checkAnswer(id, learnerIndex)\n",
+              "metadata": {
+                "matches": 7,
+                "truncated": false
+              },
+              "title": "explain|check|/check",
+              "time": {
+                "start": 1783778342241,
+                "end": 1783778342252
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f5179759d001Mz2PiMLLkPlxhj",
+          "time_created": 1783778342301,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "read",
+            "callID": "call_4e3c971cd1534eeb9c35e4a5",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/frontend/src/lib/types.ts"
+              },
+              "output": "<path>/Users/shivam/qnify/ai-learning-agent/frontend/src/lib/types.ts</path>\n<type>file</type>\n<content>\n1: export type Difficulty = 'beginner' | 'intermediate' | 'advanced'\n2: \n3: export interface Objective {\n4:   text: string\n5:   topic: string\n6: }\n7: \n8: export interface DocumentSummary {\n9:   id: number\n10:   filename: string\n11:   title: string\n12:   markdown_chars: number\n13:   status: 'processing' | 'ready' | 'failed' | 'uploaded'\n14:   error: string | null\n15:   created_at: string\n16:   plan: {\n17:     id: number\n18:     difficulty: Difficulty\n19:     status: 'draft' | 'approved' | 'completed'\n20:   } | null\n21:   attemptCount: number\n22: }\n23: \n24: export interface DocumentDetail {\n25:   id: number\n26:   filename: string\n27:   title: string\n28:   status: 'processing' | 'ready' | 'failed' | 'uploaded'\n29:   markdown_chars: number\n30:   created_at: string\n31:   error: string | null\n32: }\n33: \n34: export interface Plan {\n35:   id: number\n36:   document_id: number\n37:   document_filename?: string\n38:   title: string\n39:   description: string\n40:   difficulty: Difficulty\n41:   objectives: Objective[]\n42:   status: 'draft' | 'approved' | 'completed'\n43:   created_at: string\n44: }\n45: \n46: export interface QuizDTO {\n47:   id: number\n48:   objectiveIndex: number\n49:   objectiveText: string\n50:   question: string\n51:   options: string[]\n52:   hint: string\n53: }\n54: \n55: export interface AttemptSummary {\n56:   score: number\n57:   total: number\n58:   summary: string\n59:   studyTips: string[]\n60:   weakTopics: string[]\n61:   strengths: string[]\n62:   answers: Array<{\n63:     question: string\n64:     options: string[]\n65:     correctIndex: number\n66:     learnerIndex: number | null\n67:     attempts: number\n68:     objectiveText: string\n69:   }>\n70: }\n71: \n72: export interface AttemptListItem {\n73:   id: number\n74:   lesson_plan_id: number\n75:   score: number\n76:   total: number\n77:   summary: string\n78:   study_tips: string[]\n79:   created_at: string\n80: }\n81: \n82: export interface ChatMessage {\n83:   role: 'user' | 'assistant'\n84:   content: string\n85: }\n\n(End of file - total 85 lines)\n</content>",
+              "metadata": {
+                "preview": "export type Difficulty = 'beginner' | 'intermediate' | 'advanced'\n\nexport interface Objective {\n  text: string\n  topic: string\n}\n\nexport interface DocumentSummary {\n  id: number\n  filename: string\n  title: string\n  markdown_chars: number\n  status: 'processing' | 'ready' | 'failed' | 'uploaded'\n  error: string | null\n  created_at: string\n  plan: {\n    id: number\n    difficulty: Difficulty\n    status: 'draft' | 'approved' | 'completed'\n  } | null",
+                "truncated": false,
+                "loaded": [],
+                "display": {
+                  "type": "file",
+                  "path": "/Users/shivam/qnify/ai-learning-agent/frontend/src/lib/types.ts",
+                  "text": "export type Difficulty = 'beginner' | 'intermediate' | 'advanced'\n\nexport interface Objective {\n  text: string\n  topic: string\n}\n\nexport interface DocumentSummary {\n  id: number\n  filename: string\n  title: string\n  markdown_chars: number\n  status: 'processing' | 'ready' | 'failed' | 'uploaded'\n  error: string | null\n  created_at: string\n  plan: {\n    id: number\n    difficulty: Difficulty\n    status: 'draft' | 'approved' | 'completed'\n  } | null\n  attemptCount: number\n}\n\nexport interface DocumentDetail {\n  id: number\n  filename: string\n  title: string\n  status: 'processing' | 'ready' | 'failed' | 'uploaded'\n  markdown_chars: number\n  created_at: string\n  error: string | null\n}\n\nexport interface Plan {\n  id: number\n  document_id: number\n  document_filename?: string\n  title: string\n  description: string\n  difficulty: Difficulty\n  objectives: Objective[]\n  status: 'draft' | 'approved' | 'completed'\n  created_at: string\n}\n\nexport interface QuizDTO {\n  id: number\n  objectiveIndex: number\n  objectiveText: string\n  question: string\n  options: string[]\n  hint: string\n}\n\nexport interface AttemptSummary {\n  score: number\n  total: number\n  summary: string\n  studyTips: string[]\n  weakTopics: string[]\n  strengths: string[]\n  answers: Array<{\n    question: string\n    options: string[]\n    correctIndex: number\n    learnerIndex: number | null\n    attempts: number\n    objectiveText: string\n  }>\n}\n\nexport interface AttemptListItem {\n  id: number\n  lesson_plan_id: number\n  score: number\n  total: number\n  summary: string\n  study_tips: string[]\n  created_at: string\n}\n\nexport interface ChatMessage {\n  role: 'user' | 'assistant'\n  content: string\n}",
+                  "lineStart": 1,
+                  "lineEnd": 85,
+                  "totalLines": 85,
+                  "truncated": false
+                }
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/frontend/src/lib/types.ts",
+              "time": {
+                "start": 1783778342474,
+                "end": 1783778342481
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f51797698001qdkhMocWYWxxws",
+          "time_created": 1783778342552,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 19490,
+              "input": 16212,
+              "output": 188,
+              "reasoning": 18,
+              "cache": {
+                "write": 0,
+                "read": 3072
+              }
+            },
+            "cost": 0.0023359616
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f5179769c001M1nPqMXZSoIz7g",
+      "time_created": 1783778342556,
+      "role": "assistant",
+      "metadata": {
+        "agent": "explore",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 20599,
+          "input": 17440,
+          "output": 69,
+          "reasoning": 18,
+          "cache": {
+            "write": 0,
+            "read": 3072
+          }
+        },
+        "cost": 0.0024745616
+      },
+      "parts": [
+        {
+          "id": "prt_f51798298001YmCSNbnP74c6uX",
+          "time_created": 1783778345624,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f517982b4001ze6KP61IPZKw0j",
+          "time_created": 1783778345652,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Let me also read the routes file and the schema SQL file to get the complete picture.",
+            "time": {
+              "start": 1783778345652,
+              "end": 1783778345869
+            }
+          }
+        },
+        {
+          "id": "prt_f5179838f001MiejnyjJ6VU5U9",
+          "time_created": 1783778345871,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "read",
+            "callID": "call_02a72a6d8eb9452984a4b97a",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/routes.ts"
+              },
+              "output": "<path>/Users/shivam/qnify/ai-learning-agent/backend/src/routes.ts</path>\n<type>file</type>\n<content>\n1: import type { FastifyInstance } from 'fastify'\n2: import { z } from 'zod'\n3: import type { ZodType } from 'zod'\n4: import { getDocument, listDocuments, uploadAndConvert } from './services/documents.ts'\n5: import { approvePlan, createPlan, getPlan, getPlansForDocument } from './services/plans.ts'\n6: import * as quiz from './services/quizzes.ts'\n7: import { completeAttempt, getAttempt, listAttempts } from './services/attempts.ts'\n8: \n9: function validate<T>(schema: ZodType<T>, data: unknown): T {\n10:   return schema.parse(data)\n11: }\n12: const IdParam = z.object({ id: z.coerce.number() })\n13: \n14: export async function routes(app: FastifyInstance) {\n15:   app.get('/api/documents', () => listDocuments())\n16: \n17:   app.get('/api/documents/:id', async (req, reply) => {\n18:     const { id } = validate(IdParam, req.params)\n19:     const doc = await getDocument(id)\n20:     if (!doc) return reply.code(404).send({ error: 'Document not found' })\n21:     return doc\n22:   })\n23: \n24:   app.get('/api/documents/:id/plans', async (req) => {\n25:     const { id } = validate(IdParam, req.params)\n26:     return getPlansForDocument(id)\n27:   })\n28: \n29:   app.post('/api/documents/:id/plans', async (req, reply) => {\n30:     const { id } = validate(IdParam, req.params)\n31:     const plan = await createPlan(id)\n32:     return reply.code(201).send(plan)\n33:   })\n34: \n35:   app.post('/api/documents/upload', async (req, reply) => {\n36:     const part = await req.file()\n37:     if (!part) {\n38:       return reply.code(400).send({ error: 'No file provided' })\n39:     }\n40:     const allowed = ['.pdf']\n41:     const lower = part.filename.toLowerCase()\n42:     if (!allowed.some((ext) => lower.endsWith(ext))) {\n43:       return reply.code(400).send({ error: 'Only PDF files are supported' })\n44:     }\n45:     const buffer = await part.toBuffer()\n46:     const doc = await uploadAndConvert(part.filename, buffer)\n47:     return reply.code(201).send(doc)\n48:   })\n49: \n50:   app.get('/api/lesson-plans/:id', async (req, reply) => {\n51:     const { id } = validate(IdParam, req.params)\n52:     const plan = await getPlan(id)\n53:     if (!plan) return reply.code(404).send({ error: 'Plan not found' })\n54:     return plan\n55:   })\n56: \n57:   app.post('/api/lesson-plans/:id/approve', async (req) => {\n58:     const { id } = validate(IdParam, req.params)\n59:     return approvePlan(id)\n60:   })\n61: \n62:   app.get('/api/lesson-plans/:id/quizzes', async (req) => {\n63:     const { id } = validate(IdParam, req.params)\n64:     return quiz.getAllQuizzes(id)\n65:   })\n66: \n67:   const CreateQuizBody = z.object({ objectiveIndex: z.number() })\n68: \n69:   app.post('/api/lesson-plans/:id/quizzes', async (req) => {\n70:     const { id } = validate(IdParam, req.params)\n71:     const { objectiveIndex } = validate(CreateQuizBody, req.body)\n72:     return quiz.getOrCreateQuiz(id, objectiveIndex)\n73:   })\n74: \n75:   app.post('/api/quizzes/:id/explain', async (req) => {\n76:     const { id } = validate(IdParam, req.params)\n77:     return quiz.getExplanation(id)\n78:   })\n79: \n80:   const CheckAnswerBody = z.object({ learnerIndex: z.number() })\n81: \n82:   app.post('/api/quizzes/:id/check', async (req) => {\n83:     const { id } = validate(IdParam, req.params)\n84:     const { learnerIndex } = validate(CheckAnswerBody, req.body)\n85:     return quiz.checkAnswer(id, learnerIndex)\n86:   })\n87: \n88:   const HintBody = z.object({ previousGuessIndex: z.number().nullable().optional() })\n89: \n90:   app.post('/api/quizzes/:id/hint', async (req) => {\n91:     const { id } = validate(IdParam, req.params)\n92:     const { previousGuessIndex } = validate(HintBody, req.body)\n93:     const hint = await quiz.getHint(id, previousGuessIndex ?? null)\n94:     return { hint }\n95:   })\n96: \n97:   const LearnMoreBody = z.object({\n98:     learnerQuestion: z.string(),\n99:     history: z.array(z.object({ role: z.enum(['user', 'assistant']), content: z.string() })).optional()\n100:   })\n101: \n102:   app.post('/api/quizzes/:id/ai-help', async (req) => {\n103:     const { id } = validate(IdParam, req.params)\n104:     const { learnerQuestion, history } = validate(LearnMoreBody, req.body)\n105:     const message = await quiz.getAiHelp(id, learnerQuestion, history ?? [])\n106:     return { message }\n107:   })\n108: \n109:   const CompleteBody = z.object({\n110:     answers: z.array(z.object({ quizId: z.number(), learnerIndex: z.number().nullable(), attempts: z.number() }))\n111:   })\n112: \n113:   app.post('/api/lesson-plans/:id/complete', async (req) => {\n114:     const { id } = validate(IdParam, req.params)\n115:     const { answers } = validate(CompleteBody, req.body)\n116:     return completeAttempt(id, { answers })\n117:   })\n118: \n119:   app.get('/api/lesson-plans/:id/attempts', async (req) => {\n120:     const { id } = validate(IdParam, req.params)\n121:     return listAttempts(id)\n122:   })\n123: \n124:   app.get('/api/attempts/:id', async (req, reply) => {\n125:     const { id } = validate(IdParam, req.params)\n126:     const attempt = await getAttempt(id)\n127:     if (!attempt) return reply.code(404).send({ error: 'Attempt not found' })\n128:     return attempt\n129:   })\n130: }\n\n(End of file - total 130 lines)\n</content>",
+              "metadata": {
+                "preview": "import type { FastifyInstance } from 'fastify'\nimport { z } from 'zod'\nimport type { ZodType } from 'zod'\nimport { getDocument, listDocuments, uploadAndConvert } from './services/documents.ts'\nimport { approvePlan, createPlan, getPlan, getPlansForDocument } from './services/plans.ts'\nimport * as quiz from './services/quizzes.ts'\nimport { completeAttempt, getAttempt, listAttempts } from './services/attempts.ts'\n\nfunction validate<T>(schema: ZodType<T>, data: unknown): T {\n  return schema.parse(data)\n}\nconst IdParam = z.object({ id: z.coerce.number() })\n\nexport async function routes(app: FastifyInstance) {\n  app.get('/api/documents', () => listDocuments())\n\n  app.get('/api/documents/:id', async (req, reply) => {\n    const { id } = validate(IdParam, req.params)\n    const doc = await getDocument(id)\n    if (!doc) return reply.code(404).send({ error: 'Document not found' })",
+                "truncated": false,
+                "loaded": [],
+                "display": {
+                  "type": "file",
+                  "path": "/Users/shivam/qnify/ai-learning-agent/backend/src/routes.ts",
+                  "text": "import type { FastifyInstance } from 'fastify'\nimport { z } from 'zod'\nimport type { ZodType } from 'zod'\nimport { getDocument, listDocuments, uploadAndConvert } from './services/documents.ts'\nimport { approvePlan, createPlan, getPlan, getPlansForDocument } from './services/plans.ts'\nimport * as quiz from './services/quizzes.ts'\nimport { completeAttempt, getAttempt, listAttempts } from './services/attempts.ts'\n\nfunction validate<T>(schema: ZodType<T>, data: unknown): T {\n  return schema.parse(data)\n}\nconst IdParam = z.object({ id: z.coerce.number() })\n\nexport async function routes(app: FastifyInstance) {\n  app.get('/api/documents', () => listDocuments())\n\n  app.get('/api/documents/:id', async (req, reply) => {\n    const { id } = validate(IdParam, req.params)\n    const doc = await getDocument(id)\n    if (!doc) return reply.code(404).send({ error: 'Document not found' })\n    return doc\n  })\n\n  app.get('/api/documents/:id/plans', async (req) => {\n    const { id } = validate(IdParam, req.params)\n    return getPlansForDocument(id)\n  })\n\n  app.post('/api/documents/:id/plans', async (req, reply) => {\n    const { id } = validate(IdParam, req.params)\n    const plan = await createPlan(id)\n    return reply.code(201).send(plan)\n  })\n\n  app.post('/api/documents/upload', async (req, reply) => {\n    const part = await req.file()\n    if (!part) {\n      return reply.code(400).send({ error: 'No file provided' })\n    }\n    const allowed = ['.pdf']\n    const lower = part.filename.toLowerCase()\n    if (!allowed.some((ext) => lower.endsWith(ext))) {\n      return reply.code(400).send({ error: 'Only PDF files are supported' })\n    }\n    const buffer = await part.toBuffer()\n    const doc = await uploadAndConvert(part.filename, buffer)\n    return reply.code(201).send(doc)\n  })\n\n  app.get('/api/lesson-plans/:id', async (req, reply) => {\n    const { id } = validate(IdParam, req.params)\n    const plan = await getPlan(id)\n    if (!plan) return reply.code(404).send({ error: 'Plan not found' })\n    return plan\n  })\n\n  app.post('/api/lesson-plans/:id/approve', async (req) => {\n    const { id } = validate(IdParam, req.params)\n    return approvePlan(id)\n  })\n\n  app.get('/api/lesson-plans/:id/quizzes', async (req) => {\n    const { id } = validate(IdParam, req.params)\n    return quiz.getAllQuizzes(id)\n  })\n\n  const CreateQuizBody = z.object({ objectiveIndex: z.number() })\n\n  app.post('/api/lesson-plans/:id/quizzes', async (req) => {\n    const { id } = validate(IdParam, req.params)\n    const { objectiveIndex } = validate(CreateQuizBody, req.body)\n    return quiz.getOrCreateQuiz(id, objectiveIndex)\n  })\n\n  app.post('/api/quizzes/:id/explain', async (req) => {\n    const { id } = validate(IdParam, req.params)\n    return quiz.getExplanation(id)\n  })\n\n  const CheckAnswerBody = z.object({ learnerIndex: z.number() })\n\n  app.post('/api/quizzes/:id/check', async (req) => {\n    const { id } = validate(IdParam, req.params)\n    const { learnerIndex } = validate(CheckAnswerBody, req.body)\n    return quiz.checkAnswer(id, learnerIndex)\n  })\n\n  const HintBody = z.object({ previousGuessIndex: z.number().nullable().optional() })\n\n  app.post('/api/quizzes/:id/hint', async (req) => {\n    const { id } = validate(IdParam, req.params)\n    const { previousGuessIndex } = validate(HintBody, req.body)\n    const hint = await quiz.getHint(id, previousGuessIndex ?? null)\n    return { hint }\n  })\n\n  const LearnMoreBody = z.object({\n    learnerQuestion: z.string(),\n    history: z.array(z.object({ role: z.enum(['user', 'assistant']), content: z.string() })).optional()\n  })\n\n  app.post('/api/quizzes/:id/ai-help', async (req) => {\n    const { id } = validate(IdParam, req.params)\n    const { learnerQuestion, history } = validate(LearnMoreBody, req.body)\n    const message = await quiz.getAiHelp(id, learnerQuestion, history ?? [])\n    return { message }\n  })\n\n  const CompleteBody = z.object({\n    answers: z.array(z.object({ quizId: z.number(), learnerIndex: z.number().nullable(), attempts: z.number() }))\n  })\n\n  app.post('/api/lesson-plans/:id/complete', async (req) => {\n    const { id } = validate(IdParam, req.params)\n    const { answers } = validate(CompleteBody, req.body)\n    return completeAttempt(id, { answers })\n  })\n\n  app.get('/api/lesson-plans/:id/attempts', async (req) => {\n    const { id } = validate(IdParam, req.params)\n    return listAttempts(id)\n  })\n\n  app.get('/api/attempts/:id', async (req, reply) => {\n    const { id } = validate(IdParam, req.params)\n    const attempt = await getAttempt(id)\n    if (!attempt) return reply.code(404).send({ error: 'Attempt not found' })\n    return attempt\n  })\n}",
+                  "lineStart": 1,
+                  "lineEnd": 130,
+                  "totalLines": 130,
+                  "truncated": false
+                }
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/routes.ts",
+              "time": {
+                "start": 1783778346249,
+                "end": 1783778346262
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f5179850b0016RRkv4y3bt6cFS",
+          "time_created": 1783778346251,
+          "type": "tool",
+          "data": {
+            "type": "tool",
+            "tool": "read",
+            "callID": "call_f0f158e57004450699653cf5",
+            "state": {
+              "status": "completed",
+              "input": {
+                "filePath": "/Users/shivam/qnify/ai-learning-agent/backend/src/schema.sql"
+              },
+              "output": "<path>/Users/shivam/qnify/ai-learning-agent/backend/src/schema.sql</path>\n<type>file</type>\n<content>\n1: CREATE TABLE IF NOT EXISTS documents (\n2:   id              INTEGER PRIMARY KEY AUTOINCREMENT,\n3:   filename        TEXT NOT NULL,\n4:   stored_filename TEXT NOT NULL,\n5:   filepath        TEXT NOT NULL,\n6:   title           TEXT NOT NULL DEFAULT '',\n7:   markdown        TEXT,\n8:   markdown_chars  INTEGER NOT NULL DEFAULT 0,\n9:   status          TEXT NOT NULL DEFAULT 'uploaded',\n10:   error           TEXT,\n11:   created_at      TEXT NOT NULL DEFAULT (DATETIME('now'))\n12: );\n13: \n14: CREATE TABLE IF NOT EXISTS lesson_plans (\n15:   id          INTEGER PRIMARY KEY AUTOINCREMENT,\n16:   document_id INTEGER NOT NULL,\n17:   title       TEXT NOT NULL DEFAULT '',\n18:   description TEXT NOT NULL DEFAULT '',\n19:   objectives  TEXT NOT NULL,\n20:   difficulty  TEXT NOT NULL DEFAULT 'intermediate',\n21:   status      TEXT NOT NULL DEFAULT 'draft',\n22:   created_at  TEXT NOT NULL DEFAULT (DATETIME('now')),\n23:   FOREIGN KEY (document_id) REFERENCES documents (id) ON DELETE CASCADE\n24: );\n25: CREATE INDEX IF NOT EXISTS idx_lesson_plans_document ON lesson_plans (document_id);\n26: \n27: CREATE TABLE IF NOT EXISTS quiz_questions (\n28:   id              INTEGER PRIMARY KEY AUTOINCREMENT,\n29:   lesson_plan_id  INTEGER NOT NULL,\n30:   objective_index INTEGER NOT NULL,\n31:   objective_text  TEXT NOT NULL,\n32:   question        TEXT NOT NULL,\n33:   options         TEXT NOT NULL,\n34:   correct_index   INTEGER NOT NULL,\n35:   explanation     TEXT NOT NULL DEFAULT '',\n36:   hint            TEXT NOT NULL DEFAULT '',\n37:   created_at      TEXT NOT NULL DEFAULT (DATETIME('now')),\n38:   FOREIGN KEY (lesson_plan_id) REFERENCES lesson_plans (id) ON DELETE CASCADE,\n39:   UNIQUE (lesson_plan_id, objective_index)\n40: );\n41: CREATE INDEX IF NOT EXISTS idx_quiz_questions_plan ON quiz_questions (lesson_plan_id);\n42: \n43: CREATE TABLE IF NOT EXISTS attempts (\n44:   id             INTEGER PRIMARY KEY AUTOINCREMENT,\n45:   lesson_plan_id INTEGER NOT NULL,\n46:   score          INTEGER NOT NULL DEFAULT 0,\n47:   total          INTEGER NOT NULL DEFAULT 0,\n48:   answers        TEXT NOT NULL DEFAULT '[]',\n49:   summary        TEXT NOT NULL DEFAULT '',\n50:   study_tips     TEXT NOT NULL DEFAULT '',\n51:   weak_topics    TEXT NOT NULL DEFAULT '[]',\n52:   strengths      TEXT NOT NULL DEFAULT '[]',\n53:   created_at     TEXT NOT NULL DEFAULT (DATETIME('now')),\n54:   FOREIGN KEY (lesson_plan_id) REFERENCES lesson_plans (id) ON DELETE CASCADE\n55: );\n56: CREATE INDEX IF NOT EXISTS idx_attempts_plan ON attempts (lesson_plan_id);\n\n(End of file - total 56 lines)\n</content>",
+              "metadata": {
+                "preview": "CREATE TABLE IF NOT EXISTS documents (\n  id              INTEGER PRIMARY KEY AUTOINCREMENT,\n  filename        TEXT NOT NULL,\n  stored_filename TEXT NOT NULL,\n  filepath        TEXT NOT NULL,\n  title           TEXT NOT NULL DEFAULT '',\n  markdown        TEXT,\n  markdown_chars  INTEGER NOT NULL DEFAULT 0,\n  status          TEXT NOT NULL DEFAULT 'uploaded',\n  error           TEXT,\n  created_at      TEXT NOT NULL DEFAULT (DATETIME('now'))\n);\n\nCREATE TABLE IF NOT EXISTS lesson_plans (\n  id          INTEGER PRIMARY KEY AUTOINCREMENT,\n  document_id INTEGER NOT NULL,\n  title       TEXT NOT NULL DEFAULT '',\n  description TEXT NOT NULL DEFAULT '',\n  objectives  TEXT NOT NULL,\n  difficulty  TEXT NOT NULL DEFAULT 'intermediate',",
+                "truncated": false,
+                "loaded": [],
+                "display": {
+                  "type": "file",
+                  "path": "/Users/shivam/qnify/ai-learning-agent/backend/src/schema.sql",
+                  "text": "CREATE TABLE IF NOT EXISTS documents (\n  id              INTEGER PRIMARY KEY AUTOINCREMENT,\n  filename        TEXT NOT NULL,\n  stored_filename TEXT NOT NULL,\n  filepath        TEXT NOT NULL,\n  title           TEXT NOT NULL DEFAULT '',\n  markdown        TEXT,\n  markdown_chars  INTEGER NOT NULL DEFAULT 0,\n  status          TEXT NOT NULL DEFAULT 'uploaded',\n  error           TEXT,\n  created_at      TEXT NOT NULL DEFAULT (DATETIME('now'))\n);\n\nCREATE TABLE IF NOT EXISTS lesson_plans (\n  id          INTEGER PRIMARY KEY AUTOINCREMENT,\n  document_id INTEGER NOT NULL,\n  title       TEXT NOT NULL DEFAULT '',\n  description TEXT NOT NULL DEFAULT '',\n  objectives  TEXT NOT NULL,\n  difficulty  TEXT NOT NULL DEFAULT 'intermediate',\n  status      TEXT NOT NULL DEFAULT 'draft',\n  created_at  TEXT NOT NULL DEFAULT (DATETIME('now')),\n  FOREIGN KEY (document_id) REFERENCES documents (id) ON DELETE CASCADE\n);\nCREATE INDEX IF NOT EXISTS idx_lesson_plans_document ON lesson_plans (document_id);\n\nCREATE TABLE IF NOT EXISTS quiz_questions (\n  id              INTEGER PRIMARY KEY AUTOINCREMENT,\n  lesson_plan_id  INTEGER NOT NULL,\n  objective_index INTEGER NOT NULL,\n  objective_text  TEXT NOT NULL,\n  question        TEXT NOT NULL,\n  options         TEXT NOT NULL,\n  correct_index   INTEGER NOT NULL,\n  explanation     TEXT NOT NULL DEFAULT '',\n  hint            TEXT NOT NULL DEFAULT '',\n  created_at      TEXT NOT NULL DEFAULT (DATETIME('now')),\n  FOREIGN KEY (lesson_plan_id) REFERENCES lesson_plans (id) ON DELETE CASCADE,\n  UNIQUE (lesson_plan_id, objective_index)\n);\nCREATE INDEX IF NOT EXISTS idx_quiz_questions_plan ON quiz_questions (lesson_plan_id);\n\nCREATE TABLE IF NOT EXISTS attempts (\n  id             INTEGER PRIMARY KEY AUTOINCREMENT,\n  lesson_plan_id INTEGER NOT NULL,\n  score          INTEGER NOT NULL DEFAULT 0,\n  total          INTEGER NOT NULL DEFAULT 0,\n  answers        TEXT NOT NULL DEFAULT '[]',\n  summary        TEXT NOT NULL DEFAULT '',\n  study_tips     TEXT NOT NULL DEFAULT '',\n  weak_topics    TEXT NOT NULL DEFAULT '[]',\n  strengths      TEXT NOT NULL DEFAULT '[]',\n  created_at     TEXT NOT NULL DEFAULT (DATETIME('now')),\n  FOREIGN KEY (lesson_plan_id) REFERENCES lesson_plans (id) ON DELETE CASCADE\n);\nCREATE INDEX IF NOT EXISTS idx_attempts_plan ON attempts (lesson_plan_id);",
+                  "lineStart": 1,
+                  "lineEnd": 56,
+                  "totalLines": 56,
+                  "truncated": false
+                }
+              },
+              "title": "Users/shivam/qnify/ai-learning-agent/backend/src/schema.sql",
+              "time": {
+                "start": 1783778346307,
+                "end": 1783778346316
+              }
+            }
+          }
+        },
+        {
+          "id": "prt_f51798595001y0A1No6V9wROzc",
+          "time_created": 1783778346389,
+          "type": "step-finish",
+          "data": {
+            "reason": "tool-calls",
+            "type": "step-finish",
+            "tokens": {
+              "total": 20599,
+              "input": 17440,
+              "output": 69,
+              "reasoning": 18,
+              "cache": {
+                "write": 0,
+                "read": 3072
+              }
+            },
+            "cost": 0.0024745616
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg_f51798599001oz1y3ZoJa4MdPn",
+      "time_created": 1783778346393,
+      "role": "assistant",
+      "metadata": {
+        "agent": "explore",
+        "model": "mimo-v2.5",
+        "tokens": {
+          "total": 25372,
+          "input": 2538,
+          "output": 2341,
+          "reasoning": 13,
+          "cache": {
+            "write": 0,
+            "read": 20480
+          }
+        },
+        "cost": 0.001071784
+      },
+      "parts": [
+        {
+          "id": "prt_f5179960700159HGFEMMB5Zndz",
+          "time_created": 1783778350599,
+          "type": "step-start",
+          "data": {
+            "type": "step-start"
+          }
+        },
+        {
+          "id": "prt_f5179960a001fNW4RqzmE12W7F",
+          "time_created": 1783778350602,
+          "type": "reasoning",
+          "data": {
+            "type": "reasoning",
+            "text": "Now I have a complete picture. Let me compile the findings.",
+            "time": {
+              "start": 1783778350602,
+              "end": 1783778350695
+            }
+          }
+        },
+        {
+          "id": "prt_f517996680014awTsiV6uM2u8W",
+          "time_created": 1783778350696,
+          "type": "text",
+          "data": {
+            "type": "text",
+            "text": "Here is a comprehensive report of all findings related to explanation generation and display.\n\n---\n\n## 1. Where Explanations Are Generated (Backend)\n\n### AI Generation Layer\n\n**`/Users/shivam/qnify/ai-learning-agent/backend/src/ai/feedback.ts`**\n- **Line 21** -- `EXPLAIN_SYSTEM` constant: the system prompt that instructs the LLM to produce a short explanation of why the correct answer is right.\n- **Lines 44-62** -- `explainCorrect()`: the function that calls the LLM with the `EXPLAIN_SYSTEM` prompt, passing in the markdown source, question, options, and correct option. Returns a `Promise<string>`.\n\n**`/Users/shivam/qnify/ai-learning-agent/backend/src/ai/schemas.ts`**\n- **Line 21** -- `explanation: z.string().describe('A 1-3 sentence explanation of why the answer is correct.')` -- part of `quizSchema`, meaning an explanation is also generated at quiz creation time (alongside the question, options, correct index, and hint).\n\n**`/Users/shivam/qnify/ai-learning-agent/backend/src/ai/quiz.ts`**\n- **Line 11** -- The quiz system prompt states: `The explanation must justify the correct answer using the source.` This means the quiz generation agent also produces an initial explanation as part of the `Quiz` structured output.\n- **Lines 20-29** -- `generateQuiz()`: invokes the quiz agent with the `quizSchema` response format, which includes the `explanation` field.\n\n### Service Layer (Orchestration)\n\n**`/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts`**\n\nThere are **two distinct paths** that produce explanations:\n\n1. **At quiz creation time** (lines 42-57): When `getOrCreateQuiz()` calls `generateQuiz()` and inserts the result into the database. The `quiz.explanation` is stored in the `explanation` column of the `quiz_questions` table (line 55).\n\n2. **On-demand via `getExplanation()`** (lines 110-121): Calls `explainCorrect()` from `feedback.ts` to generate a fresh explanation from the LLM. This is invoked in two scenarios:\n   - **Via the `/api/quizzes/:id/explain` endpoint** (standalone call).\n   - **Inside `checkAnswer()`** (lines 128-135): When the learner's answer is correct, `getExplanation()` is called and the explanation is returned alongside `{ correct: true, explanation }`.\n\n**Key insight**: The `checkAnswer()` function (line 128) **only returns an explanation when the answer is correct** (line 132-134). If the answer is wrong, it returns `{ correct: false }` with no explanation.\n\n### API Routes\n\n**`/Users/shivam/qnify/ai-learning-agent/backend/src/routes.ts`**\n- **Line 75-78** -- `POST /api/quizzes/:id/explain`: calls `quiz.getExplanation(id)`, returns `{ explanation, correctIndex }`.\n- **Line 82-86** -- `POST /api/quizzes/:id/check`: calls `quiz.checkAnswer(id, learnerIndex)`, returns `{ correct, explanation? }`.\n\n### Database Schema\n\n**`/Users/shivam/qnify/ai-learning-agent/backend/src/schema.sql`**\n- **Lines 27-40** -- `quiz_questions` table: column `explanation TEXT NOT NULL DEFAULT ''` (line 35).\n\n**`/Users/shivam/qnify/ai-learning-agent/backend/src/db.ts`**\n- **Line 44** -- `QuizQuestionRow` interface: `explanation: string`.\n\n---\n\n## 2. Where Explanations Are Displayed (Frontend UI)\n\n**`/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx`**\n\nThis is the sole UI component that handles explanation display. The relevant pieces are:\n\n- **Line 41** -- State: `const [explanation, setExplanation] = useState<string | null>(null)`\n- **Line 42** -- Toggle state: `const [showExplanation, setShowExplanation] = useState(false)`\n- **Line 51** -- State reset: `setExplanation(null)` and `setShowExplanation(false)` when `quiz.id` changes (via `useEffect`).\n\n**Explanation rendering** (lines 191-198):\n```tsx\n{explanation && status === 'correct' && showExplanation && (\n  <div className=\"...\">\n    <Check className=\"...\" />\n    <div>\n      <p className=\"...\">Explanation</p>\n      <p className=\"...\">{explanation}</p>\n    </div>\n  </div>\n)}\n```\nThe explanation is only visible when **all three conditions** are met: `explanation` is truthy, `status === 'correct'`, and `showExplanation === true`.\n\n**Toggle button** (lines 230-233): After the answer is locked (correct), a button toggles `showExplanation`:\n```tsx\n{explanation && (\n  <Button variant=\"outline\" onClick={() => setShowExplanation(!showExplanation)}>\n    {showExplanation ? 'Hide explanation' : 'Show explanation'}\n  </Button>\n)}\n```\n\n---\n\n## 3. How Explanation Generation Is Triggered (Flow)\n\nThe explanation is **generated on submit** (not on a separate button click). Here is the exact flow:\n\n### Trigger Chain\n\n1. **User clicks \"Submit answer\" / \"Re-submit\" button** -- `/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx`, **line 204**: `<Button onClick={submit} ...>`.\n\n2. **`submit()` function** (lines 57-75 of `mcq-widget.tsx`):\n   - Calls `checkAnswer(quiz.id, selected)` -- the frontend API call at **line 62**.\n\n3. **Frontend API call** -- `/Users/shivam/qnify/ai-learning-agent/frontend/src/lib/api.ts`, **lines 99-103**: `POST /api/quizzes/:id/check` with `{ learnerIndex }`.\n\n4. **Backend route** -- `/Users/shivam/qnify/ai-learning-agent/backend/src/routes.ts`, **lines 82-86**: delegates to `quiz.checkAnswer(id, learnerIndex)`.\n\n5. **Backend service** -- `/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts`, **lines 128-135**:\n   - If `learnerIndex === quiz.correct_index` (correct), calls `getExplanation(quizId)` which calls the LLM `explainCorrect()`.\n   - Returns `{ correct: true, explanation }`.\n   - If incorrect, returns `{ correct: false }` (no explanation).\n\n6. **Back in `submit()`** (mcq-widget.tsx, lines 63-66):\n   ```ts\n   if (res.correct) {\n     if (res.explanation) setExplanation(res.explanation)  // stores explanation in state\n     setStatus('correct')                                   // locks the widget\n     onCorrect(selected, res.explanation ?? '')              // notifies parent\n   }\n   ```\n\n7. **User then clicks \"Show explanation\" button** (line 231) to toggle `showExplanation` to `true`, which renders the explanation text (lines 191-198).\n\n### Summary of the Trigger Model\n\n| Event | What Happens |\n|---|---|\n| **Submit (correct answer)** | `checkAnswer()` API call triggers LLM explanation generation; explanation is stored in component state but **not yet visible** |\n| **Show explanation button click** | Toggles `showExplanation` to `true`, rendering the explanation in the UI |\n| **Submit (wrong answer)** | No explanation is generated or returned |\n| **Quiz creation** | An explanation is pre-generated by the quiz agent and stored in the DB, but the `QuizDTO` type (frontend `types.ts` line 46-53) **does not include** the `explanation` field, so it is not sent to the client at creation time |\n\n---\n\n## Complete File Index\n\n| File | Lines | Role |\n|---|---|---|\n| `/Users/shivam/qnify/ai-learning-agent/backend/src/ai/feedback.ts` | 21, 44-62 | LLM system prompt for explanations; `explainCorrect()` function |\n| `/Users/shivam/qnify/ai-learning-agent/backend/src/ai/schemas.ts` | 21 | `explanation` field in `quizSchema` (quiz generation output) |\n| `/Users/shivam/qnify/ai-learning-agent/backend/src/ai/quiz.ts` | 11, 20-29 | Quiz agent prompt mentioning explanation; `generateQuiz()` |\n| `/Users/shivam/qnify/ai-learning-agent/backend/src/db.ts` | 44 | `QuizQuestionRow.explanation` type definition |\n| `/Users/shivam/qnify/ai-learning-agent/backend/src/schema.sql` | 35 | `explanation` column in `quiz_questions` table |\n| `/Users/shivam/qnify/ai-learning-agent/backend/src/services/quizzes.ts` | 44, 55, 105-121, 128-135 | DB insert of explanation; `getExplanation()`; `checkAnswer()` that triggers explanation on correct |\n| `/Users/shivam/qnify/ai-learning-agent/backend/src/routes.ts` | 75-78, 82-86 | `/explain` and `/check` API endpoints |\n| `/Users/shivam/qnify/ai-learning-agent/frontend/src/lib/api.ts` | 85-103 | `getExplanation()` and `checkAnswer()` frontend API functions |\n| `/Users/shivam/qnify/ai-learning-agent/frontend/src/lib/types.ts` | 46-53 | `QuizDTO` type (notably **missing** `explanation` field) |\n| `/Users/shivam/qnify/ai-learning-agent/frontend/src/components/mcq-widget.tsx` | 17, 41-42, 51-52, 57-75, 191-198, 230-233 | Explanation state management, generation trigger in `submit()`, UI rendering, toggle button |\n| `/Users/shivam/qnify/ai-learning-agent/frontend/src/pages/lesson-page.tsx` | 304-306 | `onCorrect` callback receives explanation (but discards it with `void explanation`) |",
+            "time": {
+              "start": 1783778350696,
+              "end": 1783778372109
+            }
+          }
+        },
+        {
+          "id": "prt_f5179ea12001wfgpcM6NLM0zZ9",
+          "time_created": 1783778372114,
+          "type": "step-finish",
+          "data": {
+            "reason": "stop",
+            "type": "step-finish",
+            "tokens": {
+              "total": 25372,
+              "input": 2538,
+              "output": 2341,
+              "reasoning": 13,
+              "cache": {
+                "write": 0,
+                "read": 20480
+              }
+            },
+            "cost": 0.001071784
+          }
+        }
+      ]
+    }
+  ]
+}
